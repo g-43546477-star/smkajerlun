@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin PSS — SMK Agama Jerlun</title>
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/tempahan/assets/style.css?v=20260816-4">
+<link rel="stylesheet" href="/assets/admin-shell.css?v=20260816-3">
+<link rel="icon" type="image/png" href="/logo.png">
+</head>
+<body>
+<header class="topnav">
+  <div class="wrap bar">
+    <a href="/pss/" class="brand">
+      <img class="logo" src="/assets/logo-sekolah.png" alt="Logo SMKAJ">
+      <div><h1>Admin Portal PSS</h1><p>Maktabah Darul Hikmah</p></div>
+    </a>
+    <nav class="links">
+      <a href="/">Utama</a>
+      <a href="/pss/">Portal PSS</a>
+      <a href="/pss/perkhidmatan/borang-pinjaman/">Borang Pinjaman</a>
+      <a href="/admin/">Panel Laman</a>
+    </nav>
+    <div class="authbox" id="authbox">...</div>
+  </div>
+</header>
+
+<main id="pss-admin-main" style="display:none">
+  <div class="banner">
+    <h2>Papan Pemuka PSS</h2>
+    <p>Semakan rekod pinjaman dan cadangan buku yang dihantar melalui Portal PSS.</p>
+  </div>
+
+  <nav class="admin-product-switcher" aria-label="Modul pentadbiran">
+    <a href="/admin/"><span>KANDUNGAN</span><b>Laman sekolah</b><small>Maklumat, staf dan takwim</small></a>
+    <a href="/tempahan/admin/"><span>TEMPAHAN</span><b>Bilik khas</b><small>Penggunaan dan laporan</small></a>
+    <a class="active" href="/pss/admin/"><span>PORTAL PSS</span><b>Pusat sumber</b><small>Pinjaman dan cadangan buku</small></a>
+  </nav>
+
+  <div class="stats">
+    <div class="stat-card"><div class="num" id="stat-all">-</div><div class="lbl">Jumlah Rekod</div></div>
+    <div class="stat-card"><div class="num" id="stat-month">-</div><div class="lbl">Pinjaman Bulan Ini</div></div>
+    <div class="stat-card"><div class="num" id="stat-return-week">-</div><div class="lbl">Tarikh Pulang Minggu Ini</div></div>
+    <div class="stat-card"><div class="num" id="stat-suggestions">-</div><div class="lbl">Cadangan Murid</div></div>
+    <div class="stat-card"><div class="num" id="stat-suggestion-new">-</div><div class="lbl">Cadangan Baharu</div></div>
+  </div>
+
+  <div class="card">
+    <div class="head-row">
+      <div>
+        <h3>Rekod Pinjaman</h3>
+        <p class="sub">Carian berdasarkan nama, kelas, bahan atau nombor rujukan. Paparan menyimpan sehingga 500 rekod terkini.</p>
+      </div>
+      <div class="admin-filters">
+        <input type="search" id="loan-search" placeholder="Cari rekod" aria-label="Cari rekod pinjaman">
+        <button type="button" class="btn-secondary" id="loan-refresh">Muat Semula</button>
+      </div>
+    </div>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th>Rujukan</th><th>Peminjam</th><th>Bahan</th><th>Pinjam</th><th>Pulang</th><th>Catatan</th></tr></thead>
+        <tbody id="loan-tbody"></tbody>
+      </table>
+    </div>
+    <div class="empty" id="loan-empty" style="display:none">Tiada rekod pinjaman ditemui.</div>
+    <p class="msg" id="loan-message"></p>
+  </div>
+
+  <div class="card">
+    <div class="head-row">
+      <div>
+        <h3>Cadangan Buku Murid</h3>
+        <p class="sub">Semak cadangan yang dihantar pelajar dan kemas kini status semakan.</p>
+      </div>
+      <div class="admin-filters">
+        <input type="search" id="suggestion-search" placeholder="Cari judul atau nama" aria-label="Cari cadangan buku">
+        <button type="button" class="btn-secondary" id="suggestion-refresh">Muat Semula</button>
+      </div>
+    </div>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th>Judul</th><th>Pencadang</th><th>Kategori</th><th>Sebab</th><th>Status</th></tr></thead>
+        <tbody id="suggestion-tbody"></tbody>
+      </table>
+    </div>
+    <div class="empty" id="suggestion-empty" style="display:none">Belum ada cadangan daripada murid.</div>
+    <p class="msg" id="suggestion-message"></p>
+  </div>
+
+  <div class="card">
+    <div class="head-row">
+      <div>
+        <h3>Kemas Kini Statistik NILAM</h3>
+        <p class="sub">Masukkan jumlah bacaan dan murid aktif mengikut kelas. Nilai ini dipaparkan pada widget laman utama PSS.</p>
+      </div>
+    </div>
+    <form class="admin-filters" id="nilam-form" style="margin-bottom:16px">
+      <input type="text" id="nilam-kelas" placeholder="Kelas, contoh: 3 Itqan" required>
+      <input type="number" id="nilam-jumlah" min="0" placeholder="Jumlah bacaan" required>
+      <input type="number" id="nilam-murid" min="0" placeholder="Murid aktif" required>
+      <button type="submit" class="btn-primary">Simpan Statistik</button>
+    </form>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th>Kelas</th><th>Jumlah Bacaan</th><th>Murid Aktif</th><th>Dikemas Kini</th></tr></thead>
+        <tbody id="nilam-tbody"></tbody>
+      </table>
+    </div>
+    <div class="empty" id="nilam-empty" style="display:none">Belum ada statistik NILAM direkodkan.</div>
+    <p class="msg" id="nilam-message"></p>
+  </div>
+</main>
+
+<main id="pss-admin-denied" style="display:none">
+  <div class="card" style="text-align:center;padding:50px 24px">
+    <h3 style="font-size:17px">Akses Terhad</h3>
+    <p class="sub" style="margin-bottom:20px">Halaman ini untuk pentadbir sahaja. Sila log masuk menggunakan akaun guru pentadbir.</p>
+    <a href="/tempahan/log-masuk/" class="btn-primary" style="text-decoration:none;display:inline-block">Log Masuk</a>
+  </div>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script src="/tempahan/assets/common.js"></script>
+<script src="assets/pages/pss-admin-index.js?v=20260816-4"></script>
+</body>
+</html>

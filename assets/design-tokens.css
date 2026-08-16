@@ -1,0 +1,59 @@
+/* SMK Agama Jerlun design tokens: primitive -> semantic -> component. */
+:root {
+  /* Primitive color tokens */
+  --ds-forest-950: #102a27;
+  --ds-forest-900: #153d38;
+  --ds-forest-700: #0d6963;
+  --ds-forest-100: #e6efec;
+  --ds-gold-600: #c89e43;
+  --ds-gold-100: #f9e6b0;
+  --ds-paper-50: #fffcf5;
+  --ds-paper-100: #f7f4ec;
+  --ds-ink-900: #14201f;
+  --ds-ink-600: #68716e;
+  --ds-line-200: #ded9cb;
+  --ds-success-100: #e1f3e8;
+  --ds-success-700: #17673e;
+  --ds-danger-100: #f9e8e6;
+  --ds-danger-700: #9b3e36;
+
+  /* Primitive spacing and elevation tokens */
+  --ds-space-1: 0.25rem;
+  --ds-space-2: 0.5rem;
+  --ds-space-3: 0.75rem;
+  --ds-space-4: 1rem;
+  --ds-space-5: 1.5rem;
+  --ds-space-6: 2rem;
+  --ds-space-7: 3rem;
+  --ds-radius-sm: 0.375rem;
+  --ds-radius-md: 0.5rem;
+  --ds-shadow-sm: 0 8px 20px rgba(20, 32, 31, 0.05);
+  --ds-shadow-md: 0 16px 32px rgba(20, 32, 31, 0.1);
+
+  /* Semantic tokens */
+  --ds-color-bg: var(--ds-paper-100);
+  --ds-color-surface: var(--ds-paper-50);
+  --ds-color-surface-raised: #ffffff;
+  --ds-color-text: var(--ds-ink-900);
+  --ds-color-text-muted: var(--ds-ink-600);
+  --ds-color-border: var(--ds-line-200);
+  --ds-color-brand: var(--ds-forest-900);
+  --ds-color-brand-strong: var(--ds-forest-950);
+  --ds-color-brand-soft: var(--ds-forest-100);
+  --ds-color-accent: var(--ds-gold-600);
+  --ds-color-accent-soft: var(--ds-gold-100);
+  --ds-font-display: "DM Serif Display", Georgia, serif;
+  --ds-font-body: "Plus Jakarta Sans", system-ui, sans-serif;
+  --ds-font-mono: "IBM Plex Mono", ui-monospace, monospace;
+
+  /* Component tokens */
+  --ds-appbar-bg: rgba(255, 252, 245, 0.96);
+  --ds-card-bg: var(--ds-color-surface-raised);
+  --ds-card-border: var(--ds-color-border);
+  --ds-card-radius: var(--ds-radius-md);
+  --ds-card-shadow: var(--ds-shadow-sm);
+  --ds-button-primary-bg: var(--ds-color-brand);
+  --ds-button-primary-text: #ffffff;
+  --ds-button-secondary-bg: var(--ds-color-brand-soft);
+  --ds-focus-ring: 0 0 0 3px rgba(200, 158, 67, 0.35);
+}

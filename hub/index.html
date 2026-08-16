@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="ms">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Hab Perkhidmatan | SMK Agama Jerlun</title>
+  <meta name="description" content="Hab perkhidmatan rasmi SMK Agama Jerlun.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Marcellus&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/site.css?v=20260816-4">
+  <link rel="stylesheet" href="/assets/portal.css?v=20260816-4">
+  <link rel="icon" href="/logo.png">
+</head>
+<body data-portal-view="hub">
+  <header class="sitehead"><div class="sitehead-inner"><div class="brandrow"><img class="logo" src="/assets/logo-sekolah.png" alt="Logo SMK Agama Jerlun"><div class="nm"><h1>SMK <em>Agama Jerlun</em></h1><p>Hab Perkhidmatan Sekolah</p></div></div><nav class="tabs"><a href="/">Utama</a><a href="/akademik/">Akademik</a><a href="/kokurikulum/">Kokurikulum</a><a href="/asrama/">Asrama</a><details class="nav-dropdown"><summary><a href="/info/">Info Sekolah</a></summary><div class="subnav"><a href="/info/?tab=profil">Profil Sekolah</a><a href="/info/?tab=lagu">Lagu Sekolah</a><a href="/info/?tab=pengurusan">Pengurusan</a><a href="/info/?tab=warga">Warga Sekolah</a><a href="/info/?tab=takwim">Takwim</a><a href="/info/?tab=hubungi">Hubungi</a></div></details><details class="nav-dropdown"><summary>Perkhidmatan</summary><div class="subnav"><a href="/tempahan/">Tempahan Bilik</a><a href="/pss/">Portal PSS</a><a href="/klinik/">Rekod Klinik</a><a href="/perkhidmatan/muat-turun/">Muat Turun</a><a href="/perkhidmatan/direktori/">Direktori</a></div></details></nav></div></header>
+  <section class="portal-hero"><div><h2>Urusan sekolah, lebih mudah dicapai.</h2><p>Akses sistem digital, bahan rujukan dan maklumat sekolah dalam satu paparan.</p><div class="access-tools"><button id="access-large">Teks besar</button><button id="access-contrast">Kontras tinggi</button></div></div></section>
+  <main class="portal-main">
+    <section class="portal-grid" aria-label="Akses perkhidmatan sekolah">
+      <article class="portal-tile"><b>Portal PSS</b><p>Katalog, NILAM, pinjaman dan aktiviti Pusat Sumber Sekolah.</p><a href="/pss/">Buka portal</a></article>
+      <article class="portal-tile"><b>Tempahan Bilik</b><p>Semak slot dan hantar tempahan ruang sekolah.</p><a href="/tempahan/">Tempah ruang</a></article>
+      <article class="portal-tile"><b>Rekod Klinik</b><p>Rujukan perkhidmatan kesihatan sekolah.</p><a href="/klinik/">Buka rekod</a></article>
+    </section>
+    <section class="portal-section"><h3>Direktori Sekolah</h3><div class="portal-list" id="directory-list"></div></section>
+    <section class="portal-section"><h3>Pusat Muat Turun</h3><div class="portal-list" id="resource-list"></div></section>
+    <section class="portal-section"><h3>Pencapaian Sekolah</h3><div class="portal-list" id="achievement-list"></div></section>
+    <section class="portal-section"><h3>Galeri Aktiviti</h3><div class="portal-gallery" id="gallery-list"></div></section>
+  </main>
+  <footer><div class="foot-inner"><div><div class="b">SMK Agama Jerlun</div><div>Hab perkhidmatan rasmi sekolah</div></div><a href="/">Laman Utama</a></div></footer>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+  <script src="/assets/cms.js"></script><script src="/assets/portal.js"></script>
+</body>
+</html>

@@ -1,0 +1,284 @@
+<!doctype html>
+<html lang="ms">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Info Sekolah &mdash; SMK Agama Jerlun</title>
+    <meta
+      name="description"
+      content="Profil, lagu, pengurusan dan warga sekolah SMK Agama Jerlun."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Marcellus&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/assets/site.css?v=20260816-4" />
+    <link rel="icon" type="image/png" href="/logo.png" />
+  </head>
+  <body>
+    <div class="topbar">
+      <span class="tag">SMKAJERLUN.MY</span>
+      <div class="dates">
+        <span id="tarikh-masihi">&mdash;</span
+        ><span id="tarikh-hijri">&mdash;</span><span id="jam">&mdash;</span>
+      </div>
+    </div>
+    <header class="sitehead">
+      <svg class="pattern" width="100%" height="100%" aria-hidden="true">
+        <defs>
+          <pattern
+            id="star8"
+            width="96"
+            height="96"
+            patternUnits="userSpaceOnUse"
+          >
+            <g fill="none" stroke="#FFFFFF" stroke-width="1">
+              <path
+                d="M48 8 L58 38 L88 48 L58 58 L48 88 L38 58 L8 48 L38 38 Z"
+              />
+              <circle cx="48" cy="48" r="10" />
+            </g>
+          </pattern>
+        </defs>
+        <rect width="100%" height="100%" fill="url(#star8)" />
+      </svg>
+      <div class="sitehead-inner">
+        <div class="brandrow">
+          <img
+            class="logo"
+            src="/assets/logo-sekolah.png"
+            alt="Logo SMK Agama Jerlun"
+          />
+          <div class="nm">
+            <h1>SMK <em>Agama Jerlun</em></h1>
+            <p>Berilmu &middot; Beriman &middot; Beramal</p>
+          </div>
+        </div>
+        <nav class="tabs">
+          <a href="/">Utama</a><a href="/akademik/">Akademik</a
+          ><a href="/kokurikulum/">Kokurikulum</a><a href="/asrama/">Asrama</a>
+          <details class="nav-dropdown">
+            <summary><a href="/info/">Info Sekolah</a></summary>
+            <div class="subnav">
+              <a href="/info/?tab=profil">Profil Sekolah</a
+              ><a href="/info/?tab=lagu">Lagu Sekolah</a
+              ><a href="/info/?tab=pengurusan">Pengurusan</a
+              ><a href="/info/?tab=warga">Warga Sekolah</a
+              ><a href="/info/?tab=takwim">Takwim</a>
+            <a href="/info/?tab=hubungi">Hubungi</a></div>
+          </details>
+          <details class="nav-dropdown">
+            <summary>Perkhidmatan</summary>
+            <div class="subnav">
+              <a href="/tempahan/">Tempahan Bilik</a
+              ><a href="/pss/">Portal PSS</a
+              ><a href="/klinik/">Rekod Klinik</a
+              ><a href="/perkhidmatan/muat-turun/">Muat Turun</a
+              ><a href="/perkhidmatan/direktori/">Direktori</a>
+            </div>
+          </details>
+          <a href="/admin/" id="nav-panel-admin" style="display: none"
+            >Panel Admin</a
+          ><a href="/tempahan/log-masuk/" id="nav-login">Log Masuk</a>
+        </nav>
+      </div>
+    </header>
+    <div class="pagehead">
+      <svg class="pattern" width="100%" height="100%" aria-hidden="true">
+        <defs>
+          <pattern
+            id="star8i"
+            width="96"
+            height="96"
+            patternUnits="userSpaceOnUse"
+          >
+            <g fill="none" stroke="#FFFFFF" stroke-width="1">
+              <path
+                d="M48 8 L58 38 L88 48 L58 58 L48 88 L38 58 L8 48 L38 38 Z"
+              />
+              <circle cx="48" cy="48" r="10" />
+            </g>
+          </pattern>
+        </defs>
+        <rect width="100%" height="100%" fill="url(#star8i)" />
+      </svg>
+      <div class="pagehead-inner">
+        <h2><em>Info</em> Sekolah</h2>
+        <p>Profil, identiti, pengurusan dan warga SMK Agama Jerlun.</p>
+      </div>
+    </div>
+    <main class="info-main">
+      <div
+        class="subtabs"
+        role="tablist"
+        aria-label="Kandungan maklumat sekolah"
+      >
+        <button
+          type="button"
+          class="subtab active"
+          role="tab"
+          aria-selected="true"
+          aria-controls="panel-profil"
+          id="tab-profil"
+          data-panel="panel-profil"
+        >
+          Profil</button
+        ><button
+          type="button"
+          class="subtab"
+          role="tab"
+          aria-selected="false"
+          aria-controls="panel-lagu"
+          id="tab-lagu"
+          data-panel="panel-lagu"
+        >
+          Lagu</button
+        ><button
+          type="button"
+          class="subtab"
+          role="tab"
+          aria-selected="false"
+          aria-controls="panel-pengurusan"
+          id="tab-pengurusan"
+          data-panel="panel-pengurusan"
+        >
+          Pengurusan</button
+        ><button
+          type="button"
+          class="subtab"
+          role="tab"
+          aria-selected="false"
+          aria-controls="panel-warga"
+          id="tab-warga"
+          data-panel="panel-warga"
+        >
+          Warga Sekolah
+        </button><button
+          type="button"
+          class="subtab"
+          role="tab"
+          aria-selected="false"
+          aria-controls="panel-takwim"
+          id="tab-takwim"
+          data-panel="panel-takwim"
+        >
+          Takwim
+        </button>
+      </div>
+      <section
+        class="subtab-panel"
+        id="panel-profil"
+        role="tabpanel"
+        aria-labelledby="tab-profil"
+      >
+        <div id="profil-blocks"></div>
+      </section>
+      <section
+        class="subtab-panel"
+        id="panel-lagu"
+        role="tabpanel"
+        aria-labelledby="tab-lagu"
+        hidden
+      >
+        <div id="lagu-mount"></div>
+      </section>
+      <section
+        class="subtab-panel"
+        id="panel-pengurusan"
+        role="tabpanel"
+        aria-labelledby="tab-pengurusan"
+        hidden
+      >
+        <h2 class="staff-section-title">
+          Carta Organisasi &mdash; Barisan Kepimpinan
+        </h2>
+        <div class="org-svg-wrap" id="org-chart-mount"></div>
+      </section>
+      <section
+        class="subtab-panel"
+        id="panel-warga"
+        role="tabpanel"
+        aria-labelledby="tab-warga"
+        hidden
+      >
+        <h2 class="staff-section-title">
+          Kaunselor &amp; Guru Perkhidmatan Khas
+        </h2>
+        <div class="staff-grid" id="staff-khas"></div>
+        <h2 class="staff-section-title">Guru Akademik Biasa / Guru Penolong</h2>
+        <div class="staff-list" id="staff-guru"></div>
+        <h2 class="staff-section-title">Anggota Kumpulan Pelaksana (AKP)</h2>
+        <div class="staff-list akp" id="staff-akp"></div>
+      </section>
+      <section
+        class="subtab-panel"
+        id="panel-takwim"
+        role="tabpanel"
+        aria-labelledby="tab-takwim"
+        hidden
+      >
+        <div class="takwim-overview-grid takwim-info-overview">
+          <section class="content-card">
+            <h3>Kalendar Akademik Sesi 2026</h3>
+            <div class="takwim-term-list" id="takwim-akademik"></div>
+          </section>
+          <section class="content-card">
+            <h3>Hari Kelepasan Am &amp; Cuti Perayaan</h3>
+            <div class="takwim-cuti-list" id="takwim-cuti"></div>
+          </section>
+        </div>
+        <div class="takwim-month-layout">
+          <section class="content-card activity-calendar-card">
+            <div class="calendar-heading">
+              <div>
+                <span class="eyebrow">TAKWIM SEKOLAH</span>
+                <h3 id="takwim-month-heading">&mdash;</h3>
+              </div>
+              <div class="takwim-month-controls" aria-label="Tukar bulan">
+                <button type="button" id="takwim-prev" aria-label="Bulan sebelumnya">Sebelum</button>
+                <button type="button" id="takwim-next" aria-label="Bulan seterusnya">Seterusnya</button>
+              </div>
+            </div>
+            <div id="takwim-aktiviti"></div>
+          </section>
+          <section class="content-card takwim-month-summary">
+            <span class="eyebrow">RINGKASAN AKTIVITI</span>
+            <h3 id="takwim-summary-heading">Aktiviti bulan ini</h3>
+            <div class="month-activity-list" id="takwim-aktiviti-list"></div>
+          </section>
+        </div>
+      </section>
+    </main>
+    <footer>
+      <div class="foot-inner">
+        <div>
+          <div class="b">
+            SMK Agama Jerlun <span class="brass">&middot;</span> Kedah
+          </div>
+          <div>Laman rasmi &amp; sistem dalaman sekolah</div>
+        </div>
+        <div style="text-align: right">
+          <div
+            class="brass"
+            style="
+              font-family: var(--font-mono);
+              font-size: 0.72rem;
+              letter-spacing: 0.08em;
+            "
+          >
+            SMKAJERLUN.MY
+          </div>
+          <div>
+            Dibangunkan oleh AJER-Syahir &middot; <span id="thn"></span>
+          </div>
+        </div>
+      </div>
+    </footer>
+    <script src="assets/pages/info-sekolah-warga-sekolah-index.js?v=20260816-4"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+    <script src="/assets/cms.js"></script>
+    
+  </body>
+</html>

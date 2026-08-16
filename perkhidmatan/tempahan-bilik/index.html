@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Buat Tempahan — Tempahan Bilik Khas SMKAJ</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/tempahan/assets/style.css?v=20260816-4">
+<link rel="icon" type="image/png" href="/logo.png">
+</head>
+<body>
+
+<header class="topnav">
+  <div class="wrap bar">
+    <a href="/tempahan/" class="brand">
+      <img class="logo" src="/assets/logo-sekolah.png" alt="Logo SMKAJ">
+      <div><h1>Tempahan Bilik Khas</h1><p>SMK Agama Jerlun</p></div>
+    </a>
+    <nav class="links">
+      <a href="/" title="Laman utama sekolah">Utama</a>
+      <a href="/tempahan/" class="active">Buat Tempahan</a>
+      <a href="/tempahan/jadual/">Jadual Keseluruhan</a>
+      <a href="/tempahan/senarai/">Senarai Tempahan</a>
+      <a href="/tempahan/admin/" id="nav-admin" style="display:none">Admin</a>
+    </nav>
+    <div class="authbox" id="authbox">...</div>
+  </div>
+</header>
+
+<main>
+  <div class="banner">
+    <h2>Sistem Tempahan Bilik Khas</h2>
+    <p>Tempah bilik &amp; ruang khas SMK Agama Jerlun mengikut slot masa — dikemas kini secara masa nyata.</p>
+  </div>
+
+  <div class="authgate" id="authgate" style="display:none">
+    <span>Anda perlu <b>log masuk</b> untuk membuat tempahan.</span>
+    <a href="/tempahan/log-masuk/">Log Masuk / Daftar &rarr;</a>
+  </div>
+
+  <div class="card">
+    <p class="section-title"><span class="step-badge">1</span> Maklumat &amp; Pilihan Tempahan</p>
+    <div class="grid" style="grid-template-columns:1fr 1fr;gap:14px">
+      <div>
+        <label class="field-label">Nama Pemohon</label>
+        <input type="text" id="f-nama" readonly placeholder="Log masuk dahulu">
+      </div>
+      <div>
+        <label class="field-label">Kelas / Kumpulan <span class="req">*</span></label>
+        <select id="f-kelas"></select>
+      </div>
+    </div>
+    <div style="margin-top:14px">
+      <label class="field-label">Tujuan / Aktiviti <span class="req">*</span></label>
+      <input type="text" id="f-tujuan" placeholder="Cth: PdPc Bahasa Arab / Mesyuarat Panitia / Kelas Tambahan">
+    </div>
+    <div class="checkbox-row" id="lcd-wrap" style="display:none">
+      <input type="checkbox" id="f-lcd">
+      <label for="f-lcd">Guna LCD?</label>
+    </div>
+    <div class="grid" style="grid-template-columns:1fr 1fr;gap:14px">
+      <div>
+        <label class="field-label">Pilih Tarikh <span class="req">*</span></label>
+        <div class="datepick">
+          <button type="button" id="btn-hari-ini">Hari Ini<br><span id="lbl-hari-ini" style="font-weight:600;font-size:11px"></span></button>
+          <button type="button" id="btn-esok">Esok<br><span id="lbl-esok" style="font-weight:600;font-size:11px"></span></button>
+        </div>
+        <p class="hint-esok" id="hint-esok" style="display:none">Tempahan untuk esok dibuka selepas jam 3:00 petang.</p>
+        <div id="admin-date-wrap" style="display:none;margin-top:10px">
+          <label class="field-label" for="f-tarikh-admin">Tarikh tempahan admin</label>
+          <input type="date" id="f-tarikh-admin" aria-describedby="admin-date-note">
+          <p class="hint-esok" id="admin-date-note" style="display:block;color:#0d6963">Pentadbir boleh memilih mana-mana tarikh tempahan.</p>
+        </div>
+      </div>
+      <div>
+        <label class="field-label">Bilik Khas <span class="req">*</span></label>
+        <select id="f-bilik"></select>
+        <div id="sub-wrap" style="display:none;margin-top:10px">
+          <label class="field-label">Pilih Ruang Perpustakaan <span class="req">*</span></label>
+          <select id="f-sub"></select>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <p class="section-title"><span class="step-badge">2</span> Pilih Slot Masa</p>
+    <div class="legend" style="margin-bottom:14px">
+      <span class="pill kosong">Kosong</span>
+      <span class="pill dipilih">Dipilih</span>
+      <span class="pill ditempah">Ditempah</span>
+      <span style="color:#64748b">— klik lebih dari satu slot untuk tempahan berturutan</span>
+    </div>
+    <div class="empty" id="no-room">Sila pilih bilik/ruang di Ruang 1 dahulu.</div>
+    <div class="roombox" id="room-slots" style="display:none">
+      <h4 id="room-name"></h4>
+      <p class="desc" id="room-desc"></p>
+      <p style="font-size:12px;color:#b45309;font-weight:700;margin:0 0 4px" id="notice-bilik"></p>
+      <p class="slotgroup-title">Sesi Pagi &amp; Tengah Hari (slot 30 minit, 7:40 pagi – 2:40 petang)</p>
+      <div class="slotgrid" id="grid-pagi"></div>
+      <p class="slotgroup-title">Sesi Petang &amp; Malam (blok masa)</p>
+      <div class="blockgrid" id="grid-blok"></div>
+    </div>
+    <div class="footerbar">
+      <span class="totaltxt">Slot dipilih: <b id="count-slot">0</b> &nbsp;·&nbsp; <span id="summary-slot">Tiada slot dipilih</span></span>
+      <button type="button" class="btn-primary" id="btn-hantar" disabled>Hantar Tempahan</button>
+    </div>
+  </div>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script src="/tempahan/assets/common.js"></script>
+<script src="assets/pages/perkhidmatan-tempahan-bilik-index.js?v=20260816-4"></script>
+</body>
+</html>

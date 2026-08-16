@@ -1,0 +1,23 @@
+{
+  "primitive": {
+    "forest": { "950": "#102a27", "900": "#153d38", "700": "#0d6963", "100": "#e6efec" },
+    "gold": { "600": "#c89e43", "100": "#f9e6b0" },
+    "paper": { "50": "#fffcf5", "100": "#f7f4ec" },
+    "ink": { "900": "#14201f", "600": "#68716e" }
+  },
+  "semantic": {
+    "background": "paper.100",
+    "surface": "paper.50",
+    "text": "ink.900",
+    "textMuted": "ink.600",
+    "brand": "forest.900",
+    "brandStrong": "forest.950",
+    "accent": "gold.600"
+  },
+  "component": {
+    "appBar": "surface",
+    "card": "surface",
+    "buttonPrimary": "brand",
+    "buttonSecondary": "forest.100"
+  }
+}

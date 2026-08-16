@@ -1,0 +1,53 @@
+{
+  "cleanUrls": true,
+  "trailingSlash": true,
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        { "key": "Content-Security-Policy", "value": "default-src 'self'; base-uri 'self'; object-src 'none'; script-src 'self' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: blob:; connect-src 'self' https://jykptknzasrrkvtxtvuk.supabase.co wss://jykptknzasrrkvtxtvuk.supabase.co https://api.waktusolat.app; frame-ancestors 'none'; form-action 'self'; upgrade-insecure-requests" },
+        { "key": "Permissions-Policy", "value": "camera=(), geolocation=(), microphone=(), payment=(), usb=()" },
+        { "key": "Referrer-Policy", "value": "strict-origin-when-cross-origin" },
+        { "key": "X-Content-Type-Options", "value": "nosniff" },
+        { "key": "X-Frame-Options", "value": "DENY" }
+      ]
+    }
+  ],
+  "redirects": [
+    {
+      "source": "/hubungi/",
+      "destination": "/info/?tab=hubungi",
+      "permanent": true
+    },
+    {
+      "source": "/info-sekolah/profil-sekolah/",
+      "destination": "/info/?tab=profil",
+      "permanent": true
+    },
+    {
+      "source": "/info-sekolah/lagu-sekolah/",
+      "destination": "/info/?tab=lagu",
+      "permanent": true
+    },
+    {
+      "source": "/info-sekolah/pengurusan/",
+      "destination": "/info/?tab=pengurusan",
+      "permanent": true
+    },
+    {
+      "source": "/info-sekolah/warga-sekolah/",
+      "destination": "/info/?tab=warga",
+      "permanent": true
+    },
+    {
+      "source": "/info-sekolah/takwim/",
+      "destination": "/info/?tab=takwim",
+      "permanent": true
+    },
+    {
+      "source": "/takwim/",
+      "destination": "/info/?tab=takwim",
+      "permanent": true
+    }
+  ]
+}

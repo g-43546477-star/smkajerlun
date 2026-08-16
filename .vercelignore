@@ -1,0 +1,10 @@
+site/
+.playwright-cli/
+work/
+outputs/
+output/
+tmp/
+docs/
+node_modules/
+home-redesign-desktop.png
+home-redesign-mobile.png

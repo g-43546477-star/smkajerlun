@@ -1,0 +1,328 @@
+.loan-page {
+  width: min(1050px, calc(100% - 3rem));
+  margin: 0 auto;
+  padding: 4.8rem 0;
+}
+.loan-intro {
+  max-width: 620px;
+}
+.loan-intro h1 {
+  font: 400 clamp(2.5rem, 5vw, 4.6rem)/1 var(--serif);
+  margin: 0.25rem 0 1rem;
+}
+.loan-intro > p:last-child {
+  font-size: 0.86rem;
+  color: var(--muted);
+  max-width: 58ch;
+}
+.loan-layout {
+  display: grid;
+  grid-template-columns: 1fr 0.42fr;
+  gap: 1rem;
+  margin-top: 2.5rem;
+}
+.loan-form {
+  background: var(--cream);
+  border: 1px solid var(--line);
+  padding: 1.6rem;
+}
+.loan-form-head {
+  padding-bottom: 1.1rem;
+  border-bottom: 1px solid var(--line);
+}
+.loan-form-head span,
+.receipt-header span {
+  font-size: 0.62rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  color: var(--teal);
+}
+.loan-form h2,
+.loan-note h2 {
+  font: 400 1.85rem var(--serif);
+  margin: 0.25rem 0 0;
+}
+.loan-fields {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.95rem;
+  margin: 1.3rem 0;
+}
+.loan-fields label {
+  display: grid;
+  gap: 0.38rem;
+  font-size: 0.72rem;
+  font-weight: 800;
+}
+.loan-fields label span {
+  font-weight: 500;
+  color: var(--muted);
+}
+.loan-fields input,
+.loan-fields select,
+.loan-fields textarea {
+  width: 100%;
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  background: #fff;
+  padding: 0.72rem;
+  font: 500 0.8rem var(--sans);
+  color: var(--ink);
+}
+.loan-fields textarea {
+  resize: vertical;
+}
+.loan-wide {
+  grid-column: 1/-1;
+}
+.loan-submit,
+#print-receipt {
+  border: 0;
+  border-radius: 4px;
+  background: var(--forest);
+  color: #fff;
+  padding: 0.78rem 1rem;
+  font: 800 0.76rem var(--sans);
+  cursor: pointer;
+}
+.loan-submit:disabled {
+  opacity: 0.6;
+  cursor: wait;
+}
+.loan-status {
+  min-height: 1.25rem;
+  margin: 0.2rem 0 0.8rem;
+  font-size: 0.76rem;
+  font-weight: 700;
+  color: var(--teal);
+}
+.loan-status.error {
+  color: #9d2c2c;
+}
+.loan-note {
+  padding: 1.7rem;
+  background: #e6efec;
+  border-top: 3px solid var(--teal);
+}
+.loan-note > span {
+  display: block;
+  font: 400 1.3rem var(--serif);
+  color: var(--brass);
+  margin-top: 1rem;
+}
+.loan-note > span:first-child {
+  margin-top: 0;
+}
+.loan-note h2 {
+  font-size: 1.32rem;
+}
+.loan-note p {
+  font-size: 0.75rem;
+  color: var(--muted);
+}
+.loan-receipt {
+  max-width: 700px;
+  margin: 1.6rem auto 0;
+  padding: 1.7rem;
+  background: #fff;
+  border: 1px solid var(--line);
+  box-shadow: 0 14px 30px rgba(20, 32, 31, 0.08);
+}
+.receipt-banner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.58rem 0.8rem;
+  background: var(--forest);
+  color: #fff;
+  font-size: 0.64rem;
+  letter-spacing: 0.1em;
+}
+.receipt-banner b {
+  color: #f9e6b0;
+}
+.receipt-header {
+  display: grid;
+  grid-template-columns: 58px 1fr auto;
+  align-items: center;
+  gap: 0.85rem;
+  padding: 1.2rem 0 1.1rem;
+  border-bottom: 2px solid var(--forest);
+}
+.receipt-header img {
+  width: 56px;
+  height: 56px;
+  object-fit: contain;
+}
+.receipt-header h2 {
+  font: 400 1.65rem var(--serif);
+  margin: 0.15rem 0;
+}
+.receipt-header p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.68rem;
+}
+.receipt-header > strong {
+  padding: 0.42rem 0.55rem;
+  border: 1px solid var(--brass);
+  color: var(--teal);
+  font-size: 0.6rem;
+  letter-spacing: 0.08em;
+  text-align: center;
+}
+.receipt-meta {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.9rem 0;
+}
+.receipt-ref,
+.receipt-meta p {
+  font: 800 0.74rem var(--sans);
+  color: var(--teal);
+  margin: 0;
+}
+.receipt-meta p:last-child {
+  color: var(--muted);
+  font-weight: 600;
+}
+.loan-receipt dl {
+  display: grid;
+  grid-template-columns: 150px 1fr;
+  margin: 0;
+  border-top: 1px solid var(--line);
+}
+.loan-receipt dt,
+.loan-receipt dd {
+  padding: 0.62rem 0.7rem;
+  border-bottom: 1px solid var(--line);
+  font-size: 0.78rem;
+}
+.loan-receipt dt {
+  font-weight: 800;
+  background: #f4f7f5;
+}
+.loan-receipt dd {
+  margin: 0;
+}
+.receipt-declaration {
+  margin-top: 1rem;
+  padding: 0.9rem 1rem;
+  background: #e6efec;
+  border-left: 3px solid var(--teal);
+}
+.receipt-declaration b {
+  font-size: 0.75rem;
+}
+.receipt-declaration p {
+  font-size: 0.71rem;
+  color: #42504c;
+  margin: 0.3rem 0 0;
+}
+.receipt-signatures {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  margin: 2.5rem 0.4rem 1.3rem;
+}
+.receipt-signatures div {
+  min-height: 55px;
+  border-bottom: 1px solid var(--ink);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  gap: 0.3rem;
+}
+.receipt-signatures span {
+  font-size: 0.64rem;
+  color: var(--muted);
+}
+.receipt-signatures b {
+  font-size: 0.72rem;
+}
+.receipt-signatures i {
+  font-style: normal;
+  font-weight: 600;
+}
+.receipt-actions {
+  display: flex;
+  gap: 0.6rem;
+}
+.loan-receipt button {
+  background: var(--teal);
+}
+#new-loan {
+  background: #fff;
+  color: var(--teal);
+  border: 1px solid var(--teal);
+}
+@media (max-width: 720px) {
+  .loan-page {
+    width: calc(100% - 2rem);
+    padding: 3.2rem 0;
+  }
+  .loan-layout {
+    grid-template-columns: 1fr;
+  }
+  .loan-fields {
+    grid-template-columns: 1fr;
+  }
+  .loan-wide {
+    grid-column: auto;
+  }
+  .loan-receipt {
+    padding: 1rem;
+  }
+  .receipt-header {
+    grid-template-columns: 48px 1fr;
+  }
+  .receipt-header > strong {
+    display: none;
+  }
+  .receipt-meta {
+    display: grid;
+  }
+  .loan-receipt dl {
+    grid-template-columns: 1fr;
+  }
+  .loan-receipt dt {
+    padding-bottom: 0.1rem;
+    border-bottom: 0;
+  }
+  .loan-receipt dd {
+    padding-top: 0.1rem;
+  }
+  .receipt-signatures {
+    gap: 1rem;
+  }
+}
+@media print {
+  body {
+    background: #fff;
+  }
+  .pss-nav,
+  .pss-footer,
+  .loan-intro,
+  .loan-layout {
+    display: none !important;
+  }
+  .loan-page {
+    width: 100%;
+    padding: 0;
+  }
+  .loan-receipt {
+    display: block !important;
+    border: 0;
+    margin: 0;
+    padding: 0;
+    max-width: none;
+    box-shadow: none;
+  }
+  .loan-receipt button {
+    display: none;
+  }
+}
+
+/* Selaras dengan permukaan aplikasi Portal PSS. */
+.loan-intro h1{font-family:var(--sans);font-weight:800;letter-spacing:0}.loan-form,.loan-note,.loan-receipt{border-radius:8px;box-shadow:0 8px 20px rgba(20,32,31,.045)}.loan-form{background:#fff}.loan-note{border-top:0}.loan-fields input,.loan-fields select,.loan-fields textarea{background:#F7F9F8;border-radius:6px}.loan-submit,#print-receipt{border-radius:6px}.receipt-banner{border-radius:6px 6px 0 0}

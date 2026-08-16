@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Jadual Keseluruhan — Tempahan Bilik Khas SMKAJ</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/tempahan/assets/style.css?v=20260816-4">
+<link rel="icon" type="image/png" href="/logo.png">
+</head>
+<body>
+
+<header class="topnav">
+  <div class="wrap bar">
+    <a href="/tempahan/" class="brand">
+      <img class="logo" src="/assets/logo-sekolah.png" alt="Logo SMKAJ">
+      <div><h1>Tempahan Bilik Khas</h1><p>SMK Agama Jerlun</p></div>
+    </a>
+    <nav class="links">
+      <a href="/" title="Laman utama sekolah">Utama</a>
+      <a href="/tempahan/">Buat Tempahan</a>
+      <a href="/tempahan/jadual/" class="active">Jadual Keseluruhan</a>
+      <a href="/tempahan/senarai/">Senarai Tempahan</a>
+      <a href="/tempahan/admin/" id="nav-admin" style="display:none">Admin</a>
+    </nav>
+    <div class="authbox" id="authbox">...</div>
+  </div>
+</header>
+
+<main>
+  <div class="card">
+    <div class="head-row">
+      <div>
+        <h2 class="page-title">Jadual Tempahan Keseluruhan Bilik Khas</h2>
+        <p class="page-sub">Semak masa yang telah ditempah oleh guru-guru lain.</p>
+      </div>
+      <div class="datefilter">
+        <label>Pilih Tarikh:</label>
+        <input type="date" id="f-tarikh">
+      </div>
+    </div>
+
+    <div class="tablewrap">
+      <table class="jadual-table" style="min-width:1400px">
+        <thead>
+          <tr id="thead-row"><th>Masa / Slot</th></tr>
+        </thead>
+        <tbody id="tbody"></tbody>
+      </table>
+    </div>
+  </div>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script src="/tempahan/assets/common.js"></script>
+<script src="/tempahan/assets/jadual.js?v=20260816-4"></script>
+</body>
+</html>

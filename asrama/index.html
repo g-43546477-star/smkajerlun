@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Asrama SMKAJ &mdash; SMK Agama Jerlun</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Marcellus&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/site.css?v=20260816-4">
+
+<link rel="icon" type="image/png" href="/logo.png">
+</head>
+<body>
+
+<div class="topbar">
+  <span class="tag">SMKAJERLUN.MY</span>
+  <div class="dates">
+    <span id="tarikh-masihi">&mdash;</span>
+    <span id="tarikh-hijri">&mdash;</span>
+    <span id="jam">&mdash;</span>
+  </div>
+</div>
+
+<header class="sitehead">
+  <svg class="pattern" width="100%" height="100%" aria-hidden="true">
+    <defs>
+      <pattern id="star8" width="96" height="96" patternUnits="userSpaceOnUse">
+        <g fill="none" stroke="#FFFFFF" stroke-width="1">
+          <path d="M48 8 L58 38 L88 48 L58 58 L48 88 L38 58 L8 48 L38 38 Z"/>
+          <circle cx="48" cy="48" r="10"/>
+        </g>
+      </pattern>
+    </defs>
+    <rect width="100%" height="100%" fill="url(#star8)"/>
+  </svg>
+  <div class="sitehead-inner">
+    <div class="brandrow">
+      <img class="logo" src="/assets/logo-sekolah.png" alt="Logo SMK Agama Jerlun">
+      <div class="nm">
+        <h1>SMK <em>Agama Jerlun</em></h1>
+        <p>Berilmu &middot; Beriman &middot; Beramal</p>
+      </div>
+    </div>
+    <nav class="tabs">
+      <a href="/">Utama</a>
+      <a href="/akademik/">Akademik</a>
+      <a href="/kokurikulum/">Kokurikulum</a>
+      <a href="/asrama/" class="active">Asrama</a>
+      <details class="nav-dropdown"><summary><a href="/info/">Info Sekolah</a></summary><div class="subnav"><a href="/info/?tab=profil">Profil Sekolah</a><a href="/info/?tab=lagu">Lagu Sekolah</a><a href="/info/?tab=pengurusan">Pengurusan</a><a href="/info/?tab=warga">Warga Sekolah</a><a href="/info/?tab=takwim">Takwim</a><a href="/info/?tab=hubungi">Hubungi</a></div></details>
+      <details class="nav-dropdown"><summary>Perkhidmatan</summary><div class="subnav"><a href="/tempahan/">Tempahan Bilik</a><a href="/pss/">Portal PSS</a><a href="/klinik/">Rekod Klinik</a><a href="/perkhidmatan/muat-turun/">Muat Turun</a><a href="/perkhidmatan/direktori/">Direktori</a></div></details>
+      <a href="/admin/" id="nav-panel-admin" style="display:none">Panel Admin</a>
+      <a href="/tempahan/log-masuk/" id="nav-login">Log Masuk</a>
+    </nav>
+  </div>
+</header>
+
+<div class="pagehead">
+  <svg class="pattern" width="100%" height="100%" aria-hidden="true">
+    <defs>
+      <pattern id="star8" width="96" height="96" patternUnits="userSpaceOnUse">
+        <g fill="none" stroke="#FFFFFF" stroke-width="1">
+          <path d="M48 8 L58 38 L88 48 L58 58 L48 88 L38 58 L8 48 L38 38 Z"/>
+          <circle cx="48" cy="48" r="10"/>
+        </g>
+      </pattern>
+    </defs>
+    <rect width="100%" height="100%" fill="url(#star8)"/>
+  </svg>
+  <div class="pagehead-inner">
+    <h2><em>Asrama</em> SMKAJ</h2>
+    <p>Maklumat pengurusan asrama, kemudahan dan jadual harian pelajar asrama.</p>
+  </div>
+</div>
+
+<main class="school-section-main">
+  <section class="school-quick-nav" aria-labelledby="asrama-quick-title">
+    <div class="school-section-heading"><div><span class="school-kicker">PANDUAN ASRAMA</span><h3 id="asrama-quick-title">Rujukan untuk penghuni asrama</h3></div><p>Maklumat asas, peraturan dan jadual harian boleh dicapai terus daripada halaman ini.</p></div>
+    <div class="school-quick-grid school-quick-grid-asrama">
+      <a class="school-quick-card school-quick-primary" href="/asrama/?section=page-content"><span>MAKLUMAT</span><strong>Pengurusan Asrama</strong><small>Kemudahan dan maklumat penghuni.</small></a>
+      <a class="school-quick-card school-quick-tint" href="/asrama/?section=jadual-harian"><span>JADUAL</span><strong>Jadual Harian</strong><small>Rutin Ahad hingga Sabtu.</small></a>
+      <a class="school-quick-card school-quick-doc" href="/asrama/?section=peraturan"><span>PERATURAN</span><strong>Panduan Penghuni</strong><small>Tatatertib dan kebajikan bersama.</small></a>
+    </div>
+  </section>
+  <div id="page-content"></div>
+
+  <section class="asrama-rules" id="peraturan" aria-labelledby="peraturan-asrama-title">
+    <div class="asrama-rules-head">
+      <div>
+        <span class="eyebrow">Panduan Penghuni</span>
+        <h3 id="peraturan-asrama-title">Peraturan &amp; Undang-undang Asrama</h3>
+        <p>Setiap penghuni hendaklah mematuhi peraturan sekolah dan asrama bagi memastikan kebajikan, keselamatan dan keharmonian bersama.</p>
+      </div>
+    </div>
+
+    <div class="rules-accordion">
+      <details class="rule-group" open>
+        <summary>Pendaftaran, kedatangan &amp; yuran</summary>
+        <div class="rule-group-body">
+          <ul>
+            <li>Permohonan untuk menjadi penghuni asrama dibuat melalui borang yang dikeluarkan pada bulan Disember setiap tahun.</li>
+            <li>Pendaftaran masuk tertakluk kepada hari pertama persekolahan pada bulan Januari, antara jam 9.00 pagi hingga 12.00 tengah hari, sehari sebelum persekolahan bermula.</li>
+            <li>Peralatan yang perlu dibawa adalah seperti yang dinyatakan dalam keperluan asrama.</li>
+            <li>Penghuni hendaklah menyerahkan borang perjanjian penghuni, surat penerimaan tawaran, kebenaran rawatan dan pembedahan, kebenaran menyertai kegiatan dan lawatan sekolah, serta senarai waris yang dibenarkan menemui atau mengambil murid.</li>
+            <li>Setiap kamar hendaklah melantik ketua kamar dengan segera. Ketua kamar perlu mengisi jadual kedatangan harian dan menghantarnya kepada Ketua Warden untuk semakan.</li>
+            <li>Ketidakhadiran atau murid yang tidak berada di kamar pada waktu ditetapkan hendaklah dimaklumkan segera kepada warden bertugas.</li>
+            <li>Yuran asrama hendaklah dijelaskan pada awal bulan, selewat-lewatnya pada 7 haribulan, dan resit bayaran perlu disimpan dengan baik.</li>
+            <li>Waris yang menerima bantuan PPRT hendaklah menyerahkan surat pengesahan semasa pendaftaran.</li>
+            <li>Penghuni yang gagal menjelaskan yuran selama dua bulan berturut-turut tanpa sebab munasabah boleh disingkirkan dari asrama.</li>
+            <li>Permohonan berhenti tinggal di asrama hendaklah dibuat oleh waris sekurang-kurangnya tiga hari sebelum tarikh keluar.</li>
+          </ul>
+        </div>
+      </details>
+
+      <details class="rule-group">
+        <summary>Belajar, makan, riadah &amp; gotong-royong</summary>
+        <div class="rule-group-body rule-grid">
+          <div>
+            <h4>Masa belajar / persediaan (Prep)</h4>
+            <ul>
+              <li>Masa belajar ialah 3.00 hingga 5.00 petang dan 8.30 hingga 10.30 malam.</li>
+              <li>Penghuni mesti meninggalkan kamar dan berada di kelas masing-masing semasa prep.</li>
+              <li>Semua suis lampu dan kipas di kamar hendaklah ditutup semasa prep.</li>
+              <li>Buku pelajaran tidak boleh ditinggalkan di bilik bacaan.</li>
+              <li>Bilik bacaan perlu dibersihkan setiap pagi; meja dan kerusi hendaklah sentiasa tersusun rapi.</li>
+              <li>Penghuni tidak dibenarkan berada di kawasan asrama pada waktu persekolahan.</li>
+            </ul>
+          </div>
+          <div>
+            <h4>Makan &amp; bantahan makanan</h4>
+            <ul>
+              <li>Beratur dengan tertib apabila loceng makan dibunyikan.</li>
+              <li>Doa hendaklah dibaca sebelum dan selepas makan.</li>
+              <li>Pinggan dan peralatan makan perlu disusun di tempat yang disediakan selepas makan.</li>
+              <li>Berpakaian kemas dan sopan; seluar pendek tidak dibenarkan di Dewan Makan.</li>
+              <li>Bantahan makanan hendaklah disalurkan melalui Biro Makanan dan warden, bukan dengan tindakan sendiri.</li>
+            </ul>
+            <div class="rules-time-note"><strong>Waktu makan</strong><span>Sarapan: 6.30 - 7.00 pagi</span><span>Makan tengah hari: 2.00 - 3.00 petang (Jumaat, Sabtu &amp; cuti am: 12.00 - 1.00 tengah hari)</span><span>Minum petang: 4.45 - 5.15 petang</span><span>Makan malam: 6.00 - 7.00 malam</span><span>Minum malam: 10.30 - 11.00 malam</span></div>
+          </div>
+          <div>
+            <h4>Riadah &amp; gotong-royong</h4>
+            <ul>
+              <li>Riadah dijalankan antara 5.00 hingga 6.30 petang dengan pakaian sukan yang sesuai.</li>
+              <li>Ketua Biro Sukan bertanggungjawab terhadap kunci setor dan penyimpanan peralatan sukan.</li>
+              <li>Gotong-royong dijalankan dua minggu sekali pada minggu murid tidak balik, hari Jumaat jam 8.00 hingga 10.00 pagi.</li>
+              <li>Ketua Pengawas menyediakan senarai tugas gotong-royong dan jadual penjagaan pokok bunga asrama.</li>
+              <li>Semua peralatan gotong-royong hendaklah disimpan semula dengan baik selepas digunakan.</li>
+              <li>Murid Tingkatan 1 dan 2 wajib menghadiri kelas Al-Quran / Fardhu Ain mengikut jadual; ketidakhadiran perlu dimaklumkan kepada warden terlebih dahulu.</li>
+            </ul>
+          </div>
+        </div>
+      </details>
+
+      <details class="rule-group">
+        <summary>Lawatan, kesihatan &amp; pulang ke rumah</summary>
+        <div class="rule-group-body rule-grid">
+          <div>
+            <h4>Waktu lawatan &amp; televisyen</h4>
+            <ul>
+              <li>Pelawat tidak dibenarkan masuk ke dalam kamar dan perlu menghubungi pengawal keselamatan untuk memanggil penghuni.</li>
+              <li>Waktu lawatan: Jumaat, 2.00 hingga 6.00 petang; Sabtu dan cuti am, 10.00 pagi hingga 6.00 petang.</li>
+              <li>Penghuni putera dan puteri dilarang menonton televisyen semasa prep.</li>
+              <li>Rancangan yang perlu ditonton dalam waktu prep hendaklah mendapat kebenaran warden terlebih dahulu.</li>
+              <li>Kerusi mesti disusun semula dengan rapi selepas menonton.</li>
+            </ul>
+          </div>
+          <div>
+            <h4>Kesihatan</h4>
+            <ul>
+              <li>Murid yang sakit, atau mengetahui rakan sakit, hendaklah memaklumkan kepada warden dengan segera.</li>
+              <li>Murid sakit perlu berjumpa doktor sebelum dibenarkan berehat di asrama atau pulang ke rumah.</li>
+              <li>Pengecualian daripada riadah memerlukan surat pengesahan doktor.</li>
+              <li>Rawatan kecemasan dan pembedahan tertakluk kepada perjanjian rawatan kecemasan yang telah ditandatangani jika waris tidak dapat dihubungi segera.</li>
+            </ul>
+          </div>
+          <div>
+            <h4>Pulang ke rumah</h4>
+            <ul>
+              <li>Nama perlu direkodkan dalam buku keluar masuk sebelum pulang.</li>
+              <li>Semasa pulang atau kembali ke asrama, murid hendaklah memakai batik asrama atau pakaian seragam sekolah.</li>
+              <li>Pulang kecemasan memerlukan kebenaran Ketua Warden; buku keluar masuk diserahkan kepada warden bertugas.</li>
+              <li>Hasrat untuk pulang hendaklah dimaklumkan kepada warden dua hari lebih awal.</li>
+              <li>Pulang kecemasan perlu disahkan oleh waris.</li>
+            </ul>
+          </div>
+        </div>
+      </details>
+
+      <details class="rule-group">
+        <summary>Keharmonian, kebersihan &amp; tanggungjawab bersama</summary>
+        <div class="rule-group-body">
+          <ul class="rules-columns">
+            <li>Murid Tingkatan Atas hendaklah membantu murid Tingkatan Bawah dalam akademik, disiplin dan akhlak.</li>
+            <li>Kebersihan asrama mesti dijaga; sampah tidak boleh dibuang merata-rata.</li>
+            <li>Pokok bunga perlu disiram setiap hari dan kamar hendaklah sentiasa bersih.</li>
+            <li>Tuala perlu disidai di luar, bukan di dalam kamar.</li>
+            <li>Semua penghuni digalakkan saling membantu seperti sebuah keluarga.</li>
+            <li>Warden, penyelia asrama, pekerja asrama dan pembekal makanan hendaklah dihormati.</li>
+            <li>Ketua Pengawas Putera dan Puteri hendaklah bekerjasama dengan warden bagi perkara yang memerlukan tindakan segera.</li>
+            <li>Air dan elektrik hendaklah digunakan secara berhemat.</li>
+            <li>Setiap penghuni perlu mendapatkan markah daripada guru tingkatan untuk rekod kemajuan asrama.</li>
+            <li>Keputusan peperiksaan penghuni akan dipaparkan di papan kenyataan Dewan Makan bagi penggal pertama dan kedua.</li>
+          </ul>
+        </div>
+      </details>
+
+      <details class="rule-group rule-discipline">
+        <summary>Kesalahan &amp; tindakan tatatertib</summary>
+        <div class="rule-group-body discipline-grid">
+          <div>
+            <h4>Kesalahan ringan</h4>
+            <ul>
+              <li>Bermusuhan sesama penghuni.</li>
+              <li>Menjatuhkan maruah penghuni lain atau berkelakuan kasar.</li>
+              <li>Membuat bising semasa belajar, solat, zikir, bacaan Yasin, makan atau kelas pengisian.</li>
+            </ul>
+          </div>
+          <div>
+            <h4>Kesalahan berat</h4>
+            <ul>
+              <li>Menghisap atau menyimpan rokok, dadah atau senjata berbahaya.</li>
+              <li>Bertumbuk, mencederakan penghuni lain, pekerja atau warden.</li>
+              <li>Keluar tanpa kebenaran, menceroboh asrama berlainan jantina atau berdua-duaan di kawasan sekolah/asrama.</li>
+              <li>Melanggar peraturan selepas tiga amaran, merosakkan harta benda dengan sengaja atau mencuri.</li>
+              <li>Bermain mercun atau bunga api, membuli atau membuat hubungan yang menyalahi peraturan sekolah.</li>
+              <li>Tidak boleh bekerjasama dengan penghuni lain.</li>
+            </ul>
+          </div>
+          <div>
+            <h4>Kesalahan yang boleh membawa denda / rotan</h4>
+            <ul>
+              <li>Lewat bangun, lewat ke sekolah/asrama atau tidak hadir tanpa alasan munasabah.</li>
+              <li>Kamar tidak bersih, tidak memasang cadar atau sarung bantal, dan tidak menutup lampu, kipas atau paip air.</li>
+              <li>Makan di luar Dewan Makan, menghilangkan peralatan makan atau membuang sampah merata-rata.</li>
+              <li>Tidak solat, tidak menghadiri kelas Al-Quran / Tajwid atau lewat ke prep.</li>
+              <li>Menconteng, merosakkan kemudahan, membawa peralatan tidak dibenarkan atau menonton televisyen/bermain di luar masa ditetapkan.</li>
+              <li>Keluar atau balik tanpa kebenaran, tidak membayar yuran, atau tidak menghadiri kelas peningkatan akademik.</li>
+              <li>Tidak menjaga pakaian, peralatan asrama dan alat persekolahan dengan baik.</li>
+            </ul>
+          </div>
+        </div>
+      </details>
+    </div>
+  </section>
+
+  <section class="asrama-schedule" id="jadual-harian" aria-labelledby="jadual-harian-title">
+    <div class="asrama-schedule-head">
+      <div>
+        <span class="eyebrow">Rutin Penginapan</span>
+        <h3 id="jadual-harian-title">Jadual Harian Asrama</h3>
+        <p>Rujukan rutin harian pelajar asrama SMK Agama Jerlun.</p>
+      </div>
+      <span class="schedule-note">Kemaskini terkini</span>
+    </div>
+
+    <div class="schedule-tabs" role="tablist" aria-label="Pilih jadual mengikut hari">
+      <button class="schedule-tab active" type="button" role="tab" aria-selected="true" aria-controls="jadual-ahad-khamis" data-schedule="jadual-ahad-khamis">Ahad - Khamis</button>
+      <button class="schedule-tab" type="button" role="tab" aria-selected="false" aria-controls="jadual-jumaat" data-schedule="jadual-jumaat">Jumaat</button>
+      <button class="schedule-tab" type="button" role="tab" aria-selected="false" aria-controls="jadual-sabtu" data-schedule="jadual-sabtu">Sabtu</button>
+    </div>
+
+    <div class="schedule-panel" id="jadual-ahad-khamis" role="tabpanel">
+      <div class="schedule-table-wrap"><table class="schedule-table"><thead><tr><th>Masa</th><th>Aktiviti</th><th>Catatan</th></tr></thead><tbody>
+        <tr><td>5.00 - 5.30 pagi</td><td>Bangun pagi / pengurusan diri</td><td></td></tr>
+        <tr><td>6.00 - 6.30 pagi</td><td>Solat sunat sebelum Subuh dan solat Subuh berjemaah</td><td>Surau</td></tr>
+        <tr><td>6.30 - 6.50 pagi</td><td>Sarapan pagi</td><td>Dewan Makan</td></tr>
+        <tr><td>6.50 - 7.10 pagi</td><td>Roll call pagi - kekemasan dan kebersihan dorm</td><td></td></tr>
+        <tr><td>7.10 - 7.40 pagi</td><td>Perhimpunan pagi di Dewan Besar / terbuka</td><td></td></tr>
+        <tr class="schedule-group"><td colspan="3"><strong>Sesi Persekolahan</strong><span>Menengah Rendah: 7.40 pagi - 1.40 petang (Ahad dan Isnin); 7.40 pagi - 1.10 petang (Selasa - Khamis)</span><span>Menengah Atas: 7.40 pagi - 2.40 petang (Ahad dan Selasa); 7.40 pagi - 2.10 petang (Isnin dan Khamis); 7.40 pagi - 1.40 petang (Rabu)</span><small>Waktu rehat: murid dilarang berada di dalam kelas dan makan dalam kelas.</small></td></tr>
+        <tr class="schedule-info"><td colspan="3">Waktu makan tengah hari dan solat Zohor berjemaah mengikut kumpulan sesi persekolahan.</td></tr>
+        <tr class="schedule-info"><td colspan="3">Kelas persediaan petang (Prep): Menengah Rendah <strong>2.30 - 4.30 petang</strong>; Menengah Atas <strong>3.15 - 4.30 petang</strong>.</td></tr>
+        <tr><td>4.30 - 4.50 petang</td><td>Pulang ke asrama untuk tukar pakaian riadah</td><td>Asrama</td></tr>
+        <tr><td>4.50 - 5.15 petang</td><td>Solat Asar berjemaah dan bacaan Al-Mathurat</td><td>Surau</td></tr>
+        <tr><td>5.15 - 6.00 petang</td><td>Riadah / study group / usrah<br><small>Mengambil bungkusan di pondok pengawal hadapan.</small></td><td>Dorm, blok kelas dan pentadbiran <strong>kawasan larangan</strong></td></tr>
+        <tr><td>6.00 - 7.00 malam</td><td>Persiapan diri / makan malam</td><td>Dewan Makan</td></tr>
+        <tr><td>7.00 - 9.00 malam</td><td>Zikir dan solat Maghrib; tazkirah / kuliah Maghrib; solat Isyak berjemaah; bacaan Surah Al-Kahfi dan Al-Mulk</td><td>Surau</td></tr>
+        <tr><td>9.00 - 10.30 malam</td><td>Kelas persediaan malam (Prep)<br><small>Khamis: tiada prep (khidmat diri / menonton TV).</small></td><td>Kelas / Dewan Makan / Kantin</td></tr>
+        <tr><td>10.30 - 10.50 malam</td><td>Minum malam</td><td>Dewan Makan</td></tr>
+        <tr><td>10.50 - 11.30 malam</td><td>Roll call</td><td></td></tr>
+        <tr class="schedule-info"><td>11.30 malam</td><td colspan="2">Murid berada di dorm masing-masing, “light off” dan tidur. Penggunaan bilik study dibenarkan hingga 12.30 tengah malam sahaja.</td></tr>
+      </tbody></table></div>
+      <p class="schedule-footnote">Blok Akademik dan Pentadbiran ialah kawasan larangan bermula selepas prep petang hari Khamis sehingga prep malam hari Sabtu.</p>
+    </div>
+
+    <div class="schedule-panel" id="jadual-jumaat" role="tabpanel" hidden>
+      <div class="schedule-table-wrap"><table class="schedule-table"><thead><tr><th>Masa</th><th>Aktiviti</th><th>Catatan</th></tr></thead><tbody>
+        <tr><td>4.30 - 5.00 pagi</td><td>Bangun pagi / pengurusan diri</td><td></td></tr>
+        <tr><td>5.00 - 6.30 pagi</td><td>Qiamullail; solat sunat sebelum Subuh dan solat Subuh berjemaah</td><td>Surau</td></tr>
+        <tr><td>6.30 - 7.00 pagi</td><td>Sarapan pagi</td><td>Dewan Makan</td></tr>
+        <tr><td>7.00 - 7.30 pagi</td><td>Roll call pagi - kekemasan dan kebersihan dorm</td><td></td></tr>
+        <tr><td>7.30 - 11.00 pagi</td><td>Kelas Fadhu Ain / kelas KAFA / riadah santai</td><td></td></tr>
+        <tr><td>11.00 pagi - 12.00 tengah hari</td><td>Pengurusan diri</td><td></td></tr>
+        <tr><td>12.00 tengah hari</td><td>Makan tengah hari</td><td></td></tr>
+        <tr class="schedule-info"><td colspan="3">12.30 tengah hari: Murid putera ke masjid dengan bas. 1.00 petang: Murid puteri kuliah Muslimat di surau.</td></tr>
+        <tr><td>2.30 - 4.50 petang</td><td>Rehat / pengurusan diri</td><td></td></tr>
+        <tr><td>4.50 - 5.15 petang</td><td>Solat Asar berjemaah dan bacaan Al-Mathurat</td><td>Surau</td></tr>
+        <tr><td>5.15 - 6.00 petang</td><td>Riadah / study group / usrah</td><td></td></tr>
+        <tr><td>6.00 - 7.00 malam</td><td>Persiapan diri / makan malam</td><td>Dewan Makan</td></tr>
+        <tr><td>7.00 - 9.00 malam</td><td>Zikir dan solat Maghrib; tazkirah / kuliah Maghrib; solat Isyak berjemaah; bacaan Surah Al-Kahfi dan Al-Mulk</td><td>Surau</td></tr>
+        <tr><td>9.00 - 10.30 malam / 9.00 - 12.00 malam</td><td>Khidmat diri / malam tayangan</td><td>Asrama / Dataran Asrama</td></tr>
+        <tr><td>10.30 - 10.50 malam</td><td>Minum malam</td><td>Dewan Makan</td></tr>
+        <tr><td>10.50 - 11.30 malam</td><td>Roll call</td><td></td></tr>
+        <tr class="schedule-info"><td>11.30 malam</td><td colspan="2">Murid berada di dorm masing-masing, “light off” dan tidur. Penggunaan bilik study dibenarkan hingga 12.30 tengah malam sahaja.</td></tr>
+      </tbody></table></div>
+    </div>
+
+    <div class="schedule-panel" id="jadual-sabtu" role="tabpanel" hidden>
+      <div class="schedule-table-wrap"><table class="schedule-table"><thead><tr><th>Masa</th><th>Aktiviti</th><th>Catatan</th></tr></thead><tbody>
+        <tr><td>5.00 - 5.30 pagi</td><td>Bangun pagi / pengurusan diri</td><td></td></tr>
+        <tr><td>6.00 - 6.30 pagi</td><td>Solat sunat sebelum Subuh dan solat Subuh berjemaah</td><td>Surau</td></tr>
+        <tr><td>6.30 - 7.00 pagi</td><td>Sarapan pagi</td><td>Dewan Makan</td></tr>
+        <tr><td>7.00 - 10.00 pagi</td><td>Roll call pagi dan gotong-royong / khidmat diri</td><td>Asrama</td></tr>
+        <tr><td>10.00 pagi</td><td>Outing bersama keluarga / khidmat diri (tidak outing)</td><td></td></tr>
+        <tr class="schedule-info"><td>6.00 petang</td><td colspan="2"><strong>Mengikut semula Jadual Waktu Harian Asrama Ahad - Khamis.</strong></td></tr>
+      </tbody></table></div>
+      <p class="schedule-footnote">Murid yang tidak outing perlu berada di kawasan asrama. Pada waktu solat Zohor dan Asar, murid wajib berjemaah di surau dan mengikuti tatacara seperti biasa. Hari kelepasan dan cuti am juga mengikut jadual hari Sabtu.</p>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="foot-inner">
+    <div>
+      <div class="b">SMK Agama Jerlun <span class="brass">&middot;</span> Kedah</div>
+      <div>Laman rasmi &amp; sistem dalaman sekolah</div>
+    </div>
+    <div style="text-align:right">
+      <div class="brass" style="font-family:var(--font-mono);font-size:.72rem;letter-spacing:.08em">SMKAJERLUN.MY</div>
+      <div>Dibangunkan oleh AJER-Syahir &middot; <span id="thn"></span></div>
+    </div>
+  </div>
+</footer>
+
+<script src="assets/pages/asrama-index.js?v=20260816-4"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script src="/assets/cms.js"></script>
+
+</body>
+</html>

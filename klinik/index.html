@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="ms">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rekod Klinik | SMK Agama Jerlun</title>
+  <meta name="description" content="Kiosk rekod lawatan klinik murid SMK Agama Jerlun.">
+  <meta name="robots" content="noindex">
+  <link rel="canonical" href="https://www.smkajerlun.my/klinik/">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Marcellus&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/site.css?v=20260816-4">
+  <link rel="stylesheet" href="/assets/klinik.css?v=20260816-3">
+  
+<link rel="icon" type="image/png" href="/logo.png">
+</head>
+<body>
+  <header class="sitehead">
+    <div class="sitehead-inner">
+      <div class="brandrow"><img class="logo" src="/assets/logo-sekolah.png" alt="Logo SMK Agama Jerlun"><div class="nm"><h1>SMK <em>Agama Jerlun</em></h1><p>Rekod Klinik Murid</p></div></div>
+      <nav class="tabs">
+        <a href="/">Utama</a><a href="/akademik/">Akademik</a><a href="/kokurikulum/">Kokurikulum</a><a href="/asrama/">Asrama</a>
+        <details class="nav-dropdown"><summary><a href="/info/">Info Sekolah</a></summary><div class="subnav"><a href="/info/?tab=profil">Profil Sekolah</a><a href="/info/?tab=lagu">Lagu Sekolah</a><a href="/info/?tab=pengurusan">Pengurusan</a><a href="/info/?tab=warga">Warga Sekolah</a><a href="/info/?tab=takwim">Takwim</a><a href="/info/?tab=hubungi">Hubungi</a></div></details>
+        <details class="nav-dropdown"><summary>Perkhidmatan</summary><div class="subnav"><a href="/tempahan/">Tempahan Bilik</a><a href="/pss/">Portal PSS</a><a href="/klinik/" class="active">Rekod Klinik</a><a href="/perkhidmatan/muat-turun/">Muat Turun</a><a href="/perkhidmatan/direktori/">Direktori</a></div></details>
+      </nav>
+    </div>
+  </header>
+
+  <main class="clinic-main">
+    <section class="clinic-hero"><div><span class="eyebrow">KIOSK MURID</span><h2>Rekod Klinik</h2><p>Masukkan nombor IC untuk melihat sejarah lawatan, daftar lawatan hari ini dan cetak borang klinik yang telah diisi.</p></div><div class="clinic-hero-meta"><span>SMK AGAMA JERLUN</span><strong id="clinic-kiosk-state">Memeriksa akses kiosk</strong></div></section>
+
+    <section id="clinic-access" class="clinic-access" hidden aria-live="polite">
+      <div><span class="eyebrow">AKSES TERKAWAL</span><h3>Kiosk klinik perlu diaktifkan</h3><p>Log masuk menggunakan akaun pentadbir pada komputer kiosk sebelum murid menggunakan carian rekod.</p></div>
+      <a href="/tempahan/log-masuk/">Log Masuk Kiosk</a>
+    </section>
+
+    <section class="clinic-card">
+      <div class="clinic-heading"><div><h3>Carian murid</h3><p>Masukkan nombor IC 12 digit. Senggang dan sengkang akan diabaikan.</p></div></div>
+      <form id="clinic-search" class="clinic-search"><input id="clinic-ic" type="text" inputmode="numeric" autocomplete="off" maxlength="14" placeholder="Contoh: 100101021234" aria-label="Nombor IC murid"><button type="submit">Cari Rekod</button></form>
+      <p id="clinic-status" class="clinic-status" role="status"></p>
+    </section>
+
+    <section id="clinic-result" hidden>
+      <section class="clinic-card clinic-profile"><div id="clinic-avatar" class="clinic-avatar">SM</div><div><strong id="clinic-name"></strong><small id="clinic-class"></small></div><div id="clinic-ic-display" class="clinic-ic"></div></section>
+      <div class="clinic-grid">
+        <section class="clinic-card"><div class="clinic-heading"><div><h3>Daftar lawatan hari ini</h3><p>Rekod baharu akan disertakan dalam cetakan.</p></div></div><div class="clinic-form"><label for="clinic-sebab">Sebab ke klinik</label><textarea id="clinic-sebab" maxlength="300" placeholder="Contoh: Sakit kepala / demam / rawatan susulan"></textarea></div><div class="clinic-actions"><button id="clinic-daftar" type="button">Simpan &amp; Cetak Borang Klinik</button><button id="clinic-print" type="button" class="secondary">Cetak Rekod &amp; Borang</button></div></section>
+        <section class="clinic-card"><div class="clinic-heading"><div><h3>Sejarah lawatan</h3><p>Tarikh dan sebab lawatan terdahulu.</p></div></div><div id="clinic-history" class="clinic-history"></div></section>
+      </div>
+    </section>
+  </main>
+
+  <section class="clinic-print" aria-hidden="true">
+    <article class="print-sheet"><header class="print-heading"><img src="/assets/logo-sekolah.png" alt=""><div><h1>SMK Agama Jerlun</h1><p>Jalan Kodiang, 06100 Kodiang, Kedah Darul Aman</p></div></header><h2 class="print-title">Borang Ke Klinik</h2><div class="print-fields"><div><b>Nama Murid</b><span class="print-nama"></span></div><div><b>Nombor IC</b><span class="print-ic"></span></div><div><b>Kelas</b><span class="print-kelas"></span></div><div><b>Tarikh</b><span class="print-tarikh"></span></div></div><div class="print-lines"><div><b>Waktu keluar ke klinik</b></div><div><b>Catatan / pengesahan klinik</b></div><div><b>Tandatangan guru / penyelia</b></div></div></article>
+    <article class="print-sheet"><header class="print-heading"><img src="/assets/logo-sekolah.png" alt=""><div><h1>SMK Agama Jerlun</h1><p>Rekod Lawatan Klinik Murid</p></div></header><h2 class="print-title">Rekod Lawatan</h2><div class="print-fields"><div><b>Nama Murid</b><span class="print-nama"></span></div><div><b>Nombor IC</b><span class="print-ic"></span></div><div><b>Kelas</b><span class="print-kelas"></span></div><div><b>Tarikh Cetakan</b><span class="print-tarikh"></span></div></div><table class="print-table"><thead><tr><th>Bil.</th><th>Tarikh</th><th>Masa</th><th>Sebab Ke Klinik</th></tr></thead><tbody id="print-rekod"></tbody></table><p class="print-note">Dokumen ini ialah rekod lawatan ringkas untuk simpanan sekolah.</p></article>
+  </section>
+
+  <footer><div class="foot-inner"><div><div class="b">SMK Agama Jerlun</div><div>Rekod Klinik Murid</div></div><a href="/">Laman Utama</a></div></footer>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+  <script src="/tempahan/assets/common.js"></script>
+  <script src="/assets/cms.js"></script>
+  <script src="/assets/klinik.js"></script>
+</body>
+</html>

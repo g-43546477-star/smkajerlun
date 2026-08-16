@@ -1,0 +1,220 @@
+<!doctype html>
+<html lang="ms">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <title>Borang Pinjaman PSS | SMK Agama Jerlun</title>
+    <meta
+      name="description"
+      content="Borang pinjaman bahan Maktabah Darul Hikmah, SMK Agama Jerlun."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/assets/pss.css?v=20260816-4" />
+    <link rel="stylesheet" href="/assets/pss-loan.css?v=20260816-3" />
+    <link rel="icon" type="image/png" href="/logo.png" />
+  </head>
+  <body>
+    <header class="pss-nav">
+      <a class="pss-brand" href="/pss/"
+        ><img src="/assets/logo-sekolah.png" alt="Logo SMK Agama Jerlun" /><span
+          ><b>PSS SMKAJ</b><small>Maktabah Darul Hikmah</small></span
+        ></a
+      >
+      <button
+        class="menu-toggle"
+        type="button"
+        aria-label="Buka menu"
+        aria-expanded="false"
+      >
+        <span></span><span></span><span></span>
+      </button>
+      <nav class="pss-links" aria-label="Navigasi portal">
+        <a href="/pss/">Utama</a>
+        <details class="pss-dropdown">
+          <summary>Tentang PSS</summary>
+          <div>
+            <a href="/pss/tentang-pss/maklumat/">Maklumat PSS</a
+            ><a href="/pss/tentang-pss/jawatankuasa-guru/">Jawatankuasa Guru</a
+            ><a href="/pss/tentang-pss/pengawas-pss/">Pengawas PSS</a>
+          </div>
+        </details>
+        <details class="pss-dropdown">
+          <summary>Program</summary>
+          <div>
+            <a href="/pss/program/kalendar/">Kalendar PSS</a
+            ><a href="/pss/program/aktiviti/">Aktiviti &amp; Program</a
+            ><a href="/pss/program/pengumuman/">Pengumuman</a>
+          </div>
+        </details>
+        <details class="pss-dropdown">
+          <summary>Digital</summary>
+          <div>
+            <a href="/pss/digital/katalog/">Katalog Buku</a
+            ><a href="/pss/digital/nilam/">NILAM</a
+            ><a href="https://ains.moe.gov.my/login?returnUrl=/" target="_blank" rel="noopener">Portal AINS</a
+            ><a href="https://iqnilam.moe.gov.my/" target="_blank" rel="noopener">iQ-NILAM</a>
+          </div>
+        </details>
+        <details class="pss-dropdown active">
+          <summary>Perkhidmatan</summary>
+          <div>
+            <a href="/pss/perkhidmatan/borang-pinjaman/">Borang Pinjaman</a
+            ><a href="/tempahan/">Tempahan Ruang</a
+            ><a href="mailto:kra4002@moe.edu.my?subject=Cadangan%20Buku%20PSS">Cadangan Buku</a>
+          </div>
+        </details>
+        <a class="back-link" href="/">Laman sekolah</a>
+      </nav>
+    </header>
+
+    <main class="loan-page">
+      <div class="loan-intro">
+        <p class="eyebrow">PERKHIDMATAN PSS</p>
+        <h1>Pinjam bahan,<br />rekod dengan mudah.</h1>
+        <p>
+          Untuk murid dan pengawas PSS. Hantar borang, kemudian cetak atau
+          simpan rekod sebagai PDF untuk rujukan.
+        </p>
+      </div>
+
+      <section class="loan-layout" aria-label="Borang pinjaman PSS">
+        <form id="loan-form" class="loan-form">
+          <div class="loan-form-head">
+            <span>MAKTABAH DARUL HIKMAH</span>
+            <h2>Borang pinjaman</h2>
+          </div>
+          <div class="loan-fields">
+            <label
+              >Nama penuh<input
+                name="nama"
+                autocomplete="name"
+                required
+                maxlength="120"
+                placeholder="Nama murid atau pengawas"
+            /></label>
+            <label
+              >Kelas<input
+                name="kelas"
+                required
+                maxlength="40"
+                placeholder="Contoh: 4 Itqan"
+            /></label>
+            <label
+              >Peranan<select name="peranan" required>
+                <option value="Murid">Murid</option>
+                <option value="Pengawas PSS">Pengawas PSS</option>
+              </select></label
+            >
+            <label
+              >Tarikh pinjam<input name="tarikh_pinjam" type="date" required
+            /></label>
+            <label class="loan-wide"
+              >Judul buku / bahan<input
+                name="bahan"
+                required
+                maxlength="200"
+                placeholder="Nyatakan buku, majalah atau bahan yang ingin dipinjam"
+            /></label>
+            <label
+              >Kod bahan <span>(jika ada)</span
+              ><input
+                name="kod_bahan"
+                maxlength="60"
+                placeholder="Contoh: PSS-BM-102"
+            /></label>
+            <label
+              >Tarikh pulang<input name="tarikh_pulang" type="date" required
+            /></label>
+            <label class="loan-wide"
+              >Catatan <span>(jika perlu)</span
+              ><textarea
+                name="catatan"
+                maxlength="500"
+                rows="3"
+                placeholder="Maklumat tambahan untuk guru PSS"
+              ></textarea>
+            </label>
+          </div>
+          <p id="loan-status" class="loan-status" role="status"></p>
+          <button class="loan-submit" type="submit">
+            Hantar borang pinjaman
+          </button>
+        </form>
+
+        <aside class="loan-note">
+          <span>01</span>
+          <h2>Rekod terus</h2>
+          <p>
+            Maklumat pinjaman direkod terus dalam simpanan PSS sebaik sahaja
+            borang dihantar.
+          </p>
+          <span>02</span>
+          <h2>Simpan dokumen</h2>
+          <p>
+            Borang rekod keluar serta-merta. Cetak atau simpan sebagai PDF untuk
+            fail PSS dan rujukan peminjam.
+          </p>
+        </aside>
+      </section>
+
+      <section id="loan-receipt" class="loan-receipt" hidden aria-live="polite">
+        <div class="receipt-banner">
+          <span>REKOD PINJAMAN</span><b>MAKTABAH DARUL HIKMAH</b>
+        </div>
+        <div class="receipt-header">
+          <img src="/assets/logo-sekolah.png" alt="" />
+          <div>
+            <span>PUSAT SUMBER SEKOLAH</span>
+            <h2>Borang Rekod Pinjaman</h2>
+            <p>SMK Agama Jerlun, Kedah</p>
+          </div>
+          <strong>REKOD<br />PSS</strong>
+        </div>
+        <div class="receipt-meta">
+          <p class="receipt-ref" id="receipt-ref"></p>
+          <p id="receipt-created"></p>
+        </div>
+        <dl id="receipt-details"></dl>
+        <div class="receipt-declaration">
+          <b>Pengesahan rekod</b>
+          <p>
+            Butiran di atas direkod sebagai bahan simpanan Pusat Sumber Sekolah.
+            Borang ini boleh difailkan bersama rekod pinjaman PSS.
+          </p>
+        </div>
+        <div class="receipt-signatures">
+          <div>
+            <span>Tandatangan peminjam</span><b id="receipt-borrower"></b>
+          </div>
+          <div>
+            <span>Disimpan oleh PSS</span
+            ><b>Tarikh rekod: <i id="receipt-date"></i></b>
+          </div>
+        </div>
+        <div class="receipt-actions">
+          <button id="print-receipt" type="button">Cetak / Simpan PDF</button
+          ><button id="new-loan" type="button">Borang baharu</button>
+        </div>
+      </section>
+    </main>
+
+    <footer class="pss-footer">
+      <div class="pss-shell">
+        <div>
+          <img src="/assets/logo-sekolah.png" alt="Logo SMK Agama Jerlun" />
+          <p><b>PSS SMK Agama Jerlun</b><br />Maktabah Darul Hikmah</p>
+        </div>
+        <p>&copy; 2026 Pusat Sumber Sekolah, SMK Agama Jerlun.</p>
+      </div>
+    </footer>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+    <script src="/assets/cms.js"></script>
+    <script src="/assets/pss.js"></script>
+    <script src="/assets/pss-loan.js"></script>
+  </body>
+</html>

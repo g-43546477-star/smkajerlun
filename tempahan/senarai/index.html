@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Senarai Tempahan — Tempahan Bilik Khas SMKAJ</title>
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/tempahan/assets/style.css?v=20260816-4">
+<link rel="icon" type="image/png" href="/logo.png">
+</head>
+<body>
+
+<header class="topnav">
+  <div class="wrap bar">
+    <a href="/tempahan/" class="brand">
+      <img class="logo" src="/assets/logo-sekolah.png" alt="Logo SMKAJ">
+      <div><h1>Tempahan Bilik Khas</h1><p>SMK Agama Jerlun</p></div>
+    </a>
+    <nav class="links">
+      <a href="/" title="Dashboard sekolah">Utama</a>
+      <a href="/tempahan/">Buat Tempahan</a>
+      <a href="/tempahan/jadual/">Jadual Keseluruhan</a>
+      <a href="/tempahan/senarai/" class="active">Senarai Tempahan</a>
+      <a href="/tempahan/admin/" id="nav-admin" style="display:none">Admin</a>
+    </nav>
+    <div class="authbox" id="authbox">...</div>
+  </div>
+</header>
+
+<main>
+  <div class="card">
+    <div class="head-row">
+      <div>
+        <h2 class="page-title">Senarai Rekod Tempahan</h2>
+        <p class="page-sub">Semua tempahan yang telah direkodkan dalam sistem.</p>
+      </div>
+      <div class="head-controls">
+        <label class="filter-toggle" id="filter-mine-wrap" style="display:none">
+          <input type="checkbox" id="f-mine">
+          Tempahan Saya Sahaja
+        </label>
+        <input type="text" id="f-search" placeholder="Cari nama guru / kelas...">
+      </div>
+    </div>
+
+    <div class="tablewrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Tarikh</th><th>Nama Guru</th><th>Kelas</th><th>Bilik / Ruang</th>
+            <th>Slot Masa</th><th>LCD</th><th>Tujuan</th><th>Status</th><th style="text-align:right">Tindakan</th>
+          </tr>
+        </thead>
+        <tbody id="tbody"></tbody>
+      </table>
+      <div id="empty" class="empty" style="display:none">Tiada rekod tempahan ditemui.</div>
+    </div>
+  </div>
+
+  <div id="edit-overlay" class="modal-overlay" style="display:none">
+    <div class="modal">
+      <h3>Ubah Tempahan</h3>
+      <p class="modal-sub">Tukar bilik, tarikh, slot masa, kelas atau tujuan tempahan anda.</p>
+      <p class="msg" id="edit-msg"></p>
+
+      <label class="field-label">Pilih Kelas / Urusan</label>
+      <select id="edit-kelas"></select>
+
+      <label class="field-label">Pilih Bilik</label>
+      <select id="edit-bilik"></select>
+
+      <label class="field-label">Tarikh</label>
+      <div class="datepick">
+        <button type="button" id="edit-hari-ini">Hari Ini</button>
+        <button type="button" id="edit-esok">Esok</button>
+      </div>
+
+      <label class="field-label">Slot Masa</label>
+      <select id="edit-slot"></select>
+
+      <label class="field-label">Tujuan / Subjek</label>
+      <input type="text" id="edit-tujuan">
+
+      <div class="checkbox-row" id="edit-lcd-wrap" style="display:none">
+        <input type="checkbox" id="edit-lcd">
+        <label for="edit-lcd">Guna LCD?</label>
+      </div>
+
+      <div class="modal-actions">
+        <button type="button" class="btn-secondary" id="edit-cancel">Batal</button>
+        <button type="button" class="btn-primary" id="edit-save">Simpan Perubahan</button>
+      </div>
+    </div>
+  </div>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script src="/tempahan/assets/common.js"></script>
+<script src="/tempahan/assets/senarai.js?v=20260816-4"></script>
+</body>
+</html>

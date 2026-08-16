@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="ms">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Katalog PSS | SMK Agama Jerlun</title>
+    <meta name="description" content="Cari koleksi buku, kategori, rak dan status bahan bacaan Portal PSS SMK Agama Jerlun." />
+    <link rel="canonical" href="https://www.smkajerlun.my/pss/digital/katalog/" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/assets/pss.css?v=20260816-4" />
+    <link rel="stylesheet" href="/assets/portal.css?v=20260816-4" />
+    <link rel="icon" href="/logo.png" />
+  </head>
+  <body data-portal-view="catalog">
+    <header class="pss-nav">
+      <a class="pss-brand" href="/pss/"
+        ><img src="/assets/logo-sekolah.png" alt="Logo SMK Agama Jerlun" /><span
+          ><b>PSS SMKAJ</b><small>Maktabah Darul Hikmah</small></span
+        ></a
+      >
+      <button class="menu-toggle" type="button" aria-label="Buka menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+      <nav class="pss-links" aria-label="Navigasi portal">
+        <a href="/pss/">Utama</a>
+        <details class="pss-dropdown">
+          <summary>Tentang PSS</summary>
+          <div>
+            <a href="/pss/tentang-pss/maklumat/">Maklumat PSS</a
+            ><a href="/pss/tentang-pss/jawatankuasa-guru/">Jawatankuasa Guru</a
+            ><a href="/pss/tentang-pss/pengawas-pss/">Pengawas PSS</a>
+          </div>
+        </details>
+        <details class="pss-dropdown">
+          <summary>Program</summary>
+          <div>
+            <a href="/pss/program/kalendar/">Kalendar PSS</a
+            ><a href="/pss/program/aktiviti/">Aktiviti &amp; Program</a
+            ><a href="/pss/program/pengumuman/">Pengumuman</a>
+          </div>
+        </details>
+        <details class="pss-dropdown active">
+          <summary>Digital</summary>
+          <div>
+            <a href="/pss/digital/katalog/">Katalog Buku</a
+            ><a href="/pss/digital/nilam/">NILAM</a
+            ><a href="https://ains.moe.gov.my/login?returnUrl=/" target="_blank" rel="noopener">Portal AINS</a
+            ><a href="https://iqnilam.moe.gov.my/" target="_blank" rel="noopener">iQ-NILAM</a>
+          </div>
+        </details>
+        <details class="pss-dropdown">
+          <summary>Perkhidmatan</summary>
+          <div>
+            <a href="/pss/perkhidmatan/borang-pinjaman/">Borang Pinjaman</a
+            ><a href="/tempahan/">Tempahan Ruang</a
+            ><a href="mailto:kra4002@moe.edu.my?subject=Cadangan%20Buku%20PSS">Cadangan Buku</a>
+          </div>
+        </details>
+        <a class="back-link" href="/">Laman sekolah</a>
+      </nav>
+    </header>
+    <main class="portal-main">
+      <p class="eyebrow">MAKTABAH DARUL HIKMAH</p>
+      <h1 style="font-family: var(--serif); font-size: 3rem">
+        Katalog &amp; NILAM
+      </h1>
+      <section class="portal-section">
+        <h2>Katalog Buku PSS</h2>
+        <div class="portal-filter catalog-filter">
+          <label class="sr-only" for="book-search">Cari katalog PSS</label>
+          <input id="book-search" type="search" placeholder="Cari tajuk, pengarang, kategori atau rak" autocomplete="off" />
+          <label class="sr-only" for="book-category">Tapis kategori</label>
+          <select id="book-category">
+            <option value="">Semua kategori</option>
+          </select>
+          <label class="sr-only" for="book-status">Tapis status</label>
+          <select id="book-status">
+            <option value="">Semua status</option>
+          </select>
+        </div>
+        <p class="catalog-count" id="book-count" aria-live="polite">Memuatkan katalog...</p>
+        <div class="portal-list" id="book-list"></div>
+      </section>
+      <section class="portal-section">
+        <h2>Ringkasan NILAM Mengikut Kelas</h2>
+        <div class="nilam-score" id="nilam-list"></div>
+      </section>
+    </main>
+    <footer class="pss-footer">
+      <div class="pss-shell">
+        <div>
+          <img src="/assets/logo-sekolah.png" alt="Logo SMK Agama Jerlun" />
+          <p><b>PSS SMK Agama Jerlun</b><br />Maktabah Darul Hikmah</p>
+        </div>
+      </div>
+    </footer>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+    <script src="/assets/cms.js"></script>
+    <script src="/assets/portal.js"></script>
+    <script src="/assets/pss.js"></script>
+  </body>
+</html>

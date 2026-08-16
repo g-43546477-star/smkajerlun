@@ -1,0 +1,22 @@
+{
+  "name": "SMK Agama Jerlun",
+  "short_name": "SMKAJ",
+  "description": "Laman rasmi dan sistem dalaman SMK Agama Jerlun.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#F8F5F0",
+  "theme_color": "#5A1856",
+  "icons": [
+    {
+      "src": "/logo.png",
+      "sizes": "180x180",
+      "type": "image/png"
+    },
+    {
+      "src": "/apple-touch-icon.png",
+      "sizes": "180x180",
+      "type": "image/png"
+    }
+  ]
+}
