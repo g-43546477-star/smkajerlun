@@ -85,15 +85,27 @@
     const { user, admin } = await refreshAuthBox();
     const access = $('#clinic-access');
     const stateLabel = $('#clinic-kiosk-state');
+    const accessEyebrow = $('#clinic-access-eyebrow');
+    const accessTitle = $('#clinic-access-title');
+    const accessDescription = $('#clinic-access-description');
+    const accessAction = $('#clinic-access-action');
     if (!admin) {
       if (access) access.hidden = false;
+      if (access) access.classList.remove('is-active');
       if ($('#clinic-ic')) $('#clinic-ic').disabled = true;
       if ($('#clinic-search button')) $('#clinic-search button').disabled = true;
       if (stateLabel) stateLabel.textContent = 'Kiosk dikunci';
       setStatus('Kiosk klinik perlu dilog masuk oleh pentadbir.', 'error');
       return;
     }
-    if (access) access.hidden = true;
+    if (access) {
+      access.hidden = false;
+      access.classList.add('is-active');
+    }
+    if (accessEyebrow) accessEyebrow.textContent = 'AKSES DISAHKAN';
+    if (accessTitle) accessTitle.textContent = 'Kiosk aktif dan sedia digunakan';
+    if (accessDescription) accessDescription.textContent = 'Akaun pentadbir aktif. Murid boleh mencari rekod, mendaftarkan lawatan dan mencetak borang klinik.';
+    if (accessAction) accessAction.hidden = true;
     if (stateLabel) stateLabel.textContent = `Kiosk aktif: ${displayName(user)}`;
     $('#clinic-search').addEventListener('submit', (event) => { event.preventDefault(); cari(); });
     $('#clinic-ic').addEventListener('input', (event) => { event.target.value = normalizeIc(event.target.value); });
