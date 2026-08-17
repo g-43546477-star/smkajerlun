@@ -15,6 +15,11 @@
   ],
   "redirects": [
     {
+      "source": "/profil/:path*",
+      "destination": "/info/?tab=profil",
+      "permanent": false
+    },
+    {
       "source": "/hubungi/",
       "destination": "/info/?tab=hubungi",
       "permanent": true
