@@ -40,6 +40,10 @@
     var bookStatus = $('book-status');
     var bookCount = $('book-count');
     var bookMount = $('book-list');
+    var bookTotal = $('book-total');
+    var bookCategoryTotal = $('book-category-total');
+    var bookRackTotal = $('book-rack-total');
+    var bookReset = $('book-reset');
     var allBooks = [];
     function fillBookFilter(select, values, emptyLabel) {
       if (!select) return;
@@ -51,8 +55,32 @@
         select.appendChild(option);
       });
     }
+    function uniqueCount(values) {
+      return values.filter(Boolean).reduce(function (seen, value) {
+        seen[String(value).trim()] = true;
+        return seen;
+      }, {});
+    }
+    function catalogEmpty(title, copy) {
+      if (!bookMount) return;
+      bookMount.innerHTML = '<div class="catalog-empty"><span class="catalog-empty-mark" aria-hidden="true">+</span><div><b>' + esc(title) + '</b><p>' + esc(copy) + '</p></div></div>';
+    }
+    function statusClass(status) {
+      var value = String(status || '').toLocaleLowerCase('ms-MY');
+      if (value.indexOf('tersedia') !== -1 || value === 'ada') return 'is-available';
+      if (value.indexOf('pinjam') !== -1) return 'is-loaned';
+      return 'is-neutral';
+    }
+    function coverMark(title) {
+      return String(title || 'PSS').trim().split(/\s+/).filter(Boolean).slice(0, 2).map(function (word) { return word.charAt(0); }).join('').toUpperCase() || 'PSS';
+    }
     function renderBooks() {
       if (!bookMount) return;
+      var categories = uniqueCount(allBooks.map(function (book) { return book.kategori; }));
+      var racks = uniqueCount(allBooks.map(function (book) { return book.rak; }));
+      if (bookTotal) bookTotal.textContent = allBooks.length;
+      if (bookCategoryTotal) bookCategoryTotal.textContent = Object.keys(categories).length;
+      if (bookRackTotal) bookRackTotal.textContent = Object.keys(racks).length;
       var query = (bookSearch && bookSearch.value || '').trim().toLocaleLowerCase('ms-MY');
       var category = bookCategory && bookCategory.value || '';
       var status = bookStatus && bookStatus.value || '';
@@ -65,12 +93,20 @@
         });
       });
       if (bookCount) bookCount.textContent = books.length + ' koleksi dipaparkan' + (allBooks.length !== books.length ? ' daripada ' + allBooks.length : '');
-      if (!books.length) return empty(bookMount, query ? 'Tiada koleksi yang sepadan ditemui.' : 'Belum ada maklumat untuk dipaparkan.');
-      bookMount.innerHTML = books.map(function (r) { return '<article class="portal-row"><div><b>' + esc(r.tajuk) + '</b><p>' + esc(r.pengarang || 'Pengarang belum dinyatakan') + '</p><small>' + esc(r.kategori || 'Umum') + ' | Rak ' + esc(r.rak || '-') + '</small></div><span class="portal-status">' + esc(r.status) + '</span></article>'; }).join('');
+      if (!allBooks.length) return catalogEmpty('Koleksi sedang disusun', 'Buku dan bahan rujukan akan dipaparkan di sini selepas rekod katalog ditambah oleh PSS.');
+      if (!books.length) return catalogEmpty('Tiada padanan ditemui', 'Cuba kata carian lain atau pilih semula kategori dan status.');
+      bookMount.innerHTML = books.map(function (r, index) {
+        var status = r.status || 'Status belum ditetapkan';
+        return '<article class="catalog-book-card"><div class="catalog-cover cover-' + (index % 5) + '" aria-hidden="true"><span>PSS</span><strong>' + esc(coverMark(r.tajuk)) + '</strong></div><div class="catalog-book-body"><p class="catalog-book-kicker">' + esc(r.kategori || 'Umum') + '</p><h3>' + esc(r.tajuk || 'Tanpa tajuk') + '</h3><p class="catalog-book-author">' + esc(r.pengarang || 'Pengarang belum dinyatakan') + '</p><div class="catalog-book-meta"><span>Rak ' + esc(r.rak || '-') + '</span><span>' + esc(r.kod || 'Koleksi PSS') + '</span></div></div><span class="catalog-book-status ' + statusClass(status) + '">' + esc(status) + '</span></article>';
+      }).join('');
     }
     if (bookMount) {
       bookMount.innerHTML = '<div class="portal-empty">Memuatkan katalog PSS...</div>';
       cms.from('pss_book').select('*').order('tajuk').then(function (res) {
+        if (res.error) {
+          if (bookCount) bookCount.textContent = 'Katalog tidak dapat dimuatkan';
+          return catalogEmpty('Katalog tidak tersedia', 'Cuba muat semula halaman atau hubungi pengurusan PSS.');
+        }
         allBooks = res.data || [];
         fillBookFilter(bookCategory, allBooks.map(function (book) { return book.kategori; }), 'Semua kategori');
         fillBookFilter(bookStatus, allBooks.map(function (book) { return book.status; }), 'Semua status');
@@ -83,6 +119,13 @@
     }
     if (bookCategory) bookCategory.addEventListener('change', renderBooks);
     if (bookStatus) bookStatus.addEventListener('change', renderBooks);
+    if (bookReset) bookReset.addEventListener('click', function () {
+      if (bookSearch) bookSearch.value = '';
+      if (bookCategory) bookCategory.value = '';
+      if (bookStatus) bookStatus.value = '';
+      renderBooks();
+      if (bookSearch) bookSearch.focus();
+    });
     list('nilam_stat', 'nilam-list', function (r) { return '<article><b>' + esc(r.kelas) + '</b><span>' + esc(r.jumlah_bacaan) + '</span><small>' + esc(r.murid_aktif) + ' murid aktif</small></article>'; }, 'kelas');
   }
   if (view === 'search' || view === 'home') {
