@@ -597,7 +597,7 @@
     var schoolRoute = location.pathname.endsWith('/') ? location.pathname : location.pathname + '/';
     function activeGroup() {
       if (schoolRoute.indexOf('/info-sekolah/') === 0 || schoolRoute.indexOf('/info/') === 0) return 'info';
-      if (schoolRoute.indexOf('/perkhidmatan/') === 0 || schoolRoute.indexOf('/tempahan/') === 0 || schoolRoute.indexOf('/klinik/') === 0) return 'perkhidmatan';
+      if (schoolRoute.indexOf('/perkhidmatan/') === 0 || schoolRoute.indexOf('/tempahan/') === 0) return 'perkhidmatan';
       if (schoolRoute.indexOf('/akademik/') === 0) return 'akademik';
       if (schoolRoute.indexOf('/hem/') === 0) return 'hem';
       if (schoolRoute.indexOf('/kokurikulum/') === 0) return 'kokurikulum';
@@ -649,7 +649,7 @@
         megaMenu('perkhidmatan', 'Perkhidmatan', '/hub/', 'Sistem digital dan rujukan pantas sekolah.', [
           { href: '/perkhidmatan/portal-pss/', title: 'Portal PSS', copy: 'Katalog, NILAM dan pinjaman' },
           { href: '/perkhidmatan/tempahan-bilik/', title: 'Tempahan Bilik', copy: 'Semak slot dan tempah ruang' },
-          { href: '/perkhidmatan/rekod-klinik/', title: 'Rekod Klinik', copy: 'Semakan rekod kesihatan' },
+          { href: '/perkhidmatan/klinik/', title: 'Rekod Klinik', copy: 'Semakan rekod kesihatan' },
           { href: '/perkhidmatan/muat-turun/', title: 'Muat Turun', copy: 'Borang dan dokumen sekolah' }
         ]),
         '<a href="/admin/" id="nav-panel-admin" style="display:none">Panel Admin</a>',

@@ -7,7 +7,7 @@ const serverInfo = local ? await startStaticServer() : null;
 const base = process.env.BASE_URL || serverInfo.url;
 const chromePath = process.env.CHROME_PATH || '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome';
 const launchOptions = fs.existsSync(chromePath) ? { executablePath: chromePath } : {};
-const routes = ['/', '/pss/', '/pss/digital/katalog/', '/pss/pinjaman/', '/pss/admin/', '/tempahan/', '/tempahan/senarai/', '/tempahan/admin/', '/klinik/', '/perkhidmatan/rekod-klinik/', '/kokurikulum/', '/info/?tab=profil', '/carian/'];
+const routes = ['/', '/pss/', '/pss/digital/katalog/', '/pss/pinjaman/', '/pss/admin/', '/tempahan/', '/tempahan/senarai/', '/tempahan/admin/', '/perkhidmatan/klinik/', '/kokurikulum/', '/info/?tab=profil', '/carian/'];
 const failures = [];
 const browser = await chromium.launch(launchOptions);
 
@@ -33,8 +33,8 @@ async function visit(page, route) {
   if (route === '/tempahan/senarai/' && !supabaseRequests.some((url) => url.includes('/rest/v1/tempahan_awam'))) {
     failures.push(`${route}: anonymous list did not query tempahan_awam`);
   }
-  if (route === '/perkhidmatan/rekod-klinik/' && !await page.locator('#clinic-access-title').count()) {
-    failures.push(`${route}: duplicate clinic route is missing active kiosk state markup`);
+  if (route === '/perkhidmatan/klinik/' && !await page.locator('#clinic-access-title').count()) {
+    failures.push(`${route}: clinic route is missing kiosk state markup`);
   }
 }
 
