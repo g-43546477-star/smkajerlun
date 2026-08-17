@@ -176,6 +176,55 @@ async function deletePengumuman(id) {
 }
 
 // =======================================================================
+// TAB: GALERI AKTIVITI
+// =======================================================================
+let galeriEditId = null;
+async function loadGaleri() {
+  const { data, error } = await sb.from('gallery_item').select('*').order('tarikh', { ascending: false }).order('id', { ascending: false });
+  const rows = error ? [] : (data || []);
+  const tbody = document.getElementById('galeri-tbody'); tbody.replaceChildren();
+  rows.forEach(function (item) {
+    const tr = document.createElement('tr');
+    [item.tarikh || '-', item.tajuk || '-', item.image_url || '-'].forEach(function (value) { const td = document.createElement('td'); td.textContent = value; tr.appendChild(td); });
+    const actions = document.createElement('td'); actions.style.textAlign = 'right';
+    const edit = document.createElement('button'); edit.className = 'btn-edit'; edit.textContent = 'Ubah'; edit.onclick = function () { openGaleriModal(item); };
+    const del = document.createElement('button'); del.className = 'btn-danger'; del.textContent = 'Padam'; del.style.marginLeft = '6px'; del.onclick = function () { deleteGaleri(item.id); };
+    actions.append(edit, del); tr.appendChild(actions); tbody.appendChild(tr);
+  });
+  document.getElementById('galeri-empty').style.display = rows.length ? 'none' : 'block';
+}
+function openGaleriModal(item) {
+  galeriEditId = item ? item.id : null;
+  document.getElementById('galeri-modal-title').textContent = item ? 'Ubah Gambar Aktiviti' : 'Tambah Gambar Aktiviti';
+  document.getElementById('galeri-msg').textContent = '';
+  document.getElementById('f-galeri-tarikh').value = item ? item.tarikh || '' : new Date().toISOString().slice(0, 10);
+  document.getElementById('f-galeri-tajuk').value = item ? item.tajuk || '' : '';
+  document.getElementById('f-galeri-url').value = item ? item.image_url || '' : '';
+  document.getElementById('f-galeri-alt').value = item ? item.alt_text || '' : '';
+  document.getElementById('galeri-modal').style.display = 'flex';
+}
+function closeGaleriModal() { document.getElementById('galeri-modal').style.display = 'none'; }
+document.getElementById('galeri-tambah').addEventListener('click', function () { openGaleriModal(null); });
+document.getElementById('galeri-batal').addEventListener('click', closeGaleriModal);
+document.getElementById('galeri-simpan').addEventListener('click', async function () {
+  const tajuk = document.getElementById('f-galeri-tajuk').value.trim();
+  const image_url = document.getElementById('f-galeri-url').value.trim();
+  if (!tajuk || !image_url) { document.getElementById('galeri-msg').textContent = 'Sila isi tajuk dan URL gambar.'; return; }
+  const payload = { tajuk, image_url, alt_text: document.getElementById('f-galeri-alt').value.trim() || tajuk, tarikh: document.getElementById('f-galeri-tarikh').value || null };
+  let error;
+  if (galeriEditId) ({ error } = await sb.from('gallery_item').update(payload).eq('id', galeriEditId));
+  else ({ error } = await sb.from('gallery_item').insert(payload));
+  if (error) { document.getElementById('galeri-msg').textContent = 'Gagal menyimpan: ' + error.message; return; }
+  closeGaleriModal(); await loadGaleri(); showToast('Berjaya', 'Gambar galeri disimpan.', 'success');
+});
+async function deleteGaleri(id) {
+  if (!confirm('Padam gambar ini?')) return;
+  const { error } = await sb.from('gallery_item').delete().eq('id', id);
+  if (error) { alert('Gagal memadam: ' + error.message); return; }
+  await loadGaleri();
+}
+
+// =======================================================================
 // TAB 3: KANDUNGAN LAMAN
 // =======================================================================
 let kandunganEditId = null;
@@ -342,5 +391,5 @@ async function deleteTakwim(id) {
   }
   isAdminUser = true;
   document.getElementById('admin-main').style.display = 'block';
-  await Promise.all([loadStaf(), loadPengumuman(), loadKandungan(), loadTakwim()]);
+  await Promise.all([loadStaf(), loadPengumuman(), loadGaleri(), loadKandungan(), loadTakwim()]);
 })();

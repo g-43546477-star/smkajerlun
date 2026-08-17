@@ -21,7 +21,7 @@ function cellFor(entries, roomId, masaMula) {
 
 async function renderTable() {
   const tarikh = document.getElementById('f-tarikh').value;
-  const { data, error } = await sb.from('tempahan').select('*').eq('tarikh', tarikh).limit(300);
+  const { data, error } = await sb.from('tempahan_awam').select('*').eq('tarikh', tarikh).limit(300);
   const entries = error ? [] : (data || []);
 
   const tbody = document.getElementById('tbody');

@@ -56,4 +56,28 @@
   --ds-button-primary-text: #ffffff;
   --ds-button-secondary-bg: var(--ds-color-brand-soft);
   --ds-focus-ring: 0 0 0 3px rgba(200, 158, 67, 0.35);
+
+  /* Shared aliases for the legacy website, PSS and operations modules. */
+  --forest: var(--ds-color-brand);
+  --forest-deep: var(--ds-color-brand-strong);
+  --teal: var(--ds-forest-700);
+  --teal-soft: var(--ds-color-brand-soft);
+  --plum: var(--ds-color-brand);
+  --plum-deep: var(--ds-color-brand-strong);
+  --plum-mid: var(--ds-forest-700);
+  --plum-soft: var(--ds-color-brand-soft);
+  --brass: var(--ds-color-accent);
+  --brass-soft: var(--ds-color-accent-soft);
+  --gold: var(--ds-color-accent);
+  --paper: var(--ds-color-surface);
+  --cream: var(--ds-color-bg);
+  --ink: var(--ds-color-text);
+  --muted: var(--ds-color-text-muted);
+  --line: var(--ds-color-border);
+  --font-display: var(--ds-font-display);
+  --font-body: var(--ds-font-body);
+  --font-mono: var(--ds-font-mono);
+  --serif: var(--ds-font-display);
+  --sans: var(--ds-font-body);
+  --radius: var(--ds-card-radius);
 }

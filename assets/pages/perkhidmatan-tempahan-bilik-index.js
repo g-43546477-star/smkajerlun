@@ -29,7 +29,7 @@ function slotKey(s) { return s.masa_mula; }
 async function loadBookings() {
   state.booked = new Map();
   if (!state.bilik || !state.tarikh) return;
-  const { data, error } = await sb.from('tempahan').select('*')
+  const { data, error } = await sb.from('tempahan_awam').select('*')
     .eq('bilik', state.bilik).eq('tarikh', state.tarikh).neq('status','dibatalkan');
   if (!error && data) data.forEach(r => state.booked.set(r.masa_mula, r));
 }

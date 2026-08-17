@@ -44,8 +44,29 @@
   <div class="tabrow">
     <button type="button" class="tab-btn active" data-tab="staf">Staf &amp; Carta</button>
     <button type="button" class="tab-btn" data-tab="pengumuman">Pengumuman</button>
+    <button type="button" class="tab-btn" data-tab="galeri">Galeri Aktiviti</button>
     <button type="button" class="tab-btn" data-tab="kandungan">Kandungan Laman</button>
     <button type="button" class="tab-btn" data-tab="takwim">Takwim</button>
+  </div>
+
+  <!-- ===== TAB: GALERI ===== -->
+  <div class="admin-tabpane" id="pane-galeri">
+    <div class="card">
+      <div class="head-row">
+        <div>
+          <h2 class="page-title">Galeri Aktiviti</h2>
+          <p class="page-sub">Tambah gambar aktiviti sekolah yang dipaparkan di laman utama.</p>
+        </div>
+        <button type="button" class="btn-primary" id="galeri-tambah">+ Tambah Gambar</button>
+      </div>
+      <div class="tablewrap">
+        <table>
+          <thead><tr><th>Tarikh</th><th>Tajuk</th><th>URL Gambar</th><th style="text-align:right">Tindakan</th></tr></thead>
+          <tbody id="galeri-tbody"></tbody>
+        </table>
+      </div>
+      <div id="galeri-empty" class="empty" style="display:none">Tiada gambar aktiviti.</div>
+    </div>
   </div>
 
   <!-- ===== TAB: STAF & CARTA ===== -->
@@ -211,6 +232,25 @@
     <div class="modal-actions">
       <button type="button" class="btn-secondary" id="pengumuman-batal">Batal</button>
       <button type="button" class="btn-primary" id="pengumuman-simpan">Simpan</button>
+    </div>
+  </div>
+</div>
+
+<div id="galeri-modal" class="modal-overlay" style="display:none">
+  <div class="modal">
+    <h3 id="galeri-modal-title">Tambah Gambar Aktiviti</h3>
+    <p class="msg" id="galeri-msg"></p>
+    <label class="field-label">Tarikh</label>
+    <input type="date" id="f-galeri-tarikh">
+    <label class="field-label">Tajuk</label>
+    <input type="text" id="f-galeri-tajuk" required>
+    <label class="field-label">URL Gambar</label>
+    <input type="url" id="f-galeri-url" placeholder="https://..." required>
+    <label class="field-label">Teks alternatif</label>
+    <input type="text" id="f-galeri-alt" placeholder="Penerangan ringkas gambar">
+    <div class="modal-actions">
+      <button type="button" class="btn-secondary" id="galeri-batal">Batal</button>
+      <button type="button" class="btn-primary" id="galeri-simpan">Simpan</button>
     </div>
   </div>
 </div>

@@ -72,9 +72,20 @@ function renderRows() {
 }
 
 async function loadAll() {
-  const { data, error } = await sb.from('tempahan').select('*')
+  const source = currentUser || currentAdmin ? 'tempahan' : 'tempahan_awam';
+  const { data, error } = await sb.from(source).select('*')
     .order('tarikh', { ascending: false }).order('masa_mula').limit(200);
-  allEntries = error ? [] : (data || []);
+  const empty = document.getElementById('empty');
+  if (error) {
+    allEntries = [];
+    empty.textContent = currentUser || currentAdmin
+      ? 'Senarai tempahan tidak dapat dimuatkan. Sila cuba semula.'
+      : 'Log masuk untuk melihat senarai tempahan anda.';
+    renderRows();
+    return;
+  }
+  allEntries = data || [];
+  empty.textContent = 'Tiada rekod tempahan ditemui.';
   renderRows();
 }
 

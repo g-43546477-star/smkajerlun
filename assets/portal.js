@@ -3,6 +3,15 @@
   if (!view || !window.cms) return;
   var $ = function (id) { return document.getElementById(id); };
   var esc = window.cmsEsc || function (v) { return v; };
+  function safeUrl(value, fallback) {
+    var raw = String(value || '').trim();
+    if (!raw) return fallback || '#';
+    try {
+      var parsed = new URL(raw, location.origin);
+      if (parsed.protocol === 'http:' || parsed.protocol === 'https:') return parsed.href;
+    } catch (error) { /* invalid CMS URL */ }
+    return fallback || '#';
+  }
   function empty(mount, text) { mount.innerHTML = '<div class="portal-empty">' + esc(text) + '</div>'; }
   function list(table, mountId, render, order) {
     var mount = $(mountId); if (!mount) return Promise.resolve();
@@ -30,9 +39,9 @@
   setupAccess();
   if (view === 'hub' || view === 'home') {
     renderSchoolDirectory('directory-list');
-    list('resource_file', 'resource-list', function (r) { return '<article class="portal-row"><div><b>' + esc(r.tajuk) + '</b><p>' + esc(r.penerangan || r.kategori) + '</p></div><a href="' + esc(r.url) + '" target="_blank" rel="noopener">Buka</a></article>'; });
+    list('resource_file', 'resource-list', function (r) { return '<article class="portal-row"><div><b>' + esc(r.tajuk) + '</b><p>' + esc(r.penerangan || r.kategori) + '</p></div><a href="' + esc(safeUrl(r.url, '#')) + '" target="_blank" rel="noopener">Buka</a></article>'; });
     list('achievement', 'achievement-list', function (r) { return '<article class="portal-row"><div><b>' + esc(r.tajuk) + '</b><p>' + esc(r.penerangan || r.kategori) + '</p><small>' + esc(r.tarikh || '') + '</small></div></article>'; }, 'tarikh');
-    list('gallery_item', 'gallery-list', function (r) { return '<figure><img src="' + esc(r.image_url) + '" alt="' + esc(r.alt_text || r.tajuk) + '"><figcaption>' + esc(r.tajuk) + '</figcaption></figure>'; }, 'tarikh');
+    list('gallery_item', 'gallery-list', function (r) { return '<figure><img src="' + esc(safeUrl(r.image_url, '/assets/pss-hero.jpg')) + '" alt="' + esc(r.alt_text || r.tajuk) + '"><figcaption>' + esc(r.tajuk) + '</figcaption></figure>'; }, 'tarikh');
   }
   if (view === 'catalog') {
     var bookSearch = $('book-search');
@@ -69,6 +78,9 @@
       var value = String(status || '').toLocaleLowerCase('ms-MY');
       if (value.indexOf('tersedia') !== -1 || value === 'ada') return 'is-available';
       if (value.indexOf('pinjam') !== -1) return 'is-loaned';
+      if (value.indexOf('hilang') !== -1) return 'is-lost';
+      if (value.indexOf('rosak') !== -1) return 'is-damaged';
+      if (value.indexOf('pulang') !== -1) return 'is-returned';
       return 'is-neutral';
     }
     function coverMark(title) {
@@ -129,12 +141,30 @@
     list('nilam_stat', 'nilam-list', function (r) { return '<article><b>' + esc(r.kelas) + '</b><span>' + esc(r.jumlah_bacaan) + '</span><small>' + esc(r.murid_aktif) + ' murid aktif</small></article>'; }, 'kelas');
   }
   if (view === 'search' || view === 'home') {
-    var input = $('site-search'), results = $('search-results');
-    if (input) input.addEventListener('input', async function () {
-      var q = input.value.trim(); if (q.length < 2) return empty(results, 'Masukkan sekurang-kurangnya dua huruf untuk mencari.');
-      var sources = [['pengumuman','tajuk','Pengumuman'],['takwim','tajuk','Takwim'],['resource_file','tajuk','Muat turun'],['achievement','tajuk','Pencapaian']];
-      var all = await Promise.all(sources.map(function (s) { return cms.from(s[0]).select('*').ilike(s[1], '%' + q + '%').limit(8).then(function (r) { return (r.data || []).map(function (x) { return { label:s[2], title:x.tajuk, detail:x.keterangan || x.pengarang || x.kandungan || '' }; }); }); }));
-      var items = all.flat(); results.innerHTML = items.length ? items.map(function (x) { return '<article class="portal-row"><div><small>' + esc(x.label) + '</small><b>' + esc(x.title) + '</b><p>' + esc(x.detail) + '</p></div></article>'; }).join('') : '<div class="portal-empty">Tiada padanan ditemui.</div>';
+    var input = $('site-search'), results = $('search-results'), searchTimer;
+    if (input) input.addEventListener('input', function () {
+      clearTimeout(searchTimer);
+      searchTimer = setTimeout(async function () {
+        var q = input.value.trim();
+        if (q.length < 2) return empty(results, 'Masukkan sekurang-kurangnya dua huruf untuk mencari.');
+        results.innerHTML = '<div class="portal-empty">Mencari maklumat sekolah...</div>';
+        var sources = [
+          ['pengumuman', 'tajuk', 'Pengumuman', '/#notis-title'],
+          ['takwim', 'tajuk', 'Takwim', '/info/?tab=takwim'],
+          ['resource_file', 'tajuk', 'Muat turun', '/perkhidmatan/muat-turun/'],
+          ['achievement', 'tajuk', 'Pencapaian', '/kokurikulum/'],
+          ['pss_book', 'tajuk', 'Katalog PSS', '/pss/digital/katalog/?cari=' + encodeURIComponent(q)],
+          ['staff', 'nama', 'Warga sekolah', '/info/?tab=warga'],
+          ['content_block', 'tajuk', 'Maklumat sekolah', '/info/']
+        ];
+        var all = await Promise.all(sources.map(function (s) {
+          return cms.from(s[0]).select('*').ilike(s[1], '%' + q + '%').limit(8).then(function (r) {
+            return (r.data || []).map(function (x) { return { label:s[2], title:x.tajuk || x.nama, detail:x.keterangan || x.penerangan || x.pengarang || x.kandungan || x.jawatan || '', href:s[3] }; });
+          });
+        }));
+        var items = all.flat();
+        results.innerHTML = items.length ? items.map(function (x) { return '<article class="portal-row"><div><small>' + esc(x.label) + '</small><b>' + esc(x.title) + '</b><p>' + esc(String(x.detail).slice(0, 180)) + '</p></div><a href="' + esc(safeUrl(x.href, '/')) + '">Buka</a></article>'; }).join('') : '<div class="portal-empty">Tiada padanan ditemui.</div>';
+      }, 220);
     });
   }
 }());

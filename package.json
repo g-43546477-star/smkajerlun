@@ -3,6 +3,17 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "build": "node -e \"console.log('Static site ready')\""
+    "build": "npm run lint:js && npm run validate:html && npm run check:routes && npm run health:check",
+    "lint:js": "node scripts/lint-js.mjs",
+    "validate:html": "node scripts/validate-html.mjs",
+    "check:routes": "node scripts/check-routes.mjs",
+    "health:check": "node scripts/health-check.mjs",
+    "test:e2e": "node scripts/smoke.mjs",
+    "verify": "npm run build && npm run test:e2e"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.62.1",
+    "eslint": "^10.8.1",
+    "html-validate": "^11.8.0"
   }
 }

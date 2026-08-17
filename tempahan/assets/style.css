@@ -1,4 +1,5 @@
 @import url('/assets/design-tokens.css');
+@import url('/assets/global-ui.css');
 
 :root{
   --pss-900:#33102F; --pss-800:#43163E; --pss-700:#5A1856; --pss-600:#6E2A68; --pss-500:#84397D;

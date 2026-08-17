@@ -1,4 +1,5 @@
 @import url('/assets/design-tokens.css');
+@import url('/assets/global-ui.css');
 
 :root {
   --ink: #14201f;
@@ -189,6 +190,8 @@ a {
   display: grid;
   place-items: center;
 }
+.pss-home-hero > picture,
+.pss-home-hero > picture img,
 .pss-home-hero > img,
 .pss-home-shade {
   position: absolute;
@@ -197,6 +200,7 @@ a {
   height: 100%;
   object-fit: cover;
 }
+.pss-home-hero > picture { display: block; }
 .pss-home-shade {
   background: linear-gradient(
     90deg,

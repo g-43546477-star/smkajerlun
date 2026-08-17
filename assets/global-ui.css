@@ -1,0 +1,50 @@
+/* Shared interaction, status and print primitives for every school module. */
+:where(a, button, input, select, textarea, summary):focus-visible {
+  outline: 3px solid var(--ds-color-accent);
+  outline-offset: 3px;
+}
+
+:where(a, button, input, select, textarea) {
+  transition: border-color 160ms ease, background-color 160ms ease, color 160ms ease, box-shadow 160ms ease;
+}
+
+.status-badge,
+.health-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  border: 1px solid var(--ds-color-border);
+  border-radius: 999px;
+  padding: 0.28rem 0.55rem;
+  font: 700 0.68rem/1 var(--ds-font-body);
+  white-space: nowrap;
+}
+
+.status-available,
+.status-returned,
+.health-ok { background: var(--ds-success-100); color: var(--ds-success-700); }
+.status-borrowed,
+.status-recorded { background: var(--ds-color-accent-soft); color: #6d5218; }
+.status-lost,
+.status-damaged,
+.status-cancelled,
+.health-error { background: var(--ds-danger-100); color: var(--ds-danger-700); }
+.health-loading { background: var(--ds-color-brand-soft); color: var(--ds-color-brand); }
+
+.empty-state {
+  border: 1px dashed var(--ds-color-border);
+  border-radius: var(--ds-radius-md);
+  padding: 1rem;
+  color: var(--ds-color-text-muted);
+  background: var(--ds-color-surface);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :where(a, button, input, select, textarea) { transition: none; }
+}
+
+@media print {
+  .topnav, .sitehead, .topbar, nav, .admin-product-switcher, .no-print,
+  button, input, select, textarea { display: none !important; }
+  body { background: #fff !important; color: #000 !important; }
+}

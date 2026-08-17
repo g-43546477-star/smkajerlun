@@ -57,17 +57,51 @@
       </div>
       <div class="admin-filters">
         <input type="search" id="loan-search" placeholder="Cari rekod" aria-label="Cari rekod pinjaman">
+        <input type="date" id="loan-from" aria-label="Tarikh pinjaman dari">
+        <input type="date" id="loan-to" aria-label="Tarikh pinjaman hingga">
+        <input type="text" id="loan-class" placeholder="Kelas" aria-label="Tapis kelas">
+        <input type="text" id="loan-student" placeholder="Murid" aria-label="Tapis murid">
         <button type="button" class="btn-secondary" id="loan-refresh">Muat Semula</button>
+        <button type="button" class="btn-primary" id="loan-export">Eksport CSV</button>
       </div>
     </div>
     <div class="tablewrap">
       <table>
-        <thead><tr><th>Rujukan</th><th>Peminjam</th><th>Bahan</th><th>Pinjam</th><th>Pulang</th><th>Catatan</th></tr></thead>
+        <thead><tr><th>Rujukan</th><th>Peminjam</th><th>Bahan</th><th>Pinjam</th><th>Pulang</th><th>Status</th><th>Catatan</th></tr></thead>
         <tbody id="loan-tbody"></tbody>
       </table>
     </div>
     <div class="empty" id="loan-empty" style="display:none">Tiada rekod pinjaman ditemui.</div>
     <p class="msg" id="loan-message"></p>
+  </div>
+
+  <div class="card">
+    <div class="head-row">
+      <div>
+        <h3>Katalog Buku &amp; Status Bahan</h3>
+        <p class="sub">Urus koleksi PSS dan tandakan bahan sebagai tersedia, dipinjam, hilang, rosak atau dipulangkan.</p>
+      </div>
+      <button type="button" class="btn-secondary" id="book-refresh">Muat Semula</button>
+    </div>
+    <form class="admin-filters" id="book-form" style="margin-bottom:16px">
+      <input type="hidden" id="book-id">
+      <input type="text" id="book-title" placeholder="Tajuk buku" aria-label="Tajuk buku" required>
+      <input type="text" id="book-author" placeholder="Pengarang" aria-label="Pengarang">
+      <input type="text" id="book-category" placeholder="Kategori" aria-label="Kategori">
+      <input type="text" id="book-rack" placeholder="Rak" aria-label="Rak">
+      <select id="book-status" aria-label="Status buku"><option>Tersedia</option><option>Dipinjam</option><option>Hilang</option><option>Rosak</option><option>Dipulangkan</option></select>
+      <input type="number" id="book-order" placeholder="Susunan" aria-label="Susunan" min="0">
+      <button type="submit" class="btn-primary">Simpan Buku</button>
+      <button type="button" class="btn-secondary" id="book-cancel">Batal</button>
+    </form>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th>Tajuk</th><th>Pengarang</th><th>Kategori</th><th>Rak</th><th>Status</th><th style="text-align:right">Tindakan</th></tr></thead>
+        <tbody id="book-tbody"></tbody>
+      </table>
+    </div>
+    <div class="empty" id="book-empty" style="display:none">Belum ada rekod katalog buku.</div>
+    <p class="msg" id="book-message"></p>
   </div>
 
   <div class="card">
@@ -89,6 +123,24 @@
     </div>
     <div class="empty" id="suggestion-empty" style="display:none">Belum ada cadangan daripada murid.</div>
     <p class="msg" id="suggestion-message"></p>
+  </div>
+
+  <div class="card">
+    <div class="head-row">
+      <div>
+        <h3>Audit Log Pentadbir</h3>
+        <p class="sub">Jejak perubahan katalog, pinjaman dan kandungan yang dibuat oleh akaun pentadbir.</p>
+      </div>
+      <button type="button" class="btn-secondary" id="audit-refresh">Muat Semula</button>
+    </div>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th>Masa</th><th>Tindakan</th><th>Modul</th><th>Rekod</th><th>Perincian</th></tr></thead>
+        <tbody id="audit-tbody"></tbody>
+      </table>
+    </div>
+    <div class="empty" id="audit-empty" style="display:none">Belum ada perubahan admin direkodkan.</div>
+    <p class="msg" id="audit-message"></p>
   </div>
 
   <div class="card">
