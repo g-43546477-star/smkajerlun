@@ -12,8 +12,10 @@
   }
 
   function dropdown(group, label, overview, intro, links) {
-    return '<details class="pss-dropdown pss-mega' + (activeGroup() === group ? ' active' : '') + '"><summary>' + label + '</summary><div class="pss-mega-panel"><div class="pss-mega-copy"><strong>' + label + '</strong><small>' + intro + '</small><a class="pss-mega-overview" href="' + overview + '">Lihat ' + label + '</a></div><div class="pss-mega-links">' + links.map(function (link) {
-      return '<a href="' + link.href + '"><b>' + link.title + '</b><small>' + link.copy + '</small></a>';
+    var overviewLink = overview ? '<a class="pss-mega-overview" href="' + overview + '">Lihat ' + label + '</a>' : '';
+    return '<details class="pss-dropdown pss-mega' + (activeGroup() === group ? ' active' : '') + '"><summary>' + label + '</summary><div class="pss-mega-panel"><div class="pss-mega-copy"><strong>' + label + '</strong><small>' + intro + '</small>' + overviewLink + '</div><div class="pss-mega-links">' + links.map(function (link) {
+      var external = link.external ? ' target="_blank" rel="noopener"' : '';
+      return '<a href="' + link.href + '"' + external + '><b>' + link.title + '</b><small>' + link.copy + '</small></a>';
     }).join('') + '</div></div></details>';
   }
 
@@ -33,8 +35,15 @@
         { href: '/pss/digital/katalog/', title: 'Katalog Buku', copy: 'Semak koleksi dan bahan rujukan' },
         { href: '/pss/rak-buku-maya/', title: 'Rak Buku Maya', copy: 'Teroka buku mengikut kategori' },
         { href: '/pss/digital/nilam/', title: 'NILAM', copy: 'Akses perekodan bacaan' },
-        { href: '/pss/digital/portal-ains/', title: 'Portal AINS', copy: 'Sistem rasmi rekod NILAM KPM' },
-        { href: '/pss/digital/iq-nilam/', title: 'iQ-NILAM', copy: 'Portal bacaan Kementerian Pendidikan' }
+        { href: 'https://ains.moe.gov.my/login?returnUrl=/', title: 'Portal AINS', copy: 'Sistem rasmi rekod NILAM KPM', external: true },
+        { href: 'https://iqnilam.moe.gov.my/', title: 'iQ-NILAM', copy: 'Portal bacaan Kementerian Pendidikan', external: true }
+      ]),
+      dropdown('jaringan', 'Jaringan Perpustakaan', '', 'Pautan perpustakaan dan sumber bacaan rasmi untuk warga sekolah.', [
+        { href: 'https://ains.moe.gov.my', title: 'AINS NILAM', copy: 'Sistem rekod bacaan rasmi KPM', external: true },
+        { href: 'https://www.u-pustaka.gov.my', title: 'u-Pustaka', copy: 'E-buku, e-majalah dan e-akhbar percuma', external: true },
+        { href: 'https://opac.kedahlib.gov.my', title: 'Perpustakaan Digital Kedah', copy: 'Katalog dan keahlian perpustakaan Kedah', external: true },
+        { href: 'https://d2.delima.edu.my', title: 'DELIMa', copy: 'Buku teks digital dan bahan bacaan', external: true },
+        { href: 'https://delima.bookcapital.com.my', title: 'Baucar Buku MADANI', copy: 'Akses e-baucar buku untuk pelajar yang layak', external: true }
       ]),
       dropdown('perkhidmatan', 'Perkhidmatan', '/pss/perkhidmatan/borang-pinjaman/', 'Urusan pinjaman dan sokongan pengguna PSS.', [
         { href: '/pss/perkhidmatan/borang-pinjaman/', title: 'Borang Pinjaman', copy: 'Pinjaman bahan dan peralatan' },

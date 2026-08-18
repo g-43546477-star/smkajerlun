@@ -88,8 +88,20 @@ async function visit(page, route) {
   if (route === '/pss/program/kalendar/' && (!await page.locator('#pss-calendar-grid').count() || !await page.locator('#pss-calendar-list').count())) {
     failures.push(`${route}: calendar markup is missing`);
   }
-  if (route === '/pss/' && (!await page.locator('#pss-network-title').count() || await page.locator('.pss-network-card').count() < 5)) {
-    failures.push(`${route}: library network section is incomplete`);
+  if (route === '/pss/') {
+    if (page.viewportSize().width >= 821) {
+      const networkMenu = page.locator('nav.pss-links details').filter({ hasText: 'Jaringan Perpustakaan' });
+      await networkMenu.hover();
+      await page.waitForTimeout(220);
+      if (!(await networkMenu.evaluate((node) => node.hasAttribute('open')))) failures.push(`${route}: library network submenu did not open on hover`);
+    }
+    const networkLinks = await page.locator('.pss-links .pss-mega-links a').evaluateAll((links) => links
+      .filter((link) => ['AINS NILAM', 'u-Pustaka', 'Perpustakaan Digital Kedah', 'DELIMa', 'Baucar Buku MADANI'].includes(link.querySelector('b')?.textContent.trim()))
+      .map((link) => ({ title: link.querySelector('b')?.textContent.trim(), href: link.href, target: link.target, rel: link.rel })));
+    const expectedNetwork = ['https://ains.moe.gov.my/', 'https://www.u-pustaka.gov.my/', 'https://opac.kedahlib.gov.my/', 'https://d2.delima.edu.my/', 'https://delima.bookcapital.com.my/'];
+    if (networkLinks.length !== 5 || !expectedNetwork.every((href) => networkLinks.some((link) => link.href === href && link.target === '_blank' && link.rel.includes('noopener')))) {
+      failures.push(`${route}: library network submenu links are incomplete or unsafe`);
+    }
   }
   if (route === '/pss/digital/nilam/' && (!await page.locator('a[href*="ains.moe.gov.my"]').count() || (await page.locator('.nilam-links > a').count()) !== 1)) {
     failures.push(`${route}: AINS NILAM card is missing or duplicated`);
