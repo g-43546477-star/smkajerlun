@@ -39,13 +39,14 @@ async function visit(page, route) {
   if (route === '/') {
     const homepageMarkup = await page.evaluate(() => ({
       hero: Boolean(document.querySelector('.ios-hero[aria-labelledby="hero-title"]')),
-      prayerNext: Boolean(document.querySelector('#solat-next-name, #solat-next-time')),
-      prayerTimes: Boolean(document.querySelector('#solat-times')),
+      heroTitle: document.querySelector('#hero-title')?.textContent.includes('Selamat datang ke'),
+      heroImage: getComputedStyle(document.querySelector('.ios-hero')).backgroundImage.includes('hero-sekolah.png'),
       alertStrip: Boolean(document.querySelector('#home-alert-strip')),
       serviceDock: Boolean(document.querySelector('.ios-service-dock'))
     }));
-    if (!homepageMarkup.hero) failures.push(`${route}: v3 prayer hero markup is missing`);
-    if (!homepageMarkup.prayerNext || !homepageMarkup.prayerTimes) failures.push(`${route}: prayer widget markup is incomplete`);
+    if (!homepageMarkup.hero) failures.push(`${route}: school hero markup is missing`);
+    if (!homepageMarkup.heroTitle) failures.push(`${route}: school welcome wording is missing`);
+    if (!homepageMarkup.heroImage) failures.push(`${route}: school aerial hero image is missing`);
     if (!homepageMarkup.alertStrip) failures.push(`${route}: announcement alert strip is missing`);
     if (!homepageMarkup.serviceDock) failures.push(`${route}: service dock is missing`);
   }

@@ -17,33 +17,18 @@ body.ios-home{background:var(--paper)}
 .ios-home nav.tabs{gap:1.25rem}
 .ios-home nav.tabs a,.ios-home nav.tabs .nav-dropdown summary{font-size:.78rem}
 
-/* ---------- Hero: Waktu Solat (fokus tunggal laman) ---------- */
+/* ---------- Hero: pengenalan sekolah ---------- */
 .ios-hero{
-  position:relative;overflow:hidden;
-  background:linear-gradient(160deg,var(--ds-forest-950) 0%,var(--ds-forest-900) 55%,var(--ds-forest-700) 130%);
-  color:#fff;padding:3.2rem 1.5rem 3rem;
+  position:relative;display:flex;align-items:center;min-height:480px;overflow:hidden;
+  background-image:linear-gradient(90deg,rgba(5,31,28,.93) 0%,rgba(5,31,28,.8) 31%,rgba(5,31,28,.32) 66%,rgba(5,31,28,.12) 100%),url('/assets/hero-sekolah.png');
+  background-position:center center;background-size:cover;
+  color:#fff;padding:4.5rem 1.5rem 4.7rem;
 }
-.ios-hero .pattern{position:absolute;inset:0;opacity:.07;pointer-events:none}
 .ios-hero-inner{position:relative;max-width:1180px;margin:0 auto}
-.ios-hero-top{display:flex;flex-direction:column;gap:.4rem;margin-bottom:1.8rem}
-.ios-hero-salam{font-family:var(--font-display);font-size:1.15rem;color:var(--ds-gold-100)}
-.ios-hero-top h1{font-family:var(--font-body);font-weight:800;font-size:clamp(1.3rem,2.6vw,1.7rem);color:#fff;letter-spacing:-.01em}
-
-.ios-hero-prayer{display:grid;grid-template-columns:minmax(220px,.85fr) minmax(0,1.6fr);gap:2rem;align-items:center;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.14);border-radius:var(--ds-radius-md);padding:1.6rem 1.8rem}
-.ios-hero-next{display:flex;flex-direction:column;gap:.15rem;border-right:1px solid rgba(255,255,255,.16);padding-right:2rem}
-.ios-hero-next .ios-overline{color:var(--ds-gold-100);font-size:.68rem}
-.ios-hero-next strong{font-family:var(--font-display);font-size:2.5rem;line-height:1.1;color:#fff;margin-top:.2rem}
-.ios-hero-next span{font-family:var(--font-mono);font-size:1.05rem;color:var(--ds-gold-100);margin-top:.1rem}
-
-.solat-times{display:flex;gap:.6rem;flex-wrap:wrap}
-.solat-chip{display:flex;flex-direction:column;align-items:center;gap:.15rem;padding:.55rem .9rem;border-radius:8px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);min-width:76px}
-.solat-chip .n{font-size:.68rem;font-weight:700;color:#cfe0dc;text-transform:uppercase;letter-spacing:.03em}
-.solat-chip .t{font-family:var(--font-mono);font-size:.92rem;color:#fff}
-.solat-chip.next{background:var(--ds-gold-600);border-color:var(--ds-gold-600)}
-.solat-chip.next .n{color:var(--ds-forest-950)}
-.solat-chip.next .t{color:var(--ds-forest-950);font-weight:700}
-
-.solat-note{font-size:.72rem;color:#a9beb8;margin-top:.8rem}
+.ios-hero-top{display:flex;flex-direction:column;align-items:flex-start;gap:.65rem;max-width:760px}
+.ios-hero-salam{font:800 .7rem var(--font-mono);letter-spacing:.1em;color:var(--ds-gold-100)}
+.ios-hero-top h1{font-family:var(--font-body);font-weight:800;font-size:clamp(2.4rem,4.5vw,4rem);line-height:1.03;color:#fff;letter-spacing:0;margin:0}
+.ios-hero-top p{max-width:48ch;font-size:1.03rem;line-height:1.65;color:#dce9e5;margin:.35rem 0 0}
 
 .ios-hero-actions{display:flex;gap:.7rem;margin-top:1.6rem}
 .ios-hero-actions a{min-height:44px;display:inline-flex;align-items:center;padding:.7rem 1.3rem;border-radius:8px;font-weight:800;font-size:.85rem;text-decoration:none;border:1px solid rgba(255,255,255,.3);color:#fff;transition:transform .16s ease,background .16s ease}
@@ -97,13 +82,6 @@ body.ios-home{background:var(--paper)}
 .ios-home .ios-activities .aktiviti-item{padding:.85rem 0}
 @media(max-width:820px){.ios-home .ios-primary-grid{grid-template-columns:1fr}}
 
-/* Hadis — jalur kecil, bukan panel besar */
-.ios-hadith-strip{max-width:1180px;margin:0 auto 1.6rem;padding:1.1rem 1.4rem;background:var(--ds-forest-950);border-radius:var(--ds-radius-md);color:#fff}
-.ios-hadith-strip .ios-card-label{font:800 .65rem var(--font-mono);letter-spacing:.06em;color:var(--ds-gold-100)}
-.ios-hadith-strip h2{font-size:.92rem;font-weight:700;margin:.3rem 0 .5rem;color:#fff}
-.ios-hadith-strip blockquote{font-family:var(--font-display);font-size:.98rem;line-height:1.55;color:#f0ede0;margin:0}
-.ios-hadith-strip cite{display:block;margin-top:.5rem;font-size:.72rem;color:#a9beb8;font-style:normal}
-
 /* Carian — kecil, bukan panel penuh */
 .ios-search-compact{margin-bottom:1.6rem}
 .ios-search-compact h2{font-size:.92rem;font-weight:800;color:var(--ink);margin-bottom:.6rem}
@@ -123,15 +101,14 @@ body.ios-home{background:var(--paper)}
 
 /* ---------- Responsif ---------- */
 @media(max-width:820px){
-  .ios-hero{padding:2.6rem 1.25rem 2.4rem}
-  .ios-hero-prayer{grid-template-columns:1fr;gap:1.2rem;padding:1.3rem}
-  .ios-hero-next{border-right:none;border-bottom:1px solid rgba(255,255,255,.16);padding-right:0;padding-bottom:1.1rem}
+  .ios-hero{min-height:440px;padding:3.7rem 1.25rem 4rem;background-position:64% center}
   .ios-home-main{padding:2rem 1.25rem 3.5rem}
 }
 @media(max-width:560px){
   .ios-home .sitehead-inner{padding:.85rem 1rem 0}
-  .ios-hero{padding:2.2rem 1rem 2rem}
-  .ios-hero-next strong{font-size:2rem}
+  .ios-hero{min-height:500px;padding:3.4rem 1rem 4.6rem;background-position:65% center;background-image:linear-gradient(90deg,rgba(5,31,28,.9) 0%,rgba(5,31,28,.72) 68%,rgba(5,31,28,.38) 100%),url('/assets/hero-sekolah.png')}
+  .ios-hero-top h1{font-size:clamp(2.2rem,10vw,3.2rem)}
+  .ios-hero-top p{font-size:.94rem}
   .ios-hero-actions{display:grid;grid-template-columns:1fr}
   .ios-hero-actions a{justify-content:center}
   .ios-home-main{padding:1.8rem 1rem 3rem}
