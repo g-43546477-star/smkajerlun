@@ -48,6 +48,20 @@ async function visit(page, route) {
     }));
     if (catalogLayout.cards > 10) failures.push(`${route}: more than 10 book cards displayed (${catalogLayout.cards})`);
     if (catalogLayout.columns !== 5 && page.viewportSize().width >= 1101) failures.push(`${route}: catalog is not five columns on desktop (${catalogLayout.columns})`);
+    const statusAlignment = await page.evaluate(() => {
+      const rows = new Map();
+      document.querySelectorAll('#book-list .catalog-book-card').forEach((card) => {
+        const badge = card.querySelector('.catalog-book-status');
+        if (!badge) return;
+        const top = Math.round(card.getBoundingClientRect().top);
+        const bottom = Math.round(badge.getBoundingClientRect().bottom);
+        const row = rows.get(top) || [];
+        row.push(bottom);
+        rows.set(top, row);
+      });
+      return Math.max(0, ...[...rows.values()].map((bottoms) => Math.max(...bottoms) - Math.min(...bottoms)));
+    });
+    if (statusAlignment > 3 && page.viewportSize().width >= 1101) failures.push(`${route}: status badges are misaligned (${statusAlignment}px)`);
     const pagination = page.locator('#book-pagination');
     if (await pagination.isVisible()) {
       const initialPage = await page.locator('#book-page').textContent();
