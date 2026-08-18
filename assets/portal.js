@@ -53,7 +53,13 @@
     var bookCategoryTotal = $('book-category-total');
     var bookRackTotal = $('book-rack-total');
     var bookReset = $('book-reset');
+    var bookPagination = $('book-pagination');
+    var bookPrevious = $('book-previous');
+    var bookNext = $('book-next');
+    var bookPageLabel = $('book-page');
     var allBooks = [];
+    var bookPage = 1;
+    var BOOK_PAGE_SIZE = 10;
     function labelValue(value) {
       return String(value == null ? '' : value).trim();
     }
@@ -98,6 +104,14 @@
     function coverMark(title) {
       return String(title || 'PSS').trim().split(/\s+/).filter(Boolean).slice(0, 2).map(function (word) { return word.charAt(0); }).join('').toUpperCase() || 'PSS';
     }
+    function updateBookPagination(totalMatches) {
+      var pageCount = Math.max(1, Math.ceil(totalMatches / BOOK_PAGE_SIZE));
+      bookPage = Math.min(bookPage, pageCount);
+      if (bookPagination) bookPagination.hidden = pageCount <= 1;
+      if (bookPageLabel) bookPageLabel.textContent = 'Halaman ' + bookPage + ' daripada ' + pageCount;
+      if (bookPrevious) bookPrevious.disabled = bookPage <= 1;
+      if (bookNext) bookNext.disabled = bookPage >= pageCount;
+    }
     function renderBooks() {
       if (!bookMount) return;
       var categories = uniqueCount(allBooks.map(function (book) { return book.kategori; }));
@@ -116,7 +130,9 @@
           return String(value || '').toLocaleLowerCase('ms-MY').indexOf(query) !== -1;
         });
       });
-      var books = matches.slice(0, 10);
+      updateBookPagination(matches.length);
+      var start = (bookPage - 1) * BOOK_PAGE_SIZE;
+      var books = matches.slice(start, start + BOOK_PAGE_SIZE);
       if (bookCount) bookCount.textContent = books.length + ' judul dipaparkan' + (matches.length > books.length ? ' daripada ' + matches.length + ' padanan' : '');
       if (!allBooks.length) return catalogEmpty('Koleksi sedang disusun', 'Buku dan bahan rujukan akan dipaparkan di sini selepas rekod katalog ditambah oleh PSS.');
       if (!books.length) return catalogEmpty('Tiada padanan ditemui', 'Cuba kata carian lain atau pilih semula kategori dan status.');
@@ -148,14 +164,17 @@
     }
     if (bookSearch) {
       bookSearch.value = new URLSearchParams(location.search).get('cari') || '';
-      bookSearch.addEventListener('input', renderBooks);
+      bookSearch.addEventListener('input', function () { bookPage = 1; renderBooks(); });
     }
-    if (bookCategory) bookCategory.addEventListener('change', renderBooks);
-    if (bookStatus) bookStatus.addEventListener('change', renderBooks);
+    if (bookCategory) bookCategory.addEventListener('change', function () { bookPage = 1; renderBooks(); });
+    if (bookStatus) bookStatus.addEventListener('change', function () { bookPage = 1; renderBooks(); });
+    if (bookPrevious) bookPrevious.addEventListener('click', function () { if (bookPage > 1) { bookPage -= 1; renderBooks(); } });
+    if (bookNext) bookNext.addEventListener('click', function () { bookPage += 1; renderBooks(); });
     if (bookReset) bookReset.addEventListener('click', function () {
       if (bookSearch) bookSearch.value = '';
       if (bookCategory) bookCategory.value = '';
       if (bookStatus) bookStatus.value = '';
+      bookPage = 1;
       renderBooks();
       if (bookSearch) bookSearch.focus();
     });

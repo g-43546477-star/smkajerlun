@@ -48,6 +48,14 @@ async function visit(page, route) {
     }));
     if (catalogLayout.cards > 10) failures.push(`${route}: more than 10 book cards displayed (${catalogLayout.cards})`);
     if (catalogLayout.columns !== 5 && page.viewportSize().width >= 1101) failures.push(`${route}: catalog is not five columns on desktop (${catalogLayout.columns})`);
+    const pagination = page.locator('#book-pagination');
+    if (await pagination.isVisible()) {
+      const initialPage = await page.locator('#book-page').textContent();
+      await page.locator('#book-next').click();
+      if ((await page.locator('#book-page').textContent()) === initialPage) failures.push(`${route}: next page control did not update catalog`);
+      await page.locator('#book-previous').click();
+      if ((await page.locator('#book-page').textContent()) !== initialPage) failures.push(`${route}: previous page control did not restore catalog`);
+    }
   }
   if (route === '/pss/program/kalendar/' && (!await page.locator('#pss-calendar-grid').count() || !await page.locator('#pss-calendar-list').count())) {
     failures.push(`${route}: calendar markup is missing`);
