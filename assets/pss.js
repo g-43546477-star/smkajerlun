@@ -34,9 +34,7 @@
       dropdown('digital', 'Digital', '/pss/digital/katalog/', 'Koleksi digital dan perekodan bacaan NILAM.', [
         { href: '/pss/digital/katalog/', title: 'Katalog Buku', copy: 'Semak koleksi dan bahan rujukan' },
         { href: '/pss/rak-buku-maya/', title: 'Rak Buku Maya', copy: 'Teroka buku mengikut kategori' },
-        { href: '/pss/digital/nilam/', title: 'NILAM', copy: 'Akses perekodan bacaan' },
-        { href: 'https://ains.moe.gov.my/login?returnUrl=/', title: 'Portal AINS', copy: 'Sistem rasmi rekod NILAM KPM', external: true },
-        { href: 'https://iqnilam.moe.gov.my/', title: 'iQ-NILAM', copy: 'Portal bacaan Kementerian Pendidikan', external: true }
+        { href: '/pss/digital/nilam/', title: 'NILAM', copy: 'Akses perekodan bacaan' }
       ]),
       dropdown('jaringan', 'Jaringan Perpustakaan', '', 'Pautan perpustakaan dan sumber bacaan rasmi untuk warga sekolah.', [
         { href: 'https://ains.moe.gov.my', title: 'AINS NILAM', copy: 'Sistem rekod bacaan rasmi KPM', external: true },

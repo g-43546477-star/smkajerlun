@@ -7,7 +7,7 @@ const serverInfo = local ? await startStaticServer() : null;
 const base = process.env.BASE_URL || serverInfo.url;
 const chromePath = process.env.CHROME_PATH || '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome';
 const launchOptions = fs.existsSync(chromePath) ? { executablePath: chromePath } : {};
-const routes = ['/', '/pss/', '/pss/program/kalendar/', '/pss/digital/katalog/', '/pss/digital/nilam/', '/pss/nilam/', '/pss/pinjaman/', '/pss/admin/', '/tempahan/', '/tempahan/senarai/', '/tempahan/admin/', '/perkhidmatan/klinik/', '/kokurikulum/', '/info/?tab=profil', '/carian/'];
+const routes = ['/', '/pss/', '/pss/program/kalendar/', '/pss/digital/katalog/', '/pss/digital/nilam/', '/pss/nilam/', '/pss/digital/iq-nilam/', '/pss/pinjaman/', '/pss/admin/', '/tempahan/', '/tempahan/senarai/', '/tempahan/admin/', '/perkhidmatan/klinik/', '/kokurikulum/', '/info/?tab=profil', '/carian/'];
 const failures = [];
 const browser = await chromium.launch(launchOptions);
 
@@ -95,6 +95,11 @@ async function visit(page, route) {
       await page.waitForTimeout(220);
       if (!(await networkMenu.evaluate((node) => node.hasAttribute('open')))) failures.push(`${route}: library network submenu did not open on hover`);
     }
+    const digitalTitles = await page.locator('nav.pss-links details').evaluateAll((menus) => {
+      const menu = menus.find((item) => item.querySelector('summary')?.textContent.trim() === 'Digital');
+      return menu ? [...menu.querySelectorAll('.pss-mega-links b')].map((title) => title.textContent.trim()) : [];
+    });
+    if (digitalTitles.length !== 3 || digitalTitles.some((title) => /AINS|iQ-NILAM/i.test(title))) failures.push(`${route}: Digital menu still contains a retired NILAM link`);
     const networkLinks = await page.locator('.pss-links .pss-mega-links a').evaluateAll((links) => links
       .filter((link) => ['AINS NILAM', 'u-Pustaka', 'Perpustakaan Digital Kedah', 'DELIMa', 'Baucar Buku MADANI'].includes(link.querySelector('b')?.textContent.trim()))
       .map((link) => ({ title: link.querySelector('b')?.textContent.trim(), href: link.href, target: link.target, rel: link.rel })));
@@ -108,6 +113,9 @@ async function visit(page, route) {
   }
   if (route === '/pss/nilam/' && !page.url().includes('/pss/digital/nilam/')) {
     failures.push(`${route}: legacy NILAM route did not redirect to canonical route`);
+  }
+  if (route === '/pss/digital/iq-nilam/' && !page.url().includes('/pss/digital/nilam/')) {
+    failures.push(`${route}: retired iQ-NILAM route did not redirect to canonical NILAM route`);
   }
   if (route === '/pss/program/kalendar/') {
     const calendarMonth = page.locator('#pss-calendar-month');

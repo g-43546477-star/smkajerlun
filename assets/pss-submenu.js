@@ -6,12 +6,6 @@
       copy: 'AINS ialah portal rasmi KPM bagi urusan rekod bacaan NILAM, pengesahan buku dan sijil.',
       action: 'Buka Portal AINS', href: 'https://ains.moe.gov.my/login?returnUrl=/'
     },
-    '/pss/digital/iq-nilam/': {
-      eyebrow: 'DIGITAL PSS', number: '02', title: 'iQ-NILAM', cardTitle: 'Akses iQ-NILAM KPM',
-      intro: 'Akses perekodan dan maklumat NILAM melalui pautan rasmi Kementerian Pendidikan Malaysia.',
-      copy: 'Pautan ini membuka portal iQ-NILAM pada tab baharu supaya laman PSS kekal mudah dirujuk.',
-      action: 'Buka iQ-NILAM', href: 'https://iqnilam.moe.gov.my/'
-    },
     '/pss/perkhidmatan/tempahan-ruang/': {
       eyebrow: 'PERKHIDMATAN PSS', number: '01', title: 'Tempahan Ruang', cardTitle: 'Tempahan Ruang Khas Sekolah',
       intro: 'Semak kekosongan dan buat tempahan ruang melalui sistem rasmi sekolah.',
