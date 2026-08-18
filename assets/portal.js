@@ -54,10 +54,21 @@
     var bookRackTotal = $('book-rack-total');
     var bookReset = $('book-reset');
     var allBooks = [];
+    function labelValue(value) {
+      return String(value == null ? '' : value).trim();
+    }
+    function labelKey(value) {
+      return labelValue(value).toLocaleLowerCase('ms-MY');
+    }
     function fillBookFilter(select, values, emptyLabel) {
       if (!select) return;
       select.innerHTML = '<option value="">' + esc(emptyLabel) + '</option>';
-      values.filter(Boolean).sort(function (a, b) { return String(a).localeCompare(String(b), 'ms-MY'); }).forEach(function (value) {
+      var unique = values.reduce(function (seen, value) {
+        var label = labelValue(value), key = labelKey(label);
+        if (label && !seen[key]) seen[key] = label;
+        return seen;
+      }, {});
+      Object.keys(unique).map(function (key) { return unique[key]; }).sort(function (a, b) { return a.localeCompare(b, 'ms-MY'); }).forEach(function (value) {
         var option = document.createElement('option');
         option.value = value;
         option.textContent = value;
@@ -65,8 +76,9 @@
       });
     }
     function uniqueCount(values) {
-      return values.filter(Boolean).reduce(function (seen, value) {
-        seen[String(value).trim()] = true;
+      return values.reduce(function (seen, value) {
+        var key = labelKey(value);
+        if (key) seen[key] = true;
         return seen;
       }, {});
     }
@@ -94,11 +106,11 @@
       if (bookCategoryTotal) bookCategoryTotal.textContent = Object.keys(categories).length;
       if (bookRackTotal) bookRackTotal.textContent = Object.keys(racks).length;
       var query = (bookSearch && bookSearch.value || '').trim().toLocaleLowerCase('ms-MY');
-      var category = bookCategory && bookCategory.value || '';
-      var status = bookStatus && bookStatus.value || '';
+      var category = labelKey(bookCategory && bookCategory.value);
+      var status = labelKey(bookStatus && bookStatus.value);
       var books = allBooks.filter(function (book) {
-        if (category && book.kategori !== category) return false;
-        if (status && book.status !== status) return false;
+        if (category && labelKey(book.kategori) !== category) return false;
+        if (status && labelKey(book.status) !== status) return false;
         if (!query) return true;
         return [book.tajuk, book.pengarang, book.kategori, book.rak].some(function (value) {
           return String(value || '').toLocaleLowerCase('ms-MY').indexOf(query) !== -1;
@@ -119,7 +131,15 @@
           if (bookCount) bookCount.textContent = 'Katalog tidak dapat dimuatkan';
           return catalogEmpty('Katalog tidak tersedia', 'Cuba muat semula halaman atau hubungi pengurusan PSS.');
         }
-        allBooks = res.data || [];
+        allBooks = (res.data || []).map(function (book) {
+          return Object.assign({}, book, {
+            tajuk: labelValue(book.tajuk),
+            pengarang: labelValue(book.pengarang),
+            kategori: labelValue(book.kategori),
+            rak: labelValue(book.rak),
+            status: labelValue(book.status)
+          });
+        });
         fillBookFilter(bookCategory, allBooks.map(function (book) { return book.kategori; }), 'Semua kategori');
         fillBookFilter(bookStatus, allBooks.map(function (book) { return book.status; }), 'Semua status');
         renderBooks();

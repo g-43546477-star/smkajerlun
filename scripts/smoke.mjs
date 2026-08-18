@@ -36,6 +36,13 @@ async function visit(page, route) {
   if (route === '/perkhidmatan/klinik/' && !await page.locator('#clinic-access-title').count()) {
     failures.push(`${route}: clinic route is missing kiosk state markup`);
   }
+  if (route === '/pss/digital/katalog/') {
+    const duplicateFilters = await page.evaluate(() => ['book-category', 'book-status'].flatMap((id) => {
+      const values = [...document.querySelectorAll(`#${id} option`)].slice(1).map((option) => option.textContent.trim().toLocaleLowerCase('ms-MY'));
+      return new Set(values).size === values.length ? [] : [id];
+    }));
+    if (duplicateFilters.length) failures.push(`${route}: duplicate filter options (${duplicateFilters.join(', ')})`);
+  }
 }
 
 for (const viewport of [{ name: 'desktop', width: 1440, height: 1000 }, { name: 'mobile', width: 390, height: 844 }]) {
