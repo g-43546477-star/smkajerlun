@@ -7,7 +7,7 @@ const serverInfo = local ? await startStaticServer() : null;
 const base = process.env.BASE_URL || serverInfo.url;
 const chromePath = process.env.CHROME_PATH || '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome';
 const launchOptions = fs.existsSync(chromePath) ? { executablePath: chromePath } : {};
-const routes = ['/', '/pss/', '/pss/program/kalendar/', '/pss/digital/katalog/', '/pss/digital/nilam/', '/pss/pinjaman/', '/pss/admin/', '/tempahan/', '/tempahan/senarai/', '/tempahan/admin/', '/perkhidmatan/klinik/', '/kokurikulum/', '/info/?tab=profil', '/carian/'];
+const routes = ['/', '/pss/', '/pss/program/kalendar/', '/pss/digital/katalog/', '/pss/digital/nilam/', '/pss/nilam/', '/pss/pinjaman/', '/pss/admin/', '/tempahan/', '/tempahan/senarai/', '/tempahan/admin/', '/perkhidmatan/klinik/', '/kokurikulum/', '/info/?tab=profil', '/carian/'];
 const failures = [];
 const browser = await chromium.launch(launchOptions);
 
@@ -93,6 +93,9 @@ async function visit(page, route) {
   }
   if (route === '/pss/digital/nilam/' && (!await page.locator('a[href*="ains.moe.gov.my"]').count() || (await page.locator('.nilam-links > a').count()) !== 1)) {
     failures.push(`${route}: AINS NILAM card is missing or duplicated`);
+  }
+  if (route === '/pss/nilam/' && !page.url().includes('/pss/digital/nilam/')) {
+    failures.push(`${route}: legacy NILAM route did not redirect to canonical route`);
   }
   if (route === '/pss/program/kalendar/') {
     const calendarMonth = page.locator('#pss-calendar-month');
