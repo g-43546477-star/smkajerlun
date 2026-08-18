@@ -7,7 +7,7 @@ const serverInfo = local ? await startStaticServer() : null;
 const base = process.env.BASE_URL || serverInfo.url;
 const chromePath = process.env.CHROME_PATH || '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome';
 const launchOptions = fs.existsSync(chromePath) ? { executablePath: chromePath } : {};
-const routes = ['/', '/pss/', '/pss/digital/katalog/', '/pss/pinjaman/', '/pss/admin/', '/tempahan/', '/tempahan/senarai/', '/tempahan/admin/', '/perkhidmatan/klinik/', '/kokurikulum/', '/info/?tab=profil', '/carian/'];
+const routes = ['/', '/pss/', '/pss/program/kalendar/', '/pss/digital/katalog/', '/pss/pinjaman/', '/pss/admin/', '/tempahan/', '/tempahan/senarai/', '/tempahan/admin/', '/perkhidmatan/klinik/', '/kokurikulum/', '/info/?tab=profil', '/carian/'];
 const failures = [];
 const browser = await chromium.launch(launchOptions);
 
@@ -42,6 +42,24 @@ async function visit(page, route) {
       return new Set(values).size === values.length ? [] : [id];
     }));
     if (duplicateFilters.length) failures.push(`${route}: duplicate filter options (${duplicateFilters.join(', ')})`);
+    const catalogLayout = await page.evaluate(() => ({
+      cards: document.querySelectorAll('#book-list .catalog-book-card').length,
+      columns: getComputedStyle(document.querySelector('#book-list')).gridTemplateColumns.split(' ').length
+    }));
+    if (catalogLayout.cards > 10) failures.push(`${route}: more than 10 book cards displayed (${catalogLayout.cards})`);
+    if (catalogLayout.columns !== 5 && page.viewportSize().width >= 1101) failures.push(`${route}: catalog is not five columns on desktop (${catalogLayout.columns})`);
+  }
+  if (route === '/pss/program/kalendar/' && (!await page.locator('#pss-calendar-grid').count() || !await page.locator('#pss-calendar-list').count())) {
+    failures.push(`${route}: calendar markup is missing`);
+  }
+  if (route === '/pss/program/kalendar/') {
+    const calendarMonth = page.locator('#pss-calendar-month');
+    const initialMonth = await calendarMonth.textContent();
+    await page.locator('#pss-calendar-next').click();
+    const nextMonth = await calendarMonth.textContent();
+    if (initialMonth === nextMonth) failures.push(`${route}: next month control did not update calendar`);
+    await page.locator('#pss-calendar-previous').click();
+    if ((await calendarMonth.textContent()) !== initialMonth) failures.push(`${route}: previous month control did not restore calendar`);
   }
 }
 

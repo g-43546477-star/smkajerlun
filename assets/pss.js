@@ -26,8 +26,7 @@
         { href: '/pss/tentang-pss/pengawas-pss/', title: 'Pengawas PSS', copy: 'Barisan pengawas pelajar' }
       ]),
       dropdown('program', 'Program', '/pss/program/kalendar/', 'Kalendar, aktiviti dan makluman PSS.', [
-        { href: '/pss/program/kalendar/', title: 'Kalendar PSS', copy: 'Tarikh dan program semasa' },
-        { href: '/pss/program/aktiviti/', title: 'Aktiviti dan Program', copy: 'Penyertaan dan pengayaan murid' },
+        { href: '/pss/program/kalendar/', title: 'Kalendar PSS', copy: 'Aktiviti dan program semasa' },
         { href: '/pss/program/pengumuman/', title: 'Pengumuman', copy: 'Makluman rasmi PSS' }
       ]),
       dropdown('digital', 'Digital', '/pss/digital/katalog/', 'Koleksi digital dan perekodan bacaan NILAM.', [

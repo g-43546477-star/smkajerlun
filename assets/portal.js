@@ -108,7 +108,7 @@
       var query = (bookSearch && bookSearch.value || '').trim().toLocaleLowerCase('ms-MY');
       var category = labelKey(bookCategory && bookCategory.value);
       var status = labelKey(bookStatus && bookStatus.value);
-      var books = allBooks.filter(function (book) {
+      var matches = allBooks.filter(function (book) {
         if (category && labelKey(book.kategori) !== category) return false;
         if (status && labelKey(book.status) !== status) return false;
         if (!query) return true;
@@ -116,7 +116,8 @@
           return String(value || '').toLocaleLowerCase('ms-MY').indexOf(query) !== -1;
         });
       });
-      if (bookCount) bookCount.textContent = books.length + ' koleksi dipaparkan' + (allBooks.length !== books.length ? ' daripada ' + allBooks.length : '');
+      var books = matches.slice(0, 10);
+      if (bookCount) bookCount.textContent = books.length + ' judul dipaparkan' + (matches.length > books.length ? ' daripada ' + matches.length + ' padanan' : '');
       if (!allBooks.length) return catalogEmpty('Koleksi sedang disusun', 'Buku dan bahan rujukan akan dipaparkan di sini selepas rekod katalog ditambah oleh PSS.');
       if (!books.length) return catalogEmpty('Tiada padanan ditemui', 'Cuba kata carian lain atau pilih semula kategori dan status.');
       bookMount.innerHTML = books.map(function (r, index) {

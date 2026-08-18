@@ -65,12 +65,12 @@
       .eq('kategori', 'aktiviti').or('tarikh_mula.gte.' + today + ',tarikh_tamat.gte.' + today).order('tarikh_mula').limit(1);
     var activity = response.data && response.data[0];
     if (response.error || !activity) {
-      activityFeature.innerHTML = '<span>AKTIVITI</span><strong>Aktiviti seterusnya akan dikemas kini oleh PSS.</strong><small>Program PSS &rarr;</small>';
+      activityFeature.innerHTML = '<span>AKTIVITI</span><strong>Aktiviti seterusnya akan dikemas kini oleh PSS.</strong><small>Kalendar PSS &rarr;</small>';
       return;
     }
     var date = new Date(activity.tarikh_mula + 'T00:00:00');
     var dateLabel = new Intl.DateTimeFormat('ms-MY', { day: 'numeric', month: 'long' }).format(date);
-    activityFeature.innerHTML = '<span>AKTIVITI</span><strong>' + esc(activity.tajuk) + '</strong><small>' + esc(dateLabel) + ' · Program PSS &rarr;</small>';
+    activityFeature.innerHTML = '<span>AKTIVITI</span><strong>' + esc(activity.tajuk) + '</strong><small>' + esc(dateLabel) + ' · Kalendar PSS &rarr;</small>';
   }
 
   async function loadBriefSection() {
