@@ -40,7 +40,7 @@ async function visit(page, route) {
     const homepageMarkup = await page.evaluate(() => ({
       hero: Boolean(document.querySelector('.ios-hero[aria-labelledby="hero-title"]')),
       heroTitle: document.querySelector('#hero-title')?.textContent.includes('Selamat datang ke'),
-      heroImage: getComputedStyle(document.querySelector('.ios-hero')).backgroundImage.includes('hero-sekolah.png'),
+      heroImage: getComputedStyle(document.querySelector('.ios-hero')).backgroundImage.includes('hero-sekolah.jpg'),
       alertStrip: Boolean(document.querySelector('#home-alert-strip')),
       serviceDock: Boolean(document.querySelector('.ios-service-dock'))
     }));

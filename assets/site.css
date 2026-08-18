@@ -374,7 +374,7 @@ nav.tabs a#nav-login{opacity:.82}
 
 /* ---------- Laman utama: susun atur aplikasi iOS ---------- */
 body.ios-home{background:#F2F4F3}
-.ios-welcome{background:#12362f url('/assets/hero-sekolah.png') center/cover no-repeat;color:#fff;padding:3.5rem 1.5rem 3.8rem}
+.ios-welcome{background:#12362f url('/assets/hero-sekolah.jpg') center/cover no-repeat;color:#fff;padding:3.5rem 1.5rem 3.8rem}
 .ios-welcome-inner{max-width:1080px;margin:0 auto;display:grid;grid-template-columns:minmax(0,1.65fr) minmax(210px,.75fr);gap:2rem;align-items:end}
 .ios-overline{display:block;font:700 .64rem var(--font-mono);letter-spacing:.11em;color:var(--brass);margin-bottom:.45rem}
 .ios-welcome h1,.ios-welcome h2{font:800 clamp(1.8rem,4vw,2.8rem)/1.1 var(--font-body);letter-spacing:0;margin:0}
