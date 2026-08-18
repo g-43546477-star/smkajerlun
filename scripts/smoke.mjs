@@ -36,6 +36,19 @@ async function visit(page, route) {
   if (route === '/perkhidmatan/klinik/' && !await page.locator('#clinic-access-title').count()) {
     failures.push(`${route}: clinic route is missing kiosk state markup`);
   }
+  if (route === '/') {
+    const homepageMarkup = await page.evaluate(() => ({
+      hero: Boolean(document.querySelector('.ios-hero[aria-labelledby="hero-title"]')),
+      prayerNext: Boolean(document.querySelector('#solat-next-name, #solat-next-time')),
+      prayerTimes: Boolean(document.querySelector('#solat-times')),
+      alertStrip: Boolean(document.querySelector('#home-alert-strip')),
+      serviceDock: Boolean(document.querySelector('.ios-service-dock'))
+    }));
+    if (!homepageMarkup.hero) failures.push(`${route}: v3 prayer hero markup is missing`);
+    if (!homepageMarkup.prayerNext || !homepageMarkup.prayerTimes) failures.push(`${route}: prayer widget markup is incomplete`);
+    if (!homepageMarkup.alertStrip) failures.push(`${route}: announcement alert strip is missing`);
+    if (!homepageMarkup.serviceDock) failures.push(`${route}: service dock is missing`);
+  }
   if (route === '/pss/digital/katalog/') {
     const duplicateFilters = await page.evaluate(() => ['book-category', 'book-status'].flatMap((id) => {
       const values = [...document.querySelectorAll(`#${id} option`)].slice(1).map((option) => option.textContent.trim().toLocaleLowerCase('ms-MY'));
