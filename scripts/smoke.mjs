@@ -7,7 +7,7 @@ const serverInfo = local ? await startStaticServer() : null;
 const base = process.env.BASE_URL || serverInfo.url;
 const chromePath = process.env.CHROME_PATH || '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome';
 const launchOptions = fs.existsSync(chromePath) ? { executablePath: chromePath } : {};
-const routes = ['/', '/pss/', '/pss/program/kalendar/', '/pss/digital/katalog/', '/pss/digital/nilam/', '/pss/nilam/', '/pss/digital/iq-nilam/', '/pss/pinjaman/', '/pss/admin/', '/tempahan/', '/tempahan/senarai/', '/tempahan/admin/', '/perkhidmatan/klinik/', '/kokurikulum/', '/info/?tab=profil', '/carian/'];
+const routes = ['/', '/pss/', '/pss/program/kalendar/', '/pss/digital/katalog/', '/pss/digital/nilam/', '/pss/nilam/', '/pss/digital/iq-nilam/', '/pss/pinjaman/', '/pss/admin/', '/tempahan/', '/tempahan/senarai/', '/tempahan/admin/', '/perkhidmatan/klinik/', '/kokurikulum/', '/kokurikulum/pencapaian/drone-edu-challenge-ir4/', '/info/?tab=profil', '/carian/'];
 const failures = [];
 const browser = await chromium.launch(launchOptions);
 
@@ -42,13 +42,23 @@ async function visit(page, route) {
       heroTitle: document.querySelector('#hero-title')?.textContent.includes('Selamat datang ke'),
       heroImage: getComputedStyle(document.querySelector('.ios-hero')).backgroundImage.includes('hero-sekolah.jpg'),
       alertStrip: Boolean(document.querySelector('#home-alert-strip')),
-      serviceDock: Boolean(document.querySelector('.ios-service-dock'))
+      serviceDock: Boolean(document.querySelector('.ios-service-dock')),
+      achievement: document.querySelector('#home-achievement-list .achievement-card')?.textContent.includes('Drone Edu Challenge') || false,
+      announcementMoved: !document.querySelector('#notis-list')?.textContent.includes('Drone Edu Challenge')
     }));
     if (!homepageMarkup.hero) failures.push(`${route}: school hero markup is missing`);
     if (!homepageMarkup.heroTitle) failures.push(`${route}: school welcome wording is missing`);
     if (!homepageMarkup.heroImage) failures.push(`${route}: school aerial hero image is missing`);
     if (!homepageMarkup.alertStrip) failures.push(`${route}: announcement alert strip is missing`);
     if (!homepageMarkup.serviceDock) failures.push(`${route}: service dock is missing`);
+    if (!homepageMarkup.achievement) failures.push(`${route}: achievement highlight is missing`);
+    if (!homepageMarkup.announcementMoved) failures.push(`${route}: achievement still appears as a general announcement`);
+  }
+  if (route === '/kokurikulum/' && (!await page.locator('#koku-achievement-list .achievement-card').count() || !(await page.locator('#koku-achievement-list').textContent()).includes('Drone Edu Challenge'))) {
+    failures.push(`${route}: achievement card is missing from Kokurikulum`);
+  }
+  if (route === '/kokurikulum/pencapaian/drone-edu-challenge-ir4/' && (!await page.locator('#achievement-title').count() || !await page.locator('.achievement-article-figure img').count() || !(await page.locator('.achievement-article-prose').textContent()).includes("Mu'az Daffa"))) {
+    failures.push(`${route}: full achievement article is incomplete`);
   }
   if (route === '/pss/digital/katalog/') {
     const duplicateFilters = await page.evaluate(() => ['book-category', 'book-status'].flatMap((id) => {
@@ -141,6 +151,13 @@ for (const viewport of [{ name: 'desktop', width: 1440, height: 1000 }, { name: 
       await page.mouse.click(30, 30);
       await page.waitForTimeout(120);
       if (await dropdown.evaluate((node) => node.hasAttribute('open'))) failures.push('website desktop: outside click did not close menu');
+      const achievementLink = page.locator('#home-achievement-list .achievement-card').first();
+      if (await achievementLink.count()) {
+        const href = await achievementLink.getAttribute('href');
+        if (!href?.includes('/kokurikulum/pencapaian/drone-edu-challenge-ir4/')) failures.push('website desktop: achievement card does not link to full article');
+        await achievementLink.click();
+        if (!page.url().includes('/kokurikulum/pencapaian/drone-edu-challenge-ir4/')) failures.push('website desktop: achievement card did not open full article');
+      }
     }
     if (route === '/pss/' && viewport.name === 'mobile') {
       const toggle = page.locator('.menu-toggle').first();

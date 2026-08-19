@@ -13,9 +13,11 @@
     return fallback || '#';
   }
   function empty(mount, text) { mount.innerHTML = '<div class="portal-empty">' + esc(text) + '</div>'; }
-  function list(table, mountId, render, order) {
+  function list(table, mountId, render, order, filter) {
     var mount = $(mountId); if (!mount) return Promise.resolve();
-    return cms.from(table).select('*').order(order || 'susunan').then(function (res) {
+    var request = cms.from(table).select('*');
+    if (filter) request = filter(request);
+    return request.order(order || 'susunan').then(function (res) {
       if (res.error || !res.data || !res.data.length) return empty(mount, 'Belum ada maklumat untuk dipaparkan.');
       mount.innerHTML = res.data.map(render).join('');
     });
@@ -41,7 +43,7 @@
     renderSchoolDirectory('directory-list');
     list('resource_file', 'resource-list', function (r) { return '<article class="portal-row"><div><b>' + esc(r.tajuk) + '</b><p>' + esc(r.penerangan || r.kategori) + '</p></div><a href="' + esc(safeUrl(r.url, '#')) + '" target="_blank" rel="noopener">Buka</a></article>'; });
     list('achievement', 'achievement-list', function (r) { return '<article class="portal-row"><div><b>' + esc(r.tajuk) + '</b><p>' + esc(r.penerangan || r.kategori) + '</p><small>' + esc(r.tarikh || '') + '</small></div></article>'; }, 'tarikh');
-    list('gallery_item', 'gallery-list', function (r) { return '<figure><img src="' + esc(safeUrl(r.image_url, '/assets/pss-hero.jpg')) + '" alt="' + esc(r.alt_text || r.tajuk) + '"><figcaption>' + esc(r.tajuk) + '</figcaption></figure>'; }, 'tarikh');
+    list('gallery_item', 'gallery-list', function (r) { return '<figure><img src="' + esc(safeUrl(r.image_url, '/assets/pss-hero.jpg')) + '" alt="' + esc(r.alt_text || r.tajuk) + '"><figcaption>' + esc(r.tajuk) + '</figcaption></figure>'; }, 'tarikh', function (query) { return query.neq('kategori', 'pencapaian'); });
   }
   if (view === 'catalog') {
     var bookSearch = $('book-search');
@@ -199,7 +201,7 @@
         ];
         var all = await Promise.all(sources.map(function (s) {
           return cms.from(s[0]).select('*').ilike(s[1], '%' + q + '%').limit(8).then(function (r) {
-            return (r.data || []).map(function (x) { return { label:s[2], title:x.tajuk || x.nama, detail:x.keterangan || x.penerangan || x.pengarang || x.kandungan || x.jawatan || '', href:s[3] }; });
+            return (r.data || []).map(function (x) { return { label:s[2], title:x.tajuk || x.nama, detail:x.keterangan || x.penerangan || x.pengarang || x.kandungan || x.jawatan || '', href:(s[0] === 'achievement' && x.pautan) ? x.pautan : s[3] }; });
           });
         }));
         var items = all.flat();

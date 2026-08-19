@@ -10,9 +10,9 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Marcellus&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/assets/site.css?v=20260818-2">
+<link rel="stylesheet" href="/assets/site.css?v=20260820-1">
 <link rel="stylesheet" href="/assets/portal.css?v=20260818-2">
-<link rel="stylesheet" href="/assets/home-layout.css?v=20260818-4">
+<link rel="stylesheet" href="/assets/home-layout.css?v=20260820-1">
 <link rel="preload" as="image" href="/assets/hero-sekolah.jpg" fetchpriority="high">
 
 <link rel="icon" type="image/png" href="/logo.png">
@@ -107,7 +107,7 @@
     </div>
   </section>
 
-  <!-- ============ Aktiviti + Pengumuman — SATU sahaja (bukan dua versi) ============ -->
+  <!-- ============ Aktiviti + Pengumuman ============ -->
   <div class="ios-primary-grid">
     <section class="ios-panel ios-activities" aria-labelledby="aktiviti-title">
       <div class="ios-section-heading"><div><span class="ios-overline">KALENDAR SEKOLAH</span><h2 id="aktiviti-title">Aktiviti Terdekat</h2></div><a href="/info/?tab=takwim">Lihat semua <span aria-hidden="true">&rarr;</span></a></div>
@@ -118,6 +118,11 @@
       <div class="notis" id="notis-list"></div>
     </section>
   </div>
+
+  <section class="ios-panel ios-achievement-panel" aria-labelledby="pencapaian-title">
+    <div class="ios-section-heading"><div><span class="ios-overline">PENCAPAIAN KOKURIKULUM</span><h2 id="pencapaian-title">Sorotan warga SMKAJ</h2></div><a href="/kokurikulum/?section=koku-pencapaian">Lihat semua <span aria-hidden="true">&rarr;</span></a></div>
+    <div id="home-achievement-list" class="achievement-list achievement-list-featured"></div>
+  </section>
 
   <!-- ============ Carian — lebih kecil, bukan panel penuh ============ -->
   <section class="ios-search-compact" aria-labelledby="cari-title">
@@ -135,10 +140,6 @@
     <section class="ios-secondary-col" id="direktori-sekolah">
       <div class="ios-secondary-head"><span class="ios-overline">DIREKTORI SEKOLAH</span><h3>Profil &amp; Hubungan</h3></div>
       <div id="directory-list" class="portal-list"></div>
-    </section>
-    <section class="ios-secondary-col ios-secondary-gallery" id="galeri-sekolah">
-      <div class="ios-secondary-head"><span class="ios-overline">AKTIVITI SEKOLAH</span><h3>Galeri</h3></div>
-      <div class="portal-gallery" id="gallery-list"></div>
     </section>
   </section>
 
@@ -158,8 +159,8 @@
 </footer>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
-<script src="/assets/cms.js"></script>
-<script src="/assets/pages/index.js?v=20260818-3"></script>
+<script src="/assets/cms.js?v=20260820-1"></script>
+<script src="/assets/pages/index.js?v=20260820-1"></script>
 <script src="/assets/portal.js"></script>
 
 </body>

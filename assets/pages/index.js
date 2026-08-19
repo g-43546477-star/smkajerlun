@@ -16,5 +16,6 @@
 ;
 cmsLoadPengumuman('notis-list');
 cmsLoadAktivitiTerdekat('aktiviti-terdekat-list', 5);
+cmsLoadAchievements('home-achievement-list', { limit: 1, featured: true });
 cmsLoadTodayNotice('widget-notis');
 cmsLoadAuthNav();

@@ -23,4 +23,6 @@
   var thn=document.getElementById('thn'); if(thn) thn.textContent=new Date().getFullYear();
 })();
 ;
-cmsLoadKokurikulum();cmsLoadAuthNav();
+cmsLoadKokurikulum();
+cmsLoadAchievements('koku-achievement-list', { limit: 6 });
+cmsLoadAuthNav();

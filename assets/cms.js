@@ -138,7 +138,7 @@
       });
     });
     const achievement = data.filter(function (row) { return row.jenis !== 'panitia'; });
-    const achievementMount = document.getElementById('koku-pencapaian');
+    const achievementMount = document.getElementById('koku-achievement-content') || document.getElementById('koku-pencapaian');
     if (achievementMount && achievement.length) renderBlocks(achievement, achievementMount);
   };
 
@@ -200,6 +200,83 @@
       body.appendChild(h4); body.appendChild(p);
       item.appendChild(dateEl); item.appendChild(body);
       mount.appendChild(item);
+    });
+  };
+
+  // Pencapaian dipaparkan sebagai kad editorial yang boleh dibuka ke berita penuh.
+  window.cmsLoadAchievements = async function (mountId, options) {
+    const mount = document.getElementById(mountId);
+    if (!mount) return;
+    options = options || {};
+    const limit = options.limit || 6;
+    const [achievementResponse, galleryResponse] = await Promise.all([
+      cmsClient.from('achievement').select('*').order('tarikh', { ascending: false }).order('susunan').limit(limit),
+      cmsClient.from('gallery_item').select('tajuk,image_url,alt_text').eq('kategori', 'pencapaian').order('tarikh', { ascending: false }).limit(40)
+    ]);
+    const rows = achievementResponse.error ? [] : (achievementResponse.data || []);
+    const gallery = galleryResponse.error ? [] : (galleryResponse.data || []);
+    mount.replaceChildren();
+    if (!rows.length) {
+      const empty = document.createElement('p');
+      empty.className = 'achievement-empty';
+      empty.textContent = 'Belum ada pencapaian untuk dipaparkan.';
+      mount.appendChild(empty);
+      return;
+    }
+    const monthNames = ['Januari', 'Februari', 'Mac', 'April', 'Mei', 'Jun', 'Julai', 'Ogos', 'September', 'Oktober', 'November', 'Disember'];
+    const imageByTitle = {};
+    gallery.forEach(function (item) {
+      imageByTitle[String(item.tajuk || '').trim().toLocaleLowerCase('ms-MY')] = item;
+    });
+    function safeInternalUrl(value, fallback) {
+      const raw = String(value || '').trim();
+      if (!raw) return fallback;
+      try {
+        const parsed = new URL(raw, window.location.origin);
+        if ((parsed.protocol === 'http:' || parsed.protocol === 'https:') && parsed.origin === window.location.origin) return parsed.href;
+      } catch (error) { /* invalid CMS link */ }
+      return fallback;
+    }
+    function formatDate(value) {
+      const parts = String(value || '').split('-').map(Number);
+      return parts.length === 3 && parts[0] && monthNames[parts[1] - 1] ? parts[2] + ' ' + monthNames[parts[1] - 1] + ' ' + parts[0] : '';
+    }
+    rows.forEach(function (row) {
+      const title = String(row.tajuk || 'Pencapaian SMKA Jerlun').trim();
+      const card = document.createElement(row.pautan ? 'a' : 'article');
+      card.className = 'achievement-card' + (options.featured ? ' is-featured' : '');
+      if (row.pautan) card.href = safeInternalUrl(row.pautan, '/kokurikulum/');
+      const image = imageByTitle[title.toLocaleLowerCase('ms-MY')];
+      const media = document.createElement('div');
+      media.className = 'achievement-card-media' + (image ? '' : ' is-empty');
+      if (image && image.image_url) {
+        const img = document.createElement('img');
+        img.src = safeInternalUrl(image.image_url, '/assets/hero-sekolah.jpg');
+        img.alt = image.alt_text || title;
+        img.loading = options.featured ? 'eager' : 'lazy';
+        media.appendChild(img);
+      } else {
+        media.textContent = 'PENCAPAIAN';
+      }
+      const body = document.createElement('div');
+      body.className = 'achievement-card-body';
+      const label = document.createElement('span');
+      label.className = 'achievement-card-label';
+      label.textContent = 'Pencapaian kokurikulum';
+      const heading = document.createElement('h3');
+      heading.textContent = title;
+      const summary = document.createElement('p');
+      summary.textContent = row.penerangan || 'Lihat berita dan maklumat pencapaian warga SMKA Jerlun.';
+      const meta = document.createElement('time');
+      meta.className = 'achievement-card-date';
+      meta.dateTime = row.tarikh || '';
+      meta.textContent = formatDate(row.tarikh);
+      const link = document.createElement('span');
+      link.className = 'achievement-card-link';
+      link.textContent = row.pautan ? 'Baca berita' : 'Lihat pencapaian';
+      body.append(label, heading, summary, meta, link);
+      card.append(media, body);
+      mount.appendChild(card);
     });
   };
 
