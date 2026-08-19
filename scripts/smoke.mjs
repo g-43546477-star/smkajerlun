@@ -7,7 +7,7 @@ const serverInfo = local ? await startStaticServer() : null;
 const base = process.env.BASE_URL || serverInfo.url;
 const chromePath = process.env.CHROME_PATH || '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome';
 const launchOptions = fs.existsSync(chromePath) ? { executablePath: chromePath } : {};
-const routes = ['/', '/pss/', '/pss/program/kalendar/', '/pss/digital/katalog/', '/pss/digital/nilam/', '/pss/nilam/', '/pss/digital/iq-nilam/', '/pss/pinjaman/', '/pss/admin/', '/tempahan/', '/tempahan/senarai/', '/tempahan/admin/', '/perkhidmatan/klinik/', '/kokurikulum/', '/kokurikulum/pencapaian/drone-edu-challenge-ir4/', '/info/?tab=profil', '/carian/'];
+const routes = ['/', '/pss/', '/pss/program/kalendar/', '/pss/digital/katalog/', '/pss/digital/nilam/', '/pss/nilam/', '/pss/digital/iq-nilam/', '/pss/pinjaman/', '/pss/admin/', '/tempahan/', '/tempahan/senarai/', '/tempahan/admin/', '/perkhidmatan/klinik/', '/kokurikulum/', '/kokurikulum/pencapaian/drone-edu-challenge-ir4/', '/kokurikulum/pencapaian/pidato-generasi-madani-2026/', '/info/?tab=profil', '/carian/'];
 const failures = [];
 const browser = await chromium.launch(launchOptions);
 
@@ -54,10 +54,13 @@ async function visit(page, route) {
     if (!homepageMarkup.achievement) failures.push(`${route}: achievement highlight is missing`);
     if (!homepageMarkup.announcementMoved) failures.push(`${route}: achievement still appears as a general announcement`);
   }
-  if (route === '/kokurikulum/' && (!await page.locator('#koku-achievement-list .achievement-card').count() || !(await page.locator('#koku-achievement-list').textContent()).includes('Drone Edu Challenge'))) {
+  if (route === '/kokurikulum/' && (!await page.locator('#koku-achievement-list .achievement-card').count() || !(await page.locator('#koku-achievement-list').textContent()).includes('Drone Edu Challenge') || !(await page.locator('#koku-achievement-list').textContent()).includes('Muhammad bin Mohd Amin'))) {
     failures.push(`${route}: achievement card is missing from Kokurikulum`);
   }
   if (route === '/kokurikulum/pencapaian/drone-edu-challenge-ir4/' && (!await page.locator('#achievement-title').count() || !await page.locator('.achievement-article-figure img').count() || !(await page.locator('.achievement-article-prose').textContent()).includes("Mu'az Daffa"))) {
+    failures.push(`${route}: full achievement article is incomplete`);
+  }
+  if (route === '/kokurikulum/pencapaian/pidato-generasi-madani-2026/' && (!await page.locator('#achievement-title').count() || !await page.locator('.achievement-article-figure img').count() || !(await page.locator('.achievement-article-prose').textContent()).includes('Muhammad bin Mohd Amin'))) {
     failures.push(`${route}: full achievement article is incomplete`);
   }
   if (route === '/pss/digital/katalog/') {
