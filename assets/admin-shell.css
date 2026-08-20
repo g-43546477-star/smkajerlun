@@ -1,5 +1,5 @@
-@import url('/assets/design-tokens.css');
-@import url('/assets/global-ui.css');
+@import url('/assets/design-tokens.css?v=20260820-3');
+@import url('/assets/global-ui.css?v=20260820-3');
 
 body{background:var(--ds-color-bg);color:var(--ds-color-text);font-family:var(--font-body)}
 header.topnav{background:var(--ds-appbar-bg);border-bottom:1px solid var(--ds-card-border);box-shadow:none}

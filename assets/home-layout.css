@@ -1,4 +1,4 @@
-@import url('/assets/design-tokens.css');
+@import url('/assets/design-tokens.css?v=20260820-3');
 
 /* ============================================================
    Laman Utama SMK Agama Jerlun — susun atur v2
@@ -9,8 +9,8 @@
    fail ini eksklusif untuk laman utama sahaja.
    ============================================================ */
 
-body.ios-home{background:var(--paper)}
-.ios-home .sitehead{background:#fffcf5}
+body.ios-home{background:var(--ds-color-bg)}
+.ios-home .sitehead{background:var(--ds-appbar-bg)}
 .ios-home .sitehead-inner{max-width:1180px;padding:1.05rem 1.5rem 0}
 .ios-home .brandrow{gap:1.1rem}
 .ios-home .brandrow img.logo{border-radius:10px;box-shadow:0 8px 20px rgba(20,32,31,.08)}
@@ -42,7 +42,7 @@ body.ios-home{background:var(--paper)}
 .ios-home .ios-alert-strip:hover{transform:translateY(-1px);box-shadow:var(--ds-shadow-md)}
 .ios-home .ios-alert-mark{display:grid;place-items:center;width:1.7rem;height:1.7rem;flex:0 0 1.7rem;border-radius:6px;background:var(--ds-gold-600);color:var(--ds-forest-950);font:800 .8rem var(--font-mono)}
 .ios-home .ios-alert-copy{display:grid;gap:.12rem;min-width:0;flex:1}
-.ios-home .ios-alert-copy small{font:700 .6rem var(--font-mono);letter-spacing:.08em;color:#80652a}
+.ios-home .ios-alert-copy small{font:700 .6rem var(--font-mono);letter-spacing:.08em;color:var(--ds-color-accent)}
 .ios-home .ios-alert-copy strong{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:.8rem}
 .ios-home .ios-alert-date{font:600 .65rem var(--font-mono);color:var(--muted);white-space:nowrap}
 .ios-home .ios-alert-arrow{color:var(--teal);font-size:1.1rem}
@@ -54,7 +54,7 @@ body.ios-home{background:var(--paper)}
 .ios-home .ios-section-heading{display:flex;align-items:baseline;justify-content:space-between;gap:1rem;margin-bottom:1rem}
 .ios-home .ios-section-heading h2{font-size:clamp(1.1rem,2vw,1.28rem);font-weight:800;color:var(--ink)}
 .ios-home .ios-section-meta{color:var(--muted);font-size:.72rem;font-family:var(--font-mono)}
-.ios-home .ios-overline{font-size:.68rem;font-weight:800;letter-spacing:.06em;color:#80652a;display:block;margin-bottom:.2rem}
+.ios-home .ios-overline{font-size:.68rem;font-weight:800;letter-spacing:.06em;color:var(--ds-color-accent);display:block;margin-bottom:.2rem}
 
 /* Dock perkhidmatan */
 .ios-home .ios-service-dock{margin-bottom:1.6rem}

@@ -21,6 +21,14 @@ async function visit(page, route) {
   });
   const response = await page.goto(`${base}${route}`, { waitUntil: 'domcontentloaded', timeout: 30000 });
   await page.waitForTimeout(700);
+  const asyncMounts = {
+    '/': '#home-achievement-list .achievement-card, #home-achievement-list .achievement-empty',
+    '/kokurikulum/': '#koku-achievement-list .achievement-card, #koku-achievement-list .achievement-empty',
+    '/pss/digital/katalog/': '#book-list .catalog-book-card, #book-list .catalog-empty'
+  };
+  if (asyncMounts[route]) {
+    await page.locator(asyncMounts[route]).first().waitFor({ state: 'attached', timeout: 6000 }).catch(() => {});
+  }
   const result = await page.evaluate(() => ({
     h1: document.querySelectorAll('h1').length,
     overflow: document.documentElement.scrollWidth > innerWidth + 2,

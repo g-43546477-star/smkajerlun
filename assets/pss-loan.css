@@ -7,7 +7,7 @@
   max-width: 620px;
 }
 .loan-intro h1 {
-  font: 400 clamp(2.5rem, 5vw, 4.6rem)/1 var(--serif);
+  font: 400 clamp(2.5rem, 5vw, 4.6rem)/1 var(--font-display);
   margin: 0.25rem 0 1rem;
 }
 .loan-intro > p:last-child {
@@ -39,7 +39,7 @@
 }
 .loan-form h2,
 .loan-note h2 {
-  font: 400 1.85rem var(--serif);
+  font: 400 1.85rem var(--font-display);
   margin: 0.25rem 0 0;
 }
 .loan-fields {
@@ -101,12 +101,12 @@
 }
 .loan-note {
   padding: 1.7rem;
-  background: #e6efec;
+  background:var(--ds-color-brand-soft);
   border-top: 3px solid var(--teal);
 }
 .loan-note > span {
   display: block;
-  font: 400 1.3rem var(--serif);
+  font: 400 1.3rem var(--font-display);
   color: var(--brass);
   margin-top: 1rem;
 }
@@ -155,7 +155,7 @@
   object-fit: contain;
 }
 .receipt-header h2 {
-  font: 400 1.65rem var(--serif);
+  font: 400 1.65rem var(--font-display);
   margin: 0.15rem 0;
 }
 .receipt-header p {
@@ -209,7 +209,7 @@
 .receipt-declaration {
   margin-top: 1rem;
   padding: 0.9rem 1rem;
-  background: #e6efec;
+  background:var(--ds-color-brand-soft);
   border-left: 3px solid var(--teal);
 }
 .receipt-declaration b {

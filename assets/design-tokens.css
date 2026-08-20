@@ -1,23 +1,63 @@
-/* SMK Agama Jerlun design tokens: primitive -> semantic -> component. */
+/* ============================================================
+   SMK Agama Jerlun — Design Tokens v2
+   Struktur: primitive -> semantic -> component -> alias warisan.
+
+   PERUBAHAN UTAMA berbanding v1:
+   1. Latar krim (#f7f4ec) -> PUTIH. Krim + serif + emas ialah
+      kombinasi templat generik; putih memberi ruang bernafas dan
+      membiarkan corak bintang geometri sekolah jadi elemen utama.
+   2. Skala taipan: 40 saiz berselerak (24 tergumpal 0.6-0.95rem,
+      beza 0.01rem yang mata tak nampak) -> 7 langkah bermakna.
+   3. Aksen emas dipecah dua: --ds-gold-700 (GELAP, untuk TEKS di
+      atas latar cerah - lulus AA 5.37) dan --ds-gold-600 (TERANG,
+      untuk latar/aksen SAHAJA - JANGAN guna sebagai teks atas putih,
+      ia hanya 2.49 dan GAGAL AA).
+   4. Skala jarak & radius diperkemas supaya rentak konsisten.
+
+   SEMUA alias warisan (--plum, --pss-*, --teal, dll) DIKEKALKAN
+   supaya laman sedia ada (PSS, tempahan, klinik, admin) tidak pecah.
+   ============================================================ */
+
 :root {
-  /* Primitive color tokens */
-  --ds-forest-950: #102a27;
-  --ds-forest-900: #153d38;
+  /* ---------- Primitive: warna ---------- */
+  --ds-forest-950: #092a25;
+  --ds-forest-900: #0f3f38;
   --ds-forest-700: #0d6963;
-  --ds-forest-100: #e6efec;
-  --ds-gold-600: #c89e43;
-  --ds-gold-100: #f9e6b0;
-  --ds-paper-50: #fffcf5;
-  --ds-paper-100: #f7f4ec;
-  --ds-ink-900: #14201f;
-  --ds-ink-600: #68716e;
-  --ds-line-200: #ded9cb;
+  --ds-forest-100: #e8f0ed;
+
+  /* Emas: DUA nilai untuk tujuan berbeza (lihat nota 3 di atas) */
+  --ds-gold-700: #8a6410; /* TEKS/ikon atas latar cerah — AA lulus */
+  --ds-gold-600: #c89e43; /* LATAR/aksen sahaja — bukan teks atas putih */
+  --ds-gold-100: #fbf2dc;
+
+  --ds-paper-50: #fafaf8;
+  --ds-paper-100: #ffffff;
+  --ds-ink-900: #12211f;
+  --ds-ink-600: #5c6764;
+  --ds-line-200: #e2e5e2;
   --ds-success-100: #e1f3e8;
   --ds-success-700: #17673e;
   --ds-danger-100: #f9e8e6;
   --ds-danger-700: #9b3e36;
 
-  /* Primitive spacing and elevation tokens */
+  /* ---------- Primitive: skala taipan ----------
+     7 langkah, setiap satu jelas berbeza dari yang sebelumnya.
+     Guna HANYA nilai ini; elak saiz tersuai supaya hierarki kekal. */
+  --ds-text-2xs: 0.6875rem; /* 11px — label mono, overline */
+  --ds-text-xs: 0.8125rem;  /* 13px — meta, kapsyen */
+  --ds-text-sm: 0.9375rem;  /* 15px — teks sokongan */
+  --ds-text-base: 1.0625rem;/* 17px — badan utama */
+  --ds-text-lg: 1.375rem;   /* 22px — tajuk kad */
+  --ds-text-xl: 1.875rem;   /* 30px — tajuk seksyen */
+  --ds-text-2xl: 2.75rem;   /* 44px — tajuk hero */
+
+  --ds-leading-tight: 1.2;
+  --ds-leading-snug: 1.4;
+  --ds-leading-normal: 1.65;
+
+  --ds-tracking-wide: 0.08em; /* untuk label mono huruf besar */
+
+  /* ---------- Primitive: jarak ---------- */
   --ds-space-1: 0.25rem;
   --ds-space-2: 0.5rem;
   --ds-space-3: 0.75rem;
@@ -25,12 +65,19 @@
   --ds-space-5: 1.5rem;
   --ds-space-6: 2rem;
   --ds-space-7: 3rem;
-  --ds-radius-sm: 0.375rem;
-  --ds-radius-md: 0.5rem;
-  --ds-shadow-sm: 0 8px 20px rgba(20, 32, 31, 0.05);
-  --ds-shadow-md: 0 16px 32px rgba(20, 32, 31, 0.1);
+  --ds-space-8: 4.5rem;
 
-  /* Semantic tokens */
+  /* ---------- Primitive: bentuk & bayang ----------
+     Radius diperkecil (8px -> 4px) supaya kad kurang menonjol
+     sebagai "kotak"; bayang dilembutkan supaya kandungan yang
+     menonjol, bukan bekasnya. */
+  --ds-radius-sm: 0.25rem;
+  --ds-radius-md: 0.375rem;
+  --ds-radius-full: 999px;
+  --ds-shadow-sm: 0 1px 2px rgba(18, 33, 31, 0.06);
+  --ds-shadow-md: 0 8px 24px rgba(18, 33, 31, 0.08);
+
+  /* ---------- Semantic ---------- */
   --ds-color-bg: var(--ds-paper-100);
   --ds-color-surface: var(--ds-paper-50);
   --ds-color-surface-raised: #ffffff;
@@ -40,14 +87,20 @@
   --ds-color-brand: var(--ds-forest-900);
   --ds-color-brand-strong: var(--ds-forest-950);
   --ds-color-brand-soft: var(--ds-forest-100);
-  --ds-color-accent: var(--ds-gold-600);
+  --ds-color-accent: var(--ds-gold-700);        /* selamat untuk teks */
+  --ds-color-accent-bright: var(--ds-gold-600); /* latar/aksen sahaja */
   --ds-color-accent-soft: var(--ds-gold-100);
-  --ds-font-display: "DM Serif Display", Georgia, serif;
+
+  /* Taipan: satu keluarga sans untuk semua tajuk & badan.
+     Serif dikekalkan sebagai token untuk petikan/lirik sahaja
+     (cth kad Lagu Sekolah), bukan untuk tajuk seksyen. */
+  --ds-font-display: "Plus Jakarta Sans", system-ui, sans-serif;
   --ds-font-body: "Plus Jakarta Sans", system-ui, sans-serif;
+  --ds-font-quote: "DM Serif Display", Georgia, serif;
   --ds-font-mono: "IBM Plex Mono", ui-monospace, monospace;
 
-  /* Component tokens */
-  --ds-appbar-bg: rgba(255, 252, 245, 0.96);
+  /* ---------- Component ---------- */
+  --ds-appbar-bg: rgba(255, 255, 255, 0.96);
   --ds-card-bg: var(--ds-color-surface-raised);
   --ds-card-border: var(--ds-color-border);
   --ds-card-radius: var(--ds-radius-md);
@@ -55,9 +108,17 @@
   --ds-button-primary-bg: var(--ds-color-brand);
   --ds-button-primary-text: #ffffff;
   --ds-button-secondary-bg: var(--ds-color-brand-soft);
-  --ds-focus-ring: 0 0 0 3px rgba(200, 158, 67, 0.35);
+  --ds-focus-ring: 0 0 0 3px rgba(138, 100, 16, 0.4);
 
-  /* Shared aliases for the legacy website, PSS and operations modules. */
+  /* Aksen struktur: border kiri tebal untuk blok penting.
+     Ganti "kad putih + border penuh" yang berulang ~28 kali. */
+  --ds-rule: 1px solid var(--ds-color-border);
+  --ds-rule-accent: 3px solid var(--ds-color-brand);
+
+  /* ---------- Alias warisan ----------
+     WAJIB dikekalkan: digunakan merentasi site.css, portal.css,
+     pss.css, home-layout.css, admin-shell.css, global-ui.css.
+     Jangan buang tanpa audit penuh semua stylesheet. */
   --forest: var(--ds-color-brand);
   --forest-deep: var(--ds-color-brand-strong);
   --teal: var(--ds-forest-700);
@@ -67,6 +128,7 @@
   --plum-mid: var(--ds-forest-700);
   --plum-soft: var(--ds-color-brand-soft);
   --brass: var(--ds-color-accent);
+  --brass-bright: var(--ds-color-accent-bright);
   --brass-soft: var(--ds-color-accent-soft);
   --gold: var(--ds-color-accent);
   --paper: var(--ds-color-surface);
@@ -77,7 +139,50 @@
   --font-display: var(--ds-font-display);
   --font-body: var(--ds-font-body);
   --font-mono: var(--ds-font-mono);
-  --serif: var(--ds-font-display);
+  --serif: var(--ds-font-quote);
   --sans: var(--ds-font-body);
+  --font-quote: var(--ds-font-quote);
+  --font-sans: var(--ds-font-body);
   --radius: var(--ds-card-radius);
+}
+
+/* ============================================================
+   Utiliti pilihan — guna secara berperingkat untuk gantikan
+   corak "kad putih" yang berulang. Tidak wajib; tiada kesan
+   pada mana-mana laman sedia ada melainkan kelas ini digunakan.
+   ============================================================ */
+
+/* Blok berpemisah — ganti kad untuk kandungan teks berturutan */
+.ds-block { padding: var(--ds-space-5) 0; border-top: var(--ds-rule); }
+.ds-block:first-child { border-top: 0; }
+
+/* Blok penekanan — border kiri sahaja, bukan kotak penuh */
+.ds-emphasis { padding-left: var(--ds-space-4); border-left: var(--ds-rule-accent); }
+
+/* Label mono huruf besar — konsisten merentasi laman */
+.ds-overline {
+  display: block;
+  font-family: var(--ds-font-mono);
+  font-size: var(--ds-text-2xs);
+  font-weight: 700;
+  letter-spacing: var(--ds-tracking-wide);
+  text-transform: uppercase;
+  color: var(--ds-color-accent);
+}
+
+/* Tajuk mengikut skala tetap */
+.ds-h1 { font-size: var(--ds-text-2xl); line-height: var(--ds-leading-tight); font-weight: 800; letter-spacing: 0; }
+.ds-h2 { font-size: var(--ds-text-xl); line-height: var(--ds-leading-tight); font-weight: 800; letter-spacing: 0; }
+.ds-h3 { font-size: var(--ds-text-lg); line-height: var(--ds-leading-snug); font-weight: 700; }
+
+@media (max-width: 640px) {
+  :root {
+    --ds-text-2xl: 2rem;
+    --ds-text-xl: 1.5rem;
+    --ds-text-lg: 1.1875rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
 }
