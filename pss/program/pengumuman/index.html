@@ -3,10 +3,10 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1.0" />
-    <title>Portal PSS | SMK Agama Jerlun</title>
+    <title>Pengumuman PSS | SMK Agama Jerlun</title>
     <meta
       name="description"
-      content="Maktabah Darul Hikmah - Portal Pusat Sumber Sekolah SMK Agama Jerlun."
+      content="Pengumuman dan makluman semasa untuk warga Pusat Sumber Sekolah SMK Agama Jerlun."
     />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -14,7 +14,7 @@
       href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=IBM+Plex+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="/assets/pss.css?v=20260820-3" />
+    <link rel="stylesheet" href="/assets/pss.css?v=20260821-1" />
     <link rel="stylesheet" href="/assets/portal.css?v=20260820-3" />
     <link rel="icon" type="image/png" href="/logo.png" />
   </head>
@@ -24,7 +24,8 @@
         ><img src="/assets/logo-sekolah.png" alt="Logo SMK Agama Jerlun" /><span
           ><b>PSS SMKAJ</b><small>Maktabah Darul Hikmah</small></span
         ></a
-      ><button
+      >
+      <button
         class="menu-toggle"
         type="button"
         aria-label="Buka menu"
@@ -32,157 +33,43 @@
       >
         <span></span><span></span><span></span>
       </button>
-      <nav class="pss-links" aria-label="Navigasi portal">
-        <a href="/pss/" class="active">Utama</a>
-        <details class="pss-dropdown">
-          <summary>Tentang PSS</summary>
-          <div>
-            <a href="/pss/tentang-pss/maklumat/">Maklumat PSS</a
-            ><a href="/pss/tentang-pss/jawatankuasa-guru/">Jawatankuasa Guru</a
-            ><a href="/pss/tentang-pss/pengawas-pss/">Pengawas PSS</a>
-          </div>
-        </details>
-        <details class="pss-dropdown">
-          <summary>Program</summary>
-          <div>
-            <a href="/pss/program/kalendar/">Kalendar PSS</a
-            ><a href="/pss/program/kalendar/">Kalendar PSS</a
-            ><a href="/pss/program/pengumuman/">Pengumuman</a>
-          </div>
-        </details>
-        <details class="pss-dropdown">
-          <summary>Digital</summary>
-          <div>
-            <a href="/pss/digital/katalog/">Katalog Buku</a
-            ><a href="/pss/digital/nilam/">NILAM</a>
-          </div>
-        </details>
-        <details class="pss-dropdown">
-          <summary>Perkhidmatan</summary>
-          <div>
-            <a href="/pss/perkhidmatan/borang-pinjaman/">Borang Pinjaman</a
-            ><a href="/tempahan/">Tempahan Ruang</a
-            ><a href="mailto:kra4002@moe.edu.my?subject=Cadangan%20Buku%20PSS"
-              >Cadangan Buku</a
-            >
-          </div>
-        </details>
-        <a class="back-link" href="/">Laman sekolah</a>
-      </nav>
+      <nav class="pss-links" aria-label="Navigasi portal"></nav>
     </header>
-    <main>
-      <section class="pss-home-hero">
-        <img
-          src="/assets/pss-hero.jpg" width="1400" height="788" fetchpriority="high" decoding="async"
-          alt="Suasana ruang bacaan perpustakaan sekolah"
-        />
-        <div class="pss-home-shade"></div>
-        <div class="pss-home-inner">
-          <p class="eyebrow">PUSAT SUMBER SEKOLAH</p>
-          <p class="library-name">Maktabah Darul Hikmah</p>
-          <h1>Portal ilmu<br />untuk warga SMKAJ.</h1>
+    <main class="pss-page">
+      <p class="eyebrow">PROGRAM PSS</p>
+      <h1>Pengumuman PSS</h1>
+      <p class="page-intro">
+        Makluman semasa untuk warga Maktabah Darul Hikmah dan seluruh SMK Agama
+        Jerlun.
+      </p>
+
+      <div class="pss-announcement-layout">
+        <section aria-labelledby="announcement-heading">
+          <p class="eyebrow">MAKLUMAN TERKINI</p>
+          <h2 id="announcement-heading">Pengumuman sekolah</h2>
+          <div
+            id="notis-list"
+            class="pss-announcement-list"
+            aria-live="polite"
+            aria-busy="true"
+          >
+            <p class="pss-announcement-state" role="status">
+              Memuatkan pengumuman.
+            </p>
+          </div>
+        </section>
+
+        <aside class="pss-announcement-aside" aria-label="Akses berkaitan PSS">
+          <p class="eyebrow">AKSES PSS</p>
+          <h2>Teruskan urusan</h2>
           <p>
-            Rujukan pusat bagi maklumat PSS, program, koleksi digital, NILAM dan
-            perkhidmatan sekolah.
+            Semak kalendar aktiviti atau cadangkan bahan bacaan untuk koleksi
+            PSS.
           </p>
-          <div class="hero-actions">
-            <a href="/pss/digital/katalog/">Katalog PSS</a
-            ><a class="ghost" href="/pss/digital/nilam/">Portal NILAM</a>
-          </div>
-        </div>
-      </section>
-      <section class="pss-shell pss-home-grid">
-        <a href="/pss/tentang-pss/maklumat/" class="pss-home-card"
-          ><span>01</span>
-          <h2>Maklumat PSS</h2>
-          <p>
-            Misi, waktu operasi dan maklumat hubungan Maktabah Darul Hikmah.
-          </p>
-          <b>Lihat maklumat &rarr;</b></a
-        ><a href="/pss/digital/katalog/" class="pss-home-card emphasis"
-          ><span>02</span>
-          <h2>Koleksi Digital</h2>
-          <p>Semak katalog buku dan bahan rujukan Pusat Sumber Sekolah.</p>
-          <b>Buka katalog &rarr;</b></a
-        ><a href="/pss/digital/nilam/" class="pss-home-card"
-          ><span>03</span>
-          <h2>NILAM</h2>
-          <p>Akses AINS untuk perekodan bacaan rasmi KPM.</p>
-          <b>Buka NILAM &rarr;</b></a
-        >
-      </section>
-      <section class="pss-shell pss-brief" id="maklumat">
-        <div>
-          <p class="eyebrow">MAKLUMAT PSS</p>
-          <h2>Maktabah Darul Hikmah</h2>
-        </div>
-        <article>
-          <time>01<br /><small>HUB</small></time>
-          <div>
-            <span>FUNGSI</span>
-            <h3>Ruang pembelajaran dan akses maklumat</h3>
-            <p>
-              Sokongan koleksi, pembacaan, literasi digital, NILAM dan aktiviti
-              pengayaan murid.
-            </p>
-          </div>
-        </article>
-        <article>
-          <time>02<br /><small>EMEL</small></time>
-          <div>
-            <span>HUBUNGI PSS</span>
-            <h3>kra4002@moe.edu.my</h3>
-            <p>
-              Gunakan emel ini untuk cadangan buku, pinjaman bahan atau
-              pertanyaan PSS.
-            </p>
-          </div>
-        </article>
-      </section>
-      <section class="pss-service-strip" id="kalendar">
-        <div class="pss-shell">
-          <p class="eyebrow">KALENDAR &amp; PROGRAM PSS</p>
-          <div>
-            <a href="/info/?tab=takwim"
-              ><b>Kalendar sekolah</b
-              ><span>Semak tarikh aktiviti dan program sekolah &rarr;</span></a
-            ><a href="/pss/program/kalendar/"
-              ><b>Aktiviti PSS</b
-              ><span
-                >Pameran, program bacaan dan pengayaan murid &rarr;</span
-              ></a
-            ><a href="/pss/tentang-pss/pengawas-pss/"
-              ><b>Pengawas PSS</b
-              ><span>Lihat organisasi dan barisan pengawas &rarr;</span></a
-            >
-          </div>
-        </div>
-      </section>
-      <section class="pss-shell pss-brief" id="aktiviti">
-        <div>
-          <p class="eyebrow">AKTIVITI TERKINI</p>
-          <h2>Program PSS</h2>
-        </div>
-        <article>
-          <time>17<br /><small>Ogos</small></time>
-          <div>
-            <span>AKTIVITI</span>
-            <h3>Pameran Buku Sejarah Sempena Kemerdekaan</h3>
-            <p>9:00 pagi di Bilik PSS. Terbuka kepada semua warga SMKAJ.</p>
-          </div>
-        </article>
-        <article id="pengumuman">
-          <time>08<br /><small>Ogos</small></time>
-          <div>
-            <span>NOTIS</span>
-            <h3>Cadangan bahan bacaan sentiasa dibuka</h3>
-            <p>
-              Hantar judul buku atau bahan digital yang ingin dicadangkan kepada
-              PSS.
-            </p>
-          </div>
-        </article>
-      </section>
+          <a href="/pss/program/kalendar/">Kalendar PSS</a>
+          <a href="/pss/perkhidmatan/cadangan-buku/">Cadangan bahan bacaan</a>
+        </aside>
+      </div>
     </main>
     <footer class="pss-footer">
       <div class="pss-shell">
@@ -191,12 +78,15 @@
           <p><b>PSS SMK Agama Jerlun</b><br />Maktabah Darul Hikmah</p>
         </div>
         <div>
-          <a href="/pss/organisasi/">Organisasi</a
-          ><a href="/pss/digital/katalog/">Katalog</a><a href="/pss/digital/nilam/">NILAM</a>
+          <a href="/pss/digital/katalog/">Katalog</a
+          ><a href="/pss/digital/nilam/">NILAM</a>
         </div>
         <p>&copy; 2026 Pusat Sumber Sekolah,<br />SMK Agama Jerlun, Kedah.</p>
       </div>
     </footer>
-    <script src="/assets/pss.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+    <script src="/assets/cms.js"></script>
+    <script src="/assets/pss.js?v=20260821-1"></script>
+    <script src="/assets/pages/pss-pengumuman.js?v=20260821-1"></script>
   </body>
 </html>

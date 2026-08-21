@@ -7,7 +7,7 @@ const serverInfo = local ? await startStaticServer() : null;
 const base = process.env.BASE_URL || serverInfo.url;
 const chromePath = process.env.CHROME_PATH || '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome';
 const launchOptions = fs.existsSync(chromePath) ? { executablePath: chromePath } : {};
-const routes = ['/', '/pss/', '/pss/program/kalendar/', '/pss/digital/katalog/', '/pss/digital/nilam/', '/pss/nilam/', '/pss/digital/iq-nilam/', '/pss/pinjaman/', '/pss/admin/', '/tempahan/', '/tempahan/senarai/', '/tempahan/admin/', '/perkhidmatan/klinik/', '/kokurikulum/', '/kokurikulum/pencapaian/drone-edu-challenge-ir4/', '/kokurikulum/pencapaian/pidato-generasi-madani-2026/', '/info/?tab=profil', '/carian/'];
+const routes = ['/', '/pss/', '/pss/tentang-pss/pengawas-pss/', '/pss/program/kalendar/', '/pss/program/pengumuman/', '/pss/digital/katalog/', '/pss/digital/nilam/', '/pss/nilam/', '/pss/digital/iq-nilam/', '/pss/pinjaman/', '/pss/admin/', '/tempahan/', '/tempahan/senarai/', '/tempahan/admin/', '/perkhidmatan/klinik/', '/kokurikulum/', '/kokurikulum/pencapaian/drone-edu-challenge-ir4/', '/kokurikulum/pencapaian/pidato-generasi-madani-2026/', '/info/?tab=profil', '/carian/'];
 const failures = [];
 const browser = await chromium.launch(launchOptions);
 
@@ -108,6 +108,14 @@ async function visit(page, route) {
   }
   if (route === '/pss/program/kalendar/' && (!await page.locator('#pss-calendar-grid').count() || !await page.locator('#pss-calendar-list').count())) {
     failures.push(`${route}: calendar markup is missing`);
+  }
+  if (route === '/pss/program/pengumuman/' && (!await page.locator('#notis-list').count() || !(await page.locator('h1').textContent()).includes('Pengumuman PSS'))) {
+    failures.push(`${route}: announcement page markup is missing`);
+  }
+  if (route === '/pss/tentang-pss/pengawas-pss/') {
+    const rosterText = await page.locator('#pelajar').textContent();
+    const requiredNames = ["Nur I'rdina Wilda binti Fauodzi", 'Ahmadinejad bin Khairul Anuar', "Nur Ali'yah Nafeesah binti Mohamad Najid", 'Ahmad Hasani bin Mohd Nazir', 'Aisyah Dhia Amani binti Khairul Nizam', 'Aina Afifah binti Harun', 'Muhammad Faiz Danial bin Muhammad Fakhrurazi'];
+    if (requiredNames.some((name) => !rosterText.includes(name))) failures.push(`${route}: corrected PSS roster details are missing`);
   }
   if (route === '/pss/') {
     if (page.viewportSize().width >= 821) {
