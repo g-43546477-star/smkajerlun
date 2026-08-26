@@ -2,7 +2,7 @@ import fs from 'node:fs/promises';
 import path from 'node:path';
 
 const migrationDirectory = path.resolve('supabase/migrations');
-const baselinePath = path.resolve('docs/supabase-migration-baseline.md');
+const baselinePath = path.resolve('supabase/migration-baseline.txt');
 const files = (await fs.readdir(migrationDirectory))
   .filter((file) => file.endsWith('.sql'))
   .sort();
@@ -22,8 +22,7 @@ for (const file of files) {
 }
 
 const baseline = await fs.readFile(baselinePath, 'utf8');
-const baselineBlock = baseline.match(/```text\n([\s\S]*?)\n```/)?.[1] || '';
-const baselineEntries = baselineBlock.split('\n').map((entry) => entry.trim()).filter(Boolean);
+const baselineEntries = baseline.split('\n').map((entry) => entry.trim()).filter(Boolean);
 const baselineVersions = new Set();
 for (const entry of baselineEntries) {
   const match = entry.match(/^(\d{14})_[a-z0-9_]+$/);

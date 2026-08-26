@@ -8,7 +8,9 @@ Project ref: `jykptknzasrrkvtxtvuk`
 Fail ini merekodkan sempadan sejarah migrasi yang telah disahkan pada project
 Supabase production. Nama fail migrasi mesti mengekalkan version timestamp yang
 dipaparkan oleh Supabase supaya semakan deploy dan rollback tidak bergantung
-pada ingatan ejen.
+pada ingatan ejen. Manifest mesin yang digunakan oleh build berada di
+`supabase/migration-baseline.txt`; ia sengaja tidak diletakkan di `docs/` kerana
+Vercel mengecualikan dokumentasi daripada build.
 
 ## Sejarah Production Yang Disahkan
 
