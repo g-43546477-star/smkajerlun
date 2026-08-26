@@ -4,18 +4,10 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Program Sekolah | SMK Agama Jerlun</title>
-<meta http-equiv="refresh" content="0; url=/program/">
 <link rel="canonical" href="https://www.smkajerlun.my/program/">
 </head>
-<body>
+<body data-redirect="/program/" data-preserve-search="true">
 <p><a id="legacy-route-link" href="/program/">Buka Program Sekolah</a></p>
-<script>
-(function () {
-  var target = new URL('/program/', window.location.origin);
-  var slug = new URLSearchParams(window.location.search).get('slug');
-  if (slug) target.searchParams.set('slug', slug);
-  window.location.replace(target.pathname + target.search);
-}());
-</script>
+<script src="/assets/legacy-redirect.js"></script>
 </body>
 </html>
