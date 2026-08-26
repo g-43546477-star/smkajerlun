@@ -26,7 +26,16 @@
 - Pustaka Supabase dikunci pada versi `2.57.4`; aset CMS dan tempahan mempunyai
   versi cache yang seragam.
 
-## Urutan Pelepasan Wajib
+## Pelepasan 26 Ogos 2026
+
+- Migrasi `20260826050012_admin_content_safety.sql` telah berjaya digunakan.
+- Migrasi `20260826050516_pss_seed_and_public_booking_view.sql` telah berjaya
+  digunakan selepas aset laman berada di production.
+- GitHub `main` berada pada commit `2a2adf9`.
+- Deployment Vercel production `dpl_2a2dEjcdPTm3UeeycchAB7cHhrwU` berstatus
+  `READY` dan menggunakan alias `smkajerlun.my`.
+
+## Urutan Pelepasan Untuk Kemas Kini Seumpama Ini
 
 Jangan jalankan fasa kedua sebelum aset laman yang sepadan berada di production.
 
@@ -59,11 +68,9 @@ paparan slot, termasuk apabila guru telah log masuk.
 - Smoke halaman awam turut berhenti pada empat pertanyaan skop yang sama. Ia
   mesti dijalankan semula selepas fasa pertama, sebelum deployment.
 
-## Belum Disahkan
+## Perkara Susulan
 
 - Simpan/ubah/padam menggunakan akaun admin sebenar di production.
-- Dua migrasi audit belum dijalankan pada pangkalan data production.
-- Perubahan repo ini belum dideploy.
 - Terdapat 52 advisory HTML lama pada halaman awam di luar tiga panel admin;
   validator tetap lulus dan panel admin tidak mempunyai advisory.
 - Perlindungan kata laluan bocor perlu diaktifkan melalui tetapan Supabase Auth.
