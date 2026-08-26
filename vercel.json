@@ -16,6 +16,21 @@
   ],
   "redirects": [
     {
+      "source": "/berita/",
+      "destination": "/program/",
+      "permanent": true
+    },
+    {
+      "source": "/kokurikulum/pencapaian/drone-edu-challenge-ir4/",
+      "destination": "/program/?slug=drone-edu-challenge-ir4",
+      "permanent": true
+    },
+    {
+      "source": "/kokurikulum/pencapaian/pidato-generasi-madani-2026/",
+      "destination": "/program/?slug=pidato-generasi-madani-2026",
+      "permanent": true
+    },
+    {
       "source": "/profil/:path*",
       "destination": "/info/?tab=profil",
       "permanent": false

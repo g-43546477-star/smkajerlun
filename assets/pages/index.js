@@ -16,6 +16,6 @@
 ;
 cmsLoadPengumuman('notis-list');
 cmsLoadAktivitiTerdekat('aktiviti-terdekat-list', 5);
-cmsLoadAchievements('home-achievement-list', { limit: 1, featured: true });
+cmsLoadProgramArticles('home-program-list', { limit: 3, featured: true, label: 'Program sekolah' });
 cmsLoadTodayNotice('widget-notis');
 cmsLoadAuthNav();
