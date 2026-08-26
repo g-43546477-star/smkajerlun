@@ -123,21 +123,12 @@
   </section>
 
   <section class="admin-tabpane" id="pane-media" hidden>
-    <div class="admin-section-grid">
-      <div class="card">
-        <div class="head-row"><div><h2 class="page-title">Galeri Aktiviti</h2><p class="page-sub">Gambar umum laman sekolah dan imej sokongan pencapaian.</p></div><button type="button" class="btn-primary" id="galeri-tambah">Tambah Gambar</button></div>
-        <a class="admin-destination" href="/#gallery-list" target="_blank" rel="noopener">Lihat galeri</a>
-        <div class="tablewrap"><table><thead><tr><th>Tarikh</th><th>Tajuk</th><th>Kategori</th><th style="text-align:right">Tindakan</th></tr></thead><tbody id="galeri-tbody"></tbody></table></div>
-        <div id="galeri-empty" class="empty" style="display:none">Tiada gambar aktiviti.</div>
-        <p class="admin-statusline" id="galeri-status" aria-live="polite"></p>
-      </div>
-      <div class="card">
-        <div class="head-row"><div><h2 class="page-title">Program Sekolah</h2><p class="page-sub">Artikel dan sorotan aktiviti rasmi yang dipaparkan pada laman utama.</p></div><button type="button" class="btn-primary" id="pencapaian-tambah">Tambah Program</button></div>
-        <a class="admin-destination" href="/program/" target="_blank" rel="noopener">Lihat program sekolah</a>
-        <div class="tablewrap"><table><thead><tr><th>Tarikh</th><th>Tajuk</th><th>Jenis</th><th style="text-align:right">Tindakan</th></tr></thead><tbody id="pencapaian-tbody"></tbody></table></div>
-        <div id="pencapaian-empty" class="empty" style="display:none">Tiada program sekolah direkodkan.</div>
-        <p class="admin-statusline" id="pencapaian-status" aria-live="polite"></p>
-      </div>
+    <div class="card">
+      <div class="head-row"><div><h2 class="page-title">Program Sekolah</h2><p class="page-sub">Artikel dan sorotan aktiviti rasmi yang dipaparkan pada laman utama.</p></div><button type="button" class="btn-primary" id="pencapaian-tambah">Tambah Program</button></div>
+      <a class="admin-destination" href="/program/" target="_blank" rel="noopener">Lihat program sekolah</a>
+      <div class="tablewrap"><table><thead><tr><th>Tarikh</th><th>Tajuk</th><th>Jenis</th><th style="text-align:right">Tindakan</th></tr></thead><tbody id="pencapaian-tbody"></tbody></table></div>
+      <div id="pencapaian-empty" class="empty" style="display:none">Tiada program sekolah direkodkan.</div>
+      <p class="admin-statusline" id="pencapaian-status" aria-live="polite"></p>
     </div>
   </section>
 
@@ -163,7 +154,7 @@
   <section class="admin-tabpane" id="pane-audit" hidden>
     <div class="card">
       <div class="head-row"><div><h2 class="page-title">Log Perubahan Pentadbir</h2><p class="page-sub">Jejak perubahan kandungan, PSS dan tempahan tanpa memaparkan data sensitif secara mentah.</p></div><button type="button" class="btn-secondary" id="audit-refresh">Muat Semula</button></div>
-      <div class="head-controls"><label for="audit-filter" class="field-label">Modul</label><select id="audit-filter"><option value="">Semua modul</option><option value="content_block">Kandungan halaman</option><option value="pengumuman">Pengumuman</option><option value="takwim">Takwim</option><option value="staff">Staf</option><option value="achievement">Program Sekolah</option><option value="gallery_item">Galeri</option><option value="resource_file">Fail</option><option value="school_directory">Direktori</option><option value="pss_book">Buku PSS</option><option value="pss_pinjaman">Pinjaman PSS</option><option value="tempahan">Tempahan bilik</option></select></div>
+      <div class="head-controls"><label for="audit-filter" class="field-label">Modul</label><select id="audit-filter"><option value="">Semua modul</option><option value="content_block">Kandungan halaman</option><option value="pengumuman">Pengumuman</option><option value="takwim">Takwim</option><option value="staff">Staf</option><option value="achievement">Program Sekolah</option><option value="resource_file">Fail</option><option value="school_directory">Direktori</option><option value="pss_book">Buku PSS</option><option value="pss_pinjaman">Pinjaman PSS</option><option value="tempahan">Tempahan bilik</option></select></div>
       <div class="tablewrap"><table><thead><tr><th>Masa</th><th>Tindakan</th><th>Modul</th><th>Rekod</th><th>Ringkasan</th></tr></thead><tbody id="audit-tbody"></tbody></table></div>
       <div id="audit-empty" class="empty" style="display:none">Belum ada perubahan admin direkodkan.</div>
       <p class="admin-statusline" id="audit-status" aria-live="polite"></p>
@@ -221,18 +212,6 @@
     <label class="field-label" for="f-takwim-susunan">Susunan</label><input type="number" id="f-takwim-susunan" value="10" min="0">
     <p class="hint">Destinasi: takwim laman sekolah sahaja.</p>
     <div class="modal-actions"><button type="button" class="btn-secondary" id="takwim-batal">Batal</button><button type="button" class="btn-primary" id="takwim-simpan">Simpan</button></div>
-  </section>
-</div>
-
-<div id="galeri-modal" class="modal-overlay" data-admin-modal hidden>
-  <section class="modal" role="dialog" aria-modal="true" aria-labelledby="galeri-modal-title" aria-describedby="galeri-msg">
-    <h3 id="galeri-modal-title">Tambah Gambar Aktiviti</h3><p class="msg" id="galeri-msg" aria-live="polite"></p>
-    <div class="row2"><div><label class="field-label" for="f-galeri-tarikh">Tarikh</label><input type="date" id="f-galeri-tarikh"></div><div><label class="field-label" for="f-galeri-kategori">Kategori</label><select id="f-galeri-kategori"><option value="aktiviti">Aktiviti</option><option value="pencapaian">Pencapaian</option></select></div></div>
-    <label class="field-label" for="f-galeri-tajuk">Tajuk <span class="field-required">*</span></label><input type="text" id="f-galeri-tajuk" maxlength="180" required>
-    <label class="field-label" for="f-galeri-url">URL Gambar <span class="field-required">*</span></label><input type="url" id="f-galeri-url" placeholder="https://..." required>
-    <label class="field-label" for="f-galeri-alt">Teks Alternatif <span class="field-required">*</span></label><input type="text" id="f-galeri-alt" maxlength="250" required>
-    <div class="admin-preview" id="galeri-preview" hidden><img id="galeri-preview-image" src="/assets/logo-sekolah.png" alt="Pratonton gambar galeri"><div><strong id="galeri-preview-title">Pratonton gambar</strong><small>Pastikan imej jelas dan teks alternatif menerangkan kandungannya.</small></div></div>
-    <div class="modal-actions"><button type="button" class="btn-secondary" id="galeri-batal">Batal</button><button type="button" class="btn-primary" id="galeri-simpan">Simpan</button></div>
   </section>
 </div>
 

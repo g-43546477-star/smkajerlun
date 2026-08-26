@@ -31,7 +31,6 @@ const commonStub = String.raw`
       { id: 1, portal: 'sekolah', kategori: 'aktiviti', tarikh_mula: '2026-08-25', tarikh_tamat: null, tajuk: 'Aktiviti sekolah', keterangan: null, susunan: 10 },
       { id: 2, portal: 'pss', kategori: 'aktiviti', tarikh_mula: '2026-08-26', tarikh_tamat: null, tajuk: 'Aktiviti PSS', keterangan: 'Ruang bacaan', susunan: 10 }
     ],
-    gallery_item: [{ id: 1, tarikh: '2026-08-20', tajuk: 'Galeri sekolah', kategori: 'aktiviti', image_url: 'https://example.com/image.jpg', alt_text: 'Aktiviti sekolah', susunan: 1 }],
     achievement: [{ id: 1, tarikh: '2026-08-17', tajuk: 'Program sekolah', kategori: 'sekolah', penerangan: 'Ringkasan', pautan: '/program/', susunan: 1, slug: null, kandungan: null, image_url: null, galeri: [] }],
     school_directory: [{ id: 1, kategori: 'pentadbiran', nama: 'Pejabat Sekolah', jawatan: 'Urusan Am', telefon: '04-9250925', emel: 'kra4002@moe.edu.my', susunan: 1 }],
     resource_file: [{ id: 1, kategori: 'Borang', tajuk: 'Borang Contoh', penerangan: 'Dokumen contoh', url: 'https://example.com/borang.pdf', susunan: 1 }],
@@ -171,6 +170,9 @@ async function schoolAdminCheck(viewport) {
   await page.goto(serverInfo.url + '/admin/?tab=pengumuman', { waitUntil: 'domcontentloaded' });
   await page.locator('#admin-main').waitFor({ state: 'visible' });
   if (!(await page.locator('#admin-health').getAttribute('data-state') === 'ready')) failures.push('school admin: health did not become ready');
+  if (await page.locator('.tab-btn').filter({ hasText: 'Galeri' }).count() || await page.locator('#galeri-modal, #galeri-tambah').count()) {
+    failures.push('school admin: retired gallery module is still visible');
+  }
   const announcementText = await page.locator('#pengumuman-tbody').textContent();
   if (!announcementText.includes('Makluman sekolah') || announcementText.includes('Makluman PSS')) failures.push('school admin: announcement scope mixed');
   await page.locator('#pengumuman-tambah').click();

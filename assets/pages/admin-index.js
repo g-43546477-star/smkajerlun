@@ -5,7 +5,6 @@ const editIds = {
   pengumuman: null,
   kandungan: null,
   takwim: null,
-  galeri: null,
   pencapaian: null,
   direktori: null,
   fail: null
@@ -526,91 +525,8 @@ async function saveTakwim() {
 }
 
 // ---------------------------------------------------------------------------
-// Galeri dan pencapaian
+// Program sekolah
 // ---------------------------------------------------------------------------
-async function loadGaleri() {
-  ui.setMessage('galeri-status', 'Memuatkan galeri...', 'loading');
-  const response = await sb.from('gallery_item').select('*')
-    .order('tarikh', { ascending: false }).order('susunan').order('id', { ascending: false });
-  const tbody = clearTable('galeri-tbody');
-  if (response.error) {
-    ui.showLoadError('galeri-empty', 'galeri-status', 'Galeri', response.error);
-    return false;
-  }
-  const rows = response.data || [];
-  rows.forEach(function (row) {
-    const tr = document.createElement('tr');
-      tr.append(
-      ui.createCell(ui.formatDate(row.tarikh)),
-      ui.createCell(row.tajuk, 'admin-table-title'),
-      ui.createCell('Program Sekolah'),
-      actionsCell(function () { openGaleriModal(row); }, function () {
-        deleteRow('gallery_item', row.id, 'gambar ' + row.tajuk, loadGaleri);
-      })
-    );
-    tbody.appendChild(tr);
-  });
-  ui.showEmpty('galeri-empty', !rows.length);
-  ui.setMessage('galeri-status', rows.length + ' gambar galeri.', 'success');
-  return true;
-}
-
-function updateGalleryPreview() {
-  const raw = document.getElementById('f-galeri-url').value;
-  const url = ui.validHttpUrl(raw);
-  const preview = document.getElementById('galeri-preview');
-  if (!url) {
-    preview.hidden = true;
-    return;
-  }
-  const image = document.getElementById('galeri-preview-image');
-  image.src = url;
-  image.alt = document.getElementById('f-galeri-alt').value.trim() || 'Pratonton gambar';
-  document.getElementById('galeri-preview-title').textContent =
-    document.getElementById('f-galeri-tajuk').value.trim() || 'Pratonton gambar';
-  preview.hidden = false;
-}
-
-function openGaleriModal(row) {
-  editIds.galeri = row ? row.id : null;
-  document.getElementById('f-galeri-tarikh').value = row && row.tarikh ? row.tarikh : todayIso();
-  document.getElementById('f-galeri-kategori').value = row && row.kategori ? row.kategori : 'aktiviti';
-  document.getElementById('f-galeri-tajuk').value = row ? row.tajuk : '';
-  document.getElementById('f-galeri-url').value = row ? row.image_url : '';
-  document.getElementById('f-galeri-alt').value = row && row.alt_text ? row.alt_text : '';
-  updateGalleryPreview();
-  openRecordModal('galeri', row ? 'Ubah Gambar Aktiviti' : 'Tambah Gambar Aktiviti', 'f-galeri-tajuk');
-}
-
-async function saveGaleri() {
-  const tajuk = document.getElementById('f-galeri-tajuk').value.trim();
-  const imageUrl = ui.validHttpUrl(document.getElementById('f-galeri-url').value);
-  const altText = document.getElementById('f-galeri-alt').value.trim();
-  if (!tajuk || !imageUrl || !altText) {
-    ui.setMessage('galeri-msg', 'Sila isi tajuk, URL gambar yang sah dan teks alternatif.', 'error');
-    return;
-  }
-  const payload = {
-    tajuk: tajuk,
-    kategori: document.getElementById('f-galeri-kategori').value,
-    image_url: imageUrl,
-    alt_text: altText,
-    tarikh: document.getElementById('f-galeri-tarikh').value || null
-  };
-  const button = document.getElementById('galeri-simpan');
-  ui.setBusy(button, true, 'Menyimpan...');
-  const response = await saveRow('gallery_item', editIds.galeri, payload);
-  ui.setBusy(button, false);
-  if (response.error) {
-    ui.setMessage('galeri-msg', errorText('Gambar galeri', response.error), 'error');
-    return;
-  }
-  ui.markModalSaved('galeri-modal');
-  closeRecordModal('galeri', true);
-  await loadGaleri();
-  showToast('Berjaya', 'Gambar galeri disimpan.', 'success');
-}
-
 async function loadPencapaian() {
   ui.setMessage('pencapaian-status', 'Memuatkan program sekolah...', 'loading');
   const response = await sb.from('achievement').select('*')
@@ -626,7 +542,7 @@ async function loadPencapaian() {
     tr.append(
       ui.createCell(ui.formatDate(row.tarikh)),
       ui.createCell(row.tajuk, 'admin-table-title'),
-      ui.createCell(row.kategori),
+      ui.createCell('Program Sekolah'),
       actionsCell(function () { openPencapaianModal(row); }, function () {
         deleteRow('achievement', row.id, 'program ' + row.tajuk, loadPencapaian);
       })
@@ -966,13 +882,6 @@ function bindEvents() {
   document.getElementById('takwim-batal').addEventListener('click', function () { closeRecordModal('takwim'); });
   document.getElementById('takwim-simpan').addEventListener('click', saveTakwim);
 
-  ['f-galeri-url', 'f-galeri-alt', 'f-galeri-tajuk'].forEach(function (id) {
-    document.getElementById(id).addEventListener('input', updateGalleryPreview);
-  });
-  document.getElementById('galeri-tambah').addEventListener('click', function () { openGaleriModal(null); });
-  document.getElementById('galeri-batal').addEventListener('click', function () { closeRecordModal('galeri'); });
-  document.getElementById('galeri-simpan').addEventListener('click', saveGaleri);
-
   document.getElementById('pencapaian-tambah').addEventListener('click', function () { openPencapaianModal(null); });
   document.getElementById('f-pencapaian-tajuk').addEventListener('input', function () {
     const slug = document.getElementById('f-pencapaian-slug');
@@ -1010,7 +919,6 @@ function bindEvents() {
     loadPengumuman(),
     loadKandungan(),
     loadTakwim(),
-    loadGaleri(),
     loadPencapaian(),
     loadDirektori(),
     loadFail(),
