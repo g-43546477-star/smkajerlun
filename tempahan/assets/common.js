@@ -2,6 +2,16 @@
 const SB_URL = 'https://jykptknzasrrkvtxtvuk.supabase.co';
 const SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imp5a3B0a256YXNycmt2dHh0dnVrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODYyNzU4MzUsImV4cCI6MjEwMTg1MTgzNX0.xFFOrAUcFDChpfXT7Wc5BWa7gWfHydQwOnSZtKgVoqY';
 const sb = window.supabase.createClient(SB_URL, SB_KEY);
+// Jadual awam mesti kekal menggunakan peranan anon walaupun guru telah log masuk.
+// Ini membolehkan semua slot aktif dilihat tanpa membuka medan peribadi jadual asal.
+const sbPublic = window.supabase.createClient(SB_URL, SB_KEY, {
+  auth: {
+    persistSession: false,
+    autoRefreshToken: false,
+    detectSessionInUrl: false,
+    storageKey: 'smkaj-tempahan-public'
+  }
+});
 const BASE = '/tempahan';
 
 // ---------- Data tetap ----------

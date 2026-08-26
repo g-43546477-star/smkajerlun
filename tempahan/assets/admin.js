@@ -1,5 +1,14 @@
 const { hariIni, esok } = tarikhInfo();
+const adminUI = window.adminUI;
 let adminAllEntries = [];
+
+function setBookingHealth(state, message) {
+  const health = document.getElementById('booking-admin-health');
+  if (!health) return;
+  health.dataset.state = state;
+  const label = health.querySelector('span:last-child');
+  if (label) label.textContent = message;
+}
 
 function parseIsoDate(value) {
   const [year, month, day] = value.split('-').map(Number);
@@ -45,7 +54,11 @@ function getStatsRange() {
 function getReportRange() {
   const period = document.getElementById('report-period').value;
   if (period === 'mingguan') return getWeekRange(document.getElementById('report-week').value || hariIni);
-  if (period === 'bulanan') return getMonthRange(document.getElementById('report-month').value || hariIni.slice(0, 7));
+  if (period === 'bulanan') {
+    const year = document.getElementById('report-year').value || hariIni.slice(0, 4);
+    const month = document.getElementById('report-month').value || hariIni.slice(5, 7);
+    return getMonthRange(`${year}-${month}`);
+  }
   return getYearRange(document.getElementById('report-year').value || hariIni.slice(0, 4));
 }
 
@@ -60,11 +73,11 @@ async function fetchAllBookings() {
   for (let from = 0; ; from += pageSize) {
     const { data, error } = await sb.from('tempahan').select('*')
       .order('tarikh', { ascending: false }).order('masa_mula').range(from, from + pageSize - 1);
-    if (error) { showToast('Ralat', 'Rekod tempahan tidak dapat dimuatkan.', 'error'); break; }
+    if (error) return { rows: [], error };
     rows.push(...(data || []));
     if (!data || data.length < pageSize) break;
   }
-  return rows;
+  return { rows, error: null };
 }
 
 function activeInRange(range) {
@@ -149,7 +162,7 @@ function renderUsageStats() {
     container.appendChild(item);
   });
   const label = groupBy === 'guru' ? 'guru' : 'bilik';
-  document.getElementById('stats-description').textContent = `Bilangan slot tempahan aktif mengikut ${label} bagi ${range.label.toLowerCase()}.`;
+  document.getElementById('stats-description').textContent = `Bilangan slot tempahan aktif mengikut ${label} bagi ${range.label}.`;
 }
 
 function renderAdminSenarai() {
@@ -189,7 +202,7 @@ function renderAdminSenarai() {
       const btn = document.createElement('button');
       btn.className = 'btn-danger';
       btn.textContent = 'Batalkan';
-      btn.onclick = () => onAdminCancel(e.id);
+      btn.onclick = () => onAdminCancel(e.id, btn);
       tdAction.appendChild(btn);
     } else { tdAction.textContent = '-'; }
     tr.appendChild(tdAction);
@@ -199,30 +212,49 @@ function renderAdminSenarai() {
 }
 
 async function loadAdminSenarai() {
-  adminAllEntries = await fetchAllBookings();
+  adminUI.setMessage('booking-admin-status', 'Memuatkan semua rekod tempahan...', 'loading');
+  setBookingHealth('checking', 'Memuatkan rekod tempahan');
+  const result = await fetchAllBookings();
+  if (result.error) {
+    adminAllEntries = [];
+    document.getElementById('admin-senarai-tbody').replaceChildren();
+    document.getElementById('admin-senarai-empty').style.display = 'none';
+    adminUI.setMessage('booking-admin-status', 'Rekod tempahan tidak dapat dimuatkan: ' + result.error.message, 'error');
+    setBookingHealth('error', 'Sambungan rekod tempahan gagal');
+    showToast('Ralat', 'Rekod tempahan tidak dapat dimuatkan.', 'error');
+    return false;
+  }
+  adminAllEntries = result.rows;
   loadDashboard();
   renderUsageStats();
   renderAdminSenarai();
+  adminUI.setMessage('booking-admin-status', adminAllEntries.length + ' rekod tempahan dimuatkan.', 'success');
+  setBookingHealth('ready', 'Rekod tempahan bersambung');
+  return true;
 }
 
-async function onAdminCancel(id) {
+async function onAdminCancel(id, button) {
   if (!confirm('Batalkan tempahan ini? Rekod akan disimpan untuk laporan.')) return;
+  adminUI.setBusy(button, true, 'Membatalkan...');
   const { error } = await sb.from('tempahan').update({ status: 'dibatalkan' }).eq('id', id);
-  if (error) { showToast('Ralat', 'Gagal membatalkan tempahan. Sila cuba lagi.', 'error'); return; }
+  adminUI.setBusy(button, false);
+  if (error) { showToast('Ralat', 'Gagal membatalkan tempahan: ' + error.message, 'error'); return; }
   await loadAdminSenarai();
+  showToast('Tempahan dibatalkan', 'Rekod dikekalkan untuk laporan dan audit.', 'success');
 }
 
 function updateReportControls() {
   const period = document.getElementById('report-period').value;
   document.getElementById('report-week').style.display = period === 'mingguan' ? 'block' : 'none';
   document.getElementById('report-month').style.display = period === 'bulanan' ? 'block' : 'none';
-  document.getElementById('report-year').style.display = period === 'tahunan' ? 'block' : 'none';
+  document.getElementById('report-year').style.display = period === 'bulanan' || period === 'tahunan' ? 'block' : 'none';
   const range = getReportRange();
   document.getElementById('report-description').textContent = `Laporan untuk sebuah bilik sahaja bagi ${range.label}. Fail CSV boleh dibuka terus dalam Excel.`;
 }
 
 function csvValue(value) {
-  const text = String(value ?? '');
+  let text = String(value ?? '');
+  if (/^[=+\-@]/.test(text)) text = "'" + text;
   return /[",\n]/.test(text) ? `"${text.replace(/"/g, '""')}"` : text;
 }
 
@@ -259,7 +291,7 @@ function downloadRoomReport() {
   document.body.appendChild(link);
   link.click();
   link.remove();
-  URL.revokeObjectURL(link.href);
+  window.setTimeout(() => URL.revokeObjectURL(link.href), 1000);
   showToast('Laporan dimuat turun', `${rows.length} slot tempahan aktif bagi ${roomName(bilik)} telah dimasukkan.`, 'success');
 }
 
@@ -333,7 +365,7 @@ document.getElementById('report-print').addEventListener('click', printRoomRepor
   document.getElementById('admin-main').style.display = 'block';
   populateAdminBilikFilter();
   document.getElementById('report-week').value = hariIni;
-  document.getElementById('report-month').value = hariIni.slice(0, 7);
+  document.getElementById('report-month').value = hariIni.slice(5, 7);
   document.getElementById('report-year').value = hariIni.slice(0, 4);
   updateReportControls();
   await loadAdminSenarai();

@@ -62,7 +62,7 @@
     if (!activityFeature) return;
     var today = new Date().toISOString().split('T')[0];
     var response = await window.cms.from('takwim').select('tajuk,tarikh_mula,tarikh_tamat')
-      .eq('kategori', 'aktiviti').or('tarikh_mula.gte.' + today + ',tarikh_tamat.gte.' + today).order('tarikh_mula').limit(1);
+      .eq('portal', 'pss').eq('kategori', 'aktiviti').or('tarikh_mula.gte.' + today + ',tarikh_tamat.gte.' + today).order('tarikh_mula').limit(1);
     var activity = response.data && response.data[0];
     if (response.error || !activity) {
       activityFeature.innerHTML = '<span>AKTIVITI</span><strong>Aktiviti seterusnya akan dikemas kini oleh PSS.</strong><small>Kalendar PSS &rarr;</small>';
@@ -74,7 +74,7 @@
   }
 
   async function loadBriefSection() {
-    var BULAN = ['Jan','Feb','Mac','Apr','Mei','Jun','Jul','Ogo','Sep','Okt','Nov','Dis'];
+    var BULAN = ['Januari','Februari','Mac','April','Mei','Jun','Julai','Ogos','September','Oktober','November','Disember'];
     function setTarikh(el, iso) {
       if (!el) return;
       var parts = String(iso || '').split('-');
@@ -82,21 +82,21 @@
     }
     var today = new Date().toISOString().split('T')[0];
     var aktivitiResponse = await window.cms.from('takwim').select('tajuk,tarikh_mula,tarikh_tamat,kategori')
-      .eq('kategori', 'aktiviti').or('tarikh_mula.gte.' + today + ',tarikh_tamat.gte.' + today).order('tarikh_mula').limit(1);
+      .eq('portal', 'pss').eq('kategori', 'aktiviti').or('tarikh_mula.gte.' + today + ',tarikh_tamat.gte.' + today).order('tarikh_mula').limit(1);
     var aktiviti = aktivitiResponse.data && aktivitiResponse.data[0];
     if (aktiviti) {
       setTarikh(document.getElementById('pss-aktiviti-tarikh'), aktiviti.tarikh_mula);
       var tajukEl = document.getElementById('pss-aktiviti-tajuk');
       var infoEl = document.getElementById('pss-aktiviti-maklumat');
       if (tajukEl) tajukEl.textContent = aktiviti.tajuk;
-      if (infoEl) infoEl.textContent = 'Aktiviti rasmi sekolah — rujuk kalendar untuk butiran penuh.';
+      if (infoEl) infoEl.textContent = 'Aktiviti rasmi PSS - rujuk kalendar untuk butiran penuh.';
     } else {
       var fallbackTajuk = document.getElementById('pss-aktiviti-tajuk');
       var fallbackInfo = document.getElementById('pss-aktiviti-maklumat');
       if (fallbackTajuk) fallbackTajuk.textContent = 'Cadangan bahan bacaan sentiasa dibuka';
       if (fallbackInfo) fallbackInfo.textContent = 'Hantar judul buku atau bahan digital yang ingin dicadangkan kepada PSS.';
     }
-    var notisResponse = await window.cms.from('pengumuman').select('tajuk,tarikh,kandungan').order('tarikh', { ascending: false }).limit(1);
+    var notisResponse = await window.cms.from('pengumuman').select('tajuk,tarikh,kandungan').eq('portal', 'pss').order('tarikh', { ascending: false }).limit(1);
     var notis = notisResponse.data && notisResponse.data[0];
     if (notis) {
       setTarikh(document.getElementById('pss-notis-tarikh'), notis.tarikh || notis.tarikh_mula);

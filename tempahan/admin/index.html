@@ -8,8 +8,8 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=IBM+Plex+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/tempahan/assets/style.css?v=20260820-3">
-<link rel="stylesheet" href="/assets/admin-shell.css?v=20260820-3">
+<link rel="stylesheet" href="/tempahan/assets/style.css?v=20260824-1">
+<link rel="stylesheet" href="/assets/admin-shell.css?v=20260824-1">
 <link rel="icon" type="image/png" href="/logo.png">
 </head>
 <body>
@@ -20,27 +20,32 @@
       <img class="logo" src="/assets/logo-sekolah.png" alt="Logo SMKAJ">
       <div><h1>Tempahan Bilik Khas</h1><p>SMK Agama Jerlun</p></div>
     </a>
-    <nav class="links">
+    <nav class="links" aria-label="Navigasi panel tempahan">
       <a href="/" title="Dashboard sekolah">Utama</a>
       <a href="/tempahan/">Buat Tempahan</a>
       <a href="/tempahan/jadual/">Jadual Keseluruhan</a>
       <a href="/tempahan/senarai/">Senarai Tempahan</a>
       <a href="/tempahan/admin/" class="active" id="nav-admin">Admin</a>
     </nav>
-    <div class="authbox" id="authbox">...</div>
+    <div class="authbox" id="authbox" aria-live="polite">Memeriksa akses...</div>
   </div>
 </header>
 
-<main id="admin-main" style="display:none">
+<main id="admin-main" aria-labelledby="booking-admin-page-title" style="display:none">
   <div class="banner">
-    <h2>Papan Pemuka Admin</h2>
-    <p>Ringkasan, laporan dan pengurusan tempahan Bilik Khas untuk kegunaan staf.</p>
+    <div><h2 id="booking-admin-page-title">Papan Pemuka Tempahan</h2><p>Ringkasan, laporan dan pengurusan tempahan Bilik Khas untuk kegunaan staf.</p></div>
+    <div class="admin-health" id="booking-admin-health" data-state="checking" role="status"><span class="admin-health-dot" aria-hidden="true"></span><span>Memeriksa rekod tempahan</span></div>
+  </div>
+
+  <div class="admin-scope-note">
+    <div><strong>Modul transaksi: Tempahan Bilik Khas</strong><span>Panel ini hanya mengubah rekod tempahan. Kandungan laman sekolah dan Portal PSS tidak disentuh.</span></div>
+    <a class="admin-destination" href="/tempahan/jadual/" target="_blank" rel="noopener">Lihat jadual awam</a>
   </div>
 
   <nav class="admin-product-switcher" aria-label="Modul pentadbiran">
-    <a href="/admin/"><span>KANDUNGAN</span><b>Laman sekolah</b><small>Maklumat, staf dan takwim</small></a>
+    <a href="/admin/"><span>KANDUNGAN</span><b>Laman sekolah</b><small>Maklumat, warga dan takwim</small></a>
     <a class="active" href="/tempahan/admin/"><span>TEMPAHAN</span><b>Bilik khas</b><small>Penggunaan dan laporan</small></a>
-    <a href="/pss/admin/"><span>PORTAL PSS</span><b>Pusat sumber</b><small>Pinjaman dan cadangan buku</small></a>
+    <a href="/pss/admin/"><span>PORTAL PSS</span><b>Pusat sumber</b><small>Kandungan, pinjaman dan katalog</small></a>
   </nav>
 
   <div class="stats">
@@ -65,8 +70,8 @@
         <p class="sub" id="stats-description">Bilangan slot tempahan aktif bagi bulan semasa.</p>
       </div>
       <div class="admin-filters">
-        <select id="stats-group"><option value="bilik">Statistik ikut bilik</option><option value="guru">Statistik ikut guru</option></select>
-        <select id="stats-period"><option value="minggu">Minggu semasa</option><option value="bulan" selected>Bulan semasa</option><option value="tahun">Tahun semasa</option><option value="semua">Semua rekod</option></select>
+        <select id="stats-group" aria-label="Kumpulkan statistik mengikut"><option value="bilik">Statistik ikut bilik</option><option value="guru">Statistik ikut guru</option></select>
+        <select id="stats-period" aria-label="Tempoh statistik"><option value="minggu">Minggu semasa</option><option value="bulan" selected>Bulan semasa</option><option value="tahun">Tahun semasa</option><option value="semua">Semua rekod</option></select>
       </div>
     </div>
     <div class="roomstats" id="usage-stats"></div>
@@ -80,11 +85,11 @@
         <p class="sub" id="report-description">Pilih sebuah bilik dan tempoh laporan. Fail CSV boleh dibuka terus dalam Excel.</p>
       </div>
       <div class="admin-filters">
-        <select id="report-bilik"><option value="">Pilih bilik</option></select>
-        <select id="report-period"><option value="mingguan">Mingguan</option><option value="bulanan" selected>Bulanan</option><option value="tahunan">Tahunan</option></select>
+        <select id="report-bilik" aria-label="Bilik untuk laporan"><option value="">Pilih bilik</option></select>
+        <select id="report-period" aria-label="Tempoh laporan"><option value="mingguan">Mingguan</option><option value="bulanan" selected>Bulanan</option><option value="tahunan">Tahunan</option></select>
         <input type="date" id="report-week" aria-label="Pilih tarikh dalam minggu">
-        <input type="month" id="report-month" aria-label="Pilih bulan">
-        <input type="number" id="report-year" min="2020" max="2100" aria-label="Pilih tahun">
+        <select id="report-month" aria-label="Pilih bulan"><option value="01">Januari</option><option value="02">Februari</option><option value="03">Mac</option><option value="04">April</option><option value="05">Mei</option><option value="06">Jun</option><option value="07">Julai</option><option value="08">Ogos</option><option value="09">September</option><option value="10">Oktober</option><option value="11">November</option><option value="12">Disember</option></select>
+        <input type="number" id="report-year" min="2020" max="2100" inputmode="numeric" aria-label="Pilih tahun">
         <button type="button" id="report-download" class="btn-primary">Muat Turun CSV</button>
         <button type="button" id="report-print" class="btn-secondary">Cetak / PDF</button>
       </div>
@@ -94,10 +99,10 @@
   <div class="card">
     <h3>Tempahan Akan Datang</h3>
     <p class="sub">Semua tempahan aktif untuk hari ini &amp; esok, mengikut masa.</p>
-    <table>
+    <div class="tablewrap"><table>
       <thead><tr><th>Tarikh</th><th>Masa</th><th>Bilik</th><th>Nama Guru</th><th>Kelas</th></tr></thead>
       <tbody id="upcoming-tbody"></tbody>
-    </table>
+    </table></div>
     <div id="upcoming-empty" class="empty" style="display:none">Tiada tempahan akan datang.</div>
   </div>
 
@@ -108,9 +113,9 @@
         <p class="sub">Semua tempahan terdahulu dan terkini dalam sistem.</p>
       </div>
       <div class="admin-filters">
-        <input type="date" id="af-tarikh">
-        <select id="af-bilik"><option value="">Semua Bilik</option></select>
-        <input type="text" id="af-nama" placeholder="Cari nama guru...">
+        <input type="date" id="af-tarikh" aria-label="Tapis mengikut tarikh">
+        <select id="af-bilik" aria-label="Tapis mengikut bilik"><option value="">Semua Bilik</option></select>
+        <input type="search" id="af-nama" placeholder="Cari nama guru..." aria-label="Cari nama guru">
         <button type="button" id="af-clear" class="btn-clear">Kosongkan Penapis</button>
       </div>
     </div>
@@ -123,6 +128,7 @@
       </table>
     </div>
     <div id="admin-senarai-empty" class="empty" style="display:none">Tiada rekod ditemui.</div>
+    <p class="admin-statusline" id="booking-admin-status" aria-live="polite"></p>
   </div>
 
   <div class="card">
@@ -136,18 +142,19 @@
   </div>
 </main>
 
-<main id="admin-denied" style="display:none">
+<section id="admin-denied" aria-labelledby="booking-admin-denied-title" style="display:none">
   <div class="card" style="text-align:center;padding:50px 24px">
-    <h3 style="font-size:17px">Akses Terhad</h3>
+    <h2 id="booking-admin-denied-title" style="font-size:17px">Akses Terhad</h2>
     <p class="sub" style="margin-bottom:20px">Halaman ini untuk pentadbir sahaja. Sila log masuk dengan akaun pentadbir.</p>
     <a href="/tempahan/log-masuk/" class="btn-primary" style="text-decoration:none;display:inline-block">Log Masuk</a>
   </div>
-</main>
+</section>
 
 <section id="print-report" hidden aria-hidden="true"></section>
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
-<script src="/tempahan/assets/common.js"></script>
-<script src="/tempahan/assets/admin.js?v=20260816-4"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.57.4/dist/umd/supabase.min.js"></script>
+<script src="/tempahan/assets/common.js?v=20260824-1"></script>
+<script src="/assets/admin-ui.js?v=20260824-1"></script>
+<script src="/tempahan/assets/admin.js?v=20260824-1"></script>
 </body>
 </html>

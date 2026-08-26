@@ -24,12 +24,22 @@
   }
   function renderSchoolDirectory(mountId) {
     var mount = $(mountId); if (!mount) return;
-    mount.innerHTML = [
+    var schoolProfile = [
       '<article class="portal-row"><div><b>Sekolah Menengah Kebangsaan Agama Jerlun</b><p>Kod sekolah: KRA 4002</p><small>Kategori: Sekolah Menengah Kebangsaan Agama</small></div></article>',
       '<article class="portal-row"><div><b>Alamat</b><p>Jalan Kodiang, 06100 Kodiang</p><small>Kedah Darul Aman, Malaysia</small></div></article>',
       '<article class="portal-row"><div><b>Hubungan</b><p>Telefon: <a href="tel:+6049250925">04-9250925</a> &middot; Faks: 04-9250926</p><small><a href="mailto:kra4002@moe.edu.my">kra4002@moe.edu.my</a></small></div></article>',
       '<article class="portal-row"><div><b>Media Sosial</b><p>SMK AGAMA Jerlun - FB</p><small>Facebook rasmi sekolah</small></div></article>'
-    ].join('');
+    ];
+    mount.innerHTML = schoolProfile.join('');
+    cms.from('school_directory').select('*').order('susunan').order('nama').then(function (response) {
+      if (response.error || !response.data || !response.data.length) return;
+      var contacts = response.data.map(function (row) {
+        var contact = [row.telefon, row.emel].filter(Boolean).map(esc).join(' &middot; ');
+        return '<article class="portal-row"><div><b>' + esc(row.nama) + '</b><p>' + esc(row.jawatan) + '</p>' +
+          '<small>' + (contact || esc(row.kategori)) + '</small></div></article>';
+      });
+      mount.innerHTML = schoolProfile.concat(contacts).join('');
+    });
   }
   function setupAccess() {
     var large = $('access-large'), contrast = $('access-contrast');

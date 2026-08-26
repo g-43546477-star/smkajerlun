@@ -176,10 +176,12 @@
   };
 
   // Muatkan senarai pengumuman ke dalam mount (#notis-list)
-  window.cmsLoadPengumuman = async function (mountId) {
+  window.cmsLoadPengumuman = async function (mountId, options) {
     const mount = document.getElementById(mountId);
     if (!mount) return;
+    const portal = options && options.portal ? options.portal : 'sekolah';
     const { data, error } = await cmsClient.from('pengumuman').select('*')
+      .eq('portal', portal)
       .order('tarikh', { ascending: false }).order('id', { ascending: false }).limit(20);
     mount.innerHTML = '';
     if (error || !data || !data.length) {
@@ -286,6 +288,7 @@
     const alertStrip = document.getElementById('home-alert-strip');
     if (!mount) return;
     const { data, error } = await cmsClient.from('pengumuman').select('tajuk,tarikh,kandungan')
+      .eq('portal', 'sekolah')
       .order('tarikh', { ascending: false }).order('id', { ascending: false }).limit(1);
     if (error || !data || !data.length) {
       mount.innerHTML = '<p class="ios-today-empty">Tiada makluman baharu buat masa ini.</p>';
@@ -489,7 +492,7 @@
     const mRingkasan = document.getElementById(options.summaryHeadingId);
     const prev = document.getElementById(options.prevId);
     const next = document.getElementById(options.nextId);
-    const { data, error } = await cmsClient.from('takwim').select('*').order('tarikh_mula');
+    const { data, error } = await cmsClient.from('takwim').select('*').eq('portal', 'sekolah').order('tarikh_mula');
     if (error || !data) return;
 
     if (mAkademik) {
@@ -530,6 +533,7 @@
     if (!mount) return;
     const todayStr = new Date().toISOString().split('T')[0];
     const { data, error } = await cmsClient.from('takwim').select('*')
+      .eq('portal', 'sekolah')
       .eq('kategori', 'aktiviti')
       .or('tarikh_mula.gte.' + todayStr + ',tarikh_tamat.gte.' + todayStr)
       .order('tarikh_mula')
@@ -550,7 +554,7 @@
     const mount = document.getElementById(mountId);
     if (!mount) return;
     const todayStr = new Date().toISOString().split('T')[0];
-    const { data, error } = await cmsClient.from('takwim').select('tajuk,tarikh_mula,tarikh_tamat').eq('kategori', 'aktiviti')
+    const { data, error } = await cmsClient.from('takwim').select('tajuk,tarikh_mula,tarikh_tamat').eq('portal', 'sekolah').eq('kategori', 'aktiviti')
       .or('tarikh_mula.gte.' + todayStr + ',tarikh_tamat.gte.' + todayStr).order('tarikh_mula').limit(1);
     mount.textContent = !error && data && data.length ? data[0].tajuk : 'Tiada aktiviti terdekat';
   };
@@ -576,10 +580,12 @@
     }
     const results = await Promise.all([
       cmsClient.from('takwim').select('tajuk,tarikh_mula,tarikh_tamat,keterangan')
+        .eq('portal', 'sekolah')
         .eq('kategori', 'akademik')
         .or('tarikh_mula.gte.' + todayStr + ',tarikh_tamat.gte.' + todayStr)
         .order('tarikh_mula').limit(calendarLimit),
       cmsClient.from('pengumuman').select('tajuk,kandungan,tarikh')
+        .eq('portal', 'sekolah')
         .order('tarikh', { ascending: false }).order('id', { ascending: false }).limit(noticeLimit)
     ]);
     const calendarResult = results[0];

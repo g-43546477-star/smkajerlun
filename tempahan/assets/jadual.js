@@ -21,7 +21,7 @@ function cellFor(entries, roomId, masaMula) {
 
 async function renderTable() {
   const tarikh = document.getElementById('f-tarikh').value;
-  const { data, error } = await sb.from('tempahan_awam').select('*').eq('tarikh', tarikh).limit(300);
+  const { data, error } = await sbPublic.from('tempahan_awam').select('*').eq('tarikh', tarikh).limit(300);
   const entries = error ? [] : (data || []);
 
   const tbody = document.getElementById('tbody');
@@ -49,7 +49,7 @@ async function renderTable() {
   });
 }
 
-sb.channel('jadual-live')
+sbPublic.channel('jadual-live')
   .on('postgres_changes', { event: '*', schema: 'public', table: 'tempahan' }, payload => {
     const row = (payload.new && payload.new.tarikh) ? payload.new : payload.old;
     if (row && row.tarikh === document.getElementById('f-tarikh').value) renderTable();

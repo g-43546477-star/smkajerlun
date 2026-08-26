@@ -7,327 +7,275 @@
 <meta name="robots" content="noindex">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=IBM+Plex+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/tempahan/assets/style.css?v=20260820-3">
-<link rel="stylesheet" href="/assets/admin-shell.css?v=20260820-3">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&amp;family=IBM+Plex+Mono:wght@400;500;600;700&amp;family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/tempahan/assets/style.css?v=20260824-1">
+<link rel="stylesheet" href="/assets/admin-shell.css?v=20260824-1">
 <link rel="icon" type="image/png" href="/logo.png">
 </head>
 <body>
-
 <header class="topnav">
   <div class="wrap bar">
     <a href="/" class="brand">
       <img class="logo" src="/assets/logo-sekolah.png" alt="Logo SMKAJ">
       <div><h1>Panel Kandungan</h1><p>SMK Agama Jerlun</p></div>
     </a>
-    <nav class="links">
-      <a href="/" title="Laman utama sekolah">Laman Utama</a>
+    <nav class="links" aria-label="Navigasi panel">
+      <a href="/">Laman Sekolah</a>
       <a href="/tempahan/admin/">Admin Tempahan</a>
       <a href="/pss/admin/">Admin PSS</a>
     </nav>
-    <div class="authbox" id="authbox">...</div>
+    <div class="authbox" id="authbox" aria-live="polite">Memeriksa akses...</div>
   </div>
 </header>
 
-<main id="admin-main" style="display:none">
+<main id="admin-main" aria-labelledby="admin-page-title" style="display:none">
   <div class="banner">
-    <h2>Panel Kandungan Laman</h2>
-    <p>Edit, tambah atau padam apa-apa kandungan yang dipaparkan di laman sekolah.</p>
+    <div>
+      <h2 id="admin-page-title">Panel Kandungan Laman Sekolah</h2>
+      <p>Urus kandungan rasmi sekolah tanpa mencampurkannya dengan Portal PSS.</p>
+    </div>
+    <div class="admin-health" id="admin-health" data-state="checking" role="status"><span class="admin-health-dot" aria-hidden="true"></span><span>Memeriksa sambungan data</span></div>
+  </div>
+
+  <div class="admin-scope-note">
+    <div><strong>Destinasi: Laman rasmi sekolah</strong><span>Pengumuman dan takwim di panel ini hanya muncul pada laman sekolah. Kandungan Portal PSS diurus melalui Admin PSS.</span></div>
+    <a class="admin-destination" href="/" target="_blank" rel="noopener">Lihat laman sekolah</a>
   </div>
 
   <nav class="admin-product-switcher" aria-label="Modul pentadbiran">
-    <a class="active" href="/admin/"><span>KANDUNGAN</span><b>Laman sekolah</b><small>Maklumat, staf dan takwim</small></a>
+    <a class="active" href="/admin/"><span>KANDUNGAN</span><b>Laman sekolah</b><small>Maklumat, warga dan takwim</small></a>
     <a href="/tempahan/admin/"><span>TEMPAHAN</span><b>Bilik khas</b><small>Penggunaan dan laporan</small></a>
-    <a href="/pss/admin/"><span>PORTAL PSS</span><b>Pusat sumber</b><small>Pinjaman dan cadangan buku</small></a>
+    <a href="/pss/admin/"><span>PORTAL PSS</span><b>Pusat sumber</b><small>Kandungan, pinjaman dan katalog</small></a>
   </nav>
 
-  <div class="tabrow">
-    <button type="button" class="tab-btn active" data-tab="staf">Staf &amp; Carta</button>
+  <div class="tabrow" role="tablist" aria-label="Bahagian kandungan sekolah">
+    <button type="button" class="tab-btn active" data-tab="staf">Warga</button>
     <button type="button" class="tab-btn" data-tab="pengumuman">Pengumuman</button>
-    <button type="button" class="tab-btn" data-tab="galeri">Galeri Aktiviti</button>
-    <button type="button" class="tab-btn" data-tab="kandungan">Kandungan Laman</button>
+    <button type="button" class="tab-btn" data-tab="kandungan">Halaman</button>
     <button type="button" class="tab-btn" data-tab="takwim">Takwim</button>
+    <button type="button" class="tab-btn" data-tab="media">Media &amp; Pencapaian</button>
+    <button type="button" class="tab-btn" data-tab="direktori">Direktori &amp; Fail</button>
+    <button type="button" class="tab-btn" data-tab="audit">Log Perubahan</button>
   </div>
 
-  <!-- ===== TAB: GALERI ===== -->
-  <div class="admin-tabpane" id="pane-galeri">
+  <section class="admin-tabpane active" id="pane-staf">
     <div class="card">
       <div class="head-row">
-        <div>
-          <h2 class="page-title">Galeri Aktiviti</h2>
-          <p class="page-sub">Tambah gambar aktiviti sekolah yang dipaparkan di laman utama.</p>
-        </div>
-        <button type="button" class="btn-primary" id="galeri-tambah">+ Tambah Gambar</button>
+        <div><h2 class="page-title">Staf &amp; Carta Organisasi</h2><p class="page-sub">Barisan pentadbir membina carta; kategori lain dipaparkan sebagai senarai warga.</p></div>
+        <a class="admin-destination" href="/info/?tab=warga" target="_blank" rel="noopener">Lihat paparan warga</a>
       </div>
-      <div class="tablewrap">
-        <table>
-          <thead><tr><th>Tarikh</th><th>Tajuk</th><th>URL Gambar</th><th style="text-align:right">Tindakan</th></tr></thead>
-          <tbody id="galeri-tbody"></tbody>
-        </table>
-      </div>
-      <div id="galeri-empty" class="empty" style="display:none">Tiada gambar aktiviti.</div>
-    </div>
-  </div>
-
-  <!-- ===== TAB: STAF & CARTA ===== -->
-  <div class="admin-tabpane active" id="pane-staf">
-    <div class="card">
       <div class="head-row">
-        <div>
-          <h2 class="page-title">Staf &amp; Carta Organisasi</h2>
-          <p class="page-sub">Barisan pentadbir memaparkan carta; kategori lain memaparkan senarai.</p>
-        </div>
         <div class="head-controls">
-          <select id="staf-filter">
-            <option value="pentadbir">Barisan Pentadbir (Carta)</option>
-            <option value="khas">Kaunselor &amp; Guru Khas</option>
-            <option value="guru">Guru Akademik Biasa</option>
-            <option value="akp">AKP</option>
-          </select>
-          <button type="button" class="btn-primary" id="staf-tambah">+ Tambah Staf</button>
+          <label class="sr-only" for="staf-filter">Kategori staf</label>
+          <select id="staf-filter"><option value="pentadbir">Barisan Pentadbir</option><option value="khas">Kaunselor &amp; Guru Khas</option><option value="guru">Guru Akademik</option><option value="akp">AKP</option></select>
         </div>
+        <button type="button" class="btn-primary" id="staf-tambah">Tambah Staf</button>
       </div>
-      <div class="tablewrap">
-        <table>
-          <thead><tr><th>Susunan</th><th>Tier</th><th>Jawatan</th><th>Nama</th><th>Gred</th><th style="text-align:right">Tindakan</th></tr></thead>
-          <tbody id="staf-tbody"></tbody>
-        </table>
-      </div>
+      <div class="tablewrap"><table><thead><tr><th>Susunan</th><th>Tier</th><th>Jawatan</th><th>Nama</th><th>Gred</th><th style="text-align:right">Tindakan</th></tr></thead><tbody id="staf-tbody"></tbody></table></div>
       <div id="staf-empty" class="empty" style="display:none">Tiada rekod dalam kategori ini.</div>
+      <p class="admin-statusline" id="staf-status" aria-live="polite"></p>
     </div>
-  </div>
+  </section>
 
-  <!-- ===== TAB: PENGUMUMAN ===== -->
-  <div class="admin-tabpane" id="pane-pengumuman">
+  <section class="admin-tabpane" id="pane-pengumuman" hidden>
     <div class="card">
       <div class="head-row">
-        <div>
-          <h2 class="page-title">Pengumuman Laman Utama</h2>
-          <p class="page-sub">Dipaparkan mengikut tarikh terbaharu di laman utama.</p>
-        </div>
-        <button type="button" class="btn-primary" id="pengumuman-tambah">+ Tambah Pengumuman</button>
+        <div><h2 class="page-title">Pengumuman Sekolah</h2><p class="page-sub">Disusun mengikut tarikh terbaharu dan tidak dipaparkan dalam Portal PSS.</p></div>
+        <a class="admin-destination" href="/#notis-title" target="_blank" rel="noopener">Lihat pengumuman</a>
       </div>
-      <div class="tablewrap">
-        <table>
-          <thead><tr><th>Tarikh</th><th>Tajuk</th><th style="text-align:right">Tindakan</th></tr></thead>
-          <tbody id="pengumuman-tbody"></tbody>
-        </table>
-      </div>
-      <div id="pengumuman-empty" class="empty" style="display:none">Tiada pengumuman.</div>
+      <div class="head-row"><span class="page-sub">Semak tajuk dan tarikh sebelum diterbitkan.</span><button type="button" class="btn-primary" id="pengumuman-tambah">Tambah Pengumuman</button></div>
+      <div class="tablewrap"><table><thead><tr><th>Tarikh</th><th>Tajuk</th><th style="text-align:right">Tindakan</th></tr></thead><tbody id="pengumuman-tbody"></tbody></table></div>
+      <div id="pengumuman-empty" class="empty" style="display:none">Tiada pengumuman sekolah.</div>
+      <p class="admin-statusline" id="pengumuman-status" aria-live="polite"></p>
     </div>
-  </div>
+  </section>
 
-  <!-- ===== TAB: KANDUNGAN LAMAN ===== -->
-  <div class="admin-tabpane" id="pane-kandungan">
+  <section class="admin-tabpane" id="pane-kandungan" hidden>
     <div class="card">
       <div class="head-row">
-        <div>
-          <h2 class="page-title">Kandungan Laman</h2>
-          <p class="page-sub">Kad kandungan bagi laman Akademik, Kokurikulum, Asrama, HEM, rujukan akademik dan Profil.</p>
-        </div>
-        <div class="head-controls">
-          <select id="kandungan-filter">
-            <option value="akademik">Akademik</option>
-            <option value="kokurikulum">Kokurikulum</option>
-            <option value="asrama">Asrama</option>
-            <option value="hem">Hal Ehwal Murid</option>
-            <option value="rujukan_akademik">Rujukan Akademik</option>
-            <option value="profil">Profil (Laman Utama)</option>
-          </select>
-          <button type="button" class="btn-primary" id="kandungan-tambah">+ Tambah Blok</button>
-        </div>
+        <div><h2 class="page-title">Kandungan Halaman</h2><p class="page-sub">Blok teks berstruktur untuk Akademik, Kokurikulum, Asrama, HEM dan Info Sekolah.</p></div>
+        <a class="admin-destination" id="kandungan-preview-link" href="/akademik/" target="_blank" rel="noopener">Lihat halaman dipilih</a>
       </div>
-      <div class="tablewrap">
-        <table>
-          <thead><tr><th>Susunan</th><th>Tajuk</th><th>Jenis</th><th style="text-align:right">Tindakan</th></tr></thead>
-          <tbody id="kandungan-tbody"></tbody>
-        </table>
+      <div class="head-row">
+        <div class="head-controls"><label class="sr-only" for="kandungan-filter">Halaman</label><select id="kandungan-filter"><option value="akademik">Akademik</option><option value="kokurikulum">Kokurikulum</option><option value="asrama">Asrama</option><option value="hem">Hal Ehwal Murid</option><option value="rujukan_akademik">Rujukan Akademik</option><option value="profil">Profil &amp; Info Sekolah</option></select></div>
+        <button type="button" class="btn-primary" id="kandungan-tambah">Tambah Blok</button>
       </div>
-      <div id="kandungan-empty" class="empty" style="display:none">Tiada blok kandungan.</div>
+      <div class="tablewrap"><table><thead><tr><th>Susunan</th><th>Tajuk</th><th>Jenis</th><th style="text-align:right">Tindakan</th></tr></thead><tbody id="kandungan-tbody"></tbody></table></div>
+      <div id="kandungan-empty" class="empty" style="display:none">Tiada blok kandungan pada halaman ini.</div>
+      <p class="admin-statusline" id="kandungan-status" aria-live="polite"></p>
     </div>
-  </div>
+  </section>
 
-  <!-- ===== TAB: TAKWIM ===== -->
-  <div class="admin-tabpane" id="pane-takwim">
+  <section class="admin-tabpane" id="pane-takwim" hidden>
     <div class="card">
       <div class="head-row">
-        <div>
-          <h2 class="page-title">Takwim Sekolah</h2>
-          <p class="page-sub">Kalendar akademik, hari kelepasan am dan aktiviti &amp; program.</p>
-        </div>
-        <div class="head-controls">
-          <select id="takwim-filter">
-            <option value="aktiviti">Aktiviti &amp; Program</option>
-            <option value="akademik">Kalendar Akademik</option>
-            <option value="cuti">Hari Kelepasan Am</option>
-          </select>
-          <button type="button" class="btn-primary" id="takwim-tambah">+ Tambah Entri</button>
-        </div>
+        <div><h2 class="page-title">Takwim Sekolah</h2><p class="page-sub">Kalendar akademik, hari kelepasan am dan aktiviti rasmi sekolah.</p></div>
+        <a class="admin-destination" href="/info/?tab=takwim" target="_blank" rel="noopener">Lihat takwim sekolah</a>
       </div>
-      <div class="tablewrap">
-        <table>
-          <thead><tr><th>Tarikh Mula</th><th>Tarikh Tamat</th><th>Tajuk</th><th style="text-align:right">Tindakan</th></tr></thead>
-          <tbody id="takwim-tbody"></tbody>
-        </table>
+      <div class="head-row">
+        <div class="head-controls"><label class="sr-only" for="takwim-filter">Kategori takwim</label><select id="takwim-filter"><option value="aktiviti">Aktiviti &amp; Program</option><option value="akademik">Kalendar Akademik</option><option value="cuti">Hari Kelepasan Am</option></select></div>
+        <button type="button" class="btn-primary" id="takwim-tambah">Tambah Entri</button>
       </div>
+      <div class="tablewrap"><table><thead><tr><th>Tarikh Mula</th><th>Tarikh Tamat</th><th>Tajuk</th><th style="text-align:right">Tindakan</th></tr></thead><tbody id="takwim-tbody"></tbody></table></div>
       <div id="takwim-empty" class="empty" style="display:none">Tiada entri dalam kategori ini.</div>
+      <p class="admin-statusline" id="takwim-status" aria-live="polite"></p>
     </div>
-  </div>
-</main>
+  </section>
 
-<main id="admin-denied" style="display:none">
-  <div class="card" style="text-align:center;padding:50px 24px">
-    <h3 style="font-size:17px">Akses Terhad</h3>
-    <p class="sub" style="margin-bottom:20px">Halaman ini untuk pentadbir sahaja. Sila log masuk dengan akaun pentadbir.</p>
-    <a href="/tempahan/log-masuk/" class="btn-primary" style="text-decoration:none;display:inline-block">Log Masuk</a>
-  </div>
-</main>
-
-<!-- ===== MODAL: STAF ===== -->
-<div id="staf-modal" class="modal-overlay" style="display:none">
-  <div class="modal">
-    <h3 id="staf-modal-title">Tambah Staf</h3>
-    <p class="msg" id="staf-msg"></p>
-    <label class="field-label">Kategori</label>
-    <select id="f-staf-kategori">
-      <option value="pentadbir">Barisan Pentadbir</option>
-      <option value="khas">Kaunselor &amp; Guru Khas</option>
-      <option value="guru">Guru Akademik Biasa</option>
-      <option value="akp">AKP</option>
-    </select>
-    <div id="f-staf-tier-wrap">
-      <label class="field-label">Tier Carta</label>
-      <select id="f-staf-tier">
-        <option value="pengetua">Pengetua (kotak atas)</option>
-        <option value="pk" selected>Penolong Kanan</option>
-        <option value="ketua">Ketua Bidang</option>
-      </select>
-    </div>
-    <label class="field-label">Jawatan <span style="color:#94a3b8;font-weight:600">(cth: PK Pentadbiran / Ketua Pembantu Tadbir)</span></label>
-    <input type="text" id="f-staf-jawatan">
-    <div class="row2">
-      <div><label class="field-label">Nama</label><input type="text" id="f-staf-nama"></div>
-      <div><label class="field-label">Gred</label><input type="text" id="f-staf-gred" placeholder="cth: DG10 KUP"></div>
-    </div>
-    <label class="field-label">Susunan (nombor kecil = keutamaan)</label>
-    <input type="number" id="f-staf-susunan" value="10">
-    <div class="modal-actions">
-      <button type="button" class="btn-secondary" id="staf-batal">Batal</button>
-      <button type="button" class="btn-primary" id="staf-simpan">Simpan</button>
-    </div>
-  </div>
-</div>
-
-<!-- ===== MODAL: PENGUMUMAN ===== -->
-<div id="pengumuman-modal" class="modal-overlay" style="display:none">
-  <div class="modal">
-    <h3 id="pengumuman-modal-title">Tambah Pengumuman</h3>
-    <p class="msg" id="pengumuman-msg"></p>
-    <label class="field-label">Tarikh</label>
-    <input type="date" id="f-pengumuman-tarikh">
-    <label class="field-label">Tajuk</label>
-    <input type="text" id="f-pengumuman-tajuk">
-    <label class="field-label">Kandungan</label>
-    <textarea id="f-pengumuman-kandungan" rows="4"></textarea>
-    <div class="modal-actions">
-      <button type="button" class="btn-secondary" id="pengumuman-batal">Batal</button>
-      <button type="button" class="btn-primary" id="pengumuman-simpan">Simpan</button>
-    </div>
-  </div>
-</div>
-
-<div id="galeri-modal" class="modal-overlay" style="display:none">
-  <div class="modal">
-    <h3 id="galeri-modal-title">Tambah Gambar Aktiviti</h3>
-    <p class="msg" id="galeri-msg"></p>
-    <label class="field-label">Tarikh</label>
-    <input type="date" id="f-galeri-tarikh">
-    <label class="field-label">Tajuk</label>
-    <input type="text" id="f-galeri-tajuk" required>
-    <label class="field-label">URL Gambar</label>
-    <input type="url" id="f-galeri-url" placeholder="https://..." required>
-    <label class="field-label">Teks alternatif</label>
-    <input type="text" id="f-galeri-alt" placeholder="Penerangan ringkas gambar">
-    <div class="modal-actions">
-      <button type="button" class="btn-secondary" id="galeri-batal">Batal</button>
-      <button type="button" class="btn-primary" id="galeri-simpan">Simpan</button>
-    </div>
-  </div>
-</div>
-
-<!-- ===== MODAL: KANDUNGAN ===== -->
-<div id="kandungan-modal" class="modal-overlay" style="display:none">
-  <div class="modal wide">
-    <h3 id="kandungan-modal-title">Tambah Blok Kandungan</h3>
-    <p class="msg" id="kandungan-msg"></p>
-    <div class="row2">
-      <div>
-        <label class="field-label">Laman</label>
-        <select id="f-kandungan-laman">
-          <option value="akademik">Akademik</option>
-          <option value="kokurikulum">Kokurikulum</option>
-          <option value="asrama">Asrama</option>
-          <option value="hem">Hal Ehwal Murid</option>
-          <option value="rujukan_akademik">Rujukan Akademik</option>
-          <option value="profil">Profil (Laman Utama)</option>
-        </select>
+  <section class="admin-tabpane" id="pane-media" hidden>
+    <div class="admin-section-grid">
+      <div class="card">
+        <div class="head-row"><div><h2 class="page-title">Galeri Aktiviti</h2><p class="page-sub">Gambar umum laman sekolah dan imej sokongan pencapaian.</p></div><button type="button" class="btn-primary" id="galeri-tambah">Tambah Gambar</button></div>
+        <a class="admin-destination" href="/#gallery-list" target="_blank" rel="noopener">Lihat galeri</a>
+        <div class="tablewrap"><table><thead><tr><th>Tarikh</th><th>Tajuk</th><th>Kategori</th><th style="text-align:right">Tindakan</th></tr></thead><tbody id="galeri-tbody"></tbody></table></div>
+        <div id="galeri-empty" class="empty" style="display:none">Tiada gambar aktiviti.</div>
+        <p class="admin-statusline" id="galeri-status" aria-live="polite"></p>
       </div>
-      <div>
-        <label class="field-label">Jenis</label>
-        <select id="f-kandungan-jenis">
-          <option value="paragraf">Perenggan</option>
-          <option value="senarai_ol">Senarai Bernombor</option>
-          <option value="senarai_ul">Senarai Bulet</option>
-          <option value="definisi">Definisi (Label :: Nilai)</option>
-          <option value="lagu">Lagu Sekolah</option>
-          <option value="panitia">Panitia (ikut Bidang)</option>
-        </select>
+      <div class="card">
+        <div class="head-row"><div><h2 class="page-title">Pencapaian</h2><p class="page-sub">Kad berita yang dipaparkan di Kokurikulum dan sorotan laman utama.</p></div><button type="button" class="btn-primary" id="pencapaian-tambah">Tambah Pencapaian</button></div>
+        <a class="admin-destination" href="/kokurikulum/?section=koku-pencapaian" target="_blank" rel="noopener">Lihat pencapaian</a>
+        <div class="tablewrap"><table><thead><tr><th>Tarikh</th><th>Tajuk</th><th>Kategori</th><th style="text-align:right">Tindakan</th></tr></thead><tbody id="pencapaian-tbody"></tbody></table></div>
+        <div id="pencapaian-empty" class="empty" style="display:none">Tiada pencapaian direkodkan.</div>
+        <p class="admin-statusline" id="pencapaian-status" aria-live="polite"></p>
       </div>
     </div>
-    <label class="field-label">Tajuk Kad <span style="color:#94a3b8;font-weight:600">(blok bertajuk sama akan bercantum dalam satu kad)</span></label>
-    <input type="text" id="f-kandungan-tajuk">
-    <label class="field-label">Susunan (nombor kecil = atas sekali)</label>
-    <input type="number" id="f-kandungan-susunan" value="10">
-    <label class="field-label">Kandungan</label>
-    <textarea id="f-kandungan-kandungan" rows="8"></textarea>
-    <p class="hint" id="kandungan-hint"></p>
-    <div class="modal-actions">
-      <button type="button" class="btn-secondary" id="kandungan-batal">Batal</button>
-      <button type="button" class="btn-primary" id="kandungan-simpan">Simpan</button>
+  </section>
+
+  <section class="admin-tabpane" id="pane-direktori" hidden>
+    <div class="admin-section-grid">
+      <div class="card">
+        <div class="head-row"><div><h2 class="page-title">Direktori Sekolah</h2><p class="page-sub">Nama pegawai, jawatan dan maklumat hubungan yang boleh dihubungi.</p></div><button type="button" class="btn-primary" id="direktori-tambah">Tambah Direktori</button></div>
+        <a class="admin-destination" href="/perkhidmatan/direktori/" target="_blank" rel="noopener">Lihat direktori</a>
+        <div class="tablewrap"><table><thead><tr><th>Susunan</th><th>Nama</th><th>Jawatan</th><th>Kategori</th><th style="text-align:right">Tindakan</th></tr></thead><tbody id="direktori-tbody"></tbody></table></div>
+        <div id="direktori-empty" class="empty" style="display:none">Tiada rekod direktori.</div>
+        <p class="admin-statusline" id="direktori-status" aria-live="polite"></p>
+      </div>
+      <div class="card">
+        <div class="head-row"><div><h2 class="page-title">Borang &amp; Dokumen</h2><p class="page-sub">Pautan fail rasmi yang dipaparkan di Pusat Muat Turun.</p></div><button type="button" class="btn-primary" id="fail-tambah">Tambah Fail</button></div>
+        <a class="admin-destination" href="/perkhidmatan/muat-turun/" target="_blank" rel="noopener">Lihat muat turun</a>
+        <div class="tablewrap"><table><thead><tr><th>Susunan</th><th>Tajuk</th><th>Kategori</th><th style="text-align:right">Tindakan</th></tr></thead><tbody id="fail-tbody"></tbody></table></div>
+        <div id="fail-empty" class="empty" style="display:none">Tiada fail untuk dimuat turun.</div>
+        <p class="admin-statusline" id="fail-status" aria-live="polite"></p>
+      </div>
     </div>
-  </div>
+  </section>
+
+  <section class="admin-tabpane" id="pane-audit" hidden>
+    <div class="card">
+      <div class="head-row"><div><h2 class="page-title">Log Perubahan Pentadbir</h2><p class="page-sub">Jejak perubahan kandungan, PSS dan tempahan tanpa memaparkan data sensitif secara mentah.</p></div><button type="button" class="btn-secondary" id="audit-refresh">Muat Semula</button></div>
+      <div class="head-controls"><label for="audit-filter" class="field-label">Modul</label><select id="audit-filter"><option value="">Semua modul</option><option value="content_block">Kandungan halaman</option><option value="pengumuman">Pengumuman</option><option value="takwim">Takwim</option><option value="staff">Staf</option><option value="achievement">Pencapaian</option><option value="gallery_item">Galeri</option><option value="resource_file">Fail</option><option value="school_directory">Direktori</option><option value="pss_book">Buku PSS</option><option value="pss_pinjaman">Pinjaman PSS</option><option value="tempahan">Tempahan bilik</option></select></div>
+      <div class="tablewrap"><table><thead><tr><th>Masa</th><th>Tindakan</th><th>Modul</th><th>Rekod</th><th>Ringkasan</th></tr></thead><tbody id="audit-tbody"></tbody></table></div>
+      <div id="audit-empty" class="empty" style="display:none">Belum ada perubahan admin direkodkan.</div>
+      <p class="admin-statusline" id="audit-status" aria-live="polite"></p>
+    </div>
+  </section>
+</main>
+
+<section id="admin-denied" aria-labelledby="admin-denied-title" style="display:none">
+  <div class="card" style="text-align:center;padding:50px 24px"><h2 class="page-title" id="admin-denied-title">Akses Terhad</h2><p class="sub" style="margin-bottom:20px">Halaman ini untuk pentadbir sahaja. Sila log masuk dengan akaun pentadbir.</p><a href="/tempahan/log-masuk/" class="btn-primary" style="text-decoration:none;display:inline-block">Log Masuk</a></div>
+</section>
+
+<div id="staf-modal" class="modal-overlay" data-admin-modal hidden>
+  <section class="modal" role="dialog" aria-modal="true" aria-labelledby="staf-modal-title" aria-describedby="staf-msg">
+    <h3 id="staf-modal-title">Tambah Staf</h3><p class="msg" id="staf-msg" aria-live="polite"></p>
+    <label class="field-label" for="f-staf-kategori">Kategori</label><select id="f-staf-kategori"><option value="pentadbir">Barisan Pentadbir</option><option value="khas">Kaunselor &amp; Guru Khas</option><option value="guru">Guru Akademik</option><option value="akp">AKP</option></select>
+    <div id="f-staf-tier-wrap"><label class="field-label" for="f-staf-tier">Tier Carta</label><select id="f-staf-tier"><option value="pengetua">Pengetua</option><option value="pk" selected>Penolong Kanan</option><option value="ketua">Ketua Bidang</option></select></div>
+    <label class="field-label" for="f-staf-jawatan">Jawatan</label><input type="text" id="f-staf-jawatan" autocomplete="organization-title">
+    <div class="row2"><div><label class="field-label" for="f-staf-nama">Nama <span class="field-required">*</span></label><input type="text" id="f-staf-nama" required autocomplete="name"></div><div><label class="field-label" for="f-staf-gred">Gred</label><input type="text" id="f-staf-gred" placeholder="Contoh: DG10 KUP"></div></div>
+    <label class="field-label" for="f-staf-susunan">Susunan <span class="field-help">Nombor kecil dipaparkan dahulu</span></label><input type="number" id="f-staf-susunan" value="10" min="0">
+    <div class="modal-actions"><button type="button" class="btn-secondary" id="staf-batal">Batal</button><button type="button" class="btn-primary" id="staf-simpan">Simpan</button></div>
+  </section>
 </div>
 
-<!-- ===== MODAL: TAKWIM ===== -->
-<div id="takwim-modal" class="modal-overlay" style="display:none">
-  <div class="modal">
-    <h3 id="takwim-modal-title">Tambah Entri Takwim</h3>
-    <p class="msg" id="takwim-msg"></p>
-    <label class="field-label">Kategori</label>
-    <select id="f-takwim-kategori">
-      <option value="aktiviti">Aktiviti &amp; Program</option>
-      <option value="akademik">Kalendar Akademik</option>
-      <option value="cuti">Hari Kelepasan Am</option>
-    </select>
-    <div class="row2">
-      <div><label class="field-label">Tarikh Mula</label><input type="date" id="f-takwim-mula"></div>
-      <div><label class="field-label">Tarikh Tamat <span style="color:#94a3b8;font-weight:600">(kosong jika sehari)</span></label><input type="date" id="f-takwim-tamat"></div>
-    </div>
-    <label class="field-label">Tajuk</label>
-    <input type="text" id="f-takwim-tajuk">
-    <label class="field-label">Keterangan <span style="color:#94a3b8;font-weight:600">(pilihan &mdash; cth: "10 Minggu")</span></label>
-    <input type="text" id="f-takwim-keterangan">
-    <label class="field-label">Susunan</label>
-    <input type="number" id="f-takwim-susunan" value="10">
-    <div class="modal-actions">
-      <button type="button" class="btn-secondary" id="takwim-batal">Batal</button>
-      <button type="button" class="btn-primary" id="takwim-simpan">Simpan</button>
-    </div>
-  </div>
+<div id="pengumuman-modal" class="modal-overlay" data-admin-modal hidden>
+  <section class="modal" role="dialog" aria-modal="true" aria-labelledby="pengumuman-modal-title" aria-describedby="pengumuman-msg">
+    <h3 id="pengumuman-modal-title">Tambah Pengumuman</h3><p class="msg" id="pengumuman-msg" aria-live="polite"></p>
+    <label class="field-label" for="f-pengumuman-tarikh">Tarikh <span class="field-required">*</span></label><input type="date" id="f-pengumuman-tarikh" required>
+    <label class="field-label" for="f-pengumuman-tajuk">Tajuk <span class="field-required">*</span></label><input type="text" id="f-pengumuman-tajuk" maxlength="180" required>
+    <label class="field-label" for="f-pengumuman-kandungan">Kandungan</label><textarea id="f-pengumuman-kandungan" rows="5" maxlength="1500"></textarea>
+    <p class="hint">Destinasi: pengumuman laman sekolah sahaja.</p>
+    <div class="modal-actions"><button type="button" class="btn-secondary" id="pengumuman-batal">Batal</button><button type="button" class="btn-primary" id="pengumuman-simpan">Simpan</button></div>
+  </section>
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
-<script src="/tempahan/assets/common.js"></script>
-<script src="/assets/pages/admin-index.js?v=20260816-4"></script>
+<div id="kandungan-modal" class="modal-overlay" data-admin-modal hidden>
+  <section class="modal wide" role="dialog" aria-modal="true" aria-labelledby="kandungan-modal-title" aria-describedby="kandungan-msg">
+    <h3 id="kandungan-modal-title">Tambah Blok Kandungan</h3><p class="msg" id="kandungan-msg" aria-live="polite"></p>
+    <div class="row2"><div><label class="field-label" for="f-kandungan-laman">Halaman</label><select id="f-kandungan-laman"><option value="akademik">Akademik</option><option value="kokurikulum">Kokurikulum</option><option value="asrama">Asrama</option><option value="hem">Hal Ehwal Murid</option><option value="rujukan_akademik">Rujukan Akademik</option><option value="profil">Profil &amp; Info Sekolah</option></select></div><div><label class="field-label" for="f-kandungan-jenis">Jenis</label><select id="f-kandungan-jenis"><option value="paragraf">Perenggan</option><option value="senarai_ol">Senarai Bernombor</option><option value="senarai_ul">Senarai Bulet</option><option value="definisi">Definisi</option><option value="lagu">Lagu Sekolah</option><option value="panitia">Panitia / Unit</option></select></div></div>
+    <label class="field-label" for="f-kandungan-tajuk">Tajuk Kad</label><input type="text" id="f-kandungan-tajuk" maxlength="180">
+    <label class="field-label" for="f-kandungan-susunan">Susunan</label><input type="number" id="f-kandungan-susunan" value="10" min="0">
+    <label class="field-label" for="f-kandungan-kandungan">Kandungan</label><textarea id="f-kandungan-kandungan" rows="10"></textarea><p class="hint" id="kandungan-hint"></p>
+    <div class="admin-editor-tools"><button type="button" class="btn-secondary" id="kandungan-contoh">Masukkan Contoh Format</button><span>Pratonton di bawah hanya menyemak struktur; gunakan pautan paparan selepas simpan untuk semakan akhir.</span></div>
+    <div class="admin-content-preview" id="kandungan-preview" hidden><strong>Pratonton Struktur</strong><div id="kandungan-preview-body"></div></div>
+    <div class="modal-actions"><button type="button" class="btn-secondary" id="kandungan-batal">Batal</button><button type="button" class="btn-primary" id="kandungan-simpan">Simpan</button></div>
+  </section>
+</div>
+
+<div id="takwim-modal" class="modal-overlay" data-admin-modal hidden>
+  <section class="modal" role="dialog" aria-modal="true" aria-labelledby="takwim-modal-title" aria-describedby="takwim-msg">
+    <h3 id="takwim-modal-title">Tambah Entri Takwim</h3><p class="msg" id="takwim-msg" aria-live="polite"></p>
+    <label class="field-label" for="f-takwim-kategori">Kategori</label><select id="f-takwim-kategori"><option value="aktiviti">Aktiviti &amp; Program</option><option value="akademik">Kalendar Akademik</option><option value="cuti">Hari Kelepasan Am</option></select>
+    <div class="row2"><div><label class="field-label" for="f-takwim-mula">Tarikh Mula <span class="field-required">*</span></label><input type="date" id="f-takwim-mula" required></div><div><label class="field-label" for="f-takwim-tamat">Tarikh Tamat</label><input type="date" id="f-takwim-tamat"></div></div>
+    <label class="field-label" for="f-takwim-tajuk">Tajuk <span class="field-required">*</span></label><input type="text" id="f-takwim-tajuk" maxlength="180" required>
+    <label class="field-label" for="f-takwim-keterangan">Keterangan</label><input type="text" id="f-takwim-keterangan" maxlength="500">
+    <label class="field-label" for="f-takwim-susunan">Susunan</label><input type="number" id="f-takwim-susunan" value="10" min="0">
+    <p class="hint">Destinasi: takwim laman sekolah sahaja.</p>
+    <div class="modal-actions"><button type="button" class="btn-secondary" id="takwim-batal">Batal</button><button type="button" class="btn-primary" id="takwim-simpan">Simpan</button></div>
+  </section>
+</div>
+
+<div id="galeri-modal" class="modal-overlay" data-admin-modal hidden>
+  <section class="modal" role="dialog" aria-modal="true" aria-labelledby="galeri-modal-title" aria-describedby="galeri-msg">
+    <h3 id="galeri-modal-title">Tambah Gambar Aktiviti</h3><p class="msg" id="galeri-msg" aria-live="polite"></p>
+    <div class="row2"><div><label class="field-label" for="f-galeri-tarikh">Tarikh</label><input type="date" id="f-galeri-tarikh"></div><div><label class="field-label" for="f-galeri-kategori">Kategori</label><select id="f-galeri-kategori"><option value="aktiviti">Aktiviti</option><option value="pencapaian">Pencapaian</option></select></div></div>
+    <label class="field-label" for="f-galeri-tajuk">Tajuk <span class="field-required">*</span></label><input type="text" id="f-galeri-tajuk" maxlength="180" required>
+    <label class="field-label" for="f-galeri-url">URL Gambar <span class="field-required">*</span></label><input type="url" id="f-galeri-url" placeholder="https://..." required>
+    <label class="field-label" for="f-galeri-alt">Teks Alternatif <span class="field-required">*</span></label><input type="text" id="f-galeri-alt" maxlength="250" required>
+    <div class="admin-preview" id="galeri-preview" hidden><img id="galeri-preview-image" src="/assets/logo-sekolah.png" alt="Pratonton gambar galeri"><div><strong id="galeri-preview-title">Pratonton gambar</strong><small>Pastikan imej jelas dan teks alternatif menerangkan kandungannya.</small></div></div>
+    <div class="modal-actions"><button type="button" class="btn-secondary" id="galeri-batal">Batal</button><button type="button" class="btn-primary" id="galeri-simpan">Simpan</button></div>
+  </section>
+</div>
+
+<div id="pencapaian-modal" class="modal-overlay" data-admin-modal hidden>
+  <section class="modal wide" role="dialog" aria-modal="true" aria-labelledby="pencapaian-modal-title" aria-describedby="pencapaian-msg">
+    <h3 id="pencapaian-modal-title">Tambah Pencapaian</h3><p class="msg" id="pencapaian-msg" aria-live="polite"></p>
+    <div class="row2"><div><label class="field-label" for="f-pencapaian-tarikh">Tarikh</label><input type="date" id="f-pencapaian-tarikh"></div><div><label class="field-label" for="f-pencapaian-kategori">Kategori</label><input type="text" id="f-pencapaian-kategori" value="kokurikulum" list="kategori-pencapaian"></div></div>
+    <datalist id="kategori-pencapaian"><option value="kokurikulum"></option><option value="akademik"></option><option value="HEM"></option><option value="sekolah"></option></datalist>
+    <label class="field-label" for="f-pencapaian-tajuk">Tajuk <span class="field-required">*</span></label><input type="text" id="f-pencapaian-tajuk" maxlength="220" required>
+    <label class="field-label" for="f-pencapaian-penerangan">Ringkasan</label><textarea id="f-pencapaian-penerangan" rows="5" maxlength="1000"></textarea>
+    <label class="field-label" for="f-pencapaian-pautan">Pautan Berita <span class="field-help">Gunakan laluan dalaman, contoh /kokurikulum/pencapaian/...</span></label><input type="text" id="f-pencapaian-pautan" placeholder="/kokurikulum/pencapaian/.../">
+    <label class="field-label" for="f-pencapaian-susunan">Susunan</label><input type="number" id="f-pencapaian-susunan" value="0" min="0">
+    <div class="modal-actions"><button type="button" class="btn-secondary" id="pencapaian-batal">Batal</button><button type="button" class="btn-primary" id="pencapaian-simpan">Simpan</button></div>
+  </section>
+</div>
+
+<div id="direktori-modal" class="modal-overlay" data-admin-modal hidden>
+  <section class="modal" role="dialog" aria-modal="true" aria-labelledby="direktori-modal-title" aria-describedby="direktori-msg">
+    <h3 id="direktori-modal-title">Tambah Direktori</h3><p class="msg" id="direktori-msg" aria-live="polite"></p>
+    <label class="field-label" for="f-direktori-kategori">Kategori</label><input type="text" id="f-direktori-kategori" list="kategori-direktori" required><datalist id="kategori-direktori"><option value="pentadbiran"></option><option value="pusat_sumber"></option><option value="akademik"></option><option value="HEM"></option></datalist>
+    <label class="field-label" for="f-direktori-nama">Nama <span class="field-required">*</span></label><input type="text" id="f-direktori-nama" required>
+    <label class="field-label" for="f-direktori-jawatan">Jawatan <span class="field-required">*</span></label><input type="text" id="f-direktori-jawatan" required>
+    <div class="row2"><div><label class="field-label" for="f-direktori-telefon">Telefon</label><input type="tel" id="f-direktori-telefon"></div><div><label class="field-label" for="f-direktori-emel">E-mel</label><input type="email" id="f-direktori-emel"></div></div>
+    <label class="field-label" for="f-direktori-susunan">Susunan</label><input type="number" id="f-direktori-susunan" value="10" min="0">
+    <div class="modal-actions"><button type="button" class="btn-secondary" id="direktori-batal">Batal</button><button type="button" class="btn-primary" id="direktori-simpan">Simpan</button></div>
+  </section>
+</div>
+
+<div id="fail-modal" class="modal-overlay" data-admin-modal hidden>
+  <section class="modal" role="dialog" aria-modal="true" aria-labelledby="fail-modal-title" aria-describedby="fail-msg">
+    <h3 id="fail-modal-title">Tambah Fail</h3><p class="msg" id="fail-msg" aria-live="polite"></p>
+    <label class="field-label" for="f-fail-kategori">Kategori <span class="field-required">*</span></label><input type="text" id="f-fail-kategori" list="kategori-fail" required><datalist id="kategori-fail"><option value="Borang"></option><option value="Panduan"></option><option value="Takwim"></option><option value="Surat"></option></datalist>
+    <label class="field-label" for="f-fail-tajuk">Tajuk <span class="field-required">*</span></label><input type="text" id="f-fail-tajuk" maxlength="180" required>
+    <label class="field-label" for="f-fail-penerangan">Penerangan</label><textarea id="f-fail-penerangan" rows="4" maxlength="700"></textarea>
+    <label class="field-label" for="f-fail-url">URL Fail <span class="field-required">*</span></label><input type="url" id="f-fail-url" placeholder="https://..." required>
+    <label class="field-label" for="f-fail-susunan">Susunan</label><input type="number" id="f-fail-susunan" value="10" min="0">
+    <div class="modal-actions"><button type="button" class="btn-secondary" id="fail-batal">Batal</button><button type="button" class="btn-primary" id="fail-simpan">Simpan</button></div>
+  </section>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.57.4/dist/umd/supabase.min.js"></script>
+<script src="/tempahan/assets/common.js?v=20260824-1"></script>
+<script src="/assets/admin-ui.js?v=20260824-1"></script>
+<script src="/assets/pages/admin-index.js?v=20260824-1"></script>
 </body>
 </html>

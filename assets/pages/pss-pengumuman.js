@@ -16,7 +16,7 @@
     return;
   }
 
-  Promise.resolve(window.cmsLoadPengumuman('notis-list'))
+  Promise.resolve(window.cmsLoadPengumuman('notis-list', { portal: 'pss' }))
     .catch(showUnavailable)
     .finally(function () {
       mount.setAttribute('aria-busy', 'false');

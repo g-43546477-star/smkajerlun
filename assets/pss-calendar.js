@@ -1,90 +1,167 @@
 (function () {
-  var mount = document.getElementById('pss-calendar-grid');
-  var list = document.getElementById('pss-calendar-list');
-  var monthLabel = document.getElementById('pss-calendar-month');
-  var previous = document.getElementById('pss-calendar-previous');
-  var next = document.getElementById('pss-calendar-next');
-  var todayButton = document.getElementById('pss-calendar-today');
-  if (!mount || !list || !monthLabel) return;
+  const mount = document.getElementById('pss-calendar-grid');
+  const list = document.getElementById('pss-calendar-list');
+  const monthLabel = document.getElementById('pss-calendar-month');
+  const previous = document.getElementById('pss-calendar-previous');
+  const next = document.getElementById('pss-calendar-next');
+  const todayButton = document.getElementById('pss-calendar-today');
+  const count = document.getElementById('pss-calendar-count');
+  if (!mount || !list || !monthLabel || !window.cms) return;
 
-  var monthNames = ['Januari', 'Februari', 'Mac', 'April', 'Mei', 'Jun', 'Julai', 'Ogos', 'September', 'Oktober', 'November', 'Disember'];
-  var dayNames = ['Isnin', 'Selasa', 'Rabu', 'Khamis', 'Jumaat', 'Sabtu', 'Ahad'];
-  var activities = [
-    ['2026-01-14', 'Orientasi PSS dan Lawatan Rak', 'Ruang Bacaan PSS, 8:30 pagi.'],
-    ['2026-01-28', 'Bengkel Pengawas PSS', 'Ruang Depan PSS, 2:30 petang.'],
-    ['2026-02-11', 'Jom Baca 10 Minit', 'Ruang Bacaan PSS, 7:25 pagi.'],
-    ['2026-02-25', 'Asas Carian Maklumat', 'Ruang Depan PSS, 2:30 petang.'],
-    ['2026-03-11', 'Kuiz Buku dan Bahasa', 'Bilik Tayangan, 2:30 petang.'],
-    ['2026-03-25', 'Sudut Bacaan Kelas', 'Ruang Depan PSS, 2:30 petang.'],
-    ['2026-04-08', 'Bedah Buku Ramadan', 'Ruang Bacaan PSS, 10:00 pagi.'],
-    ['2026-04-22', 'Rakaman Ulasan Buku', 'Bilik Casting, 2:30 petang.'],
-    ['2026-05-13', 'Minggu Literasi Maklumat', 'Ruang Depan PSS, 8:00 pagi.'],
-    ['2026-05-27', 'Tayangan Dokumentari Ilmu', 'Bilik Tayangan, 2:30 petang.'],
-    ['2026-06-10', 'Bengkel Poster Digital NILAM', 'Bilik Casting, 2:30 petang.'],
-    ['2026-06-24', 'Jom Kongsi Buku', 'Ruang Bacaan PSS, 10:00 pagi.'],
-    ['2026-07-08', 'Cabaran Bacaan Pertengahan Tahun', 'Ruang Bacaan PSS, 7:25 pagi.'],
-    ['2026-07-22', 'Klinik Rekod NILAM', 'Ruang Depan PSS, 2:30 petang.'],
-    ['2026-08-12', 'Jom Baca Bersama', 'Ruang Bacaan PSS, 9:00 pagi.'],
-    ['2026-08-26', 'Pameran Sejarah dan Kemerdekaan', 'Ruang Depan PSS, 8:00 pagi.'],
-    ['2026-09-09', 'Kelas Media dan Podcast', 'Bilik Casting, 2:30 petang.'],
-    ['2026-09-23', 'Tayangan Pendidikan', 'Bilik Tayangan, 2:30 petang.'],
-    ['2026-10-14', 'Minggu Buku dan Penulis', 'Ruang Depan PSS, 8:00 pagi.'],
-    ['2026-10-28', 'Jejak Maklumat PSS', 'Ruang Bacaan PSS, 2:30 petang.'],
-    ['2026-11-11', 'Perkongsian Buku Pilihan Murid', 'Ruang Bacaan PSS, 10:00 pagi.'],
-    ['2026-11-25', 'Apresiasi Pengawas PSS', 'Bilik Tayangan, 2:30 petang.'],
-    ['2026-12-09', 'Semakan Koleksi dan Rak', 'Ruang Bacaan PSS, 9:00 pagi.'],
-    ['2026-12-16', 'Perancangan Program PSS', 'Ruang Depan PSS, 10:00 pagi.']
-  ].map(function (item) {
-    return { date: item[0], title: item[1], detail: item[2] };
-  });
-
-  var today = new Date();
-  var current = new Date(2026, today.getFullYear() === 2026 ? today.getMonth() : 0, 1);
-  var esc = window.cmsEsc || function (value) {
-    return String(value || '').replace(/[&<>"']/g, function (char) {
-      return ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[char];
-    });
-  };
+  const monthNames = ['Januari', 'Februari', 'Mac', 'April', 'Mei', 'Jun', 'Julai', 'Ogos', 'September', 'Oktober', 'November', 'Disember'];
+  const dayNames = ['Isnin', 'Selasa', 'Rabu', 'Khamis', 'Jumaat', 'Sabtu', 'Ahad'];
+  const today = new Date();
+  let current = new Date(today.getFullYear(), today.getMonth(), 1);
+  let activities = [];
 
   function pad(value) { return String(value).padStart(2, '0'); }
   function isoDate(year, month, day) { return year + '-' + pad(month + 1) + '-' + pad(day); }
-  function formatDate(iso) {
-    var parts = iso.split('-');
-    return parseInt(parts[2], 10) + ' ' + monthNames[parseInt(parts[1], 10) - 1];
+  function parseDate(value) {
+    const parts = String(value || '').split('-').map(Number);
+    return new Date(parts[0], parts[1] - 1, parts[2]);
   }
-  function eventsFor(date) { return activities.filter(function (activity) { return activity.date === date; }); }
-  function activityMonth(year, month) {
-    return activities.filter(function (activity) {
-      return activity.date.indexOf(year + '-' + pad(month + 1)) === 0;
+  function formatDate(value) {
+    const parts = String(value || '').split('-').map(Number);
+    if (parts.length !== 3 || !parts[0]) return '';
+    return parts[2] + ' ' + monthNames[parts[1] - 1] + ' ' + parts[0];
+  }
+  function formatRange(activity) {
+    if (!activity.tarikh_tamat || activity.tarikh_tamat === activity.tarikh_mula) return formatDate(activity.tarikh_mula);
+    return formatDate(activity.tarikh_mula) + ' - ' + formatDate(activity.tarikh_tamat);
+  }
+  function occursOn(activity, value) {
+    const date = parseDate(value);
+    const start = parseDate(activity.tarikh_mula);
+    const end = parseDate(activity.tarikh_tamat || activity.tarikh_mula);
+    return date >= start && date <= end;
+  }
+  function occursInMonth(activity, year, month) {
+    const start = parseDate(activity.tarikh_mula);
+    const end = parseDate(activity.tarikh_tamat || activity.tarikh_mula);
+    const monthStart = new Date(year, month, 1);
+    const monthEnd = new Date(year, month + 1, 0, 23, 59, 59);
+    return start <= monthEnd && end >= monthStart;
+  }
+
+  function renderAgenda(rows) {
+    list.replaceChildren();
+    if (!rows.length) {
+      const empty = document.createElement('p');
+      empty.className = 'pss-calendar-empty';
+      empty.textContent = 'Tiada aktiviti PSS direkodkan untuk bulan ini.';
+      list.appendChild(empty);
+      return;
+    }
+    rows.forEach(function (activity) {
+      const article = document.createElement('article');
+      article.className = 'pss-calendar-event';
+      const time = document.createElement('time');
+      time.dateTime = activity.tarikh_mula;
+      time.textContent = formatRange(activity);
+      const body = document.createElement('div');
+      const heading = document.createElement('h3');
+      heading.textContent = activity.tajuk;
+      body.appendChild(heading);
+      if (activity.keterangan) {
+        const detail = document.createElement('p');
+        detail.textContent = activity.keterangan;
+        body.appendChild(detail);
+      }
+      article.append(time, body);
+      list.appendChild(article);
     });
   }
 
   function renderCalendar() {
-    var year = current.getFullYear();
-    var month = current.getMonth();
-    var firstDay = new Date(year, month, 1);
-    var daysInMonth = new Date(year, month + 1, 0).getDate();
-    var mondayIndex = (firstDay.getDay() + 6) % 7;
-    var monthActivities = activityMonth(year, month);
+    const year = current.getFullYear();
+    const month = current.getMonth();
+    const firstDay = new Date(year, month, 1);
+    const daysInMonth = new Date(year, month + 1, 0).getDate();
+    const mondayIndex = (firstDay.getDay() + 6) % 7;
+    const monthActivities = activities.filter(function (activity) {
+      return occursInMonth(activity, year, month);
+    });
+
     monthLabel.textContent = monthNames[month] + ' ' + year;
-    mount.innerHTML = dayNames.map(function (day) { return '<div class="pss-calendar-weekday" role="columnheader">' + day + '</div>'; }).join('');
-    for (var blank = 0; blank < mondayIndex; blank += 1) mount.innerHTML += '<div class="pss-calendar-day is-empty" aria-hidden="true"></div>';
-    for (var day = 1; day <= daysInMonth; day += 1) {
-      var date = isoDate(year, month, day);
-      var dayEvents = eventsFor(date);
-      var todayClass = date === isoDate(today.getFullYear(), today.getMonth(), today.getDate()) ? ' is-today' : '';
-      var eventClass = dayEvents.length ? ' has-event' : '';
-      mount.innerHTML += '<div class="pss-calendar-day' + todayClass + eventClass + '"><span class="pss-calendar-number">' + day + '</span>' + (dayEvents.length ? '<div class="pss-calendar-markers">' + dayEvents.map(function (event) { return '<span title="' + esc(event.title) + '"></span>'; }).join('') + '</div><small>' + dayEvents.length + ' aktiviti</small>' : '') + '</div>';
+    mount.replaceChildren();
+    dayNames.forEach(function (day) {
+      const label = document.createElement('div');
+      label.className = 'pss-calendar-weekday';
+      label.setAttribute('role', 'columnheader');
+      label.textContent = day;
+      mount.appendChild(label);
+    });
+    for (let blank = 0; blank < mondayIndex; blank += 1) {
+      const cell = document.createElement('div');
+      cell.className = 'pss-calendar-day is-empty';
+      cell.setAttribute('aria-hidden', 'true');
+      mount.appendChild(cell);
     }
-    list.innerHTML = monthActivities.length ? monthActivities.map(function (activity) {
-      return '<article class="pss-calendar-event"><time>' + esc(formatDate(activity.date)) + '</time><div><h3>' + esc(activity.title) + '</h3><p>' + esc(activity.detail) + '</p></div></article>';
-    }).join('') : '<p class="pss-calendar-empty">Tiada aktiviti PSS direkodkan untuk bulan ini.</p>';
-    var count = document.getElementById('pss-calendar-count');
+    for (let day = 1; day <= daysInMonth; day += 1) {
+      const date = isoDate(year, month, day);
+      const dayEvents = activities.filter(function (activity) { return occursOn(activity, date); });
+      const cell = document.createElement('div');
+      cell.className = 'pss-calendar-day';
+      cell.setAttribute('role', 'gridcell');
+      cell.setAttribute('aria-label', day + ' ' + monthNames[month] + (dayEvents.length ? ', ' + dayEvents.length + ' aktiviti' : ''));
+      if (date === isoDate(today.getFullYear(), today.getMonth(), today.getDate())) cell.classList.add('is-today');
+      if (dayEvents.length) cell.classList.add('has-event');
+      const number = document.createElement('span');
+      number.className = 'pss-calendar-number';
+      number.textContent = day;
+      cell.appendChild(number);
+      if (dayEvents.length) {
+        const markers = document.createElement('div');
+        markers.className = 'pss-calendar-markers';
+        dayEvents.forEach(function (activity) {
+          const marker = document.createElement('span');
+          marker.title = activity.tajuk;
+          markers.appendChild(marker);
+        });
+        const summary = document.createElement('small');
+        summary.textContent = dayEvents.length + ' aktiviti';
+        cell.append(markers, summary);
+      }
+      mount.appendChild(cell);
+    }
+    renderAgenda(monthActivities);
     if (count) count.textContent = monthActivities.length + ' aktiviti bulan ini';
   }
 
-  if (previous) previous.addEventListener('click', function () { current.setMonth(current.getMonth() - 1); renderCalendar(); });
-  if (next) next.addEventListener('click', function () { current.setMonth(current.getMonth() + 1); renderCalendar(); });
-  if (todayButton) todayButton.addEventListener('click', function () { current = new Date(2026, today.getFullYear() === 2026 ? today.getMonth() : 0, 1); renderCalendar(); });
-  renderCalendar();
+  async function loadActivities() {
+    mount.setAttribute('aria-busy', 'true');
+    const response = await window.cms.from('takwim')
+      .select('id,tajuk,tarikh_mula,tarikh_tamat,keterangan,susunan')
+      .eq('portal', 'pss')
+      .eq('kategori', 'aktiviti')
+      .order('tarikh_mula')
+      .order('susunan');
+    mount.removeAttribute('aria-busy');
+    if (response.error) {
+      activities = [];
+      renderCalendar();
+      const error = document.createElement('p');
+      error.className = 'pss-calendar-empty';
+      error.textContent = 'Kalendar PSS tidak dapat dimuatkan buat masa ini.';
+      list.replaceChildren(error);
+      if (count) count.textContent = 'Sambungan kalendar gagal';
+      return;
+    }
+    activities = response.data || [];
+    renderCalendar();
+  }
+
+  if (previous) previous.addEventListener('click', function () {
+    current.setMonth(current.getMonth() - 1);
+    renderCalendar();
+  });
+  if (next) next.addEventListener('click', function () {
+    current.setMonth(current.getMonth() + 1);
+    renderCalendar();
+  });
+  if (todayButton) todayButton.addEventListener('click', function () {
+    current = new Date(today.getFullYear(), today.getMonth(), 1);
+    renderCalendar();
+  });
+  loadActivities();
 }());

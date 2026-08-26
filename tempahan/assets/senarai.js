@@ -73,7 +73,8 @@ function renderRows() {
 
 async function loadAll() {
   const source = currentUser || currentAdmin ? 'tempahan' : 'tempahan_awam';
-  const { data, error } = await sb.from(source).select('*')
+  const client = source === 'tempahan_awam' ? sbPublic : sb;
+  const { data, error } = await client.from(source).select('*')
     .order('tarikh', { ascending: false }).order('masa_mula').limit(200);
   const empty = document.getElementById('empty');
   if (error) {

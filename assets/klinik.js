@@ -36,7 +36,7 @@
     } else {
       state.rekod.forEach((entry) => {
         const item = document.createElement('article'); item.className = 'clinic-history-item';
-        const date = document.createElement('div'); date.className = 'clinic-history-date'; date.textContent = new Intl.DateTimeFormat('ms-MY', { day: '2-digit', month: 'short', timeZone: 'UTC' }).format(new Date(`${entry.tarikh}T00:00:00Z`));
+        const date = document.createElement('div'); date.className = 'clinic-history-date'; date.textContent = new Intl.DateTimeFormat('ms-MY', { day: '2-digit', month: 'long', year: 'numeric', timeZone: 'UTC' }).format(new Date(`${entry.tarikh}T00:00:00Z`));
         const detail = document.createElement('div'); const reason = document.createElement('b'); reason.textContent = entry.sebab; const time = document.createElement('small'); time.textContent = `${malayDate(entry.tarikh)} · ${entry.masa || '-'}`; detail.append(reason, time); item.append(date, detail); history.appendChild(item);
       });
     }
