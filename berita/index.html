@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Berita SMKA Jerlun</title>
+<meta name="description" content="Berita dan pencapaian terkini warga SMK Agama Jerlun.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=IBM+Plex+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/site.css?v=20260826-1">
+<link rel="icon" type="image/png" href="/logo.png">
+</head>
+<body class="achievement-article-page">
+
+<div class="topbar">
+  <span class="tag">SMKAJERLUN.MY</span>
+  <div class="dates"><span id="tarikh-masihi">&mdash;</span><span id="tarikh-hijri">&mdash;</span><span id="jam">&mdash;</span></div>
+</div>
+
+<header class="sitehead">
+  <svg class="pattern" width="100%" height="100%" aria-hidden="true"><defs><pattern id="star8" width="96" height="96" patternUnits="userSpaceOnUse"><g fill="none" stroke="#FFFFFF" stroke-width="1"><path d="M48 8 L58 38 L88 48 L58 58 L48 88 L38 58 L8 48 L38 38 Z"/><circle cx="48" cy="48" r="10"/></g></pattern></defs><rect width="100%" height="100%" fill="url(#star8)"/></svg>
+  <div class="sitehead-inner">
+    <div class="brandrow"><img class="logo" src="/assets/logo-sekolah.png" alt="Logo SMK Agama Jerlun"><div class="nm"><h1>SMK <em>Agama Jerlun</em></h1><p>Berilmu &middot; Beriman &middot; Beramal</p></div></div>
+    <nav class="tabs" aria-label="Navigasi utama sekolah">
+      <a href="/">Utama</a><a href="/akademik/">Akademik</a><a href="/kokurikulum/" class="active">Kokurikulum</a><a href="/asrama/">Asrama</a>
+      <details class="nav-dropdown"><summary><a href="/info/">Info Sekolah</a></summary><div class="subnav"><a href="/info/?tab=profil">Profil Sekolah</a><a href="/info/?tab=lagu">Lagu Sekolah</a><a href="/info/?tab=pengurusan">Pengurusan</a><a href="/info/?tab=warga">Warga Sekolah</a><a href="/info/?tab=takwim">Takwim</a><a href="/info/?tab=hubungi">Hubungi</a></div></details>
+      <details class="nav-dropdown"><summary>Perkhidmatan</summary><div class="subnav"><a href="/tempahan/">Tempahan Bilik</a><a href="/pss/">Portal PSS</a><a href="/perkhidmatan/klinik/">Rekod Klinik</a><a href="/perkhidmatan/muat-turun/">Muat Turun</a><a href="/perkhidmatan/direktori/">Direktori</a></div></details>
+      <a href="/admin/" id="nav-panel-admin" style="display:none">Panel Admin</a><a href="/tempahan/log-masuk/" id="nav-login">Log Masuk</a>
+    </nav>
+  </div>
+</header>
+
+<div class="pagehead"><svg class="pattern" width="100%" height="100%" aria-hidden="true"><defs><pattern id="star9" width="96" height="96" patternUnits="userSpaceOnUse"><g fill="none" stroke="#FFFFFF" stroke-width="1"><path d="M48 8 L58 38 L88 48 L58 58 L48 88 L38 58 L8 48 L38 38 Z"/><circle cx="48" cy="48" r="10"/></g></pattern></defs><rect width="100%" height="100%" fill="url(#star9)"/></svg><div class="pagehead-inner"><h2><em>Berita</em> SMKAJ</h2><p>Berita dan pengiktirafan warga SMK Agama Jerlun.</p></div></div>
+
+<main class="achievement-article-main">
+  <nav class="achievement-back" aria-label="Navigasi berita"><a href="/kokurikulum/?section=koku-pencapaian">&larr; Kembali ke Pencapaian Kokurikulum</a></nav>
+  <p id="article-loading" class="achievement-empty" aria-live="polite">Memuatkan berita...</p>
+  <article class="achievement-article" id="achievement-article" aria-labelledby="achievement-title" hidden>
+    <header class="achievement-article-header"><span class="achievement-article-kicker" id="achievement-kicker">PENCAPAIAN</span><h1 id="achievement-title"></h1><p class="achievement-article-dek" id="achievement-dek"></p><time class="achievement-article-date" id="achievement-date"></time></header>
+    <figure class="achievement-article-figure" id="achievement-figure" hidden><img id="achievement-image" src="/assets/logo-sekolah.png" alt=""><figcaption id="achievement-caption"></figcaption></figure>
+    <div class="achievement-article-prose" id="achievement-prose"></div>
+    <section class="achievement-gallery" id="achievement-gallery" aria-labelledby="achievement-gallery-title" hidden><h2 id="achievement-gallery-title">Galeri program</h2><div id="achievement-gallery-grid" class="achievement-gallery-grid"></div></section>
+  </article>
+</main>
+
+<footer><div class="foot-inner"><div><div class="b">SMK Agama Jerlun <span class="brass">&middot;</span> Kedah</div><div>Laman rasmi &amp; sistem dalaman sekolah</div></div><div style="text-align:right"><div class="brass" style="font-family:var(--font-mono);font-size:.72rem;letter-spacing:.08em">SMKAJERLUN.MY</div><div>Dibangunkan oleh AJER-Syahir &middot; <span id="thn"></span></div></div></div></footer>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.57.4/dist/umd/supabase.min.js"></script>
+<script src="/assets/cms.js?v=20260826-1"></script>
+<script src="/assets/pages/achievement-article.js?v=20260826-1"></script>
+</body>
+</html>

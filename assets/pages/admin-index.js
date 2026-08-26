@@ -644,9 +644,41 @@ function openPencapaianModal(row) {
   document.getElementById('f-pencapaian-kategori').value = row && row.kategori ? row.kategori : 'kokurikulum';
   document.getElementById('f-pencapaian-tajuk').value = row ? row.tajuk : '';
   document.getElementById('f-pencapaian-penerangan').value = row && row.penerangan ? row.penerangan : '';
+  document.getElementById('f-pencapaian-kandungan').value = row && row.kandungan ? row.kandungan : '';
+  const slug = document.getElementById('f-pencapaian-slug');
+  slug.value = row && row.slug ? row.slug : articleSlug(row ? row.tajuk : '');
+  slug.dataset.generated = row && row.slug ? 'false' : 'true';
+  document.getElementById('f-pencapaian-image').value = row && row.image_url ? row.image_url : '';
+  document.getElementById('f-pencapaian-galeri').value = galleryText(row && row.galeri);
   document.getElementById('f-pencapaian-pautan').value = row && row.pautan ? row.pautan : '';
   document.getElementById('f-pencapaian-susunan').value = row ? row.susunan : 0;
   openRecordModal('pencapaian', row ? 'Ubah Pencapaian' : 'Tambah Pencapaian', 'f-pencapaian-tajuk');
+}
+
+function articleSlug(value) {
+  return String(value || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '').slice(0, 140);
+}
+
+function galleryText(items) {
+  if (!Array.isArray(items)) return '';
+  return items.map(function (item) {
+    if (typeof item === 'string') return item;
+    return String(item && item.url || '') + (item && item.alt ? ' | ' + item.alt : '');
+  }).filter(Boolean).join('\n');
+}
+
+function parseGallery(value) {
+  const items = [];
+  const lines = String(value || '').split('\n').map(function (line) { return line.trim(); }).filter(Boolean);
+  for (const line of lines) {
+    const separator = line.indexOf('|');
+    const rawUrl = (separator < 0 ? line : line.slice(0, separator)).trim();
+    const url = ui.validHttpUrl(rawUrl);
+    if (!url) return false;
+    items.push({ url: url, alt: separator < 0 ? '' : line.slice(separator + 1).trim() });
+  }
+  return items;
 }
 
 function internalPath(value) {
@@ -660,7 +692,11 @@ function internalPath(value) {
 
 async function savePencapaian() {
   const tajuk = document.getElementById('f-pencapaian-tajuk').value.trim();
+  const kandungan = document.getElementById('f-pencapaian-kandungan').value.trim();
+  const slug = articleSlug(document.getElementById('f-pencapaian-slug').value);
   const pautan = internalPath(document.getElementById('f-pencapaian-pautan').value);
+  const imageUrl = ui.validHttpUrl(document.getElementById('f-pencapaian-image').value);
+  const galeri = parseGallery(document.getElementById('f-pencapaian-galeri').value);
   if (!tajuk) {
     ui.setMessage('pencapaian-msg', 'Sila isi tajuk pencapaian.', 'error');
     return;
@@ -669,12 +705,32 @@ async function savePencapaian() {
     ui.setMessage('pencapaian-msg', 'Pautan berita mesti menggunakan laluan dalam smkajerlun.my.', 'error');
     return;
   }
+  if (imageUrl === null && document.getElementById('f-pencapaian-image').value.trim()) {
+    ui.setMessage('pencapaian-msg', 'URL gambar utama tidak sah.', 'error');
+    return;
+  }
+  if (galeri === false) {
+    ui.setMessage('pencapaian-msg', 'Setiap URL galeri perlu menggunakan pautan http atau https yang sah.', 'error');
+    return;
+  }
+  if (kandungan && !slug) {
+    ui.setMessage('pencapaian-msg', 'Kod pautan artikel perlu diisi untuk kandungan artikel.', 'error');
+    return;
+  }
+  if (!kandungan && !pautan) {
+    ui.setMessage('pencapaian-msg', 'Isi kandungan artikel atau gunakan pautan khas yang sedia ada.', 'error');
+    return;
+  }
   const payload = {
     kategori: document.getElementById('f-pencapaian-kategori').value.trim() || 'kokurikulum',
     tajuk: tajuk,
     tarikh: document.getElementById('f-pencapaian-tarikh').value || null,
     penerangan: document.getElementById('f-pencapaian-penerangan').value.trim() || null,
-    pautan: pautan,
+    kandungan: kandungan || null,
+    slug: kandungan ? slug : null,
+    image_url: imageUrl,
+    galeri: galeri,
+    pautan: kandungan ? '/berita/?slug=' + encodeURIComponent(slug) : pautan,
     susunan: numberValue('f-pencapaian-susunan', 0)
   };
   const button = document.getElementById('pencapaian-simpan');
@@ -918,6 +974,14 @@ function bindEvents() {
   document.getElementById('galeri-simpan').addEventListener('click', saveGaleri);
 
   document.getElementById('pencapaian-tambah').addEventListener('click', function () { openPencapaianModal(null); });
+  document.getElementById('f-pencapaian-tajuk').addEventListener('input', function () {
+    const slug = document.getElementById('f-pencapaian-slug');
+    if (!slug.value || slug.dataset.generated === 'true') {
+      slug.value = articleSlug(this.value);
+      slug.dataset.generated = 'true';
+    }
+  });
+  document.getElementById('f-pencapaian-slug').addEventListener('input', function () { this.dataset.generated = 'false'; });
   document.getElementById('pencapaian-batal').addEventListener('click', function () { closeRecordModal('pencapaian'); });
   document.getElementById('pencapaian-simpan').addEventListener('click', savePencapaian);
 

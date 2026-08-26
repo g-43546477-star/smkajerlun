@@ -32,7 +32,7 @@ const commonStub = String.raw`
       { id: 2, portal: 'pss', kategori: 'aktiviti', tarikh_mula: '2026-08-26', tarikh_tamat: null, tajuk: 'Aktiviti PSS', keterangan: 'Ruang bacaan', susunan: 10 }
     ],
     gallery_item: [{ id: 1, tarikh: '2026-08-20', tajuk: 'Galeri sekolah', kategori: 'aktiviti', image_url: 'https://example.com/image.jpg', alt_text: 'Aktiviti sekolah', susunan: 1 }],
-    achievement: [{ id: 1, tarikh: '2026-08-17', tajuk: 'Pencapaian sekolah', kategori: 'kokurikulum', penerangan: 'Ringkasan', pautan: '/kokurikulum/', susunan: 1 }],
+    achievement: [{ id: 1, tarikh: '2026-08-17', tajuk: 'Pencapaian sekolah', kategori: 'kokurikulum', penerangan: 'Ringkasan', pautan: '/kokurikulum/', susunan: 1, slug: null, kandungan: null, image_url: null, galeri: [] }],
     school_directory: [{ id: 1, kategori: 'pentadbiran', nama: 'Pejabat Sekolah', jawatan: 'Urusan Am', telefon: '04-9250925', emel: 'kra4002@moe.edu.my', susunan: 1 }],
     resource_file: [{ id: 1, kategori: 'Borang', tajuk: 'Borang Contoh', penerangan: 'Dokumen contoh', url: 'https://example.com/borang.pdf', susunan: 1 }],
     pss_book: books,
@@ -202,6 +202,17 @@ async function schoolAdminCheck(viewport) {
   page.once('dialog', (dialog) => dialog.accept());
   await page.keyboard.press('Escape');
   await page.locator('#kandungan-modal').waitFor({ state: 'hidden' });
+
+  await page.locator('.tab-btn[data-tab="media"]').click();
+  await page.locator('#pencapaian-tambah').click();
+  await page.locator('#f-pencapaian-tajuk').fill('Berita Pentadbir Baharu');
+  await page.locator('#f-pencapaian-kandungan').fill('Perenggan pertama.\n\nPerenggan kedua.');
+  await page.locator('#pencapaian-simpan').click();
+  await page.locator('#pencapaian-modal').waitFor({ state: 'hidden' });
+  const dynamicAchievement = await page.evaluate(() => window.__db.achievement.find((row) => row.tajuk === 'Berita Pentadbir Baharu'));
+  if (!dynamicAchievement || dynamicAchievement.pautan !== '/berita/?slug=berita-pentadbir-baharu' || dynamicAchievement.slug !== 'berita-pentadbir-baharu') {
+    failures.push('school admin: new article did not receive a stable dynamic link');
+  }
 
   await page.locator('.tab-btn[data-tab="pengumuman"]').click();
   await page.locator('#pengumuman-tambah').click();

@@ -248,7 +248,7 @@
       const card = document.createElement(row.pautan ? 'a' : 'article');
       card.className = 'achievement-card' + (options.featured ? ' is-featured' : '');
       if (row.pautan) card.href = safeInternalUrl(row.pautan, '/kokurikulum/');
-      const image = imageByTitle[title.toLocaleLowerCase('ms-MY')];
+      const image = row.image_url ? { image_url: row.image_url, alt_text: title } : imageByTitle[title.toLocaleLowerCase('ms-MY')];
       const media = document.createElement('div');
       media.className = 'achievement-card-media' + (image ? '' : ' is-empty');
       if (image && image.image_url) {

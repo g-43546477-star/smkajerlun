@@ -6,8 +6,11 @@ const local = !process.env.BASE_URL;
 const serverInfo = local ? await startStaticServer() : null;
 const base = process.env.BASE_URL || serverInfo.url;
 const chromePath = process.env.CHROME_PATH || '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome';
-const launchOptions = fs.existsSync(chromePath) ? { executablePath: chromePath } : {};
-const routes = ['/', '/pss/', '/pss/tentang-pss/pengawas-pss/', '/pss/program/kalendar/', '/pss/program/pengumuman/', '/pss/digital/katalog/', '/pss/digital/nilam/', '/pss/nilam/', '/pss/digital/iq-nilam/', '/pss/pinjaman/', '/pss/admin/', '/tempahan/', '/tempahan/senarai/', '/tempahan/admin/', '/perkhidmatan/klinik/', '/kokurikulum/', '/kokurikulum/pencapaian/drone-edu-challenge-ir4/', '/kokurikulum/pencapaian/pidato-generasi-madani-2026/', '/info/?tab=profil', '/carian/'];
+const launchOptions = {
+  headless: process.env.E2E_HEADLESS !== '0',
+  ...(fs.existsSync(chromePath) ? { executablePath: chromePath } : {})
+};
+const routes = ['/', '/pss/', '/pss/tentang-pss/pengawas-pss/', '/pss/program/kalendar/', '/pss/program/pengumuman/', '/pss/digital/katalog/', '/pss/digital/nilam/', '/pss/nilam/', '/pss/digital/iq-nilam/', '/pss/pinjaman/', '/pss/admin/', '/tempahan/', '/tempahan/senarai/', '/tempahan/admin/', '/perkhidmatan/klinik/', '/kokurikulum/', '/kokurikulum/pencapaian/drone-edu-challenge-ir4/', '/kokurikulum/pencapaian/pidato-generasi-madani-2026/', '/berita/?slug=smka-jerlun-anjur-karnival-maulidur-rasul-generasi-madani-1448h', '/info/?tab=profil', '/carian/'];
 const failures = [];
 const browser = await chromium.launch(launchOptions);
 
@@ -51,7 +54,7 @@ async function visit(page, route) {
       heroImage: getComputedStyle(document.querySelector('.ios-hero')).backgroundImage.includes('hero-sekolah.jpg'),
       alertStrip: Boolean(document.querySelector('#home-alert-strip')),
       serviceDock: Boolean(document.querySelector('.ios-service-dock')),
-      achievement: document.querySelector('#home-achievement-list .achievement-card')?.textContent.includes('Drone Edu Challenge') || false,
+      achievement: document.querySelector('#home-achievement-list .achievement-card')?.textContent.includes('Karnival Maulidur Rasul') || false,
       announcementMoved: !document.querySelector('#notis-list')?.textContent.includes('Drone Edu Challenge')
     }));
     if (!homepageMarkup.hero) failures.push(`${route}: school hero markup is missing`);
@@ -70,6 +73,10 @@ async function visit(page, route) {
   }
   if (route === '/kokurikulum/pencapaian/pidato-generasi-madani-2026/' && (!await page.locator('#achievement-title').count() || !await page.locator('.achievement-article-figure img').count() || !(await page.locator('.achievement-article-prose').textContent()).includes('Muhammad bin Mohd Amin'))) {
     failures.push(`${route}: full achievement article is incomplete`);
+  }
+  if (route.startsWith('/berita/')) await page.locator('#achievement-article:not([hidden])').waitFor({ state: 'visible', timeout: 6000 }).catch(() => {});
+  if (route.startsWith('/berita/') && (!await page.locator('#achievement-title').count() || !(await page.locator('#achievement-title').textContent()).includes('Karnival Maulidur Rasul') || (await page.locator('#achievement-gallery-grid img').count()) !== 6)) {
+    failures.push(`${route}: dynamic article or gallery is incomplete`);
   }
   if (route === '/pss/digital/katalog/') {
     const duplicateFilters = await page.evaluate(() => ['book-category', 'book-status'].flatMap((id) => {
@@ -170,12 +177,12 @@ for (const viewport of [{ name: 'desktop', width: 1440, height: 1000 }, { name: 
       await page.mouse.click(30, 30);
       await page.waitForTimeout(120);
       if (await dropdown.evaluate((node) => node.hasAttribute('open'))) failures.push('website desktop: outside click did not close menu');
-      const achievementLink = page.locator('#home-achievement-list .achievement-card').first();
+      const achievementLink = page.locator('#home-achievement-list a.achievement-card').filter({ hasText: 'Karnival Maulidur Rasul' }).first();
       if (await achievementLink.count()) {
         const href = await achievementLink.getAttribute('href');
-        if (!href?.includes('/kokurikulum/pencapaian/drone-edu-challenge-ir4/')) failures.push('website desktop: achievement card does not link to full article');
+        if (!href?.includes('/berita/?slug=smka-jerlun-anjur-karnival-maulidur-rasul-generasi-madani-1448h')) failures.push('website desktop: achievement card does not link to the dynamic article');
         await achievementLink.click();
-        if (!page.url().includes('/kokurikulum/pencapaian/drone-edu-challenge-ir4/')) failures.push('website desktop: achievement card did not open full article');
+        if (!page.url().includes('/berita/?slug=smka-jerlun-anjur-karnival-maulidur-rasul-generasi-madani-1448h')) failures.push('website desktop: achievement card did not open the dynamic article');
       }
     }
     if (route === '/pss/' && viewport.name === 'mobile') {
