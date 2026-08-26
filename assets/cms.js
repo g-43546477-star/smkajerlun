@@ -208,12 +208,10 @@
     if (!mount) return;
     options = options || {};
     const limit = options.limit || 6;
-    const [achievementResponse, galleryResponse] = await Promise.all([
-      cmsClient.from('achievement').select('*').order('tarikh', { ascending: false }).order('susunan').limit(limit),
-      cmsClient.from('gallery_item').select('tajuk,image_url,alt_text').eq('kategori', 'pencapaian').order('tarikh', { ascending: false }).limit(40)
-    ]);
+    const achievementResponse = await cmsClient.from('achievement').select('*')
+      .eq('kategori', 'sekolah')
+      .order('tarikh', { ascending: false }).order('susunan').limit(limit);
     const rows = achievementResponse.error ? [] : (achievementResponse.data || []);
-    const gallery = galleryResponse.error ? [] : (galleryResponse.data || []);
     mount.replaceChildren();
     if (!rows.length) {
       const empty = document.createElement('p');
@@ -223,10 +221,6 @@
       return;
     }
     const monthNames = ['Januari', 'Februari', 'Mac', 'April', 'Mei', 'Jun', 'Julai', 'Ogos', 'September', 'Oktober', 'November', 'Disember'];
-    const imageByTitle = {};
-    gallery.forEach(function (item) {
-      imageByTitle[String(item.tajuk || '').trim().toLocaleLowerCase('ms-MY')] = item;
-    });
     function safeInternalUrl(value, fallback) {
       const raw = String(value || '').trim();
       if (!raw) return fallback;
@@ -248,7 +242,7 @@
       const card = document.createElement(articleHref ? 'a' : 'article');
       card.className = 'achievement-card' + (options.featured ? ' is-featured' : '');
       if (articleHref) card.href = articleHref;
-      const image = row.image_url ? { image_url: row.image_url, alt_text: title } : imageByTitle[title.toLocaleLowerCase('ms-MY')];
+      const image = row.image_url ? { image_url: row.image_url, alt_text: title } : null;
       const media = document.createElement('div');
       media.className = 'achievement-card-media' + (image ? '' : ' is-empty');
       if (image && image.image_url) {
@@ -736,8 +730,8 @@
           { href: '/info/?tab=hubungi', title: 'Hubungi', copy: 'Alamat, telefon dan e-mel rasmi sekolah' }
         ]),
         megaMenu('perkhidmatan', 'Perkhidmatan', '/hub/', 'Sistem digital dan rujukan pantas sekolah.', [
-          { href: '/perkhidmatan/portal-pss/', title: 'Portal PSS', copy: 'Katalog, NILAM dan pinjaman' },
-          { href: '/perkhidmatan/tempahan-bilik/', title: 'Tempahan Bilik', copy: 'Semak slot dan tempah ruang' },
+          { href: '/pss/', title: 'Portal PSS', copy: 'Katalog, NILAM dan pinjaman' },
+          { href: '/tempahan/', title: 'Tempahan Bilik', copy: 'Semak slot dan tempah ruang' },
           { href: '/perkhidmatan/klinik/', title: 'Rekod Klinik', copy: 'Semakan rekod kesihatan' },
           { href: '/perkhidmatan/muat-turun/', title: 'Muat Turun', copy: 'Borang dan dokumen sekolah' }
         ]),

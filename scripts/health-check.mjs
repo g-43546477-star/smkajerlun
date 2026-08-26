@@ -20,12 +20,11 @@ const checks = [
   ['PSS calendar scope', '/rest/v1/takwim?select=id,portal&portal=eq.pss&limit=1'],
   ['school announcement scope', '/rest/v1/pengumuman?select=id,portal&portal=eq.sekolah&limit=1'],
   ['PSS announcement scope', '/rest/v1/pengumuman?select=id,portal&portal=eq.pss&limit=1'],
-  ['achievements', '/rest/v1/achievement?select=id&limit=1'],
+  ['school program articles', '/rest/v1/achievement?select=id&kategori=eq.sekolah&limit=1'],
   ['PSS books', '/rest/v1/pss_book?select=id&limit=1'],
   ['PSS loans', '/rest/v1/pss_pinjaman?select=id&limit=1'],
   ['PSS suggestions', '/rest/v1/cadangan_buku?select=id&limit=1'],
   ['PSS NILAM', '/rest/v1/nilam_stat?select=id&limit=1'],
-  ['activity gallery', '/rest/v1/gallery_item?select=id&limit=1'],
   ['public booking view', '/rest/v1/tempahan_awam?select=bilik&limit=1']
 ];
 const failures = [];

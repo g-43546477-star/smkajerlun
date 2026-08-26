@@ -10,7 +10,22 @@ const launchOptions = {
   headless: process.env.E2E_HEADLESS !== '0',
   ...(fs.existsSync(chromePath) ? { executablePath: chromePath } : {})
 };
-const routes = ['/', '/program/', '/program/?slug=smka-jerlun-anjur-karnival-maulidur-rasul-generasi-madani-1448h', '/berita/?slug=smka-jerlun-anjur-karnival-maulidur-rasul-generasi-madani-1448h', '/kokurikulum/pencapaian/drone-edu-challenge-ir4/', '/kokurikulum/pencapaian/pidato-generasi-madani-2026/', '/pss/', '/pss/tentang-pss/pengawas-pss/', '/pss/program/kalendar/', '/pss/program/pengumuman/', '/pss/digital/katalog/', '/pss/digital/nilam/', '/pss/nilam/', '/pss/digital/iq-nilam/', '/pss/pinjaman/', '/pss/admin/', '/tempahan/', '/tempahan/senarai/', '/tempahan/admin/', '/perkhidmatan/klinik/', '/kokurikulum/', '/info/?tab=profil', '/carian/'];
+const routes = ['/', '/program/', '/program/?slug=smka-jerlun-anjur-karnival-maulidur-rasul-generasi-madani-1448h', '/berita/?slug=smka-jerlun-anjur-karnival-maulidur-rasul-generasi-madani-1448h', '/kokurikulum/pencapaian/drone-edu-challenge-ir4/', '/kokurikulum/pencapaian/pidato-generasi-madani-2026/', '/pss/', '/pss/tentang-pss/pengawas-pss/', '/pss/program/kalendar/', '/pss/program/pengumuman/', '/pss/digital/katalog/', '/pss/digital/nilam/', '/pss/nilam/', '/pss/digital/iq-nilam/', '/pss/pinjaman/', '/pss/organisasi/', '/perkhidmatan/portal-pss/', '/pss/admin/', '/tempahan/', '/tempahan/senarai/', '/tempahan/admin/', '/perkhidmatan/tempahan-bilik/', '/perkhidmatan/klinik/', '/kokurikulum/', '/info/?tab=profil', '/info-sekolah/profil-sekolah/', '/info-sekolah/lagu-sekolah/', '/info-sekolah/pengurusan/', '/info-sekolah/warga-sekolah/', '/info-sekolah/takwim/', '/profil/', '/carian/'];
+const legacyRedirects = new Map([
+  ['/perkhidmatan/portal-pss/', '/pss/'],
+  ['/perkhidmatan/tempahan-bilik/', '/tempahan/'],
+  ['/pss/katalog/', '/pss/digital/katalog/'],
+  ['/pss/pinjaman/', '/pss/perkhidmatan/borang-pinjaman/'],
+  ['/pss/organisasi/', '/pss/tentang-pss/jawatankuasa-guru/'],
+  ['/pss/nilam/', '/pss/digital/nilam/'],
+  ['/pss/digital/iq-nilam/', '/pss/digital/nilam/'],
+  ['/info-sekolah/profil-sekolah/', '/info/?tab=profil'],
+  ['/info-sekolah/lagu-sekolah/', '/info/?tab=lagu'],
+  ['/info-sekolah/pengurusan/', '/info/?tab=pengurusan'],
+  ['/info-sekolah/warga-sekolah/', '/info/?tab=warga'],
+  ['/info-sekolah/takwim/', '/info/?tab=takwim'],
+  ['/profil/', '/info/?tab=profil']
+]);
 const failures = [];
 const browser = await chromium.launch(launchOptions);
 
@@ -38,6 +53,14 @@ async function visit(page, route) {
     title: document.title
   }));
   if (!response || response.status() >= 400) failures.push(`${route}: HTTP ${response?.status()}`);
+  const expectedRedirect = legacyRedirects.get(route);
+  if (expectedRedirect) {
+    const actualUrl = new URL(page.url());
+    const expectedUrl = new URL(expectedRedirect, base);
+    if (actualUrl.pathname !== expectedUrl.pathname || actualUrl.search !== expectedUrl.search) {
+      failures.push(`${route}: did not resolve to ${expectedRedirect} (got ${actualUrl.pathname}${actualUrl.search})`);
+    }
+  }
   if (!result.h1) failures.push(`${route}: missing h1`);
   if (result.overflow) failures.push(`${route}: horizontal overflow`);
   if (errors.length) failures.push(`${route}: ${errors.slice(0, 2).join(' | ')}`);
@@ -195,7 +218,7 @@ for (const viewport of [{ name: 'desktop', width: 1440, height: 1000 }, { name: 
 
 const printContext = await browser.newContext({ viewport: { width: 1280, height: 900 } });
 const printPage = await printContext.newPage();
-await printPage.goto(`${base}/pss/pinjaman/`, { waitUntil: 'domcontentloaded' });
+await printPage.goto(`${base}/pss/perkhidmatan/borang-pinjaman/`, { waitUntil: 'domcontentloaded' });
 await printPage.evaluate(() => {
   const receipt = document.querySelector('#loan-receipt');
   receipt.hidden = false;

@@ -69,6 +69,41 @@
       "source": "/takwim/",
       "destination": "/info/?tab=takwim",
       "permanent": true
+    },
+    {
+      "source": "/perkhidmatan/portal-pss/",
+      "destination": "/pss/",
+      "permanent": true
+    },
+    {
+      "source": "/perkhidmatan/tempahan-bilik/",
+      "destination": "/tempahan/",
+      "permanent": true
+    },
+    {
+      "source": "/pss/katalog/",
+      "destination": "/pss/digital/katalog/",
+      "permanent": true
+    },
+    {
+      "source": "/pss/pinjaman/",
+      "destination": "/pss/perkhidmatan/borang-pinjaman/",
+      "permanent": true
+    },
+    {
+      "source": "/pss/organisasi/",
+      "destination": "/pss/tentang-pss/jawatankuasa-guru/",
+      "permanent": true
+    },
+    {
+      "source": "/pss/nilam/",
+      "destination": "/pss/digital/nilam/",
+      "permanent": true
+    },
+    {
+      "source": "/pss/digital/iq-nilam/",
+      "destination": "/pss/digital/nilam/",
+      "permanent": true
     }
   ]
 }

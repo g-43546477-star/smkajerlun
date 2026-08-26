@@ -33,7 +33,7 @@ const commonStub = String.raw`
     ],
     achievement: [{ id: 1, tarikh: '2026-08-17', tajuk: 'Program sekolah', kategori: 'sekolah', penerangan: 'Ringkasan', pautan: '/program/', susunan: 1, slug: null, kandungan: null, image_url: null, galeri: [] }],
     school_directory: [{ id: 1, kategori: 'pentadbiran', nama: 'Pejabat Sekolah', jawatan: 'Urusan Am', telefon: '04-9250925', emel: 'kra4002@moe.edu.my', susunan: 1 }],
-    resource_file: [{ id: 1, kategori: 'Borang', tajuk: 'Borang Contoh', penerangan: 'Dokumen contoh', url: 'https://example.com/borang.pdf', susunan: 1 }],
+    resource_file: [{ id: 1, kategori: 'borang', tajuk: 'Borang Contoh', penerangan: 'Dokumen contoh', url: 'https://example.com/borang.pdf', susunan: 1 }],
     pss_book: books,
     pss_pinjaman: [{ id: 1, rujukan: 'PSS-001', nama: 'Murid Contoh', kelas: '3 Itqan', bahan: 'Buku Contoh', kod_bahan: 'B001', tarikh_pinjam: '2026-08-20', tarikh_pulang: '2026-08-27', status: 'Direkodkan', catatan: '' }],
     cadangan_buku: [{ id: 1, sumber: 'Pelajar', tajuk: 'Cadangan Contoh', pengarang: 'Penulis', nama: 'Murid Contoh', kelas: '3 Itqan', kategori: 'Fiksyen', sebab: 'Menarik', status: 'Baru', created_at: '2026-08-24T01:00:00Z' }],
@@ -48,6 +48,28 @@ const commonStub = String.raw`
   };
 
   function clone(value) { return JSON.parse(JSON.stringify(value)); }
+  var allowedValues = {
+    achievement: { kategori: ['akademik', 'kokurikulum', 'sukan', 'sahsiah', 'sekolah'] },
+    content_block: { laman: ['akademik', 'kokurikulum', 'asrama', 'hem', 'rujukan_akademik', 'profil'] },
+    resource_file: { kategori: ['borang', 'surat', 'pekeliling', 'modul', 'program'] },
+    school_directory: { kategori: ['pentadbiran', 'hal_ehwal_murid', 'asrama', 'kaunseling', 'pusat_sumber'] }
+  };
+  function constraintError(table, payload) {
+    var rules = allowedValues[table];
+    var items = Array.isArray(payload) ? payload : [payload];
+    if (!rules) return null;
+    for (var itemIndex = 0; itemIndex < items.length; itemIndex += 1) {
+      var item = items[itemIndex] || {};
+      var columns = Object.keys(rules);
+      for (var columnIndex = 0; columnIndex < columns.length; columnIndex += 1) {
+        var column = columns[columnIndex];
+        if (item[column] != null && !rules[column].includes(item[column])) {
+          return { message: table + '_' + column + '_check violated' };
+        }
+      }
+    }
+    return null;
+  }
   function Query(table) {
     this.table = table;
     this.filters = [];
@@ -73,6 +95,10 @@ const commonStub = String.raw`
   Query.prototype.run = function () {
     var rows = window.__db[this.table] || [];
     var matches = rows.filter(function (row) { return this.filters.every(function (filter) { return filter(row); }); }, this);
+    if (this.action === 'insert' || this.action === 'update' || this.action === 'upsert') {
+      var validationError = constraintError(this.table, this.payload);
+      if (validationError) return { data: null, error: validationError };
+    }
     if (this.action === 'insert') {
       var items = Array.isArray(this.payload) ? this.payload : [this.payload];
       items.forEach(function (item) {

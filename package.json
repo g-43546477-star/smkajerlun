@@ -3,10 +3,11 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "build": "npm run lint:js && npm run validate:html && npm run check:routes && npm run health:check",
+    "build": "npm run lint:js && npm run validate:html && npm run check:routes && npm run check:migrations && npm run health:check",
     "lint:js": "node scripts/lint-js.mjs",
     "validate:html": "node scripts/validate-html.mjs",
     "check:routes": "node scripts/check-routes.mjs",
+    "check:migrations": "node scripts/check-migrations.mjs",
     "health:check": "node scripts/health-check.mjs",
     "test:e2e": "node scripts/smoke.mjs",
     "test:admin": "node scripts/admin-smoke.mjs",

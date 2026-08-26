@@ -15,20 +15,12 @@ const validator = new HtmlValidate({
   }
 });
 const report = await validator.validateMultipleFiles(files);
-const blockingRules = new Set([
-  'close-order',
-  'no-duplicate-attributes',
-  'no-duplicate-id',
-  'no-invalid-attr',
-  'no-missing-end-tag',
-  'no-unknown-elements'
-]);
 const blocking = [];
 const advisory = [];
 for (const result of report.results) {
   for (const message of result.messages.filter((item) => item.severity === 2)) {
     const line = `${result.filePath}:${message.line}:${message.column} ${message.message} (${message.ruleId})`;
-    (blockingRules.has(message.ruleId) ? blocking : advisory).push(line);
+    blocking.push(line);
   }
 }
 if (advisory.length) {

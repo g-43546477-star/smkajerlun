@@ -1,4 +1,10 @@
 User-agent: *
 Allow: /
+Disallow: /admin/
+Disallow: /pss/admin/
+Disallow: /tempahan/admin/
+Disallow: /tempahan/log-masuk/
+Disallow: /tempahan/senarai/
+Disallow: /perkhidmatan/klinik/
 
 Sitemap: https://www.smkajerlun.my/sitemap.xml

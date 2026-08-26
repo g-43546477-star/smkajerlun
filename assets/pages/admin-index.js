@@ -44,7 +44,6 @@ const MODULE_LABEL = {
   achievement: 'Program Sekolah',
   cadangan_buku: 'Cadangan buku',
   content_block: 'Kandungan halaman',
-  gallery_item: 'Galeri',
   nilam_stat: 'Statistik NILAM',
   pengumuman: 'Pengumuman',
   pss_book: 'Buku PSS',
@@ -529,7 +528,7 @@ async function saveTakwim() {
 // ---------------------------------------------------------------------------
 async function loadPencapaian() {
   ui.setMessage('pencapaian-status', 'Memuatkan program sekolah...', 'loading');
-  const response = await sb.from('achievement').select('*')
+  const response = await sb.from('achievement').select('*').eq('kategori', 'sekolah')
     .order('tarikh', { ascending: false }).order('susunan').order('id', { ascending: false });
   const tbody = clearTable('pencapaian-tbody');
   if (response.error) {
@@ -767,7 +766,7 @@ async function loadFail() {
 
 function openFailModal(row) {
   editIds.fail = row ? row.id : null;
-  document.getElementById('f-fail-kategori').value = row ? row.kategori : 'Borang';
+  document.getElementById('f-fail-kategori').value = row ? row.kategori : 'borang';
   document.getElementById('f-fail-tajuk').value = row ? row.tajuk : '';
   document.getElementById('f-fail-penerangan').value = row && row.penerangan ? row.penerangan : '';
   document.getElementById('f-fail-url').value = row ? row.url : '';

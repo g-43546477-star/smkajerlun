@@ -40,7 +40,6 @@
           <summary>Program</summary>
           <div>
             <a href="/pss/program/kalendar/">Kalendar PSS</a
-            ><a href="/pss/program/kalendar/">Kalendar PSS</a
             ><a href="/pss/program/pengumuman/">Pengumuman</a>
           </div>
         </details>
@@ -69,7 +68,7 @@
           <h1>Koleksi untuk diterokai.</h1>
           <p>Cari buku, bahan rujukan dan bacaan pilihan Pusat Sumber Sekolah mengikut tajuk, kategori atau rak.</p>
         </div>
-        <div class="catalog-metrics" aria-label="Ringkasan katalog">
+        <div class="catalog-metrics" role="group" aria-label="Ringkasan katalog">
           <div><strong id="book-total">0</strong><span>Koleksi</span></div>
           <div><strong id="book-category-total">0</strong><span>Kategori</span></div>
           <div><strong id="book-rack-total">0</strong><span>Rak aktif</span></div>
@@ -86,17 +85,17 @@
           <p class="catalog-count" id="book-count" aria-live="polite">Memuatkan katalog...</p>
         </div>
         <div class="catalog-filter" role="search">
-          <label class="catalog-field catalog-field-search" for="book-search">
+          <label class="catalog-field catalog-field-search">
             <span>Carian</span>
             <input id="book-search" type="search" placeholder="Cari tajuk, pengarang, kategori atau rak" autocomplete="off" />
           </label>
-          <label class="catalog-field" for="book-category">
+          <label class="catalog-field">
             <span>Kategori</span>
             <select id="book-category">
               <option value="">Semua kategori</option>
             </select>
           </label>
-          <label class="catalog-field" for="book-status">
+          <label class="catalog-field">
             <span>Status</span>
             <select id="book-status">
               <option value="">Semua status</option>
