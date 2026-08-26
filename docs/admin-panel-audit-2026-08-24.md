@@ -30,11 +30,11 @@
 
 Jangan jalankan fasa kedua sebelum aset laman yang sepadan berada di production.
 
-1. Jalankan `20260824090000_admin_content_safety.sql`.
+1. Jalankan `20260826050012_admin_content_safety.sql`.
 2. Jalankan `npm run verify` dan hentikan pelepasan jika ada ujian gagal.
 3. Gabungkan perubahan melalui GitHub supaya Vercel melakukan deployment biasa.
 4. Selepas deployment berjaya, jalankan
-   `20260824091000_pss_seed_and_public_booking_view.sql`.
+   `20260826050516_pss_seed_and_public_booking_view.sql`.
 5. Jalankan `npm run health:check` dan smoke test terhadap domain live.
 6. Semak semula Supabase Security dan Performance Advisors.
 
