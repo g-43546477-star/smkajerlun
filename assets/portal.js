@@ -52,7 +52,10 @@
   if (view === 'hub' || view === 'home') {
     renderSchoolDirectory('directory-list');
     list('resource_file', 'resource-list', function (r) { return '<article class="portal-row"><div><b>' + esc(r.tajuk) + '</b><p>' + esc(r.penerangan || r.kategori) + '</p></div><a href="' + esc(safeUrl(r.url, '#')) + '" target="_blank" rel="noopener">Buka</a></article>'; });
-    list('achievement', 'achievement-list', function (r) { return '<article class="portal-row"><div><b>' + esc(r.tajuk) + '</b><p>' + esc(r.penerangan || r.kategori) + '</p><small>' + esc(r.tarikh || '') + '</small></div></article>'; }, 'tarikh');
+    list('achievement', 'achievement-list', function (r) {
+      var href = r.slug ? '/program/?slug=' + encodeURIComponent(r.slug) : safeUrl(r.pautan, '/program/');
+      return '<article class="portal-row"><div><b>' + esc(r.tajuk) + '</b><p>' + esc(r.penerangan || 'Program dan aktiviti rasmi sekolah.') + '</p><small>' + esc(r.tarikh || '') + '</small></div><a href="' + esc(href) + '">Baca</a></article>';
+    }, 'tarikh');
     list('gallery_item', 'gallery-list', function (r) { return '<figure><img src="' + esc(safeUrl(r.image_url, '/assets/pss-hero.jpg')) + '" alt="' + esc(r.alt_text || r.tajuk) + '"><figcaption>' + esc(r.tajuk) + '</figcaption></figure>'; }, 'tarikh', function (query) { return query.neq('kategori', 'pencapaian'); });
   }
   if (view === 'catalog') {
@@ -204,14 +207,14 @@
           ['pengumuman', 'tajuk', 'Pengumuman', '/#notis-title'],
           ['takwim', 'tajuk', 'Takwim', '/info/?tab=takwim'],
           ['resource_file', 'tajuk', 'Muat turun', '/perkhidmatan/muat-turun/'],
-          ['achievement', 'tajuk', 'Pencapaian', '/kokurikulum/'],
+          ['achievement', 'tajuk', 'Program sekolah', '/program/'],
           ['pss_book', 'tajuk', 'Katalog PSS', '/pss/digital/katalog/?cari=' + encodeURIComponent(q)],
           ['staff', 'nama', 'Warga sekolah', '/info/?tab=warga'],
           ['content_block', 'tajuk', 'Maklumat sekolah', '/info/']
         ];
         var all = await Promise.all(sources.map(function (s) {
           return cms.from(s[0]).select('*').ilike(s[1], '%' + q + '%').limit(8).then(function (r) {
-            return (r.data || []).map(function (x) { return { label:s[2], title:x.tajuk || x.nama, detail:x.keterangan || x.penerangan || x.pengarang || x.kandungan || x.jawatan || '', href:(s[0] === 'achievement' && x.pautan) ? x.pautan : s[3] }; });
+            return (r.data || []).map(function (x) { return { label:s[2], title:x.tajuk || x.nama, detail:x.keterangan || x.penerangan || x.pengarang || x.kandungan || x.jawatan || '', href:(s[0] === 'achievement' && x.slug) ? '/program/?slug=' + encodeURIComponent(x.slug) : ((s[0] === 'achievement' && x.pautan) ? x.pautan : s[3]) }; });
           });
         }));
         var items = all.flat();

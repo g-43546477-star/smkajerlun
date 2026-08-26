@@ -42,7 +42,7 @@ const JENIS_LABEL = {
 
 const TIER_LABEL = { pengetua: 'Pengetua', pk: 'Penolong Kanan', ketua: 'Ketua Bidang' };
 const MODULE_LABEL = {
-  achievement: 'Pencapaian',
+  achievement: 'Program Sekolah',
   cadangan_buku: 'Cadangan buku',
   content_block: 'Kandungan halaman',
   gallery_item: 'Galeri',
@@ -540,10 +540,10 @@ async function loadGaleri() {
   const rows = response.data || [];
   rows.forEach(function (row) {
     const tr = document.createElement('tr');
-    tr.append(
+      tr.append(
       ui.createCell(ui.formatDate(row.tarikh)),
       ui.createCell(row.tajuk, 'admin-table-title'),
-      ui.createCell(row.kategori),
+      ui.createCell('Program Sekolah'),
       actionsCell(function () { openGaleriModal(row); }, function () {
         deleteRow('gallery_item', row.id, 'gambar ' + row.tajuk, loadGaleri);
       })
@@ -612,12 +612,12 @@ async function saveGaleri() {
 }
 
 async function loadPencapaian() {
-  ui.setMessage('pencapaian-status', 'Memuatkan pencapaian...', 'loading');
+  ui.setMessage('pencapaian-status', 'Memuatkan program sekolah...', 'loading');
   const response = await sb.from('achievement').select('*')
     .order('tarikh', { ascending: false }).order('susunan').order('id', { ascending: false });
   const tbody = clearTable('pencapaian-tbody');
   if (response.error) {
-    ui.showLoadError('pencapaian-empty', 'pencapaian-status', 'Pencapaian', response.error);
+    ui.showLoadError('pencapaian-empty', 'pencapaian-status', 'Program sekolah', response.error);
     return false;
   }
   const rows = response.data || [];
@@ -628,20 +628,20 @@ async function loadPencapaian() {
       ui.createCell(row.tajuk, 'admin-table-title'),
       ui.createCell(row.kategori),
       actionsCell(function () { openPencapaianModal(row); }, function () {
-        deleteRow('achievement', row.id, 'pencapaian ' + row.tajuk, loadPencapaian);
+        deleteRow('achievement', row.id, 'program ' + row.tajuk, loadPencapaian);
       })
     );
     tbody.appendChild(tr);
   });
   ui.showEmpty('pencapaian-empty', !rows.length);
-  ui.setMessage('pencapaian-status', rows.length + ' pencapaian.', 'success');
+  ui.setMessage('pencapaian-status', rows.length + ' program sekolah.', 'success');
   return true;
 }
 
 function openPencapaianModal(row) {
   editIds.pencapaian = row ? row.id : null;
   document.getElementById('f-pencapaian-tarikh').value = row && row.tarikh ? row.tarikh : todayIso();
-  document.getElementById('f-pencapaian-kategori').value = row && row.kategori ? row.kategori : 'kokurikulum';
+  document.getElementById('f-pencapaian-kategori').value = 'sekolah';
   document.getElementById('f-pencapaian-tajuk').value = row ? row.tajuk : '';
   document.getElementById('f-pencapaian-penerangan').value = row && row.penerangan ? row.penerangan : '';
   document.getElementById('f-pencapaian-kandungan').value = row && row.kandungan ? row.kandungan : '';
@@ -652,7 +652,7 @@ function openPencapaianModal(row) {
   document.getElementById('f-pencapaian-galeri').value = galleryText(row && row.galeri);
   document.getElementById('f-pencapaian-pautan').value = row && row.pautan ? row.pautan : '';
   document.getElementById('f-pencapaian-susunan').value = row ? row.susunan : 0;
-  openRecordModal('pencapaian', row ? 'Ubah Pencapaian' : 'Tambah Pencapaian', 'f-pencapaian-tajuk');
+  openRecordModal('pencapaian', row ? 'Ubah Program' : 'Tambah Program', 'f-pencapaian-tajuk');
 }
 
 function articleSlug(value) {
@@ -698,11 +698,11 @@ async function savePencapaian() {
   const imageUrl = ui.validHttpUrl(document.getElementById('f-pencapaian-image').value);
   const galeri = parseGallery(document.getElementById('f-pencapaian-galeri').value);
   if (!tajuk) {
-    ui.setMessage('pencapaian-msg', 'Sila isi tajuk pencapaian.', 'error');
+    ui.setMessage('pencapaian-msg', 'Sila isi tajuk program.', 'error');
     return;
   }
   if (pautan === false) {
-    ui.setMessage('pencapaian-msg', 'Pautan berita mesti menggunakan laluan dalam smkajerlun.my.', 'error');
+    ui.setMessage('pencapaian-msg', 'Pautan artikel mesti menggunakan laluan dalam smkajerlun.my.', 'error');
     return;
   }
   if (imageUrl === null && document.getElementById('f-pencapaian-image').value.trim()) {
@@ -722,7 +722,7 @@ async function savePencapaian() {
     return;
   }
   const payload = {
-    kategori: document.getElementById('f-pencapaian-kategori').value.trim() || 'kokurikulum',
+    kategori: 'sekolah',
     tajuk: tajuk,
     tarikh: document.getElementById('f-pencapaian-tarikh').value || null,
     penerangan: document.getElementById('f-pencapaian-penerangan').value.trim() || null,
@@ -730,7 +730,7 @@ async function savePencapaian() {
     slug: kandungan ? slug : null,
     image_url: imageUrl,
     galeri: galeri,
-    pautan: kandungan ? '/berita/?slug=' + encodeURIComponent(slug) : pautan,
+    pautan: kandungan ? '/program/?slug=' + encodeURIComponent(slug) : pautan,
     susunan: numberValue('f-pencapaian-susunan', 0)
   };
   const button = document.getElementById('pencapaian-simpan');
@@ -738,13 +738,13 @@ async function savePencapaian() {
   const response = await saveRow('achievement', editIds.pencapaian, payload);
   ui.setBusy(button, false);
   if (response.error) {
-    ui.setMessage('pencapaian-msg', errorText('Pencapaian', response.error), 'error');
+    ui.setMessage('pencapaian-msg', errorText('Program sekolah', response.error), 'error');
     return;
   }
   ui.markModalSaved('pencapaian-modal');
   closeRecordModal('pencapaian', true);
   await loadPencapaian();
-  showToast('Berjaya', 'Pencapaian disimpan.', 'success');
+  showToast('Berjaya', 'Program sekolah disimpan.', 'success');
 }
 
 // ---------------------------------------------------------------------------

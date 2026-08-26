@@ -53,7 +53,7 @@
     <button type="button" class="tab-btn" data-tab="pengumuman">Pengumuman</button>
     <button type="button" class="tab-btn" data-tab="kandungan">Halaman</button>
     <button type="button" class="tab-btn" data-tab="takwim">Takwim</button>
-    <button type="button" class="tab-btn" data-tab="media">Media &amp; Pencapaian</button>
+    <button type="button" class="tab-btn" data-tab="media">Program Sekolah</button>
     <button type="button" class="tab-btn" data-tab="direktori">Direktori &amp; Fail</button>
     <button type="button" class="tab-btn" data-tab="audit">Log Perubahan</button>
   </div>
@@ -132,10 +132,10 @@
         <p class="admin-statusline" id="galeri-status" aria-live="polite"></p>
       </div>
       <div class="card">
-        <div class="head-row"><div><h2 class="page-title">Pencapaian</h2><p class="page-sub">Kad berita yang dipaparkan di Kokurikulum dan sorotan laman utama.</p></div><button type="button" class="btn-primary" id="pencapaian-tambah">Tambah Pencapaian</button></div>
-        <a class="admin-destination" href="/kokurikulum/?section=koku-pencapaian" target="_blank" rel="noopener">Lihat pencapaian</a>
-        <div class="tablewrap"><table><thead><tr><th>Tarikh</th><th>Tajuk</th><th>Kategori</th><th style="text-align:right">Tindakan</th></tr></thead><tbody id="pencapaian-tbody"></tbody></table></div>
-        <div id="pencapaian-empty" class="empty" style="display:none">Tiada pencapaian direkodkan.</div>
+        <div class="head-row"><div><h2 class="page-title">Program Sekolah</h2><p class="page-sub">Artikel dan sorotan aktiviti rasmi yang dipaparkan pada laman utama.</p></div><button type="button" class="btn-primary" id="pencapaian-tambah">Tambah Program</button></div>
+        <a class="admin-destination" href="/program/" target="_blank" rel="noopener">Lihat program sekolah</a>
+        <div class="tablewrap"><table><thead><tr><th>Tarikh</th><th>Tajuk</th><th>Jenis</th><th style="text-align:right">Tindakan</th></tr></thead><tbody id="pencapaian-tbody"></tbody></table></div>
+        <div id="pencapaian-empty" class="empty" style="display:none">Tiada program sekolah direkodkan.</div>
         <p class="admin-statusline" id="pencapaian-status" aria-live="polite"></p>
       </div>
     </div>
@@ -163,7 +163,7 @@
   <section class="admin-tabpane" id="pane-audit" hidden>
     <div class="card">
       <div class="head-row"><div><h2 class="page-title">Log Perubahan Pentadbir</h2><p class="page-sub">Jejak perubahan kandungan, PSS dan tempahan tanpa memaparkan data sensitif secara mentah.</p></div><button type="button" class="btn-secondary" id="audit-refresh">Muat Semula</button></div>
-      <div class="head-controls"><label for="audit-filter" class="field-label">Modul</label><select id="audit-filter"><option value="">Semua modul</option><option value="content_block">Kandungan halaman</option><option value="pengumuman">Pengumuman</option><option value="takwim">Takwim</option><option value="staff">Staf</option><option value="achievement">Pencapaian</option><option value="gallery_item">Galeri</option><option value="resource_file">Fail</option><option value="school_directory">Direktori</option><option value="pss_book">Buku PSS</option><option value="pss_pinjaman">Pinjaman PSS</option><option value="tempahan">Tempahan bilik</option></select></div>
+      <div class="head-controls"><label for="audit-filter" class="field-label">Modul</label><select id="audit-filter"><option value="">Semua modul</option><option value="content_block">Kandungan halaman</option><option value="pengumuman">Pengumuman</option><option value="takwim">Takwim</option><option value="staff">Staf</option><option value="achievement">Program Sekolah</option><option value="gallery_item">Galeri</option><option value="resource_file">Fail</option><option value="school_directory">Direktori</option><option value="pss_book">Buku PSS</option><option value="pss_pinjaman">Pinjaman PSS</option><option value="tempahan">Tempahan bilik</option></select></div>
       <div class="tablewrap"><table><thead><tr><th>Masa</th><th>Tindakan</th><th>Modul</th><th>Rekod</th><th>Ringkasan</th></tr></thead><tbody id="audit-tbody"></tbody></table></div>
       <div id="audit-empty" class="empty" style="display:none">Belum ada perubahan admin direkodkan.</div>
       <p class="admin-statusline" id="audit-status" aria-live="polite"></p>
@@ -238,15 +238,14 @@
 
 <div id="pencapaian-modal" class="modal-overlay" data-admin-modal hidden>
   <section class="modal wide" role="dialog" aria-modal="true" aria-labelledby="pencapaian-modal-title" aria-describedby="pencapaian-msg">
-    <h3 id="pencapaian-modal-title">Tambah Pencapaian</h3><p class="msg" id="pencapaian-msg" aria-live="polite"></p>
-    <div class="row2"><div><label class="field-label" for="f-pencapaian-tarikh">Tarikh</label><input type="date" id="f-pencapaian-tarikh"></div><div><label class="field-label" for="f-pencapaian-kategori">Kategori</label><input type="text" id="f-pencapaian-kategori" value="kokurikulum" list="kategori-pencapaian"></div></div>
-    <datalist id="kategori-pencapaian"><option value="kokurikulum"></option><option value="akademik"></option><option value="HEM"></option><option value="sekolah"></option></datalist>
-    <label class="field-label" for="f-pencapaian-tajuk">Tajuk <span class="field-required">*</span></label><input type="text" id="f-pencapaian-tajuk" maxlength="220" required>
+    <h3 id="pencapaian-modal-title">Tambah Program</h3><p class="msg" id="pencapaian-msg" aria-live="polite"></p>
+    <div class="row2"><div><label class="field-label" for="f-pencapaian-tarikh">Tarikh</label><input type="date" id="f-pencapaian-tarikh"></div><input type="hidden" id="f-pencapaian-kategori" value="sekolah"></div>
+    <label class="field-label" for="f-pencapaian-tajuk">Tajuk program <span class="field-required">*</span></label><input type="text" id="f-pencapaian-tajuk" maxlength="220" required>
     <label class="field-label" for="f-pencapaian-penerangan">Ringkasan</label><textarea id="f-pencapaian-penerangan" rows="4" maxlength="1000"></textarea>
     <label class="field-label" for="f-pencapaian-kandungan">Kandungan artikel <span class="field-help">Pisahkan perenggan dengan satu baris kosong. Artikel akan mendapat pautan sendiri.</span></label><textarea id="f-pencapaian-kandungan" rows="10" maxlength="12000"></textarea>
     <div class="row2"><div><label class="field-label" for="f-pencapaian-slug">Kod pautan artikel</label><input type="text" id="f-pencapaian-slug" maxlength="140" placeholder="tajuk-artikel"></div><div><label class="field-label" for="f-pencapaian-image">URL gambar utama</label><input type="url" id="f-pencapaian-image" placeholder="https://..."></div></div>
-    <label class="field-label" for="f-pencapaian-galeri">Galeri gambar <span class="field-help">Satu gambar setiap baris: URL | teks alternatif</span></label><textarea id="f-pencapaian-galeri" rows="4" maxlength="6000" placeholder="https://... | Perarakan warga sekolah"></textarea>
-    <label class="field-label" for="f-pencapaian-pautan">Pautan khas untuk artikel lama <span class="field-help">Pilihan. Gunakan hanya jika artikel sudah mempunyai halaman sedia ada.</span></label><input type="text" id="f-pencapaian-pautan" placeholder="/kokurikulum/pencapaian/.../">
+    <label class="field-label" for="f-pencapaian-galeri">Gambar sokongan <span class="field-help">Satu gambar setiap baris: URL | teks alternatif</span></label><textarea id="f-pencapaian-galeri" rows="4" maxlength="6000" placeholder="https://... | Aktiviti warga sekolah"></textarea>
+    <input type="hidden" id="f-pencapaian-pautan" value="">
     <label class="field-label" for="f-pencapaian-susunan">Susunan</label><input type="number" id="f-pencapaian-susunan" value="0" min="0">
     <div class="modal-actions"><button type="button" class="btn-secondary" id="pencapaian-batal">Batal</button><button type="button" class="btn-primary" id="pencapaian-simpan">Simpan</button></div>
   </section>

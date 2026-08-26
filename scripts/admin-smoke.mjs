@@ -32,7 +32,7 @@ const commonStub = String.raw`
       { id: 2, portal: 'pss', kategori: 'aktiviti', tarikh_mula: '2026-08-26', tarikh_tamat: null, tajuk: 'Aktiviti PSS', keterangan: 'Ruang bacaan', susunan: 10 }
     ],
     gallery_item: [{ id: 1, tarikh: '2026-08-20', tajuk: 'Galeri sekolah', kategori: 'aktiviti', image_url: 'https://example.com/image.jpg', alt_text: 'Aktiviti sekolah', susunan: 1 }],
-    achievement: [{ id: 1, tarikh: '2026-08-17', tajuk: 'Pencapaian sekolah', kategori: 'kokurikulum', penerangan: 'Ringkasan', pautan: '/kokurikulum/', susunan: 1, slug: null, kandungan: null, image_url: null, galeri: [] }],
+    achievement: [{ id: 1, tarikh: '2026-08-17', tajuk: 'Program sekolah', kategori: 'sekolah', penerangan: 'Ringkasan', pautan: '/program/', susunan: 1, slug: null, kandungan: null, image_url: null, galeri: [] }],
     school_directory: [{ id: 1, kategori: 'pentadbiran', nama: 'Pejabat Sekolah', jawatan: 'Urusan Am', telefon: '04-9250925', emel: 'kra4002@moe.edu.my', susunan: 1 }],
     resource_file: [{ id: 1, kategori: 'Borang', tajuk: 'Borang Contoh', penerangan: 'Dokumen contoh', url: 'https://example.com/borang.pdf', susunan: 1 }],
     pss_book: books,
@@ -41,7 +41,7 @@ const commonStub = String.raw`
     nilam_stat: [{ id: 1, kelas: '3 Itqan', jumlah_bacaan: 120, murid_aktif: 28, dikemas_kini: '2026-08-24' }],
     admin_audit_log: [
       { id: 1, action: 'UPDATE', table_name: 'pengumuman', record_id: '2', metadata: { new: { portal: 'pss', tajuk: 'Makluman PSS' } }, created_at: '2026-08-24T01:00:00Z' },
-      { id: 2, action: 'INSERT', table_name: 'achievement', record_id: '1', metadata: { new: { tajuk: 'Pencapaian sekolah' } }, created_at: '2026-08-23T01:00:00Z' }
+      { id: 2, action: 'INSERT', table_name: 'achievement', record_id: '1', metadata: { new: { tajuk: 'Program sekolah' } }, created_at: '2026-08-23T01:00:00Z' }
     ],
     tempahan: [
       { id: 't1', bilik: 'Bilik PAK 21', tarikh: '2026-08-24', masa_mula: '08:00', masa_tamat: '08:30', label: '08:00-08:30', kumpulan: 'Pagi', nama_pemohon: 'Guru Contoh', kelas: '3 Itqan', tujuan: 'PdPc', guna_lcd: true, status: 'aktif', created_at: '2026-08-23T01:00:00Z' }
@@ -210,7 +210,7 @@ async function schoolAdminCheck(viewport) {
   await page.locator('#pencapaian-simpan').click();
   await page.locator('#pencapaian-modal').waitFor({ state: 'hidden' });
   const dynamicAchievement = await page.evaluate(() => window.__db.achievement.find((row) => row.tajuk === 'Berita Pentadbir Baharu'));
-  if (!dynamicAchievement || dynamicAchievement.pautan !== '/berita/?slug=berita-pentadbir-baharu' || dynamicAchievement.slug !== 'berita-pentadbir-baharu') {
+  if (!dynamicAchievement || dynamicAchievement.pautan !== '/program/?slug=berita-pentadbir-baharu' || dynamicAchievement.slug !== 'berita-pentadbir-baharu') {
     failures.push('school admin: new article did not receive a stable dynamic link');
   }
 

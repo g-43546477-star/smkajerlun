@@ -50,6 +50,7 @@
     </div>
     <nav class="tabs">
       <a href="/" class="active">Utama</a>
+      <details class="nav-dropdown"><summary><a href="/program/">Program Sekolah</a></summary><div class="subnav"><a href="/program/">Program Terkini</a></div></details>
       <a href="/akademik/">Akademik</a>
       <a href="/kokurikulum/">Kokurikulum</a>
       <a href="/asrama/">Asrama</a>
@@ -107,6 +108,12 @@
     </div>
   </section>
 
+  <!-- ============ Program Sekolah — fokus kandungan utama ============ -->
+  <section class="ios-panel ios-program-panel" aria-labelledby="program-title">
+    <div class="ios-section-heading"><div><span class="ios-overline">PROGRAM SEKOLAH</span><h2 id="program-title">Sorotan program terkini</h2></div><a href="/program/">Lihat semua <span aria-hidden="true">&rarr;</span></a></div>
+    <div id="home-program-list" class="achievement-list achievement-list-featured"></div>
+  </section>
+
   <!-- ============ Aktiviti + Pengumuman ============ -->
   <div class="ios-primary-grid">
     <section class="ios-panel ios-activities" aria-labelledby="aktiviti-title">
@@ -118,11 +125,6 @@
       <div class="notis" id="notis-list"></div>
     </section>
   </div>
-
-  <section class="ios-panel ios-achievement-panel" aria-labelledby="pencapaian-title">
-    <div class="ios-section-heading"><div><span class="ios-overline">PENCAPAIAN KOKURIKULUM</span><h2 id="pencapaian-title">Sorotan warga SMKAJ</h2></div><a href="/kokurikulum/?section=koku-pencapaian">Lihat semua <span aria-hidden="true">&rarr;</span></a></div>
-    <div id="home-achievement-list" class="achievement-list achievement-list-featured"></div>
-  </section>
 
   <!-- ============ Carian — lebih kecil, bukan panel penuh ============ -->
   <section class="ios-search-compact" aria-labelledby="cari-title">

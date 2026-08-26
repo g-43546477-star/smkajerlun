@@ -137,9 +137,6 @@
         mount.appendChild(card);
       });
     });
-    const achievement = data.filter(function (row) { return row.jenis !== 'panitia'; });
-    const achievementMount = document.getElementById('koku-achievement-content') || document.getElementById('koku-pencapaian');
-    if (achievementMount && achievement.length) renderBlocks(achievement, achievementMount);
   };
 
   // Muatkan blok jenis 'lagu' bagi satu laman ke dalam mount (kad plum berasingan)
@@ -205,8 +202,8 @@
     });
   };
 
-  // Pencapaian dipaparkan sebagai kad editorial yang boleh dibuka ke berita penuh.
-  window.cmsLoadAchievements = async function (mountId, options) {
+  // Artikel program sekolah dipaparkan sebagai kad editorial yang boleh dibuka ke artikel penuh.
+  window.cmsLoadProgramArticles = async function (mountId, options) {
     const mount = document.getElementById(mountId);
     if (!mount) return;
     options = options || {};
@@ -221,7 +218,7 @@
     if (!rows.length) {
       const empty = document.createElement('p');
       empty.className = 'achievement-empty';
-      empty.textContent = 'Belum ada pencapaian untuk dipaparkan.';
+      empty.textContent = options.emptyText || 'Belum ada program sekolah untuk dipaparkan.';
       mount.appendChild(empty);
       return;
     }
@@ -244,10 +241,13 @@
       return parts.length === 3 && parts[0] && monthNames[parts[1] - 1] ? parts[2] + ' ' + monthNames[parts[1] - 1] + ' ' + parts[0] : '';
     }
     rows.forEach(function (row) {
-      const title = String(row.tajuk || 'Pencapaian SMKA Jerlun').trim();
-      const card = document.createElement(row.pautan ? 'a' : 'article');
+      const title = String(row.tajuk || 'Program Sekolah SMKA Jerlun').trim();
+      const articleHref = row.slug
+        ? '/program/?slug=' + encodeURIComponent(String(row.slug).trim())
+        : (row.pautan ? safeInternalUrl(row.pautan, '/program/') : null);
+      const card = document.createElement(articleHref ? 'a' : 'article');
       card.className = 'achievement-card' + (options.featured ? ' is-featured' : '');
-      if (row.pautan) card.href = safeInternalUrl(row.pautan, '/kokurikulum/');
+      if (articleHref) card.href = articleHref;
       const image = row.image_url ? { image_url: row.image_url, alt_text: title } : imageByTitle[title.toLocaleLowerCase('ms-MY')];
       const media = document.createElement('div');
       media.className = 'achievement-card-media' + (image ? '' : ' is-empty');
@@ -258,29 +258,32 @@
         img.loading = options.featured ? 'eager' : 'lazy';
         media.appendChild(img);
       } else {
-        media.textContent = 'PENCAPAIAN';
+        media.textContent = 'PROGRAM SEKOLAH';
       }
       const body = document.createElement('div');
       body.className = 'achievement-card-body';
       const label = document.createElement('span');
       label.className = 'achievement-card-label';
-      label.textContent = 'Pencapaian kokurikulum';
+      label.textContent = options.label || 'Program sekolah';
       const heading = document.createElement('h3');
       heading.textContent = title;
       const summary = document.createElement('p');
-      summary.textContent = row.penerangan || 'Lihat berita dan maklumat pencapaian warga SMKA Jerlun.';
+      summary.textContent = row.penerangan || 'Baca maklumat dan sorotan aktiviti rasmi SMK Agama Jerlun.';
       const meta = document.createElement('time');
       meta.className = 'achievement-card-date';
       meta.dateTime = row.tarikh || '';
       meta.textContent = formatDate(row.tarikh);
       const link = document.createElement('span');
       link.className = 'achievement-card-link';
-      link.textContent = row.pautan ? 'Baca berita' : 'Lihat pencapaian';
+      link.textContent = articleHref ? 'Baca artikel' : 'Lihat program';
       body.append(label, heading, summary, meta, link);
       card.append(media, body);
       mount.appendChild(card);
     });
   };
+
+  // Alias dalaman untuk halaman lama yang mungkin masih memanggil nama fungsi terdahulu.
+  window.cmsLoadAchievements = window.cmsLoadProgramArticles;
 
   // Muatkan satu makluman terkini untuk panel "Hari ini di SMKAJ".
   window.cmsLoadTodayNotice = async function (mountId) {
@@ -680,6 +683,7 @@
     var schoolRoute = location.pathname.endsWith('/') ? location.pathname : location.pathname + '/';
     function activeGroup() {
       if (schoolRoute.indexOf('/info-sekolah/') === 0 || schoolRoute.indexOf('/info/') === 0) return 'info';
+      if (schoolRoute.indexOf('/program/') === 0 || schoolRoute.indexOf('/berita/') === 0) return 'program';
       if (schoolRoute.indexOf('/perkhidmatan/') === 0 || schoolRoute.indexOf('/tempahan/') === 0) return 'perkhidmatan';
       if (schoolRoute.indexOf('/akademik/') === 0) return 'akademik';
       if (schoolRoute.indexOf('/hem/') === 0) return 'hem';
@@ -698,6 +702,9 @@
       schoolNav.id = 'school-main-navigation';
       schoolNav.innerHTML = [
         '<a href="/"' + (activeGroup() === 'utama' ? ' class="active"' : '') + '>Utama</a>',
+        megaMenu('program', 'Program Sekolah', '/program/', 'Artikel dan aktiviti rasmi warga sekolah.', [
+          { href: '/program/', title: 'Program Terkini', copy: 'Sorotan aktiviti rasmi sekolah' }
+        ]),
         megaMenu('akademik', 'Akademik', '/akademik/', 'Kurikulum, panitia dan maklumat pembelajaran.', [
           { href: '/akademik/?section=academic-calendar', title: 'Tarikh Penting', copy: 'Agenda akademik yang akan datang' },
           { href: '/akademik/?section=page-content', title: 'Kurikulum dan Panitia', copy: 'Program serta bidang mata pelajaran' },
@@ -713,8 +720,7 @@
         megaMenu('kokurikulum', 'Kokurikulum', '/kokurikulum/', 'Pengurusan aktiviti luar bilik darjah.', [
           { href: '/kokurikulum/?section=koku-uniform-section', title: 'Unit Beruniform', copy: 'Maklumat guru penasihat' },
           { href: '/kokurikulum/?section=koku-persatuan-section', title: 'Kelab dan Persatuan', copy: 'Rujukan unit dan penyelaras' },
-          { href: '/kokurikulum/?section=koku-permainan-section', title: 'Sukan dan Permainan', copy: 'Unit sukan sekolah' },
-          { href: '/kokurikulum/?section=koku-pencapaian', title: 'Pencapaian', copy: 'Rekod dan pengiktirafan' }
+          { href: '/kokurikulum/?section=koku-permainan-section', title: 'Sukan dan Permainan', copy: 'Unit sukan sekolah' }
         ]),
         megaMenu('asrama', 'Asrama', '/asrama/', 'Panduan penginapan dan kehidupan harian murid.', [
           { href: '/asrama/?section=page-content', title: 'Maklumat Asrama', copy: 'Pengurusan dan kemudahan' },
@@ -786,8 +792,7 @@
       '/kokurikulum/': { label: 'Dalam Kokurikulum', items: [
         { href: '/kokurikulum/?section=koku-uniform-section', title: 'Unit Beruniform', copy: 'Guru penasihat dan pengurusan' },
         { href: '/kokurikulum/?section=koku-persatuan-section', title: 'Kelab dan Persatuan', copy: 'Unit dan penyelaras' },
-        { href: '/kokurikulum/?section=koku-permainan-section', title: 'Sukan dan Permainan', copy: 'Maklumat aktiviti sukan' },
-        { href: '/kokurikulum/?section=koku-pencapaian', title: 'Pencapaian', copy: 'Rekod dan pengiktirafan' }
+        { href: '/kokurikulum/?section=koku-permainan-section', title: 'Sukan dan Permainan', copy: 'Maklumat aktiviti sukan' }
       ] },
       '/asrama/': { label: 'Dalam Asrama', items: [
         { href: '/asrama/?section=page-content', title: 'Maklumat Asrama', copy: 'Kemudahan dan pengurusan' },

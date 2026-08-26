@@ -24,5 +24,4 @@
 })();
 ;
 cmsLoadKokurikulum();
-cmsLoadAchievements('koku-achievement-list', { limit: 6 });
 cmsLoadAuthNav();

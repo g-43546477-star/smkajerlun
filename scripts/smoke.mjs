@@ -10,7 +10,7 @@ const launchOptions = {
   headless: process.env.E2E_HEADLESS !== '0',
   ...(fs.existsSync(chromePath) ? { executablePath: chromePath } : {})
 };
-const routes = ['/', '/pss/', '/pss/tentang-pss/pengawas-pss/', '/pss/program/kalendar/', '/pss/program/pengumuman/', '/pss/digital/katalog/', '/pss/digital/nilam/', '/pss/nilam/', '/pss/digital/iq-nilam/', '/pss/pinjaman/', '/pss/admin/', '/tempahan/', '/tempahan/senarai/', '/tempahan/admin/', '/perkhidmatan/klinik/', '/kokurikulum/', '/kokurikulum/pencapaian/drone-edu-challenge-ir4/', '/kokurikulum/pencapaian/pidato-generasi-madani-2026/', '/berita/?slug=smka-jerlun-anjur-karnival-maulidur-rasul-generasi-madani-1448h', '/info/?tab=profil', '/carian/'];
+const routes = ['/', '/program/', '/program/?slug=smka-jerlun-anjur-karnival-maulidur-rasul-generasi-madani-1448h', '/berita/?slug=smka-jerlun-anjur-karnival-maulidur-rasul-generasi-madani-1448h', '/kokurikulum/pencapaian/drone-edu-challenge-ir4/', '/kokurikulum/pencapaian/pidato-generasi-madani-2026/', '/pss/', '/pss/tentang-pss/pengawas-pss/', '/pss/program/kalendar/', '/pss/program/pengumuman/', '/pss/digital/katalog/', '/pss/digital/nilam/', '/pss/nilam/', '/pss/digital/iq-nilam/', '/pss/pinjaman/', '/pss/admin/', '/tempahan/', '/tempahan/senarai/', '/tempahan/admin/', '/perkhidmatan/klinik/', '/kokurikulum/', '/info/?tab=profil', '/carian/'];
 const failures = [];
 const browser = await chromium.launch(launchOptions);
 
@@ -25,8 +25,8 @@ async function visit(page, route) {
   const response = await page.goto(`${base}${route}`, { waitUntil: 'domcontentloaded', timeout: 30000 });
   await page.waitForTimeout(700);
   const asyncMounts = {
-    '/': '#home-achievement-list .achievement-card, #home-achievement-list .achievement-empty',
-    '/kokurikulum/': '#koku-achievement-list .achievement-card, #koku-achievement-list .achievement-empty',
+    '/': '#home-program-list .achievement-card, #home-program-list .achievement-empty',
+    '/program/': '#program-list .achievement-card, #program-list .achievement-empty',
     '/pss/digital/katalog/': '#book-list .catalog-book-card, #book-list .catalog-empty'
   };
   if (asyncMounts[route]) {
@@ -54,7 +54,7 @@ async function visit(page, route) {
       heroImage: getComputedStyle(document.querySelector('.ios-hero')).backgroundImage.includes('hero-sekolah.jpg'),
       alertStrip: Boolean(document.querySelector('#home-alert-strip')),
       serviceDock: Boolean(document.querySelector('.ios-service-dock')),
-      achievement: document.querySelector('#home-achievement-list .achievement-card')?.textContent.includes('Karnival Maulidur Rasul') || false,
+      program: document.querySelector('#home-program-list .achievement-card')?.textContent.includes('Karnival Maulidur Rasul') || false,
       announcementMoved: !document.querySelector('#notis-list')?.textContent.includes('Drone Edu Challenge')
     }));
     if (!homepageMarkup.hero) failures.push(`${route}: school hero markup is missing`);
@@ -62,21 +62,18 @@ async function visit(page, route) {
     if (!homepageMarkup.heroImage) failures.push(`${route}: school aerial hero image is missing`);
     if (!homepageMarkup.alertStrip) failures.push(`${route}: announcement alert strip is missing`);
     if (!homepageMarkup.serviceDock) failures.push(`${route}: service dock is missing`);
-    if (!homepageMarkup.achievement) failures.push(`${route}: achievement highlight is missing`);
+    if (!homepageMarkup.program) failures.push(`${route}: school program highlight is missing`);
     if (!homepageMarkup.announcementMoved) failures.push(`${route}: achievement still appears as a general announcement`);
   }
-  if (route === '/kokurikulum/' && (!await page.locator('#koku-achievement-list .achievement-card').count() || !(await page.locator('#koku-achievement-list').textContent()).includes('Drone Edu Challenge') || !(await page.locator('#koku-achievement-list').textContent()).includes('Muhammad bin Mohd Amin'))) {
-    failures.push(`${route}: achievement card is missing from Kokurikulum`);
+  if (route === '/kokurikulum/' && (await page.locator('#koku-pencapaian, #koku-achievement-list').count() || await page.locator('nav.tabs details').filter({ hasText: 'Pencapaian' }).count())) {
+    failures.push(`${route}: retired Pencapaian section or submenu is still present`);
   }
-  if (route === '/kokurikulum/pencapaian/drone-edu-challenge-ir4/' && (!await page.locator('#achievement-title').count() || !await page.locator('.achievement-article-figure img').count() || !(await page.locator('.achievement-article-prose').textContent()).includes("Mu'az Daffa"))) {
-    failures.push(`${route}: full achievement article is incomplete`);
+  if (route === '/program/?slug=smka-jerlun-anjur-karnival-maulidur-rasul-generasi-madani-1448h') await page.locator('#achievement-article:not([hidden])').waitFor({ state: 'visible', timeout: 6000 }).catch(() => {});
+  if (route === '/program/?slug=smka-jerlun-anjur-karnival-maulidur-rasul-generasi-madani-1448h' && (!await page.locator('#achievement-title').count() || !(await page.locator('#achievement-title').textContent()).includes('Karnival Maulidur Rasul') || (await page.locator('#achievement-gallery-grid img').count()) !== 6)) {
+    failures.push(`${route}: program article or gallery is incomplete`);
   }
-  if (route === '/kokurikulum/pencapaian/pidato-generasi-madani-2026/' && (!await page.locator('#achievement-title').count() || !await page.locator('.achievement-article-figure img').count() || !(await page.locator('.achievement-article-prose').textContent()).includes('Muhammad bin Mohd Amin'))) {
-    failures.push(`${route}: full achievement article is incomplete`);
-  }
-  if (route.startsWith('/berita/')) await page.locator('#achievement-article:not([hidden])').waitFor({ state: 'visible', timeout: 6000 }).catch(() => {});
-  if (route.startsWith('/berita/') && (!await page.locator('#achievement-title').count() || !(await page.locator('#achievement-title').textContent()).includes('Karnival Maulidur Rasul') || (await page.locator('#achievement-gallery-grid img').count()) !== 6)) {
-    failures.push(`${route}: dynamic article or gallery is incomplete`);
+  if (route.startsWith('/berita/') || route.startsWith('/kokurikulum/pencapaian/')) {
+    if (!page.url().includes('/program/?slug=')) failures.push(`${route}: legacy article route did not redirect to Program Sekolah`);
   }
   if (route === '/pss/digital/katalog/') {
     const duplicateFilters = await page.evaluate(() => ['book-category', 'book-status'].flatMap((id) => {
@@ -177,12 +174,12 @@ for (const viewport of [{ name: 'desktop', width: 1440, height: 1000 }, { name: 
       await page.mouse.click(30, 30);
       await page.waitForTimeout(120);
       if (await dropdown.evaluate((node) => node.hasAttribute('open'))) failures.push('website desktop: outside click did not close menu');
-      const achievementLink = page.locator('#home-achievement-list a.achievement-card').filter({ hasText: 'Karnival Maulidur Rasul' }).first();
-      if (await achievementLink.count()) {
-        const href = await achievementLink.getAttribute('href');
-        if (!href?.includes('/berita/?slug=smka-jerlun-anjur-karnival-maulidur-rasul-generasi-madani-1448h')) failures.push('website desktop: achievement card does not link to the dynamic article');
-        await achievementLink.click();
-        if (!page.url().includes('/berita/?slug=smka-jerlun-anjur-karnival-maulidur-rasul-generasi-madani-1448h')) failures.push('website desktop: achievement card did not open the dynamic article');
+      const programLink = page.locator('#home-program-list a.achievement-card').filter({ hasText: 'Karnival Maulidur Rasul' }).first();
+      if (await programLink.count()) {
+        const href = await programLink.getAttribute('href');
+        if (!href?.includes('/program/?slug=smka-jerlun-anjur-karnival-maulidur-rasul-generasi-madani-1448h')) failures.push('website desktop: program card does not link to the Program Sekolah article');
+        await programLink.click();
+        if (!page.url().includes('/program/?slug=smka-jerlun-anjur-karnival-maulidur-rasul-generasi-madani-1448h')) failures.push('website desktop: program card did not open the article');
       }
     }
     if (route === '/pss/' && viewport.name === 'mobile') {

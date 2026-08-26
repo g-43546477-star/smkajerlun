@@ -34,8 +34,7 @@
   }
 
   function labelFor(category) {
-    var labels = { kokurikulum: 'PENCAPAIAN KOKURIKULUM', akademik: 'BERITA AKADEMIK', hem: 'BERITA HEM', sekolah: 'BERITA SEKOLAH' };
-    return labels[String(category || '').toLowerCase()] || 'BERITA SMKAJ';
+    return 'PROGRAM SEKOLAH';
   }
 
   function renderProse(text) {
@@ -83,10 +82,10 @@
   function setMeta(row) {
     document.title = row.tajuk + ' | SMKA Jerlun';
     var description = document.querySelector('meta[name="description"]');
-    if (description) description.content = row.penerangan || 'Berita terkini SMK Agama Jerlun.';
+    if (description) description.content = row.penerangan || 'Program dan aktiviti terkini SMK Agama Jerlun.';
     var canonical = document.querySelector('link[rel="canonical"]') || document.createElement('link');
     canonical.rel = 'canonical';
-    canonical.href = window.location.origin + '/berita/?slug=' + encodeURIComponent(slug);
+    canonical.href = window.location.origin + '/program/?slug=' + encodeURIComponent(slug);
     if (!canonical.parentNode) document.head.appendChild(canonical);
     var schema = document.createElement('script');
     schema.type = 'application/ld+json';
@@ -100,16 +99,16 @@
 
   async function loadArticle() {
     if (!slug || !/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(slug)) {
-      loading.textContent = 'Pautan berita ini tidak sah.';
+      loading.textContent = 'Pautan program ini tidak sah.';
       return;
     }
     var response = await window.cms.from('achievement').select('*').eq('slug', slug).maybeSingle();
     var row = response.data;
     if (response.error || !row || !row.kandungan) {
-      loading.textContent = 'Berita ini tidak ditemui atau belum diterbitkan.';
+      loading.textContent = 'Program ini tidak ditemui atau belum diterbitkan.';
       return;
     }
-    var title = String(row.tajuk || 'Berita SMKA Jerlun');
+    var title = String(row.tajuk || 'Program Sekolah SMKA Jerlun');
     document.getElementById('achievement-kicker').textContent = labelFor(row.kategori);
     document.getElementById('achievement-title').textContent = title;
     document.getElementById('achievement-dek').textContent = row.penerangan || '';
@@ -136,5 +135,6 @@
   var year = document.getElementById('thn');
   if (year) year.textContent = new Date().getFullYear();
   if (window.cmsLoadAuthNav) window.cmsLoadAuthNav();
-  loadArticle().catch(function () { loading.textContent = 'Berita ini tidak dapat dimuatkan buat masa ini.'; });
+  if (!slug || !article || !loading) return;
+  loadArticle().catch(function () { loading.textContent = 'Program ini tidak dapat dimuatkan buat masa ini.'; });
 }());
