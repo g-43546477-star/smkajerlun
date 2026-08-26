@@ -48,8 +48,8 @@
 - HTML validator kini memblokir semua mesej severity error; semua 53 halaman
   semasa lulus tanpa advisory.
 - Smoke test menyemak redirect legacy, menu, katalog, artikel program, cetak
-  dan PDF. GitHub Actions menjalankan set pengesahan yang sama pada push dan
-  pull request.
+  dan PDF. Set pengesahan yang sama dijalankan melalui `npm run verify`
+  sebelum commit dan push.
 
 ## Urutan Pelepasan Untuk Kemas Kini Seumpama Ini
 
