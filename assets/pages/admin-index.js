@@ -25,7 +25,7 @@ const CONTENT_TEMPLATES = {
   paragraf: 'Tulis perenggan pertama di sini.\n\nTulis perenggan kedua selepas satu baris kosong.',
   senarai_ol: 'Item pertama\nItem kedua\nItem ketiga',
   senarai_ul: 'Item pertama\nItem kedua\nItem ketiga',
-  definisi: 'Telefon :: 04-9250925\nE-mel :: kra4002@moe.edu.my',
+  definisi: 'Nama sekolah :: Sekolah Menengah Kebangsaan Agama Jerlun\nKod sekolah :: KRA 4002\nKategori :: Sekolah Menengah Kebangsaan Agama\nAlamat :: Jalan Kodiang, 06100 Kodiang, Kedah Darul Aman, Malaysia\nTelefon :: 04-9250925\nFaks :: 04-9250926\nE-mel :: kra4002@moe.edu.my\nMotto :: Berilmu · Beriman · Beramal',
   lagu: 'Rangkap pertama baris pertama\nRangkap pertama baris kedua\n\nKORUS:\nBaris korus pertama\nBaris korus kedua',
   panitia: 'BIDANG: Unit Beruniform\nPENYELARAS: Nama Penyelaras\nKP: Nama Unit :: Nama Guru Penasihat'
 };
@@ -86,6 +86,11 @@ function setHealth(state, message) {
   health.dataset.state = state;
   const label = health.querySelector('span:last-child');
   if (label) label.textContent = message;
+}
+
+function setAdminOverviewCount(id, value) {
+  const element = document.getElementById(id);
+  if (element) element.textContent = value;
 }
 
 function todayIso() {
@@ -250,6 +255,7 @@ async function loadPengumuman() {
   });
   ui.showEmpty('pengumuman-empty', !rows.length);
   ui.setMessage('pengumuman-status', rows.length + ' pengumuman sekolah.', 'success');
+  setAdminOverviewCount('admin-count-announcement', rows.length);
   return true;
 }
 
@@ -473,6 +479,7 @@ async function loadTakwim() {
   });
   ui.showEmpty('takwim-empty', !rows.length);
   ui.setMessage('takwim-status', rows.length + ' entri takwim sekolah.', 'success');
+  if (kategori === 'aktiviti') setAdminOverviewCount('admin-count-activity', rows.length);
   return true;
 }
 
@@ -550,6 +557,7 @@ async function loadPencapaian() {
   });
   ui.showEmpty('pencapaian-empty', !rows.length);
   ui.setMessage('pencapaian-status', rows.length + ' program sekolah.', 'success');
+  setAdminOverviewCount('admin-count-program', rows.length);
   return true;
 }
 
@@ -853,7 +861,13 @@ async function loadAudit() {
   }
   auditRows = response.data || [];
   renderAudit();
+  setAdminOverviewCount('admin-count-audit', auditRows.length);
   return true;
+}
+
+function activateAdminTab(tab) {
+  const button = document.querySelector('.tab-btn[data-tab="' + tab + '"]');
+  if (button) button.click();
 }
 
 function bindEvents() {
@@ -903,6 +917,19 @@ function bindEvents() {
 
   document.getElementById('audit-filter').addEventListener('change', renderAudit);
   document.getElementById('audit-refresh').addEventListener('click', loadAudit);
+
+  document.getElementById('quick-add-program').addEventListener('click', function () {
+    activateAdminTab('media');
+    openPencapaianModal(null);
+  });
+  document.getElementById('quick-add-takwim').addEventListener('click', function () {
+    activateAdminTab('takwim');
+    openTakwimModal(null);
+  });
+  document.getElementById('quick-add-pengumuman').addEventListener('click', function () {
+    activateAdminTab('pengumuman');
+    openPengumumanModal(null);
+  });
 }
 
 (async function init() {

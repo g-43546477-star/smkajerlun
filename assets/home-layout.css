@@ -53,6 +53,7 @@ body.ios-home{background:var(--ds-color-bg)}
 
 .ios-home .ios-section-heading{display:flex;align-items:baseline;justify-content:space-between;gap:1rem;margin-bottom:1rem}
 .ios-home .ios-section-heading h2{font-size:clamp(1.1rem,2vw,1.28rem);font-weight:800;color:var(--ink)}
+.ios-home .ios-section-lead{margin:.25rem 0 0;color:var(--muted);font-size:.75rem;line-height:1.5;max-width:52ch}
 .ios-home .ios-section-meta{color:var(--muted);font-size:.72rem;font-family:var(--font-mono)}
 .ios-home .ios-overline{font-size:.68rem;font-weight:800;letter-spacing:.06em;color:var(--ds-color-accent);display:block;margin-bottom:.2rem}
 
@@ -80,7 +81,7 @@ body.ios-home{background:var(--ds-color-bg)}
 .ios-home .ios-panel{background:#fff;border:1px solid var(--line);border-radius:var(--ds-radius-md);box-shadow:var(--ds-shadow-sm);padding:1.3rem}
 .ios-home .ios-panel .notis-item{padding:.9rem 0}
 .ios-home .ios-activities .aktiviti-item{padding:.85rem 0}
-.ios-home .ios-program-panel{margin-bottom:1.6rem}
+.ios-home .ios-program-panel{margin-bottom:1.6rem;border-top:3px solid var(--ds-color-accent);padding-top:1.15rem}
 .ios-home .ios-program-panel .achievement-list-featured{grid-template-columns:minmax(0,1.35fr) repeat(2,minmax(0,1fr));align-items:stretch}
 .ios-home .ios-program-panel .achievement-list-featured .achievement-card{grid-template-columns:1fr;grid-template-rows:auto 1fr;min-height:100%}
 .ios-home .ios-program-panel .achievement-list-featured .achievement-card:first-child{grid-row:span 2}

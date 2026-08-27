@@ -125,6 +125,7 @@ tr.groupsep td{background:#e2e8f0;text-align:center;font-size:10px;text-transfor
 .lcd-yes{color:#5A1856;font-weight:800;font-size:11px}
 .lcd-no{color:#cbd5e1;font-size:11px}
 .status-cancelled{color:#94a3b8;font-size:10px;font-weight:800;text-transform:uppercase;background:#f1f5f9;padding:2px 7px;border-radius:6px}
+.status-active{display:inline-block;color:#17673E;font-size:10px;font-weight:800;text-transform:uppercase;background:#E1F3E8;border:1px solid #B7D5C2;padding:2px 7px;border-radius:6px}
 .action-group{display:flex;gap:6px;justify-content:flex-end}
 .btn-danger{padding:6px 10px;color:#e11d48;background:none;border:1px solid #fecaca;border-radius:8px;font-weight:800;font-size:11px;cursor:pointer;font-family:inherit}
 .btn-danger:hover{background:#fef2f2}

@@ -12,8 +12,8 @@
       href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=IBM+Plex+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="/assets/pss.css?v=20260820-3" />
-    <link rel="stylesheet" href="/assets/portal.css?v=20260820-3" />
+    <link rel="stylesheet" href="/assets/pss.css?v=20260827-1" />
+    <link rel="stylesheet" href="/assets/portal.css?v=20260827-1" />
     <link rel="icon" href="/logo.png" />
   </head>
   <body class="catalog-page" data-portal-view="catalog">
@@ -72,6 +72,7 @@
           <div><strong id="book-total">0</strong><span>Koleksi</span></div>
           <div><strong id="book-category-total">0</strong><span>Kategori</span></div>
           <div><strong id="book-rack-total">0</strong><span>Rak aktif</span></div>
+          <div><strong id="book-available-total">0</strong><span>Tersedia</span></div>
         </div>
       </header>
 
@@ -103,6 +104,14 @@
           </label>
           <button class="catalog-reset" id="book-reset" type="button">Reset penapis</button>
         </div>
+        <div class="catalog-status-guide">
+          <span class="catalog-status-guide-item is-available"><i aria-hidden="true"></i>Tersedia</span>
+          <span class="catalog-status-guide-item is-loaned"><i aria-hidden="true"></i>Dipinjam</span>
+          <span class="catalog-status-guide-item is-reference"><i aria-hidden="true"></i>Rujukan</span>
+          <span class="catalog-status-guide-item is-lost"><i aria-hidden="true"></i>Hilang</span>
+          <span class="catalog-status-guide-item is-damaged"><i aria-hidden="true"></i>Rosak</span>
+          <span class="catalog-status-guide-item is-returned"><i aria-hidden="true"></i>Dipulangkan</span>
+        </div>
         <div class="catalog-results" id="book-list" aria-live="polite"></div>
         <nav class="catalog-pagination" id="book-pagination" aria-label="Halaman katalog" hidden>
           <button id="book-previous" type="button">&larr; Sebelumnya</button>
@@ -130,8 +139,8 @@
       </div>
     </footer>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.57.4/dist/umd/supabase.min.js"></script>
-    <script src="/assets/cms.js?v=20260824-1"></script>
-    <script src="/assets/portal.js?v=20260824-1"></script>
+    <script src="/assets/cms.js?v=20260827-1"></script>
+    <script src="/assets/portal.js?v=20260827-1"></script>
     <script src="/assets/pss.js"></script>
   </body>
 </html>

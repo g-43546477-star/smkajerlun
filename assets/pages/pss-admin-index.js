@@ -44,12 +44,55 @@ function weekRange() {
   return { from: from, to: isoDate(date) };
 }
 
-function statusClass(status) {
+function bookStatusSlug(status) {
   const value = String(status || '').toLocaleLowerCase('ms-MY');
-  if (value.includes('tersedia') || value.includes('pulang')) return 'status-badge status-returned';
-  if (value.includes('pinjam') || value.includes('rekod')) return 'status-badge status-borrowed';
-  if (value.includes('hilang') || value.includes('rosak') || value.includes('batal')) return 'status-badge status-damaged';
-  return 'status-badge';
+  if (value.includes('tersedia') || value === 'ada') return 'available';
+  if (value === 'rujukan') return 'reference';
+  if (value.includes('pinjam') || value.includes('rekod')) return 'loaned';
+  if (value.includes('hilang')) return 'lost';
+  if (value.includes('rosak')) return 'damaged';
+  if (value.includes('pulang')) return 'returned';
+  if (value.includes('lewat')) return 'overdue';
+  if (value.includes('batal')) return 'cancelled';
+  return 'neutral';
+}
+
+function normalizeBookStatus(status) {
+  const value = String(status || '').toLocaleLowerCase('ms-MY');
+  if (value.includes('tersedia') || value === 'ada') return 'Tersedia';
+  if (value.includes('pinjam')) return 'Dipinjam';
+  if (value.includes('rujukan')) return 'Rujukan';
+  if (value.includes('hilang')) return 'Hilang';
+  if (value.includes('rosak')) return 'Rosak';
+  if (value.includes('pulang')) return 'Dipulangkan';
+  return status || 'Tersedia';
+}
+
+function statusClass(status) {
+  return 'status-badge status-' + bookStatusSlug(status);
+}
+
+function renderBookStatusSummary() {
+  const mount = document.getElementById('book-status-summary');
+  if (!mount) return;
+  const counts = BOOK_STATUSES.reduce(function (result, status) {
+    result[status] = 0;
+    return result;
+  }, {});
+  bookRows.forEach(function (book) {
+    if (Object.prototype.hasOwnProperty.call(counts, book.status)) counts[book.status] += 1;
+  });
+  mount.replaceChildren();
+  BOOK_STATUSES.forEach(function (status) {
+    const item = document.createElement('span');
+    item.className = 'book-status-chip status-' + bookStatusSlug(status);
+    const label = document.createElement('span');
+    label.textContent = status;
+    const count = document.createElement('b');
+    count.textContent = counts[status];
+    item.append(label, count);
+    mount.appendChild(item);
+  });
 }
 
 function actionCell(onEdit, onDelete) {
@@ -456,6 +499,7 @@ function editBook(book) {
 }
 
 function renderBooks() {
+  renderBookStatusSummary();
   const matches = filteredBooks();
   const pageCount = Math.max(1, Math.ceil(matches.length / BOOK_PAGE_SIZE));
   bookPage = Math.min(bookPage, pageCount);
@@ -502,10 +546,13 @@ async function loadBooks() {
   if (response.error) {
     bookRows = [];
     document.getElementById('book-tbody').replaceChildren();
+    renderBookStatusSummary();
     ui.showLoadError('book-empty', 'book-message', 'Katalog', response.error);
     return false;
   }
-  bookRows = response.data || [];
+  bookRows = (response.data || []).map(function (book) {
+    return Object.assign({}, book, { status: normalizeBookStatus(book.status) });
+  });
   bookPage = 1;
   renderBooks();
   return true;
@@ -525,6 +572,7 @@ async function updateBookStatus(book, select) {
   }
   book.status = status;
   select.className = statusClass(status);
+  renderBookStatusSummary();
   showToast('Status buku dikemas kini', 'Perubahan telah direkodkan.', 'success');
 }
 

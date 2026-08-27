@@ -294,7 +294,7 @@
     }
     const item = data[0];
     const parts = (item.tarikh || '').split('-');
-    const bulan = ['Jan', 'Feb', 'Mac', 'Apr', 'Mei', 'Jun', 'Jul', 'Ogos', 'Sep', 'Okt', 'Nov', 'Dis'];
+    const bulan = BULAN_PENUH;
     const date = parts.length === 3 ? parts[2] + ' ' + (bulan[parseInt(parts[1], 10) - 1] || '') : '';
     mount.innerHTML = '<strong>' + esc(item.tajuk) + '</strong>' + (date ? '<small>' + esc(date) + '</small>' : '');
     if (alertStrip) {
@@ -406,6 +406,49 @@
 
   const BULAN_PENUH = ['Januari', 'Februari', 'Mac', 'April', 'Mei', 'Jun', 'Julai', 'Ogos', 'September', 'Oktober', 'November', 'Disember'];
 
+  function localTodayIso() {
+    const parts = new Intl.DateTimeFormat('en-CA', {
+      timeZone: 'Asia/Kuala_Lumpur', year: 'numeric', month: '2-digit', day: '2-digit'
+    }).formatToParts(new Date());
+    const value = function (type) {
+      const part = parts.find(function (item) { return item.type === type; });
+      return part ? part.value : '';
+    };
+    return value('year') + '-' + value('month') + '-' + value('day');
+  }
+
+  function compareActivityRows(a, b, today) {
+    const aStart = String(a.tarikh_mula || '9999-12-31');
+    const bStart = String(b.tarikh_mula || '9999-12-31');
+    const aEnd = String(a.tarikh_tamat || aStart);
+    const bEnd = String(b.tarikh_tamat || bStart);
+    const aOngoing = aStart <= today && aEnd >= today;
+    const bOngoing = bStart <= today && bEnd >= today;
+    if (aOngoing !== bOngoing) return aOngoing ? -1 : 1;
+    return aStart.localeCompare(bStart) || String(a.susunan || 0).localeCompare(String(b.susunan || 0)) || Number(a.id || 0) - Number(b.id || 0);
+  }
+
+  function upcomingActivityRows(rows, limit) {
+    const today = localTodayIso();
+    return rows.filter(function (row) {
+      return String(row.tarikh_tamat || row.tarikh_mula || '') >= today;
+    }).sort(function (a, b) {
+      return compareActivityRows(a, b, today);
+    }).slice(0, limit || 5);
+  }
+
+  function buildUpcomingActivityList(rows, limit) {
+    const activity = upcomingActivityRows(rows, limit);
+    if (!activity.length) return '<p class="takwim-upcoming-empty">Tiada aktiviti terdekat direkodkan buat masa ini.</p>';
+    return activity.map(function (row) {
+      const today = localTodayIso();
+      const start = String(row.tarikh_mula || '');
+      const end = String(row.tarikh_tamat || start);
+      const label = start <= today && end >= today ? 'Sedang berlangsung' : '';
+      return '<article class="takwim-upcoming-item"><span class="takwim-upcoming-date">' + fmtTakwimDateShort(row.tarikh_mula, row.tarikh_tamat) + '</span><div><h4>' + esc(row.tajuk) + '</h4>' + (row.keterangan ? '<p>' + esc(row.keterangan) + '</p>' : '') + (label ? '<small class="takwim-upcoming-live">' + label + '</small>' : '') + '</div></article>';
+    }).join('');
+  }
+
   function fmtTakwimDate(mulaStr, tamatStr) {
     const m = mulaStr.split('-').map(Number);
     const mula = new Date(Date.UTC(m[0], m[1] - 1, m[2]));
@@ -456,7 +499,7 @@
         (byDay[key] || (byDay[key] = [])).push(row);
       }
     });
-    const today = isoDate(new Date());
+    const today = localTodayIso();
     const weekdays = ['Isn', 'Sel', 'Rab', 'Kha', 'Jum', 'Sab', 'Ahd'];
     const year = monthDate.getFullYear(), month = monthDate.getMonth();
     const first = new Date(year, month, 1), days = new Date(year, month + 1, 0).getDate();
@@ -472,7 +515,8 @@
     return html + '</div></section></div><p class="calendar-legend"><span></span> Tarikh berlatar ungu mempunyai aktiviti. Halakan kursor atau tekan pada tarikh untuk melihat maklumat program.</p>';
   }
   function buildMonthlyActivityList(rows, monthDate) {
-    const activity = rows.filter(function (row) { return occursInMonth(row, monthDate); });
+    const activity = rows.filter(function (row) { return occursInMonth(row, monthDate); })
+      .sort(function (a, b) { return compareActivityRows(a, b, localTodayIso()); });
     if (!activity.length) return '<p class="month-activity-empty">Tiada aktiviti direkodkan bagi bulan ini.</p>';
     return activity.map(function (row) {
       return '<article class="month-activity"><span class="month-activity-date">' + fmtTakwimDateShort(row.tarikh_mula, row.tarikh_tamat) + '</span><div><h4>' + esc(row.tajuk) + '</h4>' + (row.keterangan ? '<p>' + esc(row.keterangan) + '</p>' : '') + '</div></article>';
@@ -485,6 +529,7 @@
     const mCuti = document.getElementById(options.cutiId);
     const mAktiviti = document.getElementById(options.calendarId);
     const mSenarai = document.getElementById(options.activityListId);
+    const mUpcoming = document.getElementById(options.upcomingId);
     const mBulan = document.getElementById(options.monthHeadingId);
     const mRingkasan = document.getElementById(options.summaryHeadingId);
     const prev = document.getElementById(options.prevId);
@@ -510,6 +555,7 @@
       });
     }
     const aktiviti = data.filter(function (r) { return r.kategori === 'aktiviti'; });
+    if (mUpcoming) mUpcoming.innerHTML = buildUpcomingActivityList(aktiviti, options.upcomingLimit || 5);
     const selectedMonth = new Date();
     selectedMonth.setDate(1);
     function renderMonth() {
@@ -528,7 +574,7 @@
   window.cmsLoadAktivitiTerdekat = async function (mountId, limit) {
     const mount = document.getElementById(mountId);
     if (!mount) return;
-    const todayStr = new Date().toISOString().split('T')[0];
+    const todayStr = localTodayIso();
     const { data, error } = await cmsClient.from('takwim').select('*')
       .eq('portal', 'sekolah')
       .eq('kategori', 'aktiviti')
@@ -540,7 +586,7 @@
       mount.innerHTML = '<p style="font-size:.85rem;color:var(--muted)">Tiada aktiviti terdekat buat masa ini.</p>';
       return;
     }
-    data.forEach(function (r) {
+    upcomingActivityRows(data || [], limit || 5).forEach(function (r) {
       const item = document.createElement('div'); item.className = 'aktiviti-item';
       item.innerHTML = '<span class="tgl">' + fmtTakwimDateShort(r.tarikh_mula, r.tarikh_tamat) + '</span><span class="tj">' + esc(r.tajuk) + '</span>';
       mount.appendChild(item);
@@ -550,7 +596,7 @@
   window.cmsLoadAktivitiWidget = async function (mountId) {
     const mount = document.getElementById(mountId);
     if (!mount) return;
-    const todayStr = new Date().toISOString().split('T')[0];
+    const todayStr = localTodayIso();
     const { data, error } = await cmsClient.from('takwim').select('tajuk,tarikh_mula,tarikh_tamat').eq('portal', 'sekolah').eq('kategori', 'aktiviti')
       .or('tarikh_mula.gte.' + todayStr + ',tarikh_tamat.gte.' + todayStr).order('tarikh_mula').limit(1);
     mount.textContent = !error && data && data.length ? data[0].tajuk : 'Tiada aktiviti terdekat';
@@ -561,7 +607,7 @@
     options = options || {};
     const calendar = document.getElementById(options.calendarId);
     const notices = document.getElementById(options.noticeId);
-    const todayStr = new Date().toISOString().split('T')[0];
+    const todayStr = localTodayIso();
     const calendarLimit = options.calendarLimit || 3;
     const noticeLimit = options.noticeLimit || 2;
     const bulanNama = ['Januari', 'Februari', 'Mac', 'April', 'Mei', 'Jun', 'Julai', 'Ogos', 'September', 'Oktober', 'November', 'Disember'];

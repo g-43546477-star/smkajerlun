@@ -10,9 +10,9 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=IBM+Plex+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/assets/site.css?v=20260820-3">
-<link rel="stylesheet" href="/assets/portal.css?v=20260820-3">
-<link rel="stylesheet" href="/assets/home-layout.css?v=20260820-3">
+<link rel="stylesheet" href="/assets/site.css?v=20260827-1">
+<link rel="stylesheet" href="/assets/portal.css?v=20260827-1">
+<link rel="stylesheet" href="/assets/home-layout.css?v=20260827-1">
 <link rel="preload" as="image" href="/assets/hero-sekolah.jpg" fetchpriority="high">
 
 <link rel="icon" type="image/png" href="/logo.png">
@@ -94,7 +94,13 @@
 
 <main class="ios-home-main">
 
-  <!-- ============ Dock Perkhidmatan — utiliti #1, terus di bawah hero ============ -->
+  <!-- ============ Program Sekolah — fokus kandungan utama ============ -->
+  <section class="ios-panel ios-program-panel" aria-labelledby="program-title">
+    <div class="ios-section-heading"><div><span class="ios-overline">INFO PROGRAM SEKOLAH</span><h2 id="program-title">Sorotan program terkini</h2><p class="ios-section-lead">Berita, aktiviti dan pencapaian warga SMKA Jerlun dalam satu ruang utama.</p></div><a href="/program/">Lihat semua <span aria-hidden="true">&rarr;</span></a></div>
+    <div id="home-program-list" class="achievement-list achievement-list-featured"></div>
+  </section>
+
+  <!-- ============ Dock Perkhidmatan — utiliti utama ============ -->
   <section class="ios-service-dock" aria-labelledby="sistem-title">
     <div class="ios-section-heading">
       <div><span class="ios-overline">SISTEM SEKOLAH</span><h2 id="sistem-title">Akses utama</h2></div>
@@ -106,12 +112,6 @@
       <a class="ios-service-item calendar" href="/info/?tab=takwim"><span class="ios-service-icon" aria-hidden="true">TK</span><span><b>Takwim Sekolah</b><small>Aktiviti dan acara semasa</small></span><i aria-hidden="true">&rarr;</i></a>
       <a class="ios-service-item dorm" href="/asrama/"><span class="ios-service-icon" aria-hidden="true">AS</span><span><b>Hal Ehwal Asrama</b><small>Jadual harian dan peraturan</small></span><i aria-hidden="true">&rarr;</i></a>
     </div>
-  </section>
-
-  <!-- ============ Program Sekolah — fokus kandungan utama ============ -->
-  <section class="ios-panel ios-program-panel" aria-labelledby="program-title">
-    <div class="ios-section-heading"><div><span class="ios-overline">PROGRAM SEKOLAH</span><h2 id="program-title">Sorotan program terkini</h2></div><a href="/program/">Lihat semua <span aria-hidden="true">&rarr;</span></a></div>
-    <div id="home-program-list" class="achievement-list achievement-list-featured"></div>
   </section>
 
   <!-- ============ Aktiviti + Pengumuman ============ -->
@@ -161,9 +161,9 @@
 </footer>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.57.4/dist/umd/supabase.min.js"></script>
-<script src="/assets/cms.js?v=20260824-1"></script>
+<script src="/assets/cms.js?v=20260827-1"></script>
 <script src="/assets/pages/index.js?v=20260820-1"></script>
-<script src="/assets/portal.js?v=20260824-1"></script>
+<script src="/assets/portal.js?v=20260827-1"></script>
 
 </body>
 </html>
