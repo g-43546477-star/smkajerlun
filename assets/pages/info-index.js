@@ -50,6 +50,7 @@ cmsLoadPage("profil", "profil-blocks");
         cutiId: "takwim-cuti",
         calendarId: "takwim-aktiviti",
         activityListId: "takwim-aktiviti-list",
+        upcomingId: "takwim-upcoming",
         monthHeadingId: "takwim-month-heading",
         summaryHeadingId: "takwim-summary-heading",
         prevId: "takwim-prev",

@@ -14,7 +14,7 @@
       href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=IBM+Plex+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="/assets/site.css?v=20260820-3" />
+    <link rel="stylesheet" href="/assets/site.css?v=20260827-1" />
     
 <link rel="icon" type="image/png" href="/logo.png" />
   </head>
@@ -184,6 +184,25 @@
         role="tabpanel"
         aria-labelledby="tab-profil"
       >
+        <section class="profile-identity" aria-labelledby="profile-identity-title">
+          <div class="profile-identity-copy">
+            <span class="eyebrow">IDENTITI SEKOLAH</span>
+            <h2 id="profile-identity-title">Sekolah Menengah Kebangsaan Agama Jerlun</h2>
+            <p>Institusi pendidikan menengah agama yang berteraskan ilmu, iman dan amal.</p>
+            <a class="profile-identity-link" href="/info/?tab=hubungi">Lihat maklumat hubungan <span aria-hidden="true">&rarr;</span></a>
+          </div>
+          <dl class="profile-facts">
+            <div><dt>Kod sekolah</dt><dd>KRA 4002</dd></div>
+            <div><dt>Kategori</dt><dd>Sekolah Menengah Kebangsaan Agama</dd></div>
+            <div><dt>Alamat</dt><dd>Jalan Kodiang, 06100 Kodiang, Kedah Darul Aman, Malaysia</dd></div>
+            <div><dt>Telefon</dt><dd><a href="tel:+6049250925">04&#8209;9250925</a></dd></div>
+            <div><dt>Faks</dt><dd>04-9250926</dd></div>
+            <div><dt>E-mel</dt><dd><a href="mailto:kra4002@moe.edu.my">kra4002@moe.edu.my</a></dd></div>
+            <div><dt>Facebook</dt><dd>SMK AGAMA Jerlun - FB</dd></div>
+            <div><dt>Falsafah ringkas</dt><dd>Berilmu &middot; Beriman &middot; Beramal</dd></div>
+          </dl>
+        </section>
+        <div class="profile-content-heading"><span class="eyebrow">MAKLUMAT PROFIL</span><h2>Maklumat sekolah</h2></div>
         <div id="profil-blocks"></div>
       </section>
       <section
@@ -230,6 +249,16 @@
         aria-labelledby="tab-takwim"
         hidden
       >
+        <section class="takwim-upcoming-panel content-card" aria-labelledby="takwim-upcoming-title">
+          <div class="calendar-heading">
+            <div>
+              <span class="eyebrow">SETERUSNYA</span>
+              <h3 id="takwim-upcoming-title">Aktiviti terdekat</h3>
+            </div>
+            <span class="takwim-upcoming-note">Disusun mengikut tarikh paling hampir</span>
+          </div>
+          <div class="takwim-upcoming-list" id="takwim-upcoming"></div>
+        </section>
         <div class="takwim-overview-grid takwim-info-overview">
           <section class="content-card">
             <h3>Kalendar Akademik Sesi 2026</h3>
@@ -307,8 +336,8 @@
       </div>
     </footer>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.57.4/dist/umd/supabase.min.js"></script>
-    <script src="/assets/cms.js?v=20260824-1"></script>
-    <script src="/assets/pages/info-index.js?v=20260816-4"></script>
+    <script src="/assets/cms.js?v=20260827-1"></script>
+    <script src="/assets/pages/info-index.js?v=20260827-1"></script>
     
   </body>
 </html>

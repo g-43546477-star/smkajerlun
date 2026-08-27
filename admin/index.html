@@ -9,7 +9,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&amp;family=IBM+Plex+Mono:wght@400;500;600;700&amp;family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/tempahan/assets/style.css?v=20260824-1">
-<link rel="stylesheet" href="/assets/admin-shell.css?v=20260824-1">
+<link rel="stylesheet" href="/assets/admin-shell.css?v=20260827-1">
 <link rel="icon" type="image/png" href="/logo.png">
 </head>
 <body>
@@ -47,6 +47,26 @@
     <a href="/tempahan/admin/"><span>TEMPAHAN</span><b>Bilik khas</b><small>Penggunaan dan laporan</small></a>
     <a href="/pss/admin/"><span>PORTAL PSS</span><b>Pusat sumber</b><small>Kandungan, pinjaman dan katalog</small></a>
   </nav>
+
+  <section class="admin-command-center" aria-labelledby="admin-command-title">
+    <div class="admin-command-copy">
+      <p class="admin-command-eyebrow">PUSAT KAWALAN KANDUNGAN</p>
+      <h2 id="admin-command-title">Kemaskini laman sekolah dalam satu tempat.</h2>
+      <p>Tambah program, takwim atau pengumuman terus daripada pintasan di bawah. Setiap perubahan dipaparkan pada laman sekolah mengikut modulnya.</p>
+      <div class="admin-quick-actions">
+        <button type="button" class="btn-primary" id="quick-add-program"><span aria-hidden="true">+</span> Program sekolah</button>
+        <button type="button" class="btn-secondary" id="quick-add-takwim"><span aria-hidden="true">+</span> Aktiviti takwim</button>
+        <button type="button" class="btn-secondary" id="quick-add-pengumuman"><span aria-hidden="true">+</span> Pengumuman</button>
+        <a class="admin-command-link" href="/" target="_blank" rel="noopener">Lihat laman sekolah <span aria-hidden="true">&rarr;</span></a>
+      </div>
+    </div>
+    <dl class="admin-command-metrics">
+      <div><dt>Program</dt><dd id="admin-count-program">-</dd></div>
+      <div><dt>Pengumuman</dt><dd id="admin-count-announcement">-</dd></div>
+      <div><dt>Aktiviti</dt><dd id="admin-count-activity">-</dd></div>
+      <div><dt>Perubahan</dt><dd id="admin-count-audit">-</dd></div>
+    </dl>
+  </section>
 
   <div class="tabrow" role="tablist" aria-label="Bahagian kandungan sekolah">
     <button type="button" class="tab-btn active" data-tab="staf">Warga</button>
@@ -256,7 +276,7 @@
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.57.4/dist/umd/supabase.min.js"></script>
 <script src="/tempahan/assets/common.js?v=20260824-1"></script>
-<script src="/assets/admin-ui.js?v=20260824-1"></script>
-<script src="/assets/pages/admin-index.js?v=20260824-1"></script>
+<script src="/assets/admin-ui.js?v=20260827-1"></script>
+<script src="/assets/pages/admin-index.js?v=20260827-1"></script>
 </body>
 </html>

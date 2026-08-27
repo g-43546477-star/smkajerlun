@@ -66,6 +66,7 @@
     var bookTotal = $('book-total');
     var bookCategoryTotal = $('book-category-total');
     var bookRackTotal = $('book-rack-total');
+    var bookAvailableTotal = $('book-available-total');
     var bookReset = $('book-reset');
     var bookPagination = $('book-pagination');
     var bookPrevious = $('book-previous');
@@ -74,6 +75,7 @@
     var allBooks = [];
     var bookPage = 1;
     var BOOK_PAGE_SIZE = 10;
+    var BOOK_STATUSES = ['Tersedia', 'Dipinjam', 'Rujukan', 'Hilang', 'Rosak', 'Dipulangkan'];
     function labelValue(value) {
       return String(value == null ? '' : value).trim();
     }
@@ -106,13 +108,25 @@
       if (!bookMount) return;
       bookMount.innerHTML = '<div class="catalog-empty"><span class="catalog-empty-mark" aria-hidden="true">+</span><div><b>' + esc(title) + '</b><p>' + esc(copy) + '</p></div></div>';
     }
+    function normalizeBookStatus(status) {
+      var value = labelKey(status);
+      if (!value) return 'Status belum ditetapkan';
+      if (value.indexOf('tersedia') !== -1 || value === 'ada') return 'Tersedia';
+      if (value.indexOf('pinjam') !== -1) return 'Dipinjam';
+      if (value.indexOf('rujukan') !== -1) return 'Rujukan';
+      if (value.indexOf('hilang') !== -1) return 'Hilang';
+      if (value.indexOf('rosak') !== -1) return 'Rosak';
+      if (value.indexOf('pulang') !== -1) return 'Dipulangkan';
+      return labelValue(status);
+    }
     function statusClass(status) {
-      var value = String(status || '').toLocaleLowerCase('ms-MY');
-      if (value.indexOf('tersedia') !== -1 || value === 'ada') return 'is-available';
-      if (value.indexOf('pinjam') !== -1) return 'is-loaned';
-      if (value.indexOf('hilang') !== -1) return 'is-lost';
-      if (value.indexOf('rosak') !== -1) return 'is-damaged';
-      if (value.indexOf('pulang') !== -1) return 'is-returned';
+      var value = labelKey(normalizeBookStatus(status));
+      if (value === 'tersedia') return 'is-available';
+      if (value === 'dipinjam') return 'is-loaned';
+      if (value === 'rujukan') return 'is-reference';
+      if (value === 'hilang') return 'is-lost';
+      if (value === 'rosak') return 'is-damaged';
+      if (value === 'dipulangkan') return 'is-returned';
       return 'is-neutral';
     }
     function coverMark(title) {
@@ -133,6 +147,7 @@
       if (bookTotal) bookTotal.textContent = allBooks.length;
       if (bookCategoryTotal) bookCategoryTotal.textContent = Object.keys(categories).length;
       if (bookRackTotal) bookRackTotal.textContent = Object.keys(racks).length;
+      if (bookAvailableTotal) bookAvailableTotal.textContent = allBooks.filter(function (book) { return normalizeBookStatus(book.status) === 'Tersedia'; }).length;
       var query = (bookSearch && bookSearch.value || '').trim().toLocaleLowerCase('ms-MY');
       var category = labelKey(bookCategory && bookCategory.value);
       var status = labelKey(bookStatus && bookStatus.value);
@@ -151,7 +166,7 @@
       if (!allBooks.length) return catalogEmpty('Koleksi sedang disusun', 'Buku dan bahan rujukan akan dipaparkan di sini selepas rekod katalog ditambah oleh PSS.');
       if (!books.length) return catalogEmpty('Tiada padanan ditemui', 'Cuba kata carian lain atau pilih semula kategori dan status.');
       bookMount.innerHTML = books.map(function (r, index) {
-        var status = r.status || 'Status belum ditetapkan';
+        var status = normalizeBookStatus(r.status);
         return '<article class="catalog-book-card"><div class="catalog-cover cover-' + (index % 5) + '" aria-hidden="true"><span>PSS</span><strong>' + esc(coverMark(r.tajuk)) + '</strong></div><div class="catalog-book-body"><p class="catalog-book-kicker">' + esc(r.kategori || 'Umum') + '</p><h3>' + esc(r.tajuk || 'Tanpa tajuk') + '</h3><p class="catalog-book-author">' + esc(r.pengarang || 'Pengarang belum dinyatakan') + '</p><div class="catalog-book-meta"><span>Rak ' + esc(r.rak || '-') + '</span><span>' + esc(r.kod || 'Koleksi PSS') + '</span></div></div><span class="catalog-book-status ' + statusClass(status) + '">' + esc(status) + '</span></article>';
       }).join('');
     }
@@ -168,11 +183,11 @@
             pengarang: labelValue(book.pengarang),
             kategori: labelValue(book.kategori),
             rak: labelValue(book.rak),
-            status: labelValue(book.status)
+            status: normalizeBookStatus(book.status)
           });
         });
         fillBookFilter(bookCategory, allBooks.map(function (book) { return book.kategori; }), 'Semua kategori');
-        fillBookFilter(bookStatus, allBooks.map(function (book) { return book.status; }), 'Semua status');
+        fillBookFilter(bookStatus, BOOK_STATUSES, 'Semua status');
         renderBooks();
       });
     }

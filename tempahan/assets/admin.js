@@ -84,6 +84,31 @@ function activeInRange(range) {
   return adminAllEntries.filter(e => e.status !== 'dibatalkan' && (!range.from || (e.tarikh >= range.from && e.tarikh <= range.to)));
 }
 
+function getAdminListRange(period) {
+  if (period === 'minggu') return getWeekRange(hariIni);
+  if (period === 'bulan') return getMonthRange(hariIni.slice(0, 7));
+  if (period === 'tahun') return { from: hariIni.slice(0, 4) + '-01-01', to: hariIni.slice(0, 4) + '-12-31', label: 'Tahun ' + hariIni.slice(0, 4) };
+  return { from: '', to: '', label: 'Semua tempoh' };
+}
+
+function filteredAdminEntries() {
+  const tarikh = document.getElementById('af-tarikh').value;
+  const bilik = document.getElementById('af-bilik').value;
+  const period = document.getElementById('af-tempoh').value;
+  const status = document.getElementById('af-status').value;
+  const q = document.getElementById('af-nama').value.trim().toLowerCase();
+  const range = getAdminListRange(period);
+  return adminAllEntries.filter(e => {
+    if (tarikh && e.tarikh !== tarikh) return false;
+    if (range.from && (e.tarikh < range.from || e.tarikh > range.to)) return false;
+    if (bilik && e.bilik !== bilik) return false;
+    if (status === 'aktif' && e.status === 'dibatalkan') return false;
+    if (status === 'dibatalkan' && e.status !== 'dibatalkan') return false;
+    if (q && !(e.nama_pemohon || '').toLowerCase().includes(q)) return false;
+    return true;
+  }).sort((a, b) => a.tarikh === b.tarikh ? a.masa_mula.localeCompare(b.masa_mula) : b.tarikh.localeCompare(a.tarikh));
+}
+
 function populateAdminBilikFilter() {
   ['af-bilik', 'report-bilik'].forEach(id => {
     const sel = document.getElementById(id);
@@ -166,13 +191,7 @@ function renderUsageStats() {
 }
 
 function renderAdminSenarai() {
-  const tarikh = document.getElementById('af-tarikh').value;
-  const bilik = document.getElementById('af-bilik').value;
-  const q = document.getElementById('af-nama').value.trim().toLowerCase();
-  let filtered = adminAllEntries;
-  if (tarikh) filtered = filtered.filter(e => e.tarikh === tarikh);
-  if (bilik) filtered = filtered.filter(e => e.bilik === bilik);
-  if (q) filtered = filtered.filter(e => (e.nama_pemohon || '').toLowerCase().includes(q));
+  const filtered = filteredAdminEntries();
 
   const tbody = document.getElementById('admin-senarai-tbody');
   tbody.innerHTML = '';
@@ -183,7 +202,7 @@ function renderAdminSenarai() {
     const tdT = document.createElement('td'); tdT.className = 'tarikh'; tdT.textContent = formatMalayDate(e.tarikh); tr.appendChild(tdT);
     const tdN = document.createElement('td'); tdN.className = 'nama'; tdN.textContent = e.nama_pemohon; tr.appendChild(tdN);
     const tdK = document.createElement('td'); const pill = document.createElement('span'); pill.className = 'kelas-pill'; pill.textContent = e.kelas; tdK.appendChild(pill); tr.appendChild(tdK);
-    const tdB = document.createElement('td'); tdB.className = 'bilik'; tdB.textContent = e.bilik; tr.appendChild(tdB);
+    const tdB = document.createElement('td'); tdB.className = 'bilik'; tdB.textContent = roomName(e.bilik); tr.appendChild(tdB);
     const tdM = document.createElement('td'); tdM.className = 'masa'; tdM.textContent = e.masa_mula + ' - ' + e.masa_tamat; tr.appendChild(tdM);
     const tdL = document.createElement('td'); tdL.className = e.guna_lcd ? 'lcd-yes' : 'lcd-no'; tdL.textContent = e.guna_lcd ? 'Ya' : '-'; tr.appendChild(tdL);
 
@@ -193,7 +212,12 @@ function renderAdminSenarai() {
       span.className = 'status-cancelled';
       span.textContent = 'Dibatalkan';
       tdS.appendChild(span);
-    } else { tdS.textContent = 'Aktif'; }
+    } else {
+      const span = document.createElement('span');
+      span.className = 'status-active';
+      span.textContent = 'Aktif';
+      tdS.appendChild(span);
+    }
     tr.appendChild(tdS);
 
     const tdAction = document.createElement('td');
@@ -209,6 +233,7 @@ function renderAdminSenarai() {
 
     tbody.appendChild(tr);
   });
+  adminUI.setMessage('booking-admin-status', filtered.length + ' daripada ' + adminAllEntries.length + ' rekod dipaparkan.', 'success');
 }
 
 async function loadAdminSenarai() {
@@ -228,7 +253,6 @@ async function loadAdminSenarai() {
   loadDashboard();
   renderUsageStats();
   renderAdminSenarai();
-  adminUI.setMessage('booking-admin-status', adminAllEntries.length + ' rekod tempahan dimuatkan.', 'success');
   setBookingHealth('ready', 'Rekod tempahan bersambung');
   return true;
 }
@@ -256,6 +280,44 @@ function csvValue(value) {
   let text = String(value ?? '');
   if (/^[=+\-@]/.test(text)) text = "'" + text;
   return /[",\n]/.test(text) ? `"${text.replace(/"/g, '""')}"` : text;
+}
+
+function exportFilteredBookings() {
+  const rows = filteredAdminEntries();
+  const period = document.getElementById('af-tempoh').value;
+  const status = document.getElementById('af-status').value;
+  const bilik = document.getElementById('af-bilik').value;
+  const range = getAdminListRange(period);
+  const lines = [
+    ['Senarai Tempahan Bilik Khas SMK Agama Jerlun'],
+    ['Tempoh', range.label],
+    ['Bilik', bilik ? roomName(bilik) : 'Semua bilik'],
+    ['Status', status === 'aktif' ? 'Aktif sahaja' : status === 'dibatalkan' ? 'Dibatalkan sahaja' : 'Semua status'],
+    ['Jumlah rekod', rows.length],
+    [],
+    ['Tarikh', 'Hari', 'Masa', 'Bilik', 'Nama Guru', 'Kelas / Kumpulan', 'Tujuan / Aktiviti', 'LCD', 'Status']
+  ];
+  rows.forEach(entry => lines.push([
+    entry.tarikh,
+    formatMalayDate(entry.tarikh).split(',')[0],
+    entry.masa_mula + ' - ' + entry.masa_tamat,
+    roomName(entry.bilik),
+    entry.nama_pemohon,
+    entry.kelas,
+    entry.tujuan,
+    entry.guna_lcd ? 'Ya' : 'Tidak',
+    entry.status === 'dibatalkan' ? 'Dibatalkan' : 'Aktif'
+  ]));
+  const csv = '\ufeff' + lines.map(row => row.map(csvValue).join(',')).join('\r\n');
+  const blob = new Blob([csv], { type: 'text/csv;charset=utf-8' });
+  const link = document.createElement('a');
+  link.href = URL.createObjectURL(blob);
+  link.download = 'senarai-tempahan-' + period + '-' + hariIni + '.csv';
+  document.body.appendChild(link);
+  link.click();
+  link.remove();
+  window.setTimeout(() => URL.revokeObjectURL(link.href), 1000);
+  showToast('Senarai dieksport', rows.length + ' rekod tempahan telah dimasukkan dalam fail CSV.', 'success');
 }
 
 function downloadRoomReport() {
@@ -340,10 +402,15 @@ function printRoomReport() {
 
 document.getElementById('af-tarikh').addEventListener('change', renderAdminSenarai);
 document.getElementById('af-bilik').addEventListener('change', renderAdminSenarai);
+document.getElementById('af-tempoh').addEventListener('change', renderAdminSenarai);
+document.getElementById('af-status').addEventListener('change', renderAdminSenarai);
 document.getElementById('af-nama').addEventListener('input', renderAdminSenarai);
+document.getElementById('af-export').addEventListener('click', exportFilteredBookings);
 document.getElementById('af-clear').addEventListener('click', () => {
   document.getElementById('af-tarikh').value = '';
   document.getElementById('af-bilik').value = '';
+  document.getElementById('af-tempoh').value = 'semua';
+  document.getElementById('af-status').value = 'semua';
   document.getElementById('af-nama').value = '';
   renderAdminSenarai();
 });

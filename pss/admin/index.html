@@ -8,8 +8,8 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&amp;family=IBM+Plex+Mono:wght@400;500;600;700&amp;family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/tempahan/assets/style.css?v=20260824-1">
-<link rel="stylesheet" href="/assets/admin-shell.css?v=20260824-1">
+<link rel="stylesheet" href="/tempahan/assets/style.css?v=20260827-1">
+<link rel="stylesheet" href="/assets/admin-shell.css?v=20260827-1">
 <link rel="icon" type="image/png" href="/logo.png">
 </head>
 <body>
@@ -138,6 +138,7 @@
         <div class="admin-filters"><input type="search" id="book-search" placeholder="Cari tajuk, pengarang atau rak" aria-label="Cari katalog admin"><select id="book-filter-status" aria-label="Tapis status buku"><option value="">Semua status</option><option>Tersedia</option><option>Dipinjam</option><option>Rujukan</option><option>Hilang</option><option>Rosak</option><option>Dipulangkan</option></select></div>
         <button type="button" class="btn-secondary" id="book-refresh">Muat Semula</button>
       </div>
+      <div class="book-status-summary" id="book-status-summary"></div>
       <div class="tablewrap"><table><thead><tr><th>Tajuk</th><th>Pengarang</th><th>Kategori</th><th>Rak</th><th>Status</th><th style="text-align:right">Tindakan</th></tr></thead><tbody id="book-tbody"></tbody></table></div>
       <div class="head-row" id="book-pagination"><button type="button" class="btn-secondary" id="book-previous">Sebelumnya</button><span class="page-sub" id="book-page" aria-live="polite">Halaman 1</span><button type="button" class="btn-secondary" id="book-next">Seterusnya</button></div>
       <div class="empty" id="book-empty" style="display:none">Belum ada rekod katalog buku.</div>
@@ -187,8 +188,8 @@
 </section>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.57.4/dist/umd/supabase.min.js"></script>
-<script src="/tempahan/assets/common.js?v=20260824-1"></script>
-<script src="/assets/admin-ui.js?v=20260824-1"></script>
-<script src="/assets/pages/pss-admin-index.js?v=20260824-1"></script>
+<script src="/tempahan/assets/common.js?v=20260827-1"></script>
+<script src="/assets/admin-ui.js?v=20260827-1"></script>
+<script src="/assets/pages/pss-admin-index.js?v=20260827-1"></script>
 </body>
 </html>

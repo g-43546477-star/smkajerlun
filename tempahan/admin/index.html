@@ -8,8 +8,8 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=IBM+Plex+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/tempahan/assets/style.css?v=20260824-1">
-<link rel="stylesheet" href="/assets/admin-shell.css?v=20260824-1">
+<link rel="stylesheet" href="/tempahan/assets/style.css?v=20260827-1">
+<link rel="stylesheet" href="/assets/admin-shell.css?v=20260827-1">
 <link rel="icon" type="image/png" href="/logo.png">
 </head>
 <body>
@@ -110,12 +110,24 @@
     <div class="head-row">
       <div>
         <h3>Senarai Tempahan Keseluruhan</h3>
-        <p class="sub">Semua tempahan terdahulu dan terkini dalam sistem.</p>
+        <p class="sub">Tapis mengikut tarikh, tempoh, bilik, guru atau status. Eksport senarai yang sedang dipaparkan untuk rekod operasi.</p>
       </div>
       <div class="admin-filters">
         <input type="date" id="af-tarikh" aria-label="Tapis mengikut tarikh">
         <select id="af-bilik" aria-label="Tapis mengikut bilik"><option value="">Semua Bilik</option></select>
+        <select id="af-tempoh" aria-label="Tapis mengikut tempoh">
+          <option value="semua">Semua tempoh</option>
+          <option value="minggu">Minggu semasa</option>
+          <option value="bulan">Bulan semasa</option>
+          <option value="tahun">Tahun semasa</option>
+        </select>
+        <select id="af-status" aria-label="Tapis mengikut status">
+          <option value="semua">Semua status</option>
+          <option value="aktif">Aktif sahaja</option>
+          <option value="dibatalkan">Dibatalkan sahaja</option>
+        </select>
         <input type="search" id="af-nama" placeholder="Cari nama guru..." aria-label="Cari nama guru">
+        <button type="button" id="af-export" class="btn-primary">Eksport Senarai</button>
         <button type="button" id="af-clear" class="btn-clear">Kosongkan Penapis</button>
       </div>
     </div>
@@ -153,8 +165,8 @@
 <section id="print-report" hidden aria-hidden="true"></section>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.57.4/dist/umd/supabase.min.js"></script>
-<script src="/tempahan/assets/common.js?v=20260824-1"></script>
-<script src="/assets/admin-ui.js?v=20260824-1"></script>
-<script src="/tempahan/assets/admin.js?v=20260824-1"></script>
+<script src="/tempahan/assets/common.js?v=20260827-1"></script>
+<script src="/assets/admin-ui.js?v=20260827-1"></script>
+<script src="/tempahan/assets/admin.js?v=20260827-1"></script>
 </body>
 </html>
