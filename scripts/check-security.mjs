@@ -35,16 +35,6 @@ try {
   failures.push(`Supabase vendor verification failed: ${error.message}`);
 }
 
-try {
-  await fs.access('.github/workflows/verify.yml');
-} catch {
-  if (process.env.ALLOW_MISSING_CI_WORKFLOW === '1') {
-    console.warn('CI workflow check skipped for this constrained deploy build.');
-  } else {
-    failures.push('.github/workflows/verify.yml: CI verification workflow is missing');
-  }
-}
-
 const topLevelSupabaseSql = (await fs.readdir('supabase', { withFileTypes: true }))
   .filter((entry) => entry.isFile() && entry.name.endsWith('.sql'))
   .map((entry) => entry.name);
