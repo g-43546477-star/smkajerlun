@@ -3,11 +3,12 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "build": "npm run lint:js && npm run validate:html && npm run check:routes && npm run check:migrations && npm run health:check",
+    "build": "npm run lint:js && npm run validate:html && npm run check:routes && npm run check:migrations && npm run check:security && npm run health:check",
     "lint:js": "node scripts/lint-js.mjs",
     "validate:html": "node scripts/validate-html.mjs",
     "check:routes": "node scripts/check-routes.mjs",
     "check:migrations": "node scripts/check-migrations.mjs",
+    "check:security": "node scripts/check-security.mjs",
     "health:check": "node scripts/health-check.mjs",
     "test:e2e": "node scripts/smoke.mjs",
     "test:admin": "node scripts/admin-smoke.mjs",
@@ -17,5 +18,8 @@
     "@playwright/test": "^1.62.1",
     "eslint": "^10.8.1",
     "html-validate": "^11.8.0"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "2.57.4"
   }
 }

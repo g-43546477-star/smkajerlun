@@ -28,12 +28,12 @@
         <form id="suggestion-form" class="loan-form" novalidate>
           <div class="loan-form-head"><span>BORANG CADANGAN</span><h2>Maklumat bahan</h2></div>
           <div class="loan-fields">
-            <label>Nama <span>Wajib diisi</span><input name="nama" type="text" autocomplete="name" required /></label>
-            <label>Kelas <span>Contoh: 3 Itqan</span><input name="kelas" type="text" required /></label>
-            <label class="loan-wide">Judul buku atau bahan <span>Wajib diisi</span><input name="tajuk" type="text" required /></label>
-            <label>Pengarang <span>Jika diketahui</span><input name="pengarang" type="text" /></label>
+            <label>Nama <span>Wajib diisi</span><input name="nama" type="text" autocomplete="name" minlength="3" maxlength="120" required /></label>
+            <label>Kelas <span>Contoh: 3 Itqan</span><input name="kelas" type="text" minlength="2" maxlength="40" required /></label>
+            <label class="loan-wide">Judul buku atau bahan <span>Wajib diisi</span><input name="tajuk" type="text" minlength="2" maxlength="200" required /></label>
+            <label>Pengarang <span>Jika diketahui</span><input name="pengarang" type="text" maxlength="160" /></label>
             <label>Kategori <span>Jenis bahan</span><select name="kategori"><option value="Buku">Buku</option><option value="Majalah">Majalah</option><option value="Bahan Digital">Bahan Digital</option><option value="Komik Ilmiah">Komik Ilmiah</option></select></label>
-            <label class="loan-wide">Mengapa anda mencadangkannya? <span>Pilihan</span><textarea name="sebab" rows="4" placeholder="Contoh: Sesuai untuk rujukan Sains Tingkatan 3."></textarea></label>
+            <label class="loan-wide">Mengapa anda mencadangkannya? <span>Pilihan</span><textarea name="sebab" rows="4" maxlength="700" placeholder="Contoh: Sesuai untuk rujukan Sains Tingkatan 3."></textarea></label>
           </div>
           <p class="loan-status" id="suggestion-status" aria-live="polite"></p>
           <button class="loan-submit" type="submit">Hantar Cadangan</button>
@@ -42,7 +42,7 @@
       </div>
     </main>
     <footer class="pss-footer"><div class="pss-shell"><div><img src="/assets/logo-sekolah.png" alt="Logo SMK Agama Jerlun" /><p><b>PSS SMK Agama Jerlun</b><br />Maktabah Darul Hikmah</p></div></div></footer>
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.57.4/dist/umd/supabase.min.js"></script>
+    <script src="/assets/vendor/supabase-2.57.4.js?v=20260828-1"></script>
     <script src="/assets/cms.js?v=20260827-1"></script>
     <script src="/assets/pss.js"></script>
     <script src="/assets/pss-suggestion.js"></script>

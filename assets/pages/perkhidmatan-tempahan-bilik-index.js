@@ -1,4 +1,4 @@
-const state = { user:null, tarikh:null, bilik:null, selected:[], booked:new Map() };
+const state = { user:null, teacher:null, tarikh:null, bilik:null, selected:[], booked:new Map() };
 
 function populateStatic() {
   const kelasSel = document.getElementById('f-kelas');
@@ -29,7 +29,7 @@ function slotKey(s) { return s.masa_mula; }
 async function loadBookings() {
   state.booked = new Map();
   if (!state.bilik || !state.tarikh) return;
-  const { data, error } = await sbPublic.from('tempahan_awam').select('*')
+  const { data, error } = await sbPublic.from('tempahan_awam').select('bilik,tarikh,masa_mula,status')
     .eq('bilik', state.bilik).eq('tarikh', state.tarikh).neq('status','dibatalkan');
   if (!error && data) data.forEach(r => state.booked.set(r.masa_mula, r));
 }
@@ -51,7 +51,7 @@ function renderSlots() {
     btn.appendChild(t);
     if (booked) {
       const occ = document.createElement('div'); occ.className='occ';
-      occ.textContent = booked.nama_pemohon + ' · ' + booked.kelas;
+      occ.textContent = 'Ditempah';
       btn.appendChild(occ);
       btn.disabled = true;
     }
@@ -73,7 +73,7 @@ function updateFooter() {
     const labels = SLOTS.filter(s => state.selected.includes(s.masa_mula)).map(s => s.block ? s.kumpulan : s.label);
     summ.textContent = labels.join(', ');
   }
-  document.getElementById('btn-hantar').disabled = !(state.user && n > 0 && state.bilik);
+  document.getElementById('btn-hantar').disabled = !(state.teacher && n > 0 && state.bilik);
 }
 
 async function refreshRoomView() {
@@ -107,7 +107,12 @@ async function hantar() {
   if (!state.selected.length) return;
   const btn = document.getElementById('btn-hantar');
   btn.disabled = true; btn.textContent = 'Menghantar...';
-  const nama = displayName(state.user);
+  if (!state.teacher) {
+    showToast('Akaun belum diluluskan', 'Sila hubungi pentadbir sekolah untuk mengaktifkan akaun guru.', 'error');
+    btn.disabled = false; btn.textContent = 'Hantar Tempahan';
+    return;
+  }
+  const nama = state.teacher.nama;
   const rows = SLOTS.filter(s => state.selected.includes(s.masa_mula)).map(s => ({
     bilik: state.bilik, tarikh: state.tarikh,
     masa_mula: s.masa_mula, masa_tamat: s.masa_tamat, label: s.block ? `${s.kumpulan} (${s.label})` : s.label,
@@ -171,9 +176,10 @@ function wireRealtime() {
 
   document.getElementById('btn-hantar').addEventListener('click', hantar);
 
-  const { user, admin } = await refreshAuthBox();
+  const { user, admin, teacher } = await refreshAuthBox();
   state.user = user;
   state.admin = admin;
+  state.teacher = teacher;
   if (admin) {
     const adminDateWrap = document.getElementById('admin-date-wrap');
     const adminDate = document.getElementById('f-tarikh-admin');
@@ -183,8 +189,11 @@ function wireRealtime() {
     btnEsok.disabled = false;
     document.getElementById('hint-esok').style.display = 'none';
   }
-  if (user) {
-    document.getElementById('f-nama').value = displayName(user);
+  if (teacher) {
+    document.getElementById('f-nama').value = teacher.nama;
+  } else if (user) {
+    document.getElementById('authgate').style.display = 'flex';
+    document.getElementById('authgate').querySelector('span').textContent = 'Akaun anda belum diluluskan. Sila hubungi pentadbir sekolah.';
   } else {
     document.getElementById('authgate').style.display = 'flex';
   }

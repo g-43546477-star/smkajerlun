@@ -21,7 +21,7 @@ function actionCell(entry) {
     const editBtn = document.createElement('button');
     editBtn.className = 'btn-edit';
     editBtn.textContent = 'Ubah';
-    editBtn.onclick = () => openEdit(entry);
+    editBtn.onclick = () => openEdit(entry, editBtn);
     group.appendChild(editBtn);
     const cancelBtn = document.createElement('button');
     cancelBtn.className = 'btn-danger';
@@ -72,16 +72,19 @@ function renderRows() {
 }
 
 async function loadAll() {
-  const source = currentUser || currentAdmin ? 'tempahan' : 'tempahan_awam';
-  const client = source === 'tempahan_awam' ? sbPublic : sb;
-  const { data, error } = await client.from(source).select('*')
-    .order('tarikh', { ascending: false }).order('masa_mula').limit(200);
   const empty = document.getElementById('empty');
+  if (!currentUser) {
+    allEntries = [];
+    empty.textContent = 'Log masuk untuk melihat butiran tempahan anda.';
+    renderRows();
+    return;
+  }
+
+  const { data, error } = await sb.from('tempahan').select('*')
+    .order('tarikh', { ascending: false }).order('masa_mula').limit(200);
   if (error) {
     allEntries = [];
-    empty.textContent = currentUser || currentAdmin
-      ? 'Senarai tempahan tidak dapat dimuatkan. Sila cuba semula.'
-      : 'Log masuk untuk melihat senarai tempahan anda.';
+    empty.textContent = 'Senarai tempahan tidak dapat dimuatkan. Sila cuba semula.';
     renderRows();
     return;
   }
@@ -110,6 +113,9 @@ document.getElementById('f-mine').addEventListener('change', (e) => { showMineOn
 // ---------- Edit modal ----------
 let editEntry = null;
 let editTarikh = null;
+let editReturnFocus = null;
+const editOverlay = document.getElementById('edit-overlay');
+const editModal = editOverlay.querySelector('[role="dialog"]');
 
 function populateEditSelects() {
   const kelasSel = document.getElementById('edit-kelas');
@@ -161,9 +167,10 @@ async function refreshEditSlots() {
   if (currentStillValid) slotSel.value = editEntry.masa_mula;
 }
 
-function openEdit(entry) {
+function openEdit(entry, trigger) {
   editEntry = entry;
   editTarikh = entry.tarikh;
+  editReturnFocus = trigger || document.activeElement;
   populateEditSelects();
   document.getElementById('edit-kelas').value = entry.kelas;
   document.getElementById('edit-bilik').value = entry.bilik;
@@ -173,14 +180,42 @@ function openEdit(entry) {
   renderEditDateButtons();
   refreshEditSlots();
   refreshEditLcd();
-  document.getElementById('edit-overlay').style.display = 'flex';
+  editOverlay.style.display = 'flex';
+  editOverlay.setAttribute('aria-hidden', 'false');
+  editModal.focus();
 }
 function closeEdit() {
-  document.getElementById('edit-overlay').style.display = 'none';
+  editOverlay.style.display = 'none';
+  editOverlay.setAttribute('aria-hidden', 'true');
   editEntry = null;
+  if (editReturnFocus && document.contains(editReturnFocus)) editReturnFocus.focus();
+  editReturnFocus = null;
 }
 document.getElementById('edit-cancel').addEventListener('click', closeEdit);
-document.getElementById('edit-overlay').addEventListener('click', (e) => { if (e.target.id === 'edit-overlay') closeEdit(); });
+editOverlay.addEventListener('click', (e) => { if (e.target === editOverlay) closeEdit(); });
+editOverlay.addEventListener('keydown', (event) => {
+  if (event.key === 'Escape') {
+    event.preventDefault();
+    closeEdit();
+    return;
+  }
+  if (event.key !== 'Tab') return;
+  const focusable = Array.from(editModal.querySelectorAll('button:not([disabled]), select:not([disabled]), input:not([disabled])'));
+  if (!focusable.length) {
+    event.preventDefault();
+    editModal.focus();
+    return;
+  }
+  const first = focusable[0];
+  const last = focusable[focusable.length - 1];
+  if (event.shiftKey && document.activeElement === first) {
+    event.preventDefault();
+    last.focus();
+  } else if (!event.shiftKey && document.activeElement === last) {
+    event.preventDefault();
+    first.focus();
+  }
+});
 document.getElementById('edit-bilik').addEventListener('change', () => { refreshEditSlots(); refreshEditLcd(); });
 document.getElementById('edit-hari-ini').addEventListener('click', () => { editTarikh = DATEINFO.hariIni; renderEditDateButtons(); refreshEditSlots(); });
 document.getElementById('edit-esok').addEventListener('click', () => {

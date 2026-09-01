@@ -1,4 +1,4 @@
-# Audit Panel Admin - 24 Ogos 2026 (kemas kini 27 Ogos 2026)
+# Audit Panel Admin - 24 Ogos 2026 (kemas kini 1 September 2026)
 
 ## Skop
 
@@ -51,6 +51,19 @@
   dan PDF. Set pengesahan yang sama dijalankan melalui `npm run verify`
   sebelum commit dan push.
 
+## Pembaikan Keselamatan 1 September 2026
+
+- Pendaftaran guru awam dibuang. Hanya akaun guru yang diluluskan oleh
+  pentadbir boleh mengurus tempahan sendiri.
+- Nama pemohon tempahan disahkan di pangkalan data; maklumat peribadi tidak
+  lagi dipaparkan dalam jadual dan senarai awam.
+- Borang pinjaman serta cadangan PSS menggunakan klien awam tanpa sesi yang
+  tersimpan dan mempunyai had permintaan mengikut rangkaian.
+- Polisi, fungsi dan jadual dalaman diperketat; semakan migrasi dan kontrak
+  keselamatan ditambah ke dalam build.
+- Aset Supabase telah dikunci secara setempat pada versi `2.57.4`; CDN pihak
+  ketiga tidak lagi diperlukan untuk skrip pangkalan data.
+
 ## Urutan Pelepasan Untuk Kemas Kini Seumpama Ini
 
 Pastikan migrasi dan aset laman melalui workflow GitHub/Vercel yang sama.
@@ -83,8 +96,5 @@ paparan slot, termasuk apabila guru telah log masuk.
 
 ## Skop Yang Dikekalkan
 
-- Pendaftaran guru terbuka dikekalkan seperti keadaan sedia ada; tiada
-  perubahan dibuat pada tetapan Auth.
-- Supabase Security dan Performance Advisors tidak diubah dalam audit ini.
 - Simpan/ubah/padam menggunakan akaun admin sebenar di production masih perlu
   disahkan oleh pemilik sistem selepas deployment.

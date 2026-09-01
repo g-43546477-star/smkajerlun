@@ -32,35 +32,20 @@
 <main>
   <div class="card authcard">
     <h3 style="font-size:17px;margin-bottom:2px">Akaun Guru</h3>
-    <p class="sub">Log masuk atau daftar akaun baharu untuk membuat tempahan. Tiada e-mel diperlukan.</p>
-
-    <div class="tabrow">
-      <button type="button" id="tab-masuk" class="active">Log Masuk</button>
-      <button type="button" id="tab-daftar">Daftar</button>
-    </div>
+    <p class="sub" id="login-help">Log masuk menggunakan akaun guru yang dikeluarkan oleh pentadbir sekolah. Hubungi pentadbir jika anda belum mempunyai akaun.</p>
 
     <div id="pane-masuk">
-      <label class="field-label">Nama Guru</label>
-      <input type="text" id="in-nama" autocomplete="username" placeholder="Cth: Ustaz Syahir">
-      <label class="field-label" style="margin-top:12px">Kata Laluan</label>
+      <label class="field-label" for="in-nama">Nama Guru</label>
+      <input type="text" id="in-nama" autocomplete="username" placeholder="Cth: Ustaz Syahir" aria-describedby="login-help">
+      <label class="field-label" for="in-pass" style="margin-top:12px">Kata Laluan</label>
       <input type="password" id="in-pass" autocomplete="current-password">
-      <p class="msg" id="masuk-msg" style="margin-top:10px"></p>
+      <p class="msg" id="masuk-msg" style="margin-top:10px" role="status" aria-live="polite"></p>
       <button type="button" class="btn-primary" id="btn-masuk" style="width:100%;margin-top:14px">Log Masuk</button>
-    </div>
-
-    <div id="pane-daftar" style="display:none">
-      <label class="field-label">Nama Guru (dipaparkan pada tempahan)</label>
-      <input type="text" id="up-nama" placeholder="Cth: Ustaz Syahir bin ...">
-      <p style="font-size:11px;color:#94a3b8;margin:4px 0 0">Nama ini digunakan untuk log masuk.</p>
-      <label class="field-label" style="margin-top:12px">Kata Laluan (min. 6 aksara)</label>
-      <input type="password" id="up-pass" autocomplete="new-password">
-      <p class="msg" id="daftar-msg" style="margin-top:10px"></p>
-      <button type="button" class="btn-primary" id="btn-daftar" style="width:100%;margin-top:14px">Daftar Akaun</button>
     </div>
   </div>
 </main>
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.57.4/dist/umd/supabase.min.js"></script>
+<script src="/assets/vendor/supabase-2.57.4.js?v=20260828-1"></script>
 <script src="/tempahan/assets/common.js?v=20260824-1"></script>
 <script src="/tempahan/assets/login.js?v=20260816-4"></script>
 </body>

@@ -2,18 +2,25 @@
   var form = document.getElementById('loan-form');
   var status = document.getElementById('loan-status');
   var receipt = document.getElementById('loan-receipt');
-  if (!form || !window.cms) return;
+  if (!form || !window.cmsPublic) return;
 
   var pinjam = form.elements.tarikh_pinjam;
   var pulang = form.elements.tarikh_pulang;
-  var today = new Date().toISOString().slice(0, 10);
+  function malaysiaDate() {
+    var parts = new Intl.DateTimeFormat('en-CA', {
+      timeZone: 'Asia/Kuala_Lumpur', year: 'numeric', month: '2-digit', day: '2-digit'
+    }).formatToParts(new Date());
+    var value = function (type) { return parts.find(function (part) { return part.type === type; }).value; };
+    return value('year') + '-' + value('month') + '-' + value('day');
+  }
+  var today = malaysiaDate();
   pinjam.value = today;
   pinjam.min = today;
   pulang.min = today;
   pinjam.addEventListener('change', function () { pulang.min = pinjam.value; if (pulang.value < pinjam.value) pulang.value = pinjam.value; });
 
-  function reference() { return 'PSS-' + new Date().toISOString().slice(0, 10).replaceAll('-', '') + '-' + Math.random().toString(36).slice(2, 7).toUpperCase(); }
-  function formatDate(value) { return new Intl.DateTimeFormat('ms-MY', { day: 'numeric', month: 'long', year: 'numeric' }).format(new Date(value + 'T00:00:00')); }
+  function reference() { return 'PSS-' + malaysiaDate().replaceAll('-', '') + '-' + Math.random().toString(36).slice(2, 7).toUpperCase(); }
+  function formatDate(value) { return new Intl.DateTimeFormat('ms-MY', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' }).format(new Date(value + 'T00:00:00Z')); }
   function renderReceipt(data) {
     document.getElementById('receipt-ref').textContent = 'No. rujukan: ' + data.rujukan;
     document.getElementById('receipt-created').textContent = 'Direkodkan pada ' + formatDate(data.tarikh_pinjam);
@@ -31,9 +38,15 @@
     data.nama = data.nama.trim(); data.kelas = data.kelas.trim(); data.bahan = data.bahan.trim(); data.kod_bahan = data.kod_bahan.trim() || null; data.catatan = data.catatan.trim() || null; data.rujukan = reference();
     if (data.tarikh_pulang < data.tarikh_pinjam) { status.textContent = 'Tarikh pulang perlu pada atau selepas tarikh pinjam.'; status.className = 'loan-status error'; return; }
     var button = form.querySelector('button[type="submit"]'); button.disabled = true; status.textContent = 'Merekodkan permohonan...'; status.className = 'loan-status';
-    var response = await window.cms.from('pss_pinjaman').insert(data);
+    var response = await window.cmsPublic.from('pss_pinjaman').insert(data);
     button.disabled = false;
-    if (response.error) { status.textContent = 'Rekod tidak dapat disimpan. Sila cuba lagi.'; status.className = 'loan-status error'; return; }
+    if (response.error) {
+      status.textContent = response.error.message && response.error.message.includes('Terlalu banyak permintaan')
+        ? 'Terlalu banyak permintaan daripada rangkaian ini. Sila cuba semula selepas 15 minit.'
+        : 'Rekod tidak dapat disimpan. Sila cuba lagi.';
+      status.className = 'loan-status error';
+      return;
+    }
     status.textContent = 'Rekod pinjaman berjaya disimpan. Borang rekod sedia untuk dicetak atau disimpan sebagai PDF.';
     renderReceipt(data); form.reset(); pinjam.value = today; pulang.min = today;
   });

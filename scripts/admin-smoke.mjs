@@ -145,7 +145,7 @@ const commonStub = String.raw`
   window.refreshAuthBox = async function () {
     var box = document.getElementById('authbox');
     if (box) box.textContent = 'Log masuk sebagai Pentadbir Ujian';
-    return { user: { id: 'admin-1' }, admin: true };
+    return { user: { id: 'admin-1' }, admin: true, teacher: { user_id: 'admin-1', nama: 'Pentadbir Ujian', aktif: true } };
   };
   window.showToast = function (title, message, type) {
     var box = document.getElementById('toasts');

@@ -4,6 +4,12 @@
   const CMS_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imp5a3B0a256YXNycmt2dHh0dnVrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODYyNzU4MzUsImV4cCI6MjEwMTg1MTgzNX0.xFFOrAUcFDChpfXT7Wc5BWa7gWfHydQwOnSZtKgVoqY';
   const cmsClient = window.supabase.createClient(CMS_URL, CMS_KEY);
   window.cms = cmsClient;
+  // PSS learner forms must remain anonymous even in a browser that also has
+  // an administrator or teacher session. This client deliberately has no
+  // persisted session and is only used for rate-limited public submissions.
+  window.cmsPublic = window.supabase.createClient(CMS_URL, CMS_KEY, {
+    auth: { persistSession: false, autoRefreshToken: false, detectSessionInUrl: false }
+  });
 
   function esc(s) {
     return String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');

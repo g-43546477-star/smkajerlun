@@ -8,8 +8,8 @@ function cellFor(entries, roomId, masaMula) {
   const found = entries.find(e => e.bilik === roomId && e.masa_mula === masaMula && e.status !== 'dibatalkan');
   if (found) {
     td.innerHTML = `<div class="slotcell-booked"><div class="n"></div><div class="k"></div></div>`;
-    td.querySelector('.n').textContent = found.nama_pemohon;
-    td.querySelector('.k').textContent = found.kelas + (found.guna_lcd ? ' · LCD' : '');
+    td.querySelector('.n').textContent = 'Ditempah';
+    td.querySelector('.k').textContent = 'Tidak tersedia';
   } else {
     const span = document.createElement('span');
     span.className = 'slotcell-empty';
@@ -21,7 +21,10 @@ function cellFor(entries, roomId, masaMula) {
 
 async function renderTable() {
   const tarikh = document.getElementById('f-tarikh').value;
-  const { data, error } = await sbPublic.from('tempahan_awam').select('*').eq('tarikh', tarikh).limit(300);
+  const { data, error } = await sbPublic.from('tempahan_awam')
+    .select('bilik,tarikh,masa_mula,status')
+    .eq('tarikh', tarikh)
+    .limit(300);
   const entries = error ? [] : (data || []);
 
   const tbody = document.getElementById('tbody');

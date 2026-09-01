@@ -49,8 +49,12 @@ const auditRpc = await fetch(`${supabaseUrl}/rest/v1/rpc/record_admin_audit`, {
 const auditRpcBlocked = [401, 403, 404].includes(auditRpc.status);
 console.log(`${auditRpcBlocked ? 'OK' : 'FAIL'} audit function anonymous access blocked (${auditRpc.status})`);
 if (!auditRpcBlocked) failures.push(`audit function anonymous access: HTTP ${auditRpc.status}`);
+const privateBookingFields = await fetch(`${supabaseUrl}/rest/v1/tempahan_awam?select=nama_pemohon,kelas,tujuan&limit=1`, { headers });
+const privateBookingFieldsBlocked = [400, 401, 403, 404].includes(privateBookingFields.status);
+console.log(`${privateBookingFieldsBlocked ? 'OK' : 'FAIL'} public booking view hides personal fields (${privateBookingFields.status})`);
+if (!privateBookingFieldsBlocked) failures.push(`public booking personal fields: HTTP ${privateBookingFields.status}`);
 if (failures.length) {
   console.error(failures.join('\n'));
   process.exit(1);
 }
-console.log(`Supabase health check passed: ${checks.length + 3} modules`);
+console.log(`Supabase health check passed: ${checks.length + 4} modules`);
