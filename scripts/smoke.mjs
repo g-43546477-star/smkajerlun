@@ -64,8 +64,8 @@ async function visit(page, route) {
   if (!result.h1) failures.push(`${route}: missing h1`);
   if (result.overflow) failures.push(`${route}: horizontal overflow`);
   if (errors.length) failures.push(`${route}: ${errors.slice(0, 2).join(' | ')}`);
-  if (route === '/tempahan/senarai/' && !supabaseRequests.some((url) => url.includes('/rest/v1/tempahan_awam'))) {
-    failures.push(`${route}: anonymous list did not query tempahan_awam`);
+  if (route === '/tempahan/senarai/' && supabaseRequests.some((url) => url.includes('/rest/v1/tempahan_awam'))) {
+    failures.push(`${route}: anonymous list queried private booking details`);
   }
   if (route === '/perkhidmatan/klinik/' && !await page.locator('#clinic-access-title').count()) {
     failures.push(`${route}: clinic route is missing kiosk state markup`);

@@ -103,7 +103,7 @@ function showToast(title, msg, type='success') {
   setTimeout(() => el.remove(), 5000);
 }
 
-// ---------- Auth (guru guna nama sahaja, bukan e-mel) ----------
+// ---------- Auth (akaun guru dikeluarkan oleh pentadbir) ----------
 const EMAIL_DOMAIN = 'guru.smkajerlun.my';
 function usernameToEmail(nama) {
   const slug = nama.trim().toLowerCase()
@@ -114,6 +114,15 @@ function usernameToEmail(nama) {
 }
 function displayName(user) {
   return (user && (user.user_metadata && user.user_metadata.username)) || (user && user.email) || '';
+}
+async function approvedTeacher(user) {
+  if (!user) return null;
+  const { data, error } = await sb.from('guru_pengguna')
+    .select('user_id,nama,aktif')
+    .eq('user_id', user.id)
+    .eq('aktif', true)
+    .maybeSingle();
+  return error ? null : data;
 }
 async function isAdmin(user) {
   if (!user) return false;
@@ -126,12 +135,14 @@ async function refreshAuthBox() {
   const navAdmin = document.getElementById('nav-admin');
   const { data: { user } } = await sb.auth.getUser();
   let admin = false;
+  let teacher = null;
   if (user) {
     admin = await isAdmin(user);
+    teacher = await approvedTeacher(user);
     if (box) {
       box.innerHTML = '';
       const span = document.createElement('span');
-      span.textContent = 'Log masuk sebagai ' + displayName(user);
+      span.textContent = 'Log masuk sebagai ' + (teacher ? teacher.nama : displayName(user));
       const btn = document.createElement('button');
       btn.textContent = 'Log Keluar';
       btn.onclick = async () => { await sb.auth.signOut(); location.reload(); };
@@ -139,8 +150,8 @@ async function refreshAuthBox() {
     }
     if (navAdmin) navAdmin.style.display = admin ? 'inline-block' : 'none';
   } else {
-    if (box) box.innerHTML = `<a href="${BASE}/log-masuk/">Log Masuk / Daftar</a>`;
+    if (box) box.innerHTML = `<a href="${BASE}/log-masuk/">Log Masuk</a>`;
     if (navAdmin) navAdmin.style.display = 'none';
   }
-  return { user, admin };
+  return { user, admin, teacher };
 }

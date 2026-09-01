@@ -1,7 +1,7 @@
 (function () {
   var form = document.getElementById('suggestion-form');
   var status = document.getElementById('suggestion-status');
-  if (!form || !status || !window.cms) return;
+  if (!form || !status || !window.cmsPublic) return;
 
   form.addEventListener('submit', async function (event) {
     event.preventDefault();
@@ -22,10 +22,12 @@
     button.disabled = true;
     status.textContent = 'Menghantar cadangan...';
     status.className = 'loan-status';
-    var response = await window.cms.from('cadangan_buku').insert(data);
+    var response = await window.cmsPublic.from('cadangan_buku').insert(data);
     button.disabled = false;
     if (response.error) {
-      status.textContent = 'Cadangan tidak dapat dihantar. Sila cuba lagi.';
+      status.textContent = response.error.message && response.error.message.includes('Terlalu banyak permintaan')
+        ? 'Terlalu banyak cadangan daripada rangkaian ini. Sila cuba semula selepas 15 minit.'
+        : 'Cadangan tidak dapat dihantar. Sila cuba lagi.';
       status.className = 'loan-status error';
       return;
     }

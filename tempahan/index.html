@@ -39,7 +39,7 @@
 
   <div class="authgate" id="authgate" style="display:none">
     <span>Anda perlu <b>log masuk</b> untuk membuat tempahan.</span>
-    <a href="/tempahan/log-masuk/">Log Masuk / Daftar &rarr;</a>
+    <a href="/tempahan/log-masuk/">Log Masuk &rarr;</a>
   </div>
 
   <section class="availability-panel" aria-labelledby="availability-title">
@@ -54,7 +54,7 @@
     <p class="section-title"><span class="step-badge">1</span> Maklumat &amp; Pilihan Tempahan</p>
     <div class="grid" style="grid-template-columns:1fr 1fr;gap:14px">
       <div>
-        <label class="field-label">Nama Pemohon</label>
+        <label class="field-label" for="f-nama">Nama Pemohon</label>
         <input type="text" id="f-nama" readonly placeholder="Log masuk dahulu">
       </div>
       <div>
@@ -63,7 +63,7 @@
       </div>
     </div>
     <div style="margin-top:14px">
-      <label class="field-label">Tujuan / Aktiviti <span class="req">*</span></label>
+      <label class="field-label" for="f-tujuan">Tujuan / Aktiviti <span class="req">*</span></label>
       <input type="text" id="f-tujuan" placeholder="Cth: PdPc Bahasa Arab / Mesyuarat Panitia / Kelas Tambahan">
     </div>
     <div class="checkbox-row" id="lcd-wrap" style="display:none">
@@ -72,8 +72,8 @@
     </div>
     <div class="grid" style="grid-template-columns:1fr 1fr;gap:14px">
       <div>
-        <label class="field-label">Pilih Tarikh <span class="req">*</span></label>
-        <div class="datepick">
+        <span class="field-label" id="booking-date-label">Pilih Tarikh <span class="req">*</span></span>
+        <div class="datepick" role="group" aria-labelledby="booking-date-label">
           <button type="button" id="btn-hari-ini">Hari Ini<br><span id="lbl-hari-ini" style="font-weight:600;font-size:11px"></span></button>
           <button type="button" id="btn-esok">Esok<br><span id="lbl-esok" style="font-weight:600;font-size:11px"></span></button>
         </div>
@@ -88,7 +88,7 @@
         <label class="field-label" for="f-bilik">Bilik Khas <span class="req">*</span></label>
         <select id="f-bilik"></select>
         <div id="sub-wrap" style="display:none;margin-top:10px">
-          <label class="field-label">Pilih Ruang Perpustakaan <span class="req">*</span></label>
+          <label class="field-label" for="f-sub">Pilih Ruang Perpustakaan <span class="req">*</span></label>
           <select id="f-sub"></select>
         </div>
       </div>
@@ -120,7 +120,7 @@
   </div>
 </main>
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.57.4/dist/umd/supabase.min.js"></script>
+<script src="/assets/vendor/supabase-2.57.4.js?v=20260828-1"></script>
 <script src="/tempahan/assets/common.js?v=20260824-1"></script>
 <script src="/tempahan/assets/booking-form.js?v=20260824-1"></script>
 </body>
