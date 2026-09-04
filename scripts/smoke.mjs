@@ -78,7 +78,17 @@ async function visit(page, route) {
       alertStrip: Boolean(document.querySelector('#home-alert-strip')),
       serviceDock: Boolean(document.querySelector('.ios-service-dock')),
       program: document.querySelector('#home-program-list .achievement-card')?.textContent.includes('Karnival Maulidur Rasul') || false,
-      announcementMoved: !document.querySelector('#notis-list')?.textContent.includes('Drone Edu Challenge')
+      announcementMoved: !document.querySelector('#notis-list')?.textContent.includes('Drone Edu Challenge'),
+      announcementWhiteSpace: (() => {
+        const item = document.createElement('div');
+        item.className = 'notis-item';
+        const paragraph = document.createElement('p');
+        item.appendChild(paragraph);
+        document.body.appendChild(item);
+        const value = getComputedStyle(paragraph).whiteSpace;
+        item.remove();
+        return value;
+      })()
     }));
     if (!homepageMarkup.hero) failures.push(`${route}: school hero markup is missing`);
     if (!homepageMarkup.heroTitle) failures.push(`${route}: school welcome wording is missing`);
@@ -87,6 +97,7 @@ async function visit(page, route) {
     if (!homepageMarkup.serviceDock) failures.push(`${route}: service dock is missing`);
     if (!homepageMarkup.program) failures.push(`${route}: school program highlight is missing`);
     if (!homepageMarkup.announcementMoved) failures.push(`${route}: achievement still appears as a general announcement`);
+    if (homepageMarkup.announcementWhiteSpace !== 'pre-line') failures.push(`${route}: announcement line breaks are not preserved`);
   }
   if (route === '/kokurikulum/' && (await page.locator('#koku-pencapaian, #koku-achievement-list').count() || await page.locator('nav.tabs details').filter({ hasText: 'Pencapaian' }).count())) {
     failures.push(`${route}: retired Pencapaian section or submenu is still present`);
