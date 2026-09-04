@@ -155,8 +155,49 @@ async function visit(page, route) {
   if (route === '/pss/' && !(await page.locator('#home-nilam-list .pss-nilam-rank').count())) {
     failures.push(`${route}: NILAM leaderboard widget is missing student rows`);
   }
+  if (route === '/pss/' && page.viewportSize().width <= 760) {
+    const widgetColumns = await page.locator('.pss-home-widgets').evaluate((widget) => getComputedStyle(widget).gridTemplateColumns.trim().split(/\s+/).length);
+    if (widgetColumns !== 1) failures.push(`${route}: homepage widgets do not stack on a narrow viewport`);
+  }
   if (route === '/pss/digital/nilam/' && (!(await page.locator('#nilam-leaderboard').count()) || !(await page.locator('#nilam-leaderboard-body tr').count()))) {
     failures.push(`${route}: full NILAM leaderboard table is missing student rows`);
+  }
+  if (route === '/pss/digital/nilam/') {
+    const captionBox = await page.locator('.nilam-leaderboard-table caption.sr-only').evaluate((caption) => {
+      const box = caption.getBoundingClientRect();
+      return { width: box.width, height: box.height };
+    });
+    if (captionBox.width > 2 || captionBox.height > 2) failures.push(`${route}: NILAM table caption is visibly leaking into the layout`);
+  }
+  if (route === '/pss/digital/nilam/' && page.viewportSize().width <= 600) {
+    const mobileLeaderboard = await page.locator('.nilam-leaderboard-table').evaluate((table) => ({
+      width: Math.ceil(table.getBoundingClientRect().width),
+      viewport: window.innerWidth,
+      rowDisplay: getComputedStyle(table.querySelector('tbody tr')).display,
+      wrapperOverflow: getComputedStyle(table.closest('.nilam-table-wrap')).overflowX
+    }));
+    const longMetadataOverflow = await page.locator('.nilam-leaderboard-table').evaluate((table) => {
+      table.querySelector('.nilam-form').textContent = 'TingkatanEmpatDenganNamaKelasYangSangatPanjangTanpaRuang';
+      table.querySelector('.nilam-class').textContent = 'ImtiyazDenganKodProgramYangSangatPanjangTanpaRuang';
+      return document.documentElement.scrollWidth > window.innerWidth + 2;
+    });
+    const longPodiumMetadataOverflow = await page.locator('#nilam-podium').evaluate((podium) => {
+      const metadata = podium.querySelectorAll('.nilam-podium-card small');
+      metadata[0].textContent = 'Tingkatan'.repeat(80);
+      metadata[1].textContent = 'Kelas'.repeat(80);
+      return document.documentElement.scrollWidth > window.innerWidth + 2;
+    });
+    if (longMetadataOverflow) failures.push(`${route}: long NILAM metadata causes horizontal page overflow`);
+    if (longPodiumMetadataOverflow) failures.push(`${route}: long NILAM podium metadata causes horizontal page overflow`);
+    if (mobileLeaderboard.width > mobileLeaderboard.viewport || mobileLeaderboard.rowDisplay !== 'grid' || mobileLeaderboard.wrapperOverflow !== 'visible') {
+      failures.push(`${route}: NILAM leaderboard is not a mobile-friendly card list`);
+    }
+  }
+  if (route === '/pss/digital/nilam/') {
+    const podiumRanks = await page.locator('#nilam-podium .nilam-podium-card').evaluateAll((cards) => cards.map((card) => Number(card.dataset.rank)));
+    if (podiumRanks.length !== 3 || podiumRanks.join(',') !== '1,2,3') {
+      failures.push(`${route}: NILAM podium must render the top three ranks in order`);
+    }
   }
   if (route === '/pss/tentang-pss/pengawas-pss/') {
     const rosterText = await page.locator('#pelajar').textContent();
@@ -229,11 +270,65 @@ for (const viewport of [{ name: 'desktop', width: 1440, height: 1000 }, { name: 
       await toggle.focus();
       await page.keyboard.press('Enter');
       if ((await toggle.getAttribute('aria-expanded')) !== 'true') failures.push('PSS mobile: keyboard menu did not open');
+      const focusMovedIntoMenu = await page.evaluate(() => Boolean(document.activeElement && document.querySelector('.pss-links')?.contains(document.activeElement)));
+      if (!focusMovedIntoMenu) failures.push('PSS mobile: opening the menu did not move keyboard focus into it');
+      const scrollPadding = await page.evaluate(() => {
+        const style = getComputedStyle(document.documentElement);
+        return { top: parseFloat(style.scrollPaddingTop), bottom: parseFloat(style.scrollPaddingBottom) };
+      });
+      if (!(scrollPadding.top >= 76) || !(scrollPadding.bottom >= 80)) {
+        failures.push('PSS mobile: anchor scrolling lacks safe space for the sticky header and dock');
+      }
+      const mobileDock = await page.locator('.pss-mobile-dock').evaluate((dock) => ({
+        actions: dock.querySelectorAll('a, button').length,
+        active: dock.querySelector('a[aria-current="page"]')?.textContent.trim(),
+        smallestTarget: Math.min(...[...dock.querySelectorAll('a, button')].map((item) => item.getBoundingClientRect().height))
+      }));
+      if (mobileDock.actions !== 5 || mobileDock.active !== 'Utama' || mobileDock.smallestTarget < 44) {
+        failures.push('PSS mobile: dock must expose five 44px actions and mark the current page');
+      }
+      await page.keyboard.press('Escape');
+      if ((await toggle.getAttribute('aria-expanded')) !== 'false') failures.push('PSS mobile: Escape did not close the menu');
+      const menuControls = await page.evaluate(() => ({
+        navId: document.querySelector('.pss-links')?.id,
+        header: document.querySelector('.menu-toggle')?.getAttribute('aria-controls'),
+        dock: document.querySelector('.pss-mobile-dock button')?.getAttribute('aria-controls')
+      }));
+      if (!menuControls.navId || menuControls.header !== menuControls.navId || menuControls.dock !== menuControls.navId) {
+        failures.push('PSS mobile: menu invokers are not linked to the controlled navigation');
+      }
+      const dockMenu = page.locator('.pss-mobile-dock button');
+      await dockMenu.focus();
+      await page.keyboard.press('Enter');
+      if ((await dockMenu.getAttribute('aria-expanded')) !== 'true') failures.push('PSS mobile: dock Menu did not open navigation');
+      await page.keyboard.press('Escape');
+      const dockFocusRestored = await page.evaluate(() => document.activeElement === document.querySelector('.pss-mobile-dock button'));
+      if (!dockFocusRestored) failures.push('PSS mobile: Escape did not restore focus to the dock Menu invoker');
     }
     await page.close();
   }
   await context.close();
 }
+
+const motionContext = await browser.newContext({ viewport: { width: 1440, height: 1000 } });
+const motionPage = await motionContext.newPage();
+await motionPage.emulateMedia({ reducedMotion: 'no-preference' });
+await motionPage.goto(`${base}/pss/digital/nilam/`, { waitUntil: 'domcontentloaded' });
+await motionPage.locator('#nilam-podium .nilam-podium-card').first().waitFor({ state: 'attached', timeout: 6000 }).catch(() => {});
+const motionName = await motionPage.locator('#nilam-podium .nilam-podium-card').first().evaluate((card) => getComputedStyle(card).animationName).catch(() => 'none');
+if (motionName === 'none') failures.push('PSS NILAM: podium has no motion when reduced motion is not requested');
+await motionContext.close();
+
+const reducedMotionContext = await browser.newContext({ viewport: { width: 390, height: 844 } });
+const reducedMotionPage = await reducedMotionContext.newPage();
+await reducedMotionPage.emulateMedia({ reducedMotion: 'reduce' });
+await reducedMotionPage.goto(`${base}/pss/digital/nilam/`, { waitUntil: 'domcontentloaded' });
+await reducedMotionPage.locator('#nilam-podium .nilam-podium-card').first().waitFor({ state: 'attached', timeout: 6000 }).catch(() => {});
+const reducedMotionName = await reducedMotionPage.locator('#nilam-podium .nilam-podium-card').first().evaluate((card) => getComputedStyle(card).animationName).catch(() => 'none');
+const reducedMotionScrollBehavior = await reducedMotionPage.evaluate(() => getComputedStyle(document.documentElement).scrollBehavior);
+if (reducedMotionName !== 'none') failures.push('PSS NILAM: podium motion remains active when reduced motion is requested');
+if (reducedMotionScrollBehavior !== 'auto') failures.push('PSS: smooth scrolling remains active when reduced motion is requested');
+await reducedMotionContext.close();
 
 const printContext = await browser.newContext({ viewport: { width: 1280, height: 900 } });
 const printPage = await printContext.newPage();

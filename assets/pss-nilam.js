@@ -3,6 +3,7 @@
   var tbody = document.getElementById('nilam-leaderboard-body');
   var status = document.getElementById('nilam-leaderboard-status');
   var updated = document.getElementById('nilam-leaderboard-updated');
+  var podium = document.getElementById('nilam-podium');
   if (!table || !tbody || !window.cms) return;
 
   var months = ['Januari', 'Februari', 'Mac', 'April', 'Mei', 'Jun', 'Julai', 'Ogos', 'September', 'Oktober', 'November', 'Disember'];
@@ -20,9 +21,28 @@
     return node;
   }
 
+  function podiumCard(row, index) {
+    var rank = Number(row.kedudukan) || index + 1;
+    var card = document.createElement('article');
+    card.className = 'nilam-podium-card';
+    card.dataset.rank = String(rank);
+    var label = document.createElement('span');
+    label.className = 'nilam-podium-rank';
+    label.textContent = 'Kedudukan ' + rank;
+    var name = document.createElement('b');
+    name.textContent = row.nama || 'Nama murid belum dinyatakan';
+    var detail = document.createElement('small');
+    detail.textContent = [row.tingkatan, row.kelas].filter(Boolean).join(' · ') || 'Maklumat kelas belum dinyatakan';
+    var count = document.createElement('strong');
+    count.textContent = (Number(row.jumlah_bacaan) || 0) + ' bahan';
+    card.append(label, name, detail, count);
+    return card;
+  }
+
   async function load() {
     status.textContent = 'Memuatkan carta pendahulu...';
     tbody.replaceChildren();
+    if (podium) podium.replaceChildren();
     var response = await window.cms.from('nilam_stat')
       .select('kedudukan,nama,tingkatan,kelas,jumlah_bacaan,dikemas_kini')
       .order('kedudukan', { ascending: true }).order('jumlah_bacaan', { ascending: false }).limit(50);
@@ -32,9 +52,11 @@
       if (updated) updated.textContent = '';
       return;
     }
+    if (podium) podium.replaceChildren.apply(podium, rows.slice(0, 3).map(podiumCard));
     rows.forEach(function (row, index) {
       var rank = Number(row.kedudukan) || index + 1;
       var tr = document.createElement('tr');
+      tr.dataset.rank = String(rank);
       tr.appendChild(cell('td', rank, 'nilam-rank-number'));
       tr.appendChild(cell('th', row.nama || 'Nama murid belum dinyatakan', 'nilam-student-name'));
       tr.appendChild(cell('td', row.tingkatan || '-', 'nilam-form'));

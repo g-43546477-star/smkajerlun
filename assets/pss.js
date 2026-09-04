@@ -2,6 +2,29 @@
   var toggle = document.querySelector('.menu-toggle');
   var nav = document.querySelector('.pss-links');
   var routePath = location.pathname.endsWith('/') ? location.pathname : location.pathname + '/';
+  var menuInvoker = null;
+  if (nav) {
+    if (!nav.id) nav.id = 'pss-navigation';
+    if (toggle) toggle.setAttribute('aria-controls', nav.id);
+  }
+
+  function setMenuOpen(open, invoker) {
+    if (!nav || !toggle) return;
+    var isOpen = Boolean(open);
+    if (isOpen) menuInvoker = invoker || toggle;
+    nav.classList.toggle('open', isOpen);
+    toggle.setAttribute('aria-expanded', String(isOpen));
+    var dockButton = document.querySelector('.pss-mobile-dock button');
+    if (dockButton) dockButton.setAttribute('aria-expanded', String(isOpen));
+    if (isOpen && window.matchMedia('(max-width: 820px)').matches) {
+      var firstMenuTarget = nav.querySelector('a, summary');
+      if (firstMenuTarget) firstMenuTarget.focus();
+    }
+  }
+
+  function dockLink(href, label, active) {
+    return '<a href="' + href + '"' + (active ? ' class="active" aria-current="page"' : '') + '>' + label + '</a>';
+  }
 
   function activeGroup() {
     if (routePath.indexOf('/pss/tentang-pss/') === 0 || routePath.indexOf('/pss/maklumat/') === 0 || routePath.indexOf('/pss/organisasi/') === 0) return 'tentang';
@@ -52,16 +75,16 @@
     ].join('');
   }
 
-  if (toggle && nav) toggle.addEventListener('click', function () { var open = nav.classList.toggle('open'); toggle.setAttribute('aria-expanded', String(open)); });
+  if (toggle && nav) toggle.addEventListener('click', function () { setMenuOpen(!nav.classList.contains('open'), toggle); });
   if (nav && !document.querySelector('.pss-mobile-dock')) {
     var mobileDock = document.createElement('nav');
     mobileDock.className = 'pss-mobile-dock';
     mobileDock.setAttribute('aria-label', 'Akses pantas Portal PSS');
-    mobileDock.innerHTML = '<a href="/pss/"' + (activeGroup() === 'utama' ? ' class="active"' : '') + '>Utama</a><a href="/pss/digital/katalog/?fokus=cari"' + (activeGroup() === 'digital' ? ' class="active"' : '') + '>Cari</a><a href="/pss/rak-buku-maya/">Rak Maya</a><a href="/pss/digital/nilam/">NILAM</a><button type="button" aria-label="Buka menu Portal PSS" aria-expanded="false">Menu</button>';
+    mobileDock.innerHTML = dockLink('/pss/', 'Utama', routePath === '/pss/') + dockLink('/pss/digital/katalog/?fokus=cari', 'Cari', routePath === '/pss/digital/katalog/') + dockLink('/pss/rak-buku-maya/', 'Rak Maya', routePath === '/pss/rak-buku-maya/') + dockLink('/pss/digital/nilam/', 'NILAM', routePath === '/pss/digital/nilam/') + '<button type="button" aria-label="Buka menu Portal PSS" aria-controls="' + nav.id + '" aria-expanded="false">Menu</button>';
     document.body.appendChild(mobileDock);
-    mobileDock.querySelector('button').addEventListener('click', function () {
-      if (toggle) toggle.click();
-      this.setAttribute('aria-expanded', String(nav.classList.contains('open')));
+    var dockMenuButton = mobileDock.querySelector('button');
+    dockMenuButton.addEventListener('click', function () {
+      setMenuOpen(!nav.classList.contains('open'), dockMenuButton);
     });
   }
   (function () {
@@ -76,7 +99,14 @@
     document.addEventListener('click', function (event) { if (isDesktop() && nav && !nav.contains(event.target) && (!toggle || !toggle.contains(event.target))) closeMenus(); });
     window.addEventListener('scroll', function () { closeMenus(); }, { passive: true });
   }());
-  document.querySelectorAll('.pss-links a').forEach(function (link) { link.addEventListener('click', function () { if (nav) nav.classList.remove('open'); if (toggle) toggle.setAttribute('aria-expanded', 'false'); }); });
+  document.addEventListener('keydown', function (event) {
+    if (event.key !== 'Escape' || !nav || !nav.classList.contains('open')) return;
+    var focusTarget = menuInvoker || toggle;
+    setMenuOpen(false);
+    if (focusTarget) focusTarget.focus();
+    menuInvoker = null;
+  });
+  document.querySelectorAll('.pss-links a').forEach(function (link) { link.addEventListener('click', function () { setMenuOpen(false); }); });
 
   var footerShell = document.querySelector('.pss-footer .pss-shell');
   if (footerShell && !footerShell.querySelector('.pss-footer-admin')) {
