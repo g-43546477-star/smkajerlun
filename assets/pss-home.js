@@ -39,22 +39,35 @@
 
   async function loadNilamWidget() {
     if (!nilamMount) return;
-    nilamMount.innerHTML = '<p class="pss-widget-empty">Memuatkan statistik NILAM...</p>';
-    var response = await window.cms.from('nilam_stat').select('kelas,jumlah_bacaan,murid_aktif,dikemas_kini').order('jumlah_bacaan', { ascending: false }).limit(5);
+    nilamMount.innerHTML = '<p class="pss-widget-empty">Memuatkan carta NILAM...</p>';
+    var response = await window.cms.from('nilam_stat')
+      .select('kedudukan,nama,tingkatan,kelas,jumlah_bacaan,dikemas_kini')
+      .order('kedudukan', { ascending: true }).order('jumlah_bacaan', { ascending: false }).limit(5);
     var rows = response.data || [];
     if (response.error || !rows.length) {
-      nilamMount.innerHTML = '<p class="pss-widget-empty">Statistik NILAM belum dikemas kini oleh PSS.</p>';
-      if (nilamFeature) nilamFeature.innerHTML = '<span>NILAM</span><strong>Statistik NILAM akan dikemas kini oleh PSS.</strong><small>Portal NILAM &rarr;</small>';
+      nilamMount.innerHTML = '<p class="pss-widget-empty">Carta NILAM belum dikemas kini oleh PSS.</p>';
+      if (nilamFeature) nilamFeature.innerHTML = '<span>NILAM</span><strong>Carta Pendahulu NILAM akan dikemas kini oleh PSS.</strong><small>Portal NILAM &rarr;</small>';
       return;
     }
-    var highest = Math.max.apply(null, rows.map(function (row) { return row.jumlah_bacaan || 0; }).concat([1]));
-    nilamMount.innerHTML = rows.map(function (row) {
-      var width = Math.max(8, Math.round(((row.jumlah_bacaan || 0) / highest) * 100));
-      return '<article class="pss-nilam-row"><div><b>' + esc(row.kelas) + '</b><small>' + esc(row.murid_aktif) + ' murid aktif</small></div><strong>' + esc(row.jumlah_bacaan) + '</strong><i style="--nilai:' + width + '%"></i></article>';
+    var monthNames = ['Januari', 'Februari', 'Mac', 'April', 'Mei', 'Jun', 'Julai', 'Ogos', 'September', 'Oktober', 'November', 'Disember'];
+    function formatDate(value) {
+      var parts = String(value || '').split('-');
+      return parts.length === 3 ? parseInt(parts[2], 10) + ' ' + (monthNames[parseInt(parts[1], 10) - 1] || '') + ' ' + parts[0] : '';
+    }
+    nilamMount.innerHTML = rows.map(function (row, index) {
+      var rank = Number(row.kedudukan) || index + 1;
+      var count = Number(row.jumlah_bacaan) || 0;
+      var detail = [row.tingkatan, row.kelas].filter(Boolean).join(' · ') || 'Maklumat kelas belum dinyatakan';
+      return '<article class="pss-nilam-rank" data-rank="' + rank + '"><span class="pss-nilam-rank-badge" aria-label="Kedudukan ' + rank + '">' + rank + '</span><div class="pss-nilam-rank-info"><b>' + esc(row.nama || 'Nama murid belum dinyatakan') + '</b><small>' + esc(detail) + '</small></div><strong>' + esc(count) + '<small>bahan</small></strong></article>';
     }).join('');
+    var latest = formatDate(rows[0].dikemas_kini);
+    var updated = document.createElement('p');
+    updated.className = 'pss-nilam-updated';
+    updated.textContent = latest ? 'Dikemas kini: ' + latest : 'Tarikh kemas kini belum dinyatakan.';
+    nilamMount.appendChild(updated);
     if (nilamFeature) {
       var leader = rows[0];
-      nilamFeature.innerHTML = '<span>NILAM</span><strong>' + esc(leader.kelas) + ' mendahului dengan ' + esc(leader.jumlah_bacaan) + ' bacaan.</strong><small>' + esc(leader.murid_aktif) + ' murid aktif · Portal NILAM &rarr;</small>';
+      nilamFeature.innerHTML = '<span>NILAM</span><strong>' + esc(leader.nama || 'Murid teratas') + ' mendahului dengan ' + esc(Number(leader.jumlah_bacaan) || 0) + ' bahan.</strong><small>' + esc([leader.tingkatan, leader.kelas].filter(Boolean).join(' · ') || 'Carta sekolah') + ' · Portal NILAM &rarr;</small>';
     }
   }
 

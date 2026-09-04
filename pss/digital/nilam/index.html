@@ -10,7 +10,7 @@
       href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=IBM+Plex+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="/assets/pss.css?v=20260820-3" />
+    <link rel="stylesheet" href="/assets/pss.css?v=20260905-1" />
     <link rel="icon" type="image/png" href="/logo.png" />
   </head>
   <body>
@@ -91,6 +91,20 @@
           <b>Buka AINS &rarr;</b></a
         >
       </section>
+      <section class="nilam-leaderboard-panel" id="nilam-leaderboard" aria-labelledby="nilam-leaderboard-title">
+        <div class="nilam-leaderboard-head">
+          <div><p class="eyebrow">CARTA SEKOLAH</p><h2 id="nilam-leaderboard-title">Carta Pendahulu NILAM</h2></div>
+          <span id="nilam-leaderboard-updated" class="nilam-leaderboard-updated">Memuatkan...</span>
+        </div>
+        <div class="nilam-table-wrap">
+          <table class="nilam-leaderboard-table">
+            <caption class="sr-only">Carta Pendahulu NILAM sekolah</caption>
+            <thead><tr><th scope="col">#</th><th scope="col">Murid</th><th scope="col">Tahun / Tingkatan</th><th scope="col">Kelas</th><th scope="col">Jumlah Bahan</th></tr></thead>
+            <tbody id="nilam-leaderboard-body"></tbody>
+          </table>
+        </div>
+        <p id="nilam-leaderboard-status" class="nilam-leaderboard-status" aria-live="polite">Memuatkan carta pendahulu...</p>
+      </section>
       <section class="nilam-note">
         <h2>Maklumat PSS</h2>
         <p>
@@ -115,6 +129,9 @@
         <p>&copy; 2026 Pusat Sumber Sekolah, SMK Agama Jerlun.</p>
       </div>
     </footer>
+    <script src="/assets/vendor/supabase-2.57.4.js?v=20260828-1"></script>
+    <script src="/assets/cms.js?v=20260827-1"></script>
     <script src="/assets/pss.js"></script>
+    <script src="/assets/pss-nilam.js?v=20260905-1"></script>
   </body>
 </html>

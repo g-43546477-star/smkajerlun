@@ -703,7 +703,7 @@ function renderNilam() {
   tbody.replaceChildren();
   nilamRows.forEach(function (row) {
     const tr = document.createElement('tr');
-    [row.kelas, row.jumlah_bacaan, row.murid_aktif, ui.formatDate(row.dikemas_kini)].forEach(function (value) {
+    [row.kedudukan, row.nama, row.tingkatan, row.kelas, row.jumlah_bacaan, ui.formatDate(row.dikemas_kini)].forEach(function (value) {
       tr.appendChild(ui.createCell(value));
     });
     tbody.appendChild(tr);
@@ -712,46 +712,53 @@ function renderNilam() {
 }
 
 async function loadNilam() {
-  ui.setMessage('nilam-message', 'Memuatkan statistik NILAM...', 'loading');
-  const response = await sb.from('nilam_stat').select('*').order('jumlah_bacaan', { ascending: false });
+  ui.setMessage('nilam-message', 'Memuatkan carta NILAM...', 'loading');
+  const response = await sb.from('nilam_stat')
+    .select('id,kedudukan,nama,tingkatan,kelas,jumlah_bacaan,dikemas_kini')
+    .order('kedudukan', { ascending: true }).order('jumlah_bacaan', { ascending: false });
   if (response.error) {
     nilamRows = [];
     document.getElementById('nilam-tbody').replaceChildren();
-    ui.showLoadError('nilam-empty', 'nilam-message', 'Statistik NILAM', response.error);
+    ui.showLoadError('nilam-empty', 'nilam-message', 'Carta NILAM', response.error);
     return false;
   }
   nilamRows = response.data || [];
   renderNilam();
-  ui.setMessage('nilam-message', nilamRows.length + ' kelas direkodkan.', 'success');
+  ui.setMessage('nilam-message', nilamRows.length + ' murid dalam carta pendahulu.', 'success');
   return true;
 }
 
 async function saveNilam(event) {
   event.preventDefault();
+  const kedudukan = Number(document.getElementById('nilam-kedudukan').value);
+  const nama = document.getElementById('nilam-nama').value.trim();
+  const tingkatan = document.getElementById('nilam-tingkatan').value.trim();
   const kelas = document.getElementById('nilam-kelas').value.trim();
   const jumlahBacaan = Number(document.getElementById('nilam-jumlah').value);
-  const muridAktif = Number(document.getElementById('nilam-murid').value);
-  if (!kelas || !Number.isFinite(jumlahBacaan) || !Number.isFinite(muridAktif) || jumlahBacaan < 0 || muridAktif < 0) {
-    ui.setMessage('nilam-message', 'Sila isi maklumat NILAM yang sah.', 'error');
+  if (!Number.isInteger(kedudukan) || kedudukan < 1 || !nama || !tingkatan || !kelas || !Number.isInteger(jumlahBacaan) || jumlahBacaan < 0) {
+    ui.setMessage('nilam-message', 'Sila isi kedudukan, nama, tingkatan, kelas dan jumlah bahan yang sah.', 'error');
     return;
   }
   const button = document.getElementById('nilam-save');
   ui.setBusy(button, true, 'Menyimpan...');
   const response = await sb.from('nilam_stat').upsert({
+    kedudukan: kedudukan,
+    nama: nama,
+    tingkatan: tingkatan,
     kelas: kelas,
     jumlah_bacaan: jumlahBacaan,
-    murid_aktif: muridAktif,
+    murid_aktif: 0,
     dikemas_kini: todayIso()
-  }, { onConflict: 'kelas' });
+  }, { onConflict: 'nama' });
   ui.setBusy(button, false);
   if (response.error) {
-    ui.setMessage('nilam-message', 'Statistik NILAM tidak dapat disimpan: ' + response.error.message, 'error');
+    ui.setMessage('nilam-message', 'Kedudukan NILAM tidak dapat disimpan: ' + response.error.message, 'error');
     return;
   }
   document.getElementById('nilam-form').reset();
   setDirty('nilam-form', false);
   await loadNilam();
-  showToast('Berjaya', 'Statistik NILAM disimpan.', 'success');
+  showToast('Berjaya', 'Kedudukan NILAM disimpan.', 'success');
 }
 
 // ---------------------------------------------------------------------------

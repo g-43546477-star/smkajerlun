@@ -207,7 +207,7 @@
       renderBooks();
       if (bookSearch) bookSearch.focus();
     });
-    list('nilam_stat', 'nilam-list', function (r) { return '<article><b>' + esc(r.kelas) + '</b><span>' + esc(r.jumlah_bacaan) + '</span><small>' + esc(r.murid_aktif) + ' murid aktif</small></article>'; }, 'kelas');
+    list('nilam_stat', 'nilam-list', function (r) { return '<article><b>' + esc(r.nama || 'Nama murid belum dinyatakan') + '</b><span>' + esc(r.jumlah_bacaan) + '</span><small>' + esc([r.tingkatan, r.kelas].filter(Boolean).join(' · ') || 'Maklumat kelas belum dinyatakan') + '</small></article>'; }, 'kedudukan');
   }
   if (view === 'search' || view === 'home') {
     var input = $('site-search'), results = $('search-results'), searchTimer;

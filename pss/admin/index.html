@@ -160,15 +160,17 @@
 
   <section class="admin-tabpane" id="pane-nilam" hidden>
     <div class="card">
-      <div class="head-row"><div><h2 class="page-title">Statistik NILAM</h2><p class="page-sub">Jumlah bacaan dan murid aktif mengikut kelas pada widget Portal PSS.</p></div><a class="admin-destination" href="/pss/digital/nilam/" target="_blank" rel="noopener">Lihat NILAM</a></div>
+      <div class="head-row"><div><h2 class="page-title">Carta Pendahulu NILAM</h2><p class="page-sub">Urus ranking murid berdasarkan jumlah bahan bacaan yang direkodkan dalam AINS.</p></div><a class="admin-destination" href="/pss/digital/nilam/" target="_blank" rel="noopener">Lihat Carta NILAM</a></div>
       <form class="admin-form-grid" id="nilam-form">
-        <div><label class="field-label" for="nilam-kelas">Kelas <span class="field-required">*</span></label><input type="text" id="nilam-kelas" placeholder="Contoh: 3 Itqan" required></div>
-        <div><label class="field-label" for="nilam-jumlah">Jumlah Bacaan <span class="field-required">*</span></label><input type="number" id="nilam-jumlah" min="0" required></div>
-        <div><label class="field-label" for="nilam-murid">Murid Aktif <span class="field-required">*</span></label><input type="number" id="nilam-murid" min="0" required></div>
-        <div class="admin-form-actions"><button type="submit" class="btn-primary" id="nilam-save">Simpan Statistik</button></div>
+        <div><label class="field-label" for="nilam-kedudukan">Kedudukan <span class="field-required">*</span></label><input type="number" id="nilam-kedudukan" min="1" step="1" placeholder="Contoh: 1" required></div>
+        <div><label class="field-label" for="nilam-nama">Nama Murid <span class="field-required">*</span></label><input type="text" id="nilam-nama" maxlength="160" placeholder="Nama penuh seperti dalam AINS" required></div>
+        <div><label class="field-label" for="nilam-tingkatan">Tahun / Tingkatan <span class="field-required">*</span></label><input type="text" id="nilam-tingkatan" maxlength="40" placeholder="Contoh: Tingkatan 4" required></div>
+        <div><label class="field-label" for="nilam-kelas">Kelas <span class="field-required">*</span></label><input type="text" id="nilam-kelas" maxlength="40" placeholder="Contoh: Imtiyaz" required></div>
+        <div><label class="field-label" for="nilam-jumlah">Jumlah Bahan <span class="field-required">*</span></label><input type="number" id="nilam-jumlah" min="0" step="1" required></div>
+        <div class="admin-form-actions"><button type="submit" class="btn-primary" id="nilam-save">Simpan Kedudukan</button></div>
       </form>
-      <div class="tablewrap"><table><thead><tr><th>Kelas</th><th>Jumlah Bacaan</th><th>Murid Aktif</th><th>Dikemas Kini</th></tr></thead><tbody id="nilam-tbody"></tbody></table></div>
-      <div class="empty" id="nilam-empty" style="display:none">Belum ada statistik NILAM direkodkan.</div>
+      <div class="tablewrap"><table><thead><tr><th>Kedudukan</th><th>Murid</th><th>Tahun / Tingkatan</th><th>Kelas</th><th>Jumlah Bahan</th><th>Dikemas Kini</th></tr></thead><tbody id="nilam-tbody"></tbody></table></div>
+      <div class="empty" id="nilam-empty" style="display:none">Belum ada carta NILAM direkodkan.</div>
       <p class="admin-statusline" id="nilam-message" aria-live="polite"></p>
     </div>
   </section>
@@ -190,6 +192,6 @@
 <script src="/assets/vendor/supabase-2.57.4.js?v=20260828-1"></script>
 <script src="/tempahan/assets/common.js?v=20260827-1"></script>
 <script src="/assets/admin-ui.js?v=20260827-1"></script>
-<script src="/assets/pages/pss-admin-index.js?v=20260827-1"></script>
+<script src="/assets/pages/pss-admin-index.js?v=20260905-1"></script>
 </body>
 </html>

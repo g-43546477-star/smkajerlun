@@ -42,6 +42,8 @@ async function visit(page, route) {
   const asyncMounts = {
     '/': '#home-program-list .achievement-card, #home-program-list .achievement-empty',
     '/program/': '#program-list .achievement-card, #program-list .achievement-empty',
+    '/pss/': '#home-nilam-list .pss-nilam-rank, #home-nilam-list .pss-widget-empty',
+    '/pss/digital/nilam/': '#nilam-leaderboard-body tr, #nilam-leaderboard-status',
     '/pss/digital/katalog/': '#book-list .catalog-book-card, #book-list .catalog-empty'
   };
   if (asyncMounts[route]) {
@@ -149,6 +151,12 @@ async function visit(page, route) {
   }
   if (route === '/pss/program/pengumuman/' && (!await page.locator('#notis-list').count() || !(await page.locator('h1').textContent()).includes('Pengumuman PSS'))) {
     failures.push(`${route}: announcement page markup is missing`);
+  }
+  if (route === '/pss/' && !(await page.locator('#home-nilam-list .pss-nilam-rank').count())) {
+    failures.push(`${route}: NILAM leaderboard widget is missing student rows`);
+  }
+  if (route === '/pss/digital/nilam/' && (!(await page.locator('#nilam-leaderboard').count()) || !(await page.locator('#nilam-leaderboard-body tr').count()))) {
+    failures.push(`${route}: full NILAM leaderboard table is missing student rows`);
   }
   if (route === '/pss/tentang-pss/pengawas-pss/') {
     const rosterText = await page.locator('#pelajar').textContent();

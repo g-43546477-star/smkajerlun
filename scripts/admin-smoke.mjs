@@ -37,7 +37,7 @@ const commonStub = String.raw`
     pss_book: books,
     pss_pinjaman: [{ id: 1, rujukan: 'PSS-001', nama: 'Murid Contoh', kelas: '3 Itqan', bahan: 'Buku Contoh', kod_bahan: 'B001', tarikh_pinjam: '2026-08-20', tarikh_pulang: '2026-08-27', status: 'Direkodkan', catatan: '' }],
     cadangan_buku: [{ id: 1, sumber: 'Pelajar', tajuk: 'Cadangan Contoh', pengarang: 'Penulis', nama: 'Murid Contoh', kelas: '3 Itqan', kategori: 'Fiksyen', sebab: 'Menarik', status: 'Baru', created_at: '2026-08-24T01:00:00Z' }],
-    nilam_stat: [{ id: 1, kelas: '3 Itqan', jumlah_bacaan: 120, murid_aktif: 28, dikemas_kini: '2026-08-24' }],
+    nilam_stat: [{ id: 1, kedudukan: 1, nama: 'Murid Contoh', tingkatan: 'Tingkatan 4', kelas: 'Imtiyaz', jumlah_bacaan: 120, murid_aktif: 0, dikemas_kini: '2026-09-04' }],
     admin_audit_log: [
       { id: 1, action: 'UPDATE', table_name: 'pengumuman', record_id: '2', metadata: { new: { portal: 'pss', tajuk: 'Makluman PSS' } }, created_at: '2026-08-24T01:00:00Z' },
       { id: 2, action: 'INSERT', table_name: 'achievement', record_id: '1', metadata: { new: { tajuk: 'Program sekolah' } }, created_at: '2026-08-23T01:00:00Z' }
@@ -277,6 +277,18 @@ async function pssAdminCheck(viewport) {
   if (!(await page.locator('#book-page').textContent()).includes('Halaman 2')) failures.push('PSS admin: catalog next page failed');
   await page.locator('#book-previous').click();
   if (!(await page.locator('#book-page').textContent()).includes('Halaman 1')) failures.push('PSS admin: catalog previous page failed');
+
+  await page.locator('.tab-btn[data-tab="nilam"]').click();
+  const nilamText = await page.locator('#nilam-tbody').textContent();
+  if (!nilamText.includes('Murid Contoh') || !nilamText.includes('Tingkatan 4') || !nilamText.includes('120')) failures.push('PSS admin: NILAM leaderboard fields did not render');
+  await page.locator('#nilam-kedudukan').fill('2');
+  await page.locator('#nilam-nama').fill('Murid Baharu');
+  await page.locator('#nilam-tingkatan').fill('Tingkatan 5');
+  await page.locator('#nilam-kelas').fill('Itqan');
+  await page.locator('#nilam-jumlah').fill('80');
+  await page.locator('#nilam-save').click();
+  const newNilam = await page.evaluate(() => window.__db.nilam_stat.find((row) => row.nama === 'Murid Baharu'));
+  if (!newNilam || newNilam.kedudukan !== 2 || newNilam.jumlah_bacaan !== 80) failures.push('PSS admin: NILAM leaderboard save flow did not persist student fields');
 
   const overflow = await page.evaluate(() => document.documentElement.scrollWidth > innerWidth + 2);
   if (overflow) failures.push('PSS admin: horizontal page overflow at ' + viewport.width + 'px');
