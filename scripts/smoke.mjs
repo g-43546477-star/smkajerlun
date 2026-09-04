@@ -77,7 +77,7 @@ async function visit(page, route) {
       heroImage: getComputedStyle(document.querySelector('.ios-hero')).backgroundImage.includes('hero-sekolah.jpg'),
       alertStrip: Boolean(document.querySelector('#home-alert-strip')),
       serviceDock: Boolean(document.querySelector('.ios-service-dock')),
-      program: document.querySelector('#home-program-list .achievement-card')?.textContent.includes('Karnival Maulidur Rasul') || false,
+      program: [...document.querySelectorAll('#home-program-list .achievement-card')].some((card) => card.textContent.includes('Karnival Maulidur Rasul')),
       announcementMoved: !document.querySelector('#notis-list')?.textContent.includes('Drone Edu Challenge'),
       announcementWhiteSpace: (() => {
         const item = document.createElement('div');
