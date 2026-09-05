@@ -17,7 +17,10 @@ for (const file of scriptFiles) {
   for (const match of source.matchAll(scriptReference)) paths.add(match[1]);
 }
 const local = [...paths].filter((value) => value.startsWith('/') && !value.startsWith('//'))
-  .map((value) => value.split('#')[0].split('?')[0]).filter(Boolean);
+  .map((value) => value.split('#')[0].split('?')[0])
+  // Dynamic asset folders such as `/assets/ajer-icons/` are prefixes,
+  // not routes that should resolve to an index document.
+  .filter((value) => Boolean(value) && !(value.endsWith('/') && value.startsWith('/assets/')));
 const unique = [...new Set(local)];
 const { server, url } = await startStaticServer();
 const failures = [];
