@@ -74,11 +74,11 @@ async function visit(page, route) {
   }
   if (route === '/') {
     const homepageMarkup = await page.evaluate(() => ({
-      hero: Boolean(document.querySelector('.ios-hero[aria-labelledby="hero-title"]')),
-      heroTitle: document.querySelector('#hero-title')?.textContent.includes('Selamat datang ke'),
-      heroImage: getComputedStyle(document.querySelector('.ios-hero')).backgroundImage.includes('hero-sekolah.jpg'),
+      hero: Boolean(document.querySelector('.ajer-hero[aria-labelledby="hero-title"]')),
+      heroTitle: document.querySelector('#hero-title')?.textContent.replace(/\s+/g, ' ').includes('Adab Dulu Baru Ilmu'),
+      heroImage: Boolean(document.querySelector('.ajer-hero-art img[src="/assets/hero-sekolah.jpg"]')),
       alertStrip: Boolean(document.querySelector('#home-alert-strip')),
-      serviceDock: Boolean(document.querySelector('.ios-service-dock')),
+      serviceDock: Boolean(document.querySelector('.ajer-entry')),
       program: [...document.querySelectorAll('#home-program-list .achievement-card')].some((card) => card.textContent.includes('Karnival Maulidur Rasul')),
       announcementMoved: !document.querySelector('#notis-list')?.textContent.includes('Drone Edu Challenge'),
       announcementWhiteSpace: (() => {
@@ -93,7 +93,7 @@ async function visit(page, route) {
       })()
     }));
     if (!homepageMarkup.hero) failures.push(`${route}: school hero markup is missing`);
-    if (!homepageMarkup.heroTitle) failures.push(`${route}: school welcome wording is missing`);
+    if (!homepageMarkup.heroTitle) failures.push(`${route}: school tagline is missing`);
     if (!homepageMarkup.heroImage) failures.push(`${route}: school aerial hero image is missing`);
     if (!homepageMarkup.alertStrip) failures.push(`${route}: announcement alert strip is missing`);
     if (!homepageMarkup.serviceDock) failures.push(`${route}: service dock is missing`);
@@ -183,11 +183,9 @@ async function visit(page, route) {
       failures.push(`${route}: PSS card illustration set is missing or failed to load`);
     }
     const illustrationBackgrounds = await page.evaluate(() => [
-      ['.pss-weekly-book', 'rak-maya-pss.svg'],
-      ['.pss-weekly-activity', 'aktiviti-pss.svg'],
-      ['.pss-weekly-nilam', 'nilam-pss.svg'],
-      ['.pss-home-widgets .pss-widget:first-child', 'cadangan-buku-pss.svg'],
-      ['.pss-service-strip > .pss-shell', 'komuniti-pss.svg']
+      ['.pss-weekly-book', 'reading-pick.svg'],
+      ['.pss-weekly-activity', 'events.svg'],
+      ['.pss-weekly-nilam', 'podium.svg']
     ].map(([selector, asset]) => ({ asset, loaded: getComputedStyle(document.querySelector(selector), '::after').backgroundImage.includes(asset) })));
     if (illustrationBackgrounds.some((illustration) => !illustration.loaded)) {
       failures.push(`${route}: decorative SVG illustration references are incomplete`);
@@ -289,9 +287,9 @@ for (const viewport of [{ name: 'desktop', width: 1440, height: 1000 }, { name: 
     await visit(page, route);
     if (route === '/' && viewport.name === 'desktop') {
       const dropdown = page.locator('nav.tabs details').first();
-      await dropdown.hover();
+      await dropdown.locator('summary').click();
       await page.waitForTimeout(220);
-      if (!(await dropdown.evaluate((node) => node.hasAttribute('open')))) failures.push('website desktop: hover menu did not open');
+      if (!(await dropdown.evaluate((node) => node.hasAttribute('open')))) failures.push('website desktop: click menu did not open');
       await page.mouse.click(30, 30);
       await page.waitForTimeout(120);
       if (await dropdown.evaluate((node) => node.hasAttribute('open'))) failures.push('website desktop: outside click did not close menu');

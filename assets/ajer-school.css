@@ -1,0 +1,215 @@
+/* AJER — cheerful school palette and content-first destinations. */
+:root{--ajer-green:#116974;--ajer-dark:#123f48;--ajer-mist:#e0f3ef;--ajer-paper:#fffdf8;--ajer-gold:#f6c85f;--ajer-ink:#183c46;--ajer-muted:#50666a;--ajer-line:#d6e6e5;--ds-forest-950:#123f48;--ds-forest-900:#116974;--ds-forest-700:#187a79;--ds-forest-100:#e0f3ef;--ds-paper-50:#fffdf8;--ds-ink-900:#183c46;--ds-gold-600:#f6c85f;--sun:#fff0b5;--coral:#ffe1d4;--sky:#e0efff;--mint:#dff3e9}
+body,body.ajer-compact,body.pss-reading-room{background:var(--ajer-paper);color:var(--ajer-ink)}
+body .topbar{background:var(--ajer-dark)}
+body .sitehead,body.ios-home .sitehead,body.pss-reading-room .pss-nav{background:#fffdf8f5;border-bottom:1px solid var(--ajer-line)}
+body .sitehead .brandrow img.logo{border:0;background:none}
+body .ajer-eyebrow,body .ios-overline{color:#745415}
+body .ajer-hero-copy h1 em{color:#148582}
+body.ajer-compact .ajer-hero-art{padding:0 0 30px;margin:0}
+body.ajer-compact .ajer-hero-art>img:first-child{border-radius:24px 80px 24px 24px;height:365px}
+body.ajer-compact .ajer-hero-copy>p{font-size:18px}
+body.ajer-compact .ajer-hero{padding:44px 32px 35px}
+body.ajer-compact .ajer-hero-copy h1{font-size:clamp(54px,6.2vw,84px)}
+.ajer-icon{display:block;flex:none;object-fit:contain;width:64px;height:64px}
+body .ajer-entry{border:0;gap:18px;padding:24px 0;margin:0 0 40px}
+body .ajer-entry>a{padding:20px;border-radius:16px;background:var(--mint);gap:15px}
+body .ajer-entry>a:nth-child(2){background:var(--sun)}
+body .ajer-entry>a:nth-child(3){background:var(--sky)}
+body .ajer-entry>a .ajer-icon{width:62px;height:62px}
+body .ajer-entry small,body .ajer-home-contact,body .ios-alert-date{display:none}
+body .ajer-entry b{font-size:18px}
+body .ajer-entry>a:hover{transform:translateY(-3px)}
+body.ajer-compact .ios-alert-strip{border:0;background:var(--sun);padding:14px 20px;border-radius:10px}
+body.ajer-compact .ios-program-panel{position:relative;border:0;padding:0;margin-bottom:45px}
+.ajer-program-controls{display:flex;align-items:center;gap:8px;justify-content:flex-end;margin:0 0 16px}
+.ajer-program-controls button{border:1px solid var(--ajer-line);background:white;border-radius:9px;min-height:42px;padding:8px 16px;color:var(--ajer-dark);font-weight:600}
+.ajer-program-controls button:hover{background:var(--sun)}
+.ajer-program-controls span{font-size:13px;min-width:50px;text-align:right;font-variant-numeric:tabular-nums}
+body.ajer-compact #home-program-list{display:flex;gap:20px;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:thin;position:relative;min-height:0;padding:0 0 10px;overscroll-behavior-x:contain}
+body.ajer-compact #home-program-list .achievement-card,body.ajer-compact #home-program-list .achievement-card:first-child,body.ajer-compact #home-program-list .achievement-card:nth-child(2){display:grid;grid-template-columns:1.1fr 1fr;flex:0 0 100%;width:100%;min-width:0;grid-row:auto;scroll-snap-align:start;background:var(--sky);padding:0;border:0;border-radius:18px;overflow:hidden;box-shadow:none}
+body.ajer-compact #home-program-list .achievement-card:nth-child(3n+2){background:var(--sun)}
+body.ajer-compact #home-program-list .achievement-card:nth-child(3n){background:var(--mint)}
+body.ajer-compact #home-program-list .achievement-card-media,body.ajer-compact #home-program-list .achievement-card:first-child .achievement-card-media{height:330px;max-height:none;min-height:0;background:#e8efeb}
+body.ajer-compact #home-program-list .achievement-card-media img{width:100%;height:100%;object-fit:contain}
+body.ajer-compact #home-program-list .achievement-card-body,body.ajer-compact #home-program-list .achievement-card:first-child .achievement-card-body{padding:32px;display:flex;flex-direction:column;justify-content:center;align-items:start;gap:18px}
+body.ajer-compact #home-program-list .achievement-card h3,body.ajer-compact #home-program-list .achievement-card:first-child h3{font:750 29px/1.3 var(--font-display);color:var(--ajer-dark);margin:0}
+body.ajer-compact #home-program-list .achievement-card p{display:none}
+body.ajer-compact #home-program-list .achievement-card-link{display:block;font-weight:700;padding:10px 15px;background:white;border-radius:8px;color:var(--ajer-dark)}
+body.ajer-compact #home-program-list .achievement-card-date{font:500 14px var(--font-body);color:var(--ajer-muted)}
+/* Content lives beside its navigation, not behind an extra gateway. */
+body .page-guide[hidden],body .school-quick-nav[hidden],body .academic-access[hidden]{display:none!important}
+body .pagehead,body:not(.ios-home) .pagehead{padding:28px 30px;background:var(--sky)}
+body .pagehead h2,body:not(.ios-home) .pagehead h2{font-size:38px;line-height:1.15;font-weight:800;margin:0}
+body .pagehead p{display:none}
+body .pagehead .pattern{display:none}
+body .academic-main,body .school-section-main,body .info-main{max-width:1256px;margin:auto;padding:28px 32px 55px}
+.ajer-content-nav{display:flex;justify-content:center;gap:16px;flex-wrap:wrap;padding:0;margin:0 0 34px}
+.ajer-content-nav>a,.ajer-content-nav>button{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;flex:1;min-width:140px;max-width:250px;padding:20px 16px;border:1px solid var(--ajer-line);border-radius:18px;background:white;color:var(--ajer-dark);font:700 16px var(--font-body);text-align:center}
+.ajer-content-nav>a:hover,.ajer-content-nav>button:hover{background:var(--sun);transform:translateY(-3px)}
+.ajer-content-nav>button[aria-selected=true]{border:2px solid var(--ajer-green);background:var(--mint)}
+body .academic-section-heading p,body .school-section-heading p,body .koku-intro>p{display:none}
+body .academic-access-card small,body .school-quick-card small{display:none}
+body .academic-live-card{border-radius:16px;border-top:4px solid #72bdc4}
+body .academic-calendar-card{background:#edf8f5}
+body .academic-notice-card{background:#fff8dc}
+/* Central school information. */
+body.ajer-content-info .pagehead{text-align:center;background:var(--mint);padding:32px}
+body.ajer-content-info .info-main{max-width:1160px}
+body.ajer-content-info .subtabs{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));padding:0;background:none;gap:12px;margin:0 0 30px;overflow:visible;white-space:normal}
+body.ajer-content-info .subtab{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:9px;min-height:115px;padding:14px 8px;border:1px solid var(--ajer-line);border-radius:16px;background:white;color:var(--ajer-dark);font:700 14px var(--font-body);white-space:normal}
+body.ajer-content-info .subtab.active{background:var(--sun);border:2px solid #b38b21;color:var(--ajer-dark)}
+body.ajer-content-info .subtab .ajer-icon{width:48px;height:48px}
+body .profile-identity{background:white;border:1px solid var(--ajer-line);border-radius:20px;gap:32px}
+body .profile-identity h2{font-size:29px}
+body .profile-facts>div{background:var(--sky)}
+body .profile-facts>div:nth-child(3n){background:var(--sun)}
+body .profile-facts>div:nth-child(3n+1){background:var(--mint)}
+body .profile-identity-copy .ajer-profile-image{height:200px;border-radius:16px}
+body .profile-content-heading{margin-top:30px}
+body .staff-section-title{font-size:23px;border:0;padding:0}
+body .ajer-staff-filter{background:var(--sky)}
+/* Kokurikulum: recognisable visual identities for every actual unit. */
+body .koku-columns{display:flex;flex-direction:column;gap:32px}
+body .koku-column{padding:0;background:none;border:0;border-radius:0}
+body .koku-column-head{justify-content:flex-start;gap:12px;padding:0 0 16px}
+body .koku-column-head>span{display:none}
+body .koku-column-head h3{font-size:27px;color:var(--ajer-dark)}
+body .koku-unit-card{padding:0;border:0;background:none;box-shadow:none}
+body .koku-unit-card .gk{font-size:14px;margin-bottom:16px;padding:12px 16px;border-radius:8px;background:var(--mint)}
+body .koku-unit-card .kp-list{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;list-style:none;padding:0;margin:0}
+body .koku-unit-card .kp-list>li{display:grid;grid-template-columns:76px minmax(0,1fr);column-gap:16px;row-gap:8px;align-content:center;align-items:center;padding:22px 18px;background:white;border:1px solid var(--ajer-line);border-radius:17px;min-height:148px;text-align:left}
+body .koku-unit-card .kp-list>li>.ajer-icon{grid-column:1;grid-row:1 / 3;width:76px;height:76px}
+body .koku-unit-card .kp-list>li>b{grid-column:2;font:700 17px/1.35 var(--font-display);color:var(--ajer-dark)}
+body .koku-unit-card .kp-list>li>span{grid-column:2;font:400 14px/1.5 var(--font-body);color:var(--ajer-muted);white-space:pre-line}
+/* Readable organisation charts: clear tiers, consistent people cards. */
+body .org-svg-wrap{overflow:visible;border:0;background:transparent;padding:0}
+.ajer-org-tree{padding:22px;background:#eef7fa;border-radius:20px}
+.org-tier{position:relative;display:flex;justify-content:center;flex-wrap:wrap;gap:18px;padding:24px 0;border-top:2px solid #a7cdd1}
+.org-tier:first-child{border:0;padding-top:0}
+.org-tier-head:after{content:'';position:absolute;bottom:0;left:50%;height:24px;width:2px;background:#a7cdd1}
+.org-person{display:flex;align-items:center;gap:14px;flex:1 1 215px;max-width:320px;background:white;border-radius:14px;padding:20px;border-top:4px solid #78c8c7;box-shadow:0 3px 0 #d6e9ed}
+.org-tier-head .org-person{max-width:430px;flex-basis:430px;background:var(--sun);border-color:#ebbc4c}
+.org-person h3{font:700 17px/1.4 var(--font-display);margin:8px 0;color:var(--ajer-dark)}
+.org-person small{font-size:12px;color:var(--ajer-muted)}
+.org-role{font:700 12px/1.45 var(--font-body);color:var(--ajer-green);display:block}
+.org-avatar{flex:none;display:flex;align-items:center;justify-content:center;width:46px;height:46px;border-radius:50%;background:var(--mint);color:var(--ajer-dark);font:700 15px var(--font-display)}
+.ajer-chart-tools{display:flex;justify-content:flex-end;margin:12px 0}
+.ajer-chart-tools button{background:white;border:1px solid var(--ajer-line);padding:10px 15px;border-radius:8px;color:var(--ajer-dark)}
+body.pss-organization .pss-chart-panel{background:none;border:0;padding:24px 0}
+body.pss-organization .org-chart{background:#eef7fa;padding:24px;border:0;border-radius:20px}
+body.pss-organization .org-node{background:white;border:0;border-top:4px solid #78c8c7;border-radius:14px;box-shadow:0 3px 0 #d6e9ed;padding:22px;max-width:480px;color:var(--ajer-dark)}
+body.pss-organization .org-node.lead{background:var(--sun);border-color:#e2ac31}
+body.pss-organization .org-node.primary{background:var(--mint)}
+body.pss-organization .org-node>.ajer-icon{width:48px;height:48px;margin:0 auto 12px}
+body.pss-organization .org-node>span{font:700 12px var(--font-body);color:var(--ajer-green);letter-spacing:0}
+body.pss-organization .org-node>strong{font:750 19px/1.4 var(--font-display);color:var(--ajer-dark);margin:8px 0}
+body.pss-organization .org-node small{color:var(--ajer-muted);font-size:14px}
+body.pss-organization .org-level{gap:20px}
+body.pss-organization .org-level:before,body.pss-organization .org-level:after{background:#a7cdd1}
+body.pss-organization .committee-grid,body.pss-organization .unit-grid{gap:18px}
+body.pss-organization :is(.committee-grid,.unit-grid,.support-grid) article{border:1px solid var(--ajer-line);border-radius:16px;box-shadow:none;background:white;padding:90px 22px 22px}
+body.pss-organization :is(.committee-grid,.unit-grid,.support-grid) article:before{width:75px;height:65px;top:12px}
+body.pss-organization .pss-tabbar{background:var(--sky)}
+body.pss-organization .pss-tab.active{background:var(--ajer-green);color:white}
+.ajer-org-list .org-tier,.ajer-org-list .org-level{display:flex!important;flex-direction:column;align-items:stretch;border:0;padding:10px 0!important}
+.ajer-org-list .org-person,body.pss-organization .ajer-org-list .org-node{width:100%;max-width:none;text-align:left}
+.ajer-org-list .org-tier:after,.ajer-org-list .org-level:after,.ajer-org-list .org-level:before{display:none}
+/* Asrama: one selected view, shorter navigation, original guidance retained. */
+body.ajer-content-asrama .pagehead{background:var(--coral);text-align:center}
+body .ajer-asrama-main{max-width:1120px}
+body .asrama-tabs{margin-bottom:30px}
+body .asrama-tabs>button{max-width:270px}
+body .ajer-asrama-main .asrama-schedule{margin:0;padding:28px;background:white;border:1px solid var(--ajer-line);border-radius:20px}
+body .asrama-schedule-head h3,body .asrama-rules h3{font:750 27px var(--font-display)}
+body .asrama-schedule-head p,body .asrama-rules-head p,body .schedule-note{display:none}
+body .schedule-tabs{display:flex;gap:9px;flex-wrap:wrap;margin:20px 0;background:none;padding:0}
+body .schedule-tab{flex:1;min-height:46px;background:var(--sky);color:var(--ajer-dark);border:0;border-radius:10px;padding:12px 16px;font-weight:700}
+body .schedule-tab.active{background:var(--ajer-green);color:white}
+body .schedule-table{border-collapse:separate;border-spacing:0 6px;background:none}
+body .schedule-table th{background:var(--ajer-green);font-family:var(--font-body);font-size:14px;text-transform:none;padding:15px}
+body .schedule-table td{padding:15px;font-family:var(--font-body);font-size:15px;background:#f2f8fb;border:0;line-height:1.55}
+body .schedule-table td:first-child{font-family:var(--font-body);font-size:14px;color:var(--ajer-green);font-weight:700;white-space:normal;min-width:130px}
+body .schedule-table .schedule-group td{background:var(--sun);color:var(--ajer-dark)}
+body .schedule-table .schedule-info td{background:var(--mint)}
+body .asrama-rules{margin:0;background:none;border:0;padding:0}
+body .rule-group{border:1px solid var(--ajer-line);border-radius:15px;overflow:hidden;margin:12px 0;background:white}
+body .rule-group summary{padding:20px 24px;background:var(--sky);font:700 17px var(--font-body);color:var(--ajer-dark)}
+body .rule-group:nth-child(2n) summary{background:var(--sun)}
+body .rule-group-body{padding:24px;line-height:1.8}
+body .rule-group-body li{margin-bottom:12px}
+body .rules-time-note{background:var(--mint);border:0;border-radius:12px;padding:18px}
+@media(max-width:1000px){body .koku-unit-card .kp-list{grid-template-columns:1fr 1fr}body .ajer-entry>a{padding:16px;gap:10px}body .ajer-entry b{font-size:16px}body .ajer-entry>a .ajer-icon{width:50px;height:50px}}
+@media(max-width:700px){
+ body.ajer-compact .ajer-hero{padding:30px 22px 20px;gap:25px}
+ body.ajer-compact .ajer-hero-art>img:first-child{height:230px;border-radius:18px 50px 18px 18px}
+ body.ajer-compact .ajer-hero-copy h1{font-size:56px}
+ body.ajer-compact .ajer-hero-copy>p{font-size:16px}
+ body .ajer-entry{grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-bottom:28px}
+ body .ajer-entry>a{flex-direction:column;text-align:center;padding:16px 5px;gap:10px}
+ body .ajer-entry>a>span:last-child{display:none}
+ body .ajer-entry b{font-size:13px;letter-spacing:0}
+ body.ajer-compact #home-program-list .achievement-card,body.ajer-compact #home-program-list .achievement-card:first-child{display:flex;flex-direction:column;gap:0;flex-basis:100%;padding:0}
+ body.ajer-compact #home-program-list .achievement-card-media,body.ajer-compact #home-program-list .achievement-card:first-child .achievement-card-media{height:210px;width:100%}
+ body.ajer-compact #home-program-list .achievement-card-body,body.ajer-compact #home-program-list .achievement-card:first-child .achievement-card-body{padding:22px;gap:12px;flex:1}
+ body.ajer-compact #home-program-list .achievement-card h3,body.ajer-compact #home-program-list .achievement-card:first-child h3{font-size:21px}
+ body .pagehead,body:not(.ios-home) .pagehead{padding:24px 22px}
+ body .pagehead h2,body:not(.ios-home) .pagehead h2{font-size:30px}
+ body .academic-main,body .school-section-main,body .info-main{padding:22px 18px 40px}
+ .ajer-content-nav{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-bottom:25px}
+ .ajer-content-nav>a,.ajer-content-nav>button{min-width:0;max-width:none;padding:16px 10px;font-size:14px;gap:10px}
+ .ajer-content-nav .ajer-icon{width:50px;height:50px}
+ body.ajer-content-info .subtabs{grid-template-columns:repeat(3,minmax(0,1fr));gap:9px}
+ body.ajer-content-info .subtab{min-height:100px;font-size:13px}
+ body .profile-identity h2{font-size:25px}
+ body .koku-unit-card .kp-list{grid-template-columns:1fr;gap:12px}
+ body .koku-unit-card .kp-list>li{min-height:110px;padding:18px;grid-template-columns:68px minmax(0,1fr)}
+ body .koku-unit-card .kp-list>li>.ajer-icon{width:68px;height:68px}
+ .ajer-org-tree{padding:18px}
+ .org-tier{flex-direction:column;gap:12px;border-left:2px solid #a7cdd1;border-top:0;padding:0 0 20px 16px}
+ .org-tier:first-child{border-left:2px solid #a7cdd1}
+ .org-tier-head:after{display:none}
+ .org-person,.org-tier-head .org-person{flex:auto;max-width:none;padding:16px;position:relative}
+ .org-person:before{content:'';position:absolute;left:-18px;top:28px;width:16px;height:2px;background:#a7cdd1}
+ .org-person h3{font-size:16px}
+ body.pss-organization .org-chart{padding:18px}
+ body.pss-organization .org-node>.ajer-icon{margin:0 0 12px;width:42px;height:42px}
+ body.pss-organization .org-node{max-width:none;padding:18px}
+ body.pss-organization .org-node>strong{font-size:17px}
+ body .asrama-tabs{grid-template-columns:repeat(3,minmax(0,1fr))}
+ body .asrama-tabs>button{font-size:13px}
+ body .ajer-asrama-main .asrama-schedule{padding:18px}
+ body .schedule-tab{font-size:13px;padding:10px}
+ body .schedule-table td{font-size:14px;padding:12px}
+ body .schedule-table td:first-child{min-width:95px;font-size:13px}
+ body .rule-group summary{padding:18px;font-size:16px}
+ body .rule-group-body{padding:18px;font-size:15px}
+}
+@media(prefers-reduced-motion:reduce){body.ajer-compact #home-program-list{scroll-behavior:auto}}
+@media print{.ajer-content-nav,.ajer-chart-tools,.ajer-program-controls{display:none!important}body .ajer-asrama-main [role=tabpanel]{display:block!important}.org-person,.org-node{break-inside:avoid}}
+
+body .koku-column{width:100%;max-width:none}
+body .koku-column-head{background:transparent;color:var(--ajer-dark);padding:16px 0}
+body .koku-column-head h3{color:var(--ajer-dark)}
+@media(max-width:700px){
+ body .schedule-table{width:100%;min-width:0;display:block}
+ body .schedule-table thead{display:none}
+ body .schedule-table tbody{display:grid;gap:10px}
+ body .schedule-table tr{display:grid;grid-template-columns:90px minmax(0,1fr);border-radius:10px;overflow:hidden;background:#f2f8fb}
+ body .schedule-table td{display:block;min-width:0!important}
+ body .schedule-table td:nth-child(3){grid-column:2;padding-top:0;color:var(--ajer-muted)}
+ body .schedule-table td[colspan="3"]{grid-column:1/-1}
+ body .schedule-table td[colspan="2"]{grid-column:2}
+ body .schedule-table tr:has(>td:only-child) td{grid-column:1/-1}
+ body .schedule-table td:empty{display:none}
+}
+
+body.pss-organization .org-chart .org-node.lead :is(span,strong,small){color:var(--ajer-dark)!important}
+body .eyebrow,body .ios-overline{color:#87600d}
+
+#profil-blocks details{padding:0;overflow:hidden}
+#profil-blocks summary{padding:20px 24px;cursor:pointer;font:700 18px var(--font-body);color:var(--ajer-dark);background:var(--sky)}
+#profil-blocks details:nth-child(even) summary{background:var(--mint)}
+#profil-blocks details> :not(summary){margin:20px 24px}
+body .koku-column:nth-child(n) .koku-column-head{background:transparent;border-bottom:0}
+body .profile-identity .profile-identity-link{color:#85600d}

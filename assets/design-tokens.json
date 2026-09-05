@@ -1,9 +1,24 @@
 {
   "primitive": {
-    "forest": { "950": "#102a27", "900": "#153d38", "700": "#0d6963", "100": "#e6efec" },
-    "gold": { "600": "#c89e43", "100": "#f9e6b0" },
-    "paper": { "50": "#fffcf5", "100": "#f7f4ec" },
-    "ink": { "900": "#14201f", "600": "#68716e" }
+    "forest": {
+      "950": "#092a25",
+      "900": "#123e35",
+      "700": "#0d6963",
+      "100": "#e5efe9"
+    },
+    "gold": {
+      "600": "#c6a35b",
+      "100": "#fbf2dc",
+      "700": "#8a6410"
+    },
+    "paper": {
+      "50": "#f5f8f6",
+      "100": "#ffffff"
+    },
+    "ink": {
+      "900": "#172c26",
+      "600": "#5c6764"
+    }
   },
   "semantic": {
     "background": "paper.100",
@@ -12,12 +27,16 @@
     "textMuted": "ink.600",
     "brand": "forest.900",
     "brandStrong": "forest.950",
-    "accent": "gold.600"
+    "accent": "gold.700"
   },
   "component": {
     "appBar": "surface",
     "card": "surface",
     "buttonPrimary": "brand",
     "buttonSecondary": "forest.100"
+  },
+  "typography": {
+    "display": "Manrope",
+    "body": "Source Sans 3"
   }
 }

@@ -51,7 +51,7 @@
   setupAccess();
   if (view === 'hub' || view === 'home') {
     renderSchoolDirectory('directory-list');
-    list('resource_file', 'resource-list', function (r) { return '<article class="portal-row"><div><b>' + esc(r.tajuk) + '</b><p>' + esc(r.penerangan || r.kategori) + '</p></div><a href="' + esc(safeUrl(r.url, '#')) + '" target="_blank" rel="noopener">Buka</a></article>'; });
+    list('resource_file', 'resource-list', function (r) { return '<article class="portal-row" data-resource-category="' + esc(r.kategori || 'umum') + '"><div><b>' + esc(r.tajuk) + '</b><p>' + esc(r.penerangan || r.kategori) + '</p></div><a href="' + esc(safeUrl(r.url, '#')) + '" target="_blank" rel="noopener">Buka</a></article>'; });
     list('achievement', 'achievement-list', function (r) {
       var href = r.slug ? '/program/?slug=' + encodeURIComponent(r.slug) : safeUrl(r.pautan, '/program/');
       return '<article class="portal-row"><div><b>' + esc(r.tajuk) + '</b><p>' + esc(r.penerangan || 'Program dan aktiviti rasmi sekolah.') + '</p><small>' + esc(r.tarikh || '') + '</small></div><a href="' + esc(href) + '">Baca</a></article>';
@@ -233,7 +233,16 @@
             return (r.data || []).map(function (x) { return { label:s[2], title:x.tajuk || x.nama, detail:x.keterangan || x.penerangan || x.pengarang || x.kandungan || x.jawatan || '', href:(s[0] === 'achievement' && x.slug) ? '/program/?slug=' + encodeURIComponent(x.slug) : ((s[0] === 'achievement' && x.pautan) ? x.pautan : s[3]) }; });
           });
         }));
-        var items = all.flat();
+        if (input.value.trim() !== q) return;
+        var pages = [
+          ['Profil sekolah', '/info/?tab=profil'], ['Warga sekolah', '/info/?tab=warga'],
+          ['Hubungi sekolah', '/info/?tab=hubungi'], ['Akademik', '/akademik/'],
+          ['Kokurikulum', '/kokurikulum/'], ['Asrama', '/asrama/'], ['Portal PSS', '/pss/'],
+          ['Tempahan bilik', '/tempahan/'], ['Takwim sekolah', '/info/?tab=takwim'],
+          ['Borang dan dokumen', '/perkhidmatan/muat-turun/']
+        ].filter(function (item) { return item[0].toLocaleLowerCase('ms-MY').includes(q.toLocaleLowerCase('ms-MY')); })
+          .map(function (item) { return { label: 'Halaman sekolah', title: item[0], detail: 'Maklumat dan perkhidmatan SMK Agama Jerlun.', href: item[1] }; });
+        var items = pages.concat(all.flat());
         results.innerHTML = items.length ? items.map(function (x) { return '<article class="portal-row"><div><small>' + esc(x.label) + '</small><b>' + esc(x.title) + '</b><p>' + esc(String(x.detail).slice(0, 180)) + '</p></div><a href="' + esc(safeUrl(x.href, '/')) + '">Buka</a></article>'; }).join('') : '<div class="portal-empty">Tiada padanan ditemui.</div>';
       }, 220);
     });

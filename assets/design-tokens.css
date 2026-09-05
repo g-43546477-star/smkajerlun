@@ -21,18 +21,18 @@
 :root {
   /* ---------- Primitive: warna ---------- */
   --ds-forest-950: #092a25;
-  --ds-forest-900: #0f3f38;
+  --ds-forest-900: #123e35;
   --ds-forest-700: #0d6963;
-  --ds-forest-100: #e8f0ed;
+  --ds-forest-100: #e5efe9;
 
   /* Emas: DUA nilai untuk tujuan berbeza (lihat nota 3 di atas) */
   --ds-gold-700: #8a6410; /* TEKS/ikon atas latar cerah — AA lulus */
-  --ds-gold-600: #c89e43; /* LATAR/aksen sahaja — bukan teks atas putih */
+  --ds-gold-600: #c6a35b; /* LATAR/aksen sahaja — bukan teks atas putih */
   --ds-gold-100: #fbf2dc;
 
-  --ds-paper-50: #fafaf8;
+  --ds-paper-50: #f5f8f6;
   --ds-paper-100: #ffffff;
-  --ds-ink-900: #12211f;
+  --ds-ink-900: #172c26;
   --ds-ink-600: #5c6764;
   --ds-line-200: #e2e5e2;
   --ds-success-100: #e1f3e8;
@@ -94,8 +94,8 @@
   /* Taipan: satu keluarga sans untuk semua tajuk & badan.
      Serif dikekalkan sebagai token untuk petikan/lirik sahaja
      (cth kad Lagu Sekolah), bukan untuk tajuk seksyen. */
-  --ds-font-display: "Plus Jakarta Sans", system-ui, sans-serif;
-  --ds-font-body: "Plus Jakarta Sans", system-ui, sans-serif;
+  --ds-font-display: "Manrope", system-ui, sans-serif;
+  --ds-font-body: "Source Sans 3", system-ui, sans-serif;
   --ds-font-quote: "DM Serif Display", Georgia, serif;
   --ds-font-mono: "IBM Plex Mono", ui-monospace, monospace;
 

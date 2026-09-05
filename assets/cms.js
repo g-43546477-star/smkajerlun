@@ -95,9 +95,10 @@
     let card = null, lastTajuk = null, first = true;
     rows.forEach(function (b) {
       if (b.tajuk !== lastTajuk || first) {
-        card = document.createElement('div');
+        const compactProfile = mount.id === 'profil-blocks';
+        card = document.createElement(compactProfile ? 'details' : 'div');
         card.className = 'content-card';
-        if (b.tajuk) { const h = document.createElement('h3'); h.textContent = b.tajuk; card.appendChild(h); }
+        if (b.tajuk) { const h = document.createElement(compactProfile ? 'summary' : 'h3'); h.textContent = b.tajuk; card.appendChild(h); }
         mount.appendChild(card);
         lastTajuk = b.tajuk;
         first = false;
@@ -214,10 +215,24 @@
     if (!mount) return;
     options = options || {};
     const limit = options.limit || 6;
-    const achievementResponse = await cmsClient.from('achievement').select('*')
-      .eq('kategori', 'sekolah')
-      .order('tarikh', { ascending: false }).order('susunan').limit(limit);
-    const rows = achievementResponse.error ? [] : (achievementResponse.data || []);
+    let rows = [];
+    if (options.all) {
+      // Page through the full published school-program collection.
+      let from = 0;
+      while (true) {
+        const result = await cmsClient.from('achievement').select('*').eq('kategori', 'sekolah')
+          .order('tarikh', { ascending: false }).order('susunan').order('id').range(from, from + 99);
+        if (result.error) { rows = []; break; }
+        const batch = result.data || [];
+        rows = rows.concat(batch);
+        if (batch.length < 100) break;
+        from += 100;
+      }
+    } else {
+      const result = await cmsClient.from('achievement').select('*').eq('kategori', 'sekolah')
+        .order('tarikh', { ascending: false }).order('susunan').limit(limit);
+      rows = result.error ? [] : (result.data || []);
+    }
     mount.replaceChildren();
     if (!rows.length) {
       const empty = document.createElement('p');
@@ -312,66 +327,14 @@
     }
   };
 
-  function box(x, y, w, h, cls, role, nama, gred) {
-    return '<foreignObject x="' + x + '" y="' + y + '" width="' + w + '" height="' + h + '">' +
-      '<div xmlns="http://www.w3.org/1999/xhtml" class="orgbox ' + cls + '">' +
-      '<span class="role">' + esc(role || '') + '</span><span class="nm">' + esc(nama) + '</span>' +
-      (gred ? '<span class="gr">Gred ' + esc(gred) + '</span>' : '') +
-      '</div></foreignObject>';
-  }
-
   function buildOrgSvg(pengetua, pkList, ketuaList) {
-    const W = 1160;
-    const pengetuaY = 20, pengetuaH = 78, pengetuaW = 300;
-    const pkY = 176, pkH = 82, pkW = 210, pkGap = 30;
-    const ketuaY = 330, ketuaH = 86, ketuaW = 190, ketuaGap = 22;
-    let lines = '', boxes = '';
-    const pengetuaX = (W - pengetuaW) / 2;
-    const pengetuaCx = pengetuaX + pengetuaW / 2;
-    const pengetuaBottom = pengetuaY + pengetuaH;
-
-    if (pengetua) boxes += box(pengetuaX, pengetuaY, pengetuaW, pengetuaH, 'top', pengetua.jawatan || 'Pengetua', pengetua.nama, pengetua.gred);
-
-    let pkCenters = [];
-    if (pkList.length) {
-      const totalW = pkList.length * pkW + (pkList.length - 1) * pkGap;
-      const startX = (W - totalW) / 2;
-      pkList.forEach(function (s, i) {
-        const x = startX + i * (pkW + pkGap);
-        const cx = x + pkW / 2;
-        pkCenters.push(cx);
-        boxes += box(x, pkY, pkW, pkH, 'tier2', s.jawatan, s.nama, s.gred);
-      });
-      const busY = pengetuaBottom + Math.max(10, (pkY - pengetuaBottom) / 2);
-      if (pengetua) {
-        lines += '<line x1="' + pengetuaCx + '" y1="' + pengetuaBottom + '" x2="' + pengetuaCx + '" y2="' + busY + '"/>';
-        lines += '<line x1="' + pkCenters[0] + '" y1="' + busY + '" x2="' + pkCenters[pkCenters.length - 1] + '" y2="' + busY + '"/>';
-      }
-      pkCenters.forEach(function (cx) { lines += '<line x1="' + cx + '" y1="' + busY + '" x2="' + cx + '" y2="' + pkY + '"/>'; });
+    function person(staff) {
+      return '<article class="org-person"><span class="org-avatar" aria-hidden="true">' + esc(String(staff.nama || '').split(/\s+/).slice(0, 2).map(function (word) { return word.charAt(0); }).join('')) + '</span><div><span class="org-role">' + esc(staff.jawatan || '') + '</span><h3>' + esc(staff.nama || '') + '</h3>' + (staff.gred ? '<small>Gred ' + esc(staff.gred) + '</small>' : '') + '</div></article>';
     }
-
-    let ketuaCenters = [];
-    if (ketuaList.length) {
-      const totalW = ketuaList.length * ketuaW + (ketuaList.length - 1) * ketuaGap;
-      const startX = Math.max(20, (W - totalW) / 2);
-      ketuaList.forEach(function (s, i) {
-        const x = startX + i * (ketuaW + ketuaGap);
-        const cx = x + ketuaW / 2;
-        ketuaCenters.push(cx);
-        boxes += box(x, ketuaY, ketuaW, ketuaH, 'tier3', s.jawatan, s.nama, s.gred);
-      });
-      if (pengetua) {
-        const trunkX = 20;
-        const busY2 = Math.max(pkY + pkH + 20, pengetuaBottom + 40);
-        lines += '<line x1="' + pengetuaCx + '" y1="' + pengetuaBottom + '" x2="' + trunkX + '" y2="' + pengetuaBottom + '"/>';
-        lines += '<line x1="' + trunkX + '" y1="' + pengetuaBottom + '" x2="' + trunkX + '" y2="' + busY2 + '"/>';
-        lines += '<line x1="' + trunkX + '" y1="' + busY2 + '" x2="' + ketuaCenters[ketuaCenters.length - 1] + '" y2="' + busY2 + '"/>';
-        ketuaCenters.forEach(function (cx) { lines += '<line x1="' + cx + '" y1="' + busY2 + '" x2="' + cx + '" y2="' + ketuaY + '"/>'; });
-      }
-    }
-    const totalH = ketuaList.length ? ketuaY + ketuaH + 10 : (pkList.length ? pkY + pkH + 10 : pengetuaBottom + 10);
-    return '<svg viewBox="0 0 ' + W + ' ' + totalH + '" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Carta organisasi barisan kepimpinan SMK Agama Jerlun">' +
-      '<g style="stroke:var(--plum);stroke-width:2;fill:none">' + lines + '</g>' + boxes + '</svg>';
+    return '<div class="ajer-org-tree" aria-label="Carta organisasi sekolah">' +
+      (pengetua ? '<section class="org-tier org-tier-head" aria-label="Pengetua">' + person(pengetua) + '</section>' : '') +
+      (pkList.length ? '<section class="org-tier" aria-label="Penolong kanan">' + pkList.map(person).join('') + '</section>' : '') +
+      (ketuaList.length ? '<section class="org-tier" aria-label="Ketua bidang">' + ketuaList.map(person).join('') + '</section>' : '') + '</div>';
   }
 
   // Muatkan carta organisasi (kategori='pentadbir') ke dalam mount
@@ -728,6 +691,8 @@
     var schoolNav = document.querySelector('nav.tabs');
     var schoolRoute = location.pathname.endsWith('/') ? location.pathname : location.pathname + '/';
     function activeGroup() {
+      if (schoolRoute === '/menu/') return new URLSearchParams(location.search).get('bahagian') || 'info';
+      if (schoolRoute === '/hub/') return 'perkhidmatan';
       if (schoolRoute.indexOf('/info-sekolah/') === 0 || schoolRoute.indexOf('/info/') === 0) return 'info';
       if (schoolRoute.indexOf('/program/') === 0 || schoolRoute.indexOf('/berita/') === 0) return 'program';
       if (schoolRoute.indexOf('/perkhidmatan/') === 0 || schoolRoute.indexOf('/tempahan/') === 0) return 'perkhidmatan';
@@ -738,10 +703,13 @@
       return 'utama';
     }
     function activeClass(group) { return activeGroup() === group ? ' is-active' : ''; }
+    window.schoolMenuGroups = {};
     function megaMenu(group, label, overview, intro, links) {
-      return '<details class="nav-dropdown nav-mega' + activeClass(group) + '"><summary>' + label + '</summary><div class="subnav nav-mega-panel"><div class="nav-mega-copy"><strong>' + label + '</strong><small>' + intro + '</small><a class="nav-overview" href="' + overview + '">Lihat halaman ' + label + '</a></div><div class="nav-mega-links">' + links.map(function (link) {
+      window.schoolMenuGroups[group] = { label: label, overview: overview, intro: intro, links: links };
+      if (group === 'program') return '<a href="/program/"' + (activeGroup() === group ? ' class="active"' : '') + '>Program</a>';
+      return '<div class="school-nav-group' + activeClass(group) + '"><a class="school-nav-label" href="' + overview + '">' + label + '</a><details class="nav-dropdown nav-mega"><summary aria-label="Buka submenu ' + label + '"><span aria-hidden="true">⌄</span></summary><div class="subnav nav-mega-panel"><a class="school-menu-overview" href="' + overview + '"><span>Terokai ' + label + '</span><span aria-hidden="true">↗</span></a><div class="nav-mega-links">' + links.map(function (link) {
         return '<a href="' + link.href + '"><b>' + link.title + '</b><small>' + link.copy + '</small></a>';
-      }).join('') + '</div></div></details>';
+      }).join('') + '</div></div></details></div>';
     }
     if (schoolNav) {
       schoolNav.setAttribute('aria-label', 'Navigasi utama sekolah');
@@ -819,16 +787,23 @@
     }
     var menus = document.querySelectorAll('nav.tabs details.nav-dropdown');
     function closeMenus(except) { menus.forEach(function (menu) { if (menu !== except) menu.open = false; }); }
-    function isDesktop() { return window.matchMedia('(min-width: 821px)').matches; }
     menus.forEach(function (menu) {
-      menu.addEventListener('click', function (event) {
-        if (isDesktop() && event.target.closest('summary')) { event.preventDefault(); menu.open = !menu.open; closeMenus(menu); }
+      var summary = menu.querySelector('summary');
+      summary.addEventListener('click', function (event) {
+        event.preventDefault();
+        var open = !menu.open;
+        closeMenus(menu);
+        menu.open = open;
       });
-      menu.addEventListener('mouseenter', function () { if (isDesktop()) { closeMenus(menu); menu.open = true; } });
     });
-    document.querySelectorAll('nav.tabs > a').forEach(function (link) { link.addEventListener('mouseenter', function () { if (isDesktop()) closeMenus(); }); });
-    document.addEventListener('click', function (event) { if (isDesktop() && schoolNav && !schoolNav.contains(event.target) && !event.target.closest('.school-menu-toggle')) closeMenus(); });
-    window.addEventListener('scroll', function () { closeMenus(); }, { passive: true });
+    document.addEventListener('click', function (event) {
+      if (schoolNav && !schoolNav.contains(event.target) && !event.target.closest('.school-menu-toggle')) closeMenus();
+    });
+    document.addEventListener('keydown', function (event) {
+      if (event.key !== 'Escape') return;
+      var open = Array.from(menus).find(function (menu) { return menu.open; });
+      if (open) { closeMenus(); open.querySelector('summary').focus(); event.stopImmediatePropagation(); }
+    });
     var guides = {
       '/akademik/': { label: 'Dalam Akademik', items: [
         { href: '/akademik/?section=academic-calendar', title: 'Tarikh Penting', copy: 'Agenda akademik akan datang' },
