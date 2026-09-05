@@ -11,8 +11,10 @@
     <link rel="stylesheet" href="/assets/pss.css?v=20260820-3" />
     <link rel="stylesheet" href="/assets/pss-loan.css?v=20260820-3" />
     <link rel="icon" type="image/png" href="/logo.png" />
+      <link rel="stylesheet" href="/assets/pss-interior.css?v=20260905-art2" />
+      <link rel="stylesheet" href="/assets/pss-details.css?v=20260905-art2" />
   </head>
-  <body>
+  <body class="pss-interior">
     <header class="pss-nav">
       <a class="pss-brand" href="/pss/"><img src="/assets/logo-sekolah.png" alt="Logo SMK Agama Jerlun" /><span><b>PSS SMKAJ</b><small>Maktabah Darul Hikmah</small></span></a>
       <button class="menu-toggle" type="button" aria-label="Buka menu" aria-expanded="false"><span></span><span></span><span></span></button>
@@ -20,9 +22,9 @@
     </header>
     <main class="loan-page">
       <div class="loan-intro">
-        <p class="eyebrow">PERKHIDMATAN PSS</p>
+        <header class="pss-section-heading"><div><p class="eyebrow">PERKHIDMATAN PSS</p>
         <h1>Cadangkan buku<br />untuk dibaca bersama.</h1>
-        <p>Beritahu PSS bahan yang anda mahu lihat dalam koleksi. Cadangan akan direkodkan dan disemak oleh pengurusan PSS.</p>
+        <p>Beritahu PSS bahan yang anda mahu lihat dalam koleksi. Cadangan akan direkodkan dan disemak oleh pengurusan PSS.</p></div><img class="pss-section-art" src="/assets/pss-art/suggest-hero.svg" alt="" width="900" height="675" decoding="async" /></header><ol class="pss-journey" aria-label="Panduan ringkas"><li><span aria-hidden="true">01</span><div><b>Pilih bahan</b><p>Nyatakan judul, pengarang dan kategori.</p></div></li><li><span aria-hidden="true">02</span><div><b>Kongsi sebab</b><p>Ceritakan mengapa bahan ini berguna.</p></div></li><li><span aria-hidden="true">03</span><div><b>Hantar cadangan</b><p>Pengurusan PSS akan menyemak cadangan anda.</p></div></li></ol>
       </div>
       <div class="loan-layout suggestion-layout">
         <form id="suggestion-form" class="loan-form" novalidate>
@@ -38,13 +40,13 @@
           <p class="loan-status" id="suggestion-status" aria-live="polite"></p>
           <button class="loan-submit" type="submit">Hantar Cadangan</button>
         </form>
-        <aside class="loan-note suggestion-note"><span>Cadangan anda penting</span><h2>Bagaimana ia digunakan?</h2><p>Admin PSS boleh menyemak tajuk, menukar status dan memilih bahan untuk koleksi atau cadangan mingguan.</p><span>Tiada cetakan diperlukan</span><p>Selepas dihantar, cadangan terus disimpan ke panel admin PSS.</p></aside>
+        <aside class="loan-note suggestion-note"><img class="pss-detail-art" src="/assets/pss-art/review.svg" alt="" width="900" height="675" /><span>Cadangan anda penting</span><h2>Bagaimana ia digunakan?</h2><p>Pengurusan PSS akan menilai kesesuaian bahan dengan keperluan pembaca dan koleksi sekolah.</p><span>Tiada cetakan diperlukan</span><p>Selepas cadangan berjaya dihantar, mesej pengesahan akan dipaparkan pada borang.</p></aside>
       </div>
     </main>
     <footer class="pss-footer"><div class="pss-shell"><div><img src="/assets/logo-sekolah.png" alt="Logo SMK Agama Jerlun" /><p><b>PSS SMK Agama Jerlun</b><br />Maktabah Darul Hikmah</p></div></div></footer>
     <script src="/assets/vendor/supabase-2.57.4.js?v=20260828-1"></script>
     <script src="/assets/cms.js?v=20260827-1"></script>
-    <script src="/assets/pss.js"></script>
+    <script src="/assets/pss.js?v=20260905-network1"></script>
     <script src="/assets/pss-suggestion.js"></script>
   </body>
 </html>

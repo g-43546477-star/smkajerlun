@@ -1,0 +1,29 @@
+/* Scoped to PSS administration; existing permissions and visibility remain authoritative. */
+.pss-admin-design { background: #f5f3ea; color: #244c40; }
+.pss-admin-design .topnav { background: #fffdf7; border-color: #d4dbcc; }
+.pss-admin-design main .banner { background: #e5ead9; color: #244c40; border: 1px solid #c9d5be; border-radius: 14px; padding: 1.6rem; gap: 1.2rem; }
+.pss-admin-design .banner h2 { font: 400 clamp(1.7rem,3vw,2.5rem)/1.15 'DM Serif Display',Georgia,serif; color: #244c40; }
+.pss-admin-design .banner p { color: #4b6252; }
+.pss-admin-art { width: 100px; height: 90px; object-fit: contain; flex-shrink: 0; }
+.pss-access-art { display: block; width: 210px; height: 150px; object-fit: contain; margin: 0 auto 1.5rem; }
+.pss-admin-design :is(.card,.stat-card,.admin-product-switcher a) { background: #fffdf7; border-color: #d4dbcc; box-shadow: none; border-radius: 10px; }
+.pss-admin-design .stat-card { border-top: 4px solid #8ea57d; }
+.pss-admin-design .stat-card:nth-child(2n) { border-top-color: #d7ad57; background: #fbf1d9; }
+.pss-admin-design .stat-card:nth-child(3n) { border-top-color: #c78462; background: #f8e9de; }
+.pss-admin-design .stat-card .num { color: #244c40; font-variant-numeric: tabular-nums; }
+.pss-admin-design .tabrow { background: #e9eadf; border: 1px solid #d4dbcc; border-radius: 10px; padding: .5rem; gap: .4rem; }
+.pss-admin-design .tab-btn { min-height: 44px; border-radius: 6px; }
+.pss-admin-design .tab-btn.active { background: #244c40; color: #fffdf7; }
+.pss-admin-design .card { border-top: 3px solid #94a885; }
+.pss-admin-design .head-row { border-bottom: 1px solid #e1e4d7; padding-bottom: 1rem; }
+.pss-admin-design :is(input,select,textarea) { border-color: #bdcbb3; border-radius: 6px; background: #fffef9; }
+.pss-admin-design :is(button,input,select) { min-height: 42px; }
+.pss-admin-design .tablewrap { border-radius: 8px; border-color: #d4dbcc; }
+.pss-admin-design th { background: #edf0e5; color: #244c40; }
+.pss-admin-design tbody tr:nth-child(even) { background: #fafaf2; }
+.pss-admin-design .empty { border: 1px dashed #bcc9af; border-radius: 8px; background: #f4f5e9; }
+.pss-admin-design :is(a,button,input,textarea,select):focus-visible { outline: 3px solid #ae4c2d; outline-offset: 3px; }
+@media(max-width:700px) { .pss-admin-art { width: 75px; height: 65px; } .pss-admin-design main .banner { flex-wrap: wrap; } .pss-admin-design .tabrow { overflow-x: auto; } }
+@media(prefers-reduced-motion:no-preference) { .pss-admin-art { animation: admin-art-in 400ms ease both; } }
+@keyframes admin-art-in { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+@media(prefers-reduced-motion:reduce) { .pss-admin-design *, .pss-admin-design *::after { animation: none !important; transition: none !important; } }

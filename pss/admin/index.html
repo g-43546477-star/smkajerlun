@@ -11,8 +11,9 @@
 <link rel="stylesheet" href="/tempahan/assets/style.css?v=20260827-1">
 <link rel="stylesheet" href="/assets/admin-shell.css?v=20260827-1">
 <link rel="icon" type="image/png" href="/logo.png">
+<link rel="stylesheet" href="/assets/pss-admin-design.css?v=20260905-art2">
 </head>
-<body>
+<body class="pss-admin-design">
 <header class="topnav">
   <div class="wrap bar">
     <a href="/pss/" class="brand">
@@ -30,7 +31,7 @@
 </header>
 
 <main id="pss-admin-main" aria-labelledby="pss-admin-page-title" style="display:none">
-  <div class="banner">
+  <div class="banner"><img class="pss-admin-art" src="/assets/pss-art/admin.svg" alt="" width="900" height="675">
     <div><h2 id="pss-admin-page-title">Papan Pemuka PSS</h2><p>Urus kandungan Portal PSS, koleksi, pinjaman, cadangan buku dan NILAM.</p></div>
     <div class="admin-health" id="pss-admin-health" data-state="checking" role="status"><span class="admin-health-dot" aria-hidden="true"></span><span>Memeriksa sambungan data</span></div>
   </div>
@@ -186,7 +187,7 @@
 </main>
 
 <section id="pss-admin-denied" aria-labelledby="pss-admin-denied-title" style="display:none">
-  <div class="card" style="text-align:center;padding:50px 24px"><h2 class="page-title" id="pss-admin-denied-title">Akses Terhad</h2><p class="sub" style="margin-bottom:20px">Halaman ini untuk pentadbir sahaja. Sila log masuk menggunakan akaun guru pentadbir.</p><a href="/tempahan/log-masuk/" class="btn-primary" style="text-decoration:none;display:inline-block">Log Masuk</a></div>
+  <div class="card" style="text-align:center;padding:50px 24px"><img class="pss-access-art" src="/assets/pss-art/access.svg" alt="" width="900" height="675"><h2 class="page-title" id="pss-admin-denied-title">Akses Terhad</h2><p class="sub" style="margin-bottom:20px">Halaman ini untuk pentadbir sahaja. Sila log masuk menggunakan akaun guru pentadbir.</p><a href="/tempahan/log-masuk/" class="btn-primary" style="text-decoration:none;display:inline-block">Log Masuk</a></div>
 </section>
 
 <script src="/assets/vendor/supabase-2.57.4.js?v=20260828-1"></script>

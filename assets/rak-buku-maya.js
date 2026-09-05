@@ -14,13 +14,25 @@
   var status = document.getElementById('virtual-shelf-status');
   var search = document.getElementById('virtual-book-search');
   var currentCategory = 'Semua';
+  var visibleCount = 12;
+  var more = document.getElementById('virtual-shelf-more');
   function render() {
     var term = (search.value || '').toLowerCase().trim();
     var shown = books.filter(function (book) { return (currentCategory === 'Semua' || book[0] === currentCategory) && (!term || (book[1] + ' ' + book[2]).toLowerCase().indexOf(term) !== -1); });
-    shelf.innerHTML = shown.map(function (book) { return '<a class="virtual-book" data-category="' + book[0] + '" href="' + book[3] + '" target="_blank" rel="noopener noreferrer" aria-label="Baca ' + book[1] + ' oleh ' + book[2] + ' di ' + book[4] + ', dibuka dalam tab baharu"><small>' + book[0] + ' · ' + book[4] + '</small><b>' + book[1] + '</b><span>' + book[2] + '</span></a>'; }).join('');
-    status.textContent = shown.length + ' judul akses percuma dipaparkan' + (currentCategory === 'Semua' ? '.' : ' dalam kategori ' + currentCategory + '.');
+    shelf.innerHTML = shown.slice(0, visibleCount).map(function (book) { return '<a class="virtual-book" data-category="' + book[0] + '" href="' + book[3] + '" target="_blank" rel="noopener noreferrer" aria-label="Baca ' + book[1] + ' oleh ' + book[2] + ' di ' + book[4] + ', dibuka dalam tab baharu"><small>' + book[0] + ' · ' + book[4] + '</small><b>' + book[1] + '</b><span>' + book[2] + '</span></a>'; }).join('');
+    if (!shown.length) shelf.innerHTML = '<p class="pss-shelf-empty">Tiada buku sepadan. Cuba tajuk lain atau pilih kategori Semua.</p>';
+    if (more) more.hidden = visibleCount >= shown.length;
+    status.textContent = Math.min(visibleCount, shown.length) + ' daripada ' + shown.length + ' judul akses percuma dipaparkan' + (currentCategory === 'Semua' ? '.' : ' dalam kategori ' + currentCategory + '.');
   }
-  document.querySelectorAll('.virtual-shelf-filter').forEach(function (button) { button.addEventListener('click', function () { currentCategory = button.dataset.category; document.querySelectorAll('.virtual-shelf-filter').forEach(function (item) { item.classList.toggle('active', item === button); }); render(); }); });
-  search.addEventListener('input', render);
+  document.querySelectorAll('.virtual-shelf-filter').forEach(function (button) { button.addEventListener('click', function () { currentCategory = button.dataset.category; visibleCount = 12; document.querySelectorAll('.virtual-shelf-filter').forEach(function (item) { item.classList.toggle('active', item === button); item.setAttribute('aria-pressed', String(item === button)); }); render(); }); });
+  document.querySelectorAll('.virtual-shelf-filter').forEach(function (button) { button.setAttribute('aria-pressed', String(button.classList.contains('active'))); });
+  search.addEventListener('input', function () { visibleCount = 12; render(); });
+  if (more) more.addEventListener('click', function () {
+    var firstNew = visibleCount;
+    visibleCount += 12;
+    render();
+    var nextBook = shelf.querySelectorAll('.virtual-book')[firstNew];
+    if (nextBook) nextBook.focus();
+  });
   render();
 }());

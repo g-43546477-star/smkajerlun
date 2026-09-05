@@ -17,10 +17,11 @@
     />
     <link rel="stylesheet" href="/assets/pss.css?v=20260905-1" />
     <link rel="stylesheet" href="/assets/portal.css?v=20260827-1" />
+    <link rel="stylesheet" href="/assets/pss-reading-room.css?v=20260905-art2" />
     
 <link rel="icon" type="image/png" href="/logo.png" />
   </head>
-  <body>
+  <body class="pss-reading-room">
     <header class="pss-nav">
       <a class="pss-brand" href="/pss/"
         ><img src="/assets/logo-sekolah.png" alt="Logo SMK Agama Jerlun" /><span
@@ -73,7 +74,7 @@
           <div>
             <a href="/pss/perkhidmatan/borang-pinjaman/">Borang Pinjaman</a
             ><a href="/tempahan/">Tempahan Ruang</a
-            ><a href="mailto:kra4002@moe.edu.my?subject=Cadangan%20Buku%20PSS"
+            ><a href="/pss/perkhidmatan/cadangan-buku/"
               >Cadangan Buku</a
             >
           </div>
@@ -81,24 +82,15 @@
         <a class="back-link" href="/">Laman sekolah</a>
       </nav>
     </header>
-    <main>
+    <main id="main-content">
       <section class="pss-home-hero">
-        <picture>
-          <source srcset="/assets/pss-hero.jpg" type="image/jpeg" />
-          <img
-            src="/assets/pss-hero.jpg"
-            alt="Suasana ruang bacaan perpustakaan sekolah"
-            width="1400" height="788" fetchpriority="high" decoding="async"
-          />
-        </picture>
-        <div class="pss-home-shade"></div>
         <div class="pss-home-inner">
           <p class="eyebrow">PUSAT SUMBER SEKOLAH</p>
           <p class="library-name">Maktabah Darul Hikmah</p>
-          <h1>Portal ilmu<br />untuk warga SMKAJ.</h1>
+          <h1>Buka buku.<br /><em>Buka dunia.</em></h1>
           <p>
-            Rujukan pusat bagi maklumat PSS, program, koleksi digital, NILAM dan
-            perkhidmatan sekolah.
+            Temui bacaan baharu, rekod perjalanan NILAM dan terokai
+            ruang ilmu warga SMKAJ. Semuanya bermula di sini.
           </p>
           <form class="pss-hero-search" action="/pss/digital/katalog/" method="get" role="search">
             <label class="sr-only" for="pss-home-search">Cari koleksi PSS</label>
@@ -106,34 +98,36 @@
             <button type="submit">Cari katalog</button>
           </form>
           <div class="hero-actions">
-            <a href="/pss/digital/katalog/">Katalog PSS</a
-            ><a class="ghost" href="/pss/rak-buku-maya/">Rak Buku Maya</a>
+            <a href="/pss/rak-buku-maya/">Terokai Rak Buku Maya &rarr;</a>
+            <a class="ghost" href="/tempahan/">Tempah ruang &nearr;</a>
           </div>
         </div>
+        <figure class="reading-scene"><img src="/assets/pss-art/reading-room.svg" alt="Ilustrasi ruang bacaan ceria dengan rak buku, buku terbuka, tumbuhan dan matahari" width="680" height="560" fetchpriority="high" /><figcaption>Satu halaman, satu penemuan baharu.</figcaption></figure>
       </section>
-      <section class="pss-shell pss-home-grid pss-home-grid-expanded" aria-label="Akses utama PSS">
-        <a href="/pss/tentang-pss/maklumat/" class="pss-home-card pss-card-with-image pss-card-maklumat"
-          ><img class="pss-card-image" src="/assets/pss-cards/maklumat-pss.jpg" alt="Ruang bacaan PSS dengan rak buku" width="900" height="675" loading="lazy" decoding="async" />
+      <div class="pss-shell reading-heading"><div><p class="eyebrow">PILIH DESTINASI ANDA</p><h2>Hari ini, nak baca apa?</h2></div><a href="/pss/perkhidmatan/cadangan-buku/">Cadangkan buku &nearr;</a></div>
+      <section class="pss-shell pss-home-grid" aria-label="Akses utama PSS">
+        <a href="/pss/tentang-pss/maklumat/" class="pss-home-card pss-card-with-image pss-card-illustrated pss-card-maklumat"
+          ><img class="pss-card-image pss-card-illustration" src="/assets/pss-art/library.svg" alt="Ilustrasi bangunan perpustakaan dan jam" width="900" height="675" loading="lazy" decoding="async" />
           <span>MAKLUMAT</span>
           <h2>Maklumat PSS</h2>
           <p>
             Misi, waktu operasi dan maklumat hubungan Maktabah Darul Hikmah.
           </p>
           <b>Lihat maklumat &rarr;</b></a
-        ><a href="/pss/digital/katalog/" class="pss-home-card emphasis pss-card-with-image pss-card-katalog"
-          ><img class="pss-card-image" src="/assets/pss-cards/katalog-pss.jpg" alt="Murid memilih buku menggunakan katalog digital PSS" width="900" height="675" loading="lazy" decoding="async" />
+        ><a href="/pss/digital/katalog/" class="pss-home-card emphasis pss-card-with-image pss-card-illustrated pss-card-katalog"
+          ><img class="pss-card-image pss-card-illustration" src="/assets/pss-art/catalog.svg" alt="Ilustrasi timbunan buku dan kanta pembesar untuk katalog PSS" width="900" height="675" loading="lazy" decoding="async" />
           <span>KATALOG</span>
           <h2>Koleksi Digital</h2>
           <p>Semak katalog buku dan bahan rujukan Pusat Sumber Sekolah.</p>
           <b>Buka katalog &rarr;</b></a
-        ><a href="/pss/digital/nilam/" class="pss-home-card pss-card-with-image pss-card-nilam"
-          ><img class="pss-card-image" src="/assets/pss-cards/nilam-pss.jpg" alt="Murid membaca dan merekod bacaan di PSS" width="900" height="675" loading="lazy" decoding="async" />
+        ><a href="/pss/digital/nilam/" class="pss-home-card pss-card-with-image pss-card-illustrated pss-card-nilam"
+          ><img class="pss-card-image pss-card-illustration" src="/assets/pss-art/nilam-record.svg" alt="Ilustrasi senarai semak rekod bacaan NILAM" width="900" height="675" loading="lazy" decoding="async" />
           <span>NILAM</span>
           <h2>NILAM</h2>
           <p>Akses portal AINS untuk perekodan bacaan rasmi KPM.</p>
           <b>Buka NILAM &rarr;</b></a
-        ><a href="/pss/perkhidmatan/borang-pinjaman/" class="pss-home-card pss-home-card-loan pss-card-with-image pss-card-pinjaman"
-          ><img class="pss-card-image" src="/assets/pss-cards/pinjaman-pss.jpg" alt="Buku diserahkan di kaunter pinjaman PSS" width="900" height="675" loading="lazy" decoding="async" />
+        ><a href="/pss/perkhidmatan/borang-pinjaman/" class="pss-home-card pss-home-card-loan pss-card-with-image pss-card-illustrated pss-card-pinjaman"
+          ><img class="pss-card-image pss-card-illustration" src="/assets/pss-art/loan.svg" alt="Ilustrasi buku dan anak panah pinjaman serta pemulangan" width="900" height="675" loading="lazy" decoding="async" />
           <span>PINJAMAN</span>
           <h2>Pinjaman</h2>
           <p>Semak panduan pinjaman bahan dan perkhidmatan Pusat Sumber Sekolah.</p>
@@ -152,12 +146,14 @@
       </section>
       <section class="pss-shell pss-home-widgets" aria-label="Cadangan dan statistik PSS">
         <section class="pss-widget">
+          <img class="pss-widget-art" src="/assets/pss-art/book-widget.svg" alt="" width="900" height="675" loading="lazy" />
           <h2>Terokai lebih banyak buku</h2>
           <p>Enam judul dipilih daripada koleksi cadangan PSS untuk diterokai setiap minggu.</p>
           <div class="pss-book-list" id="weekly-book-list"></div>
           <a class="pss-widget-link" href="/pss/perkhidmatan/cadangan-buku/">Cadangkan buku untuk PSS &rarr;</a>
         </section>
         <section class="pss-widget">
+          <img class="pss-widget-art" src="/assets/pss-art/leader-widget.svg" alt="" width="900" height="675" loading="lazy" />
           <h2>Carta Pendahulu NILAM</h2>
           <p>Ranking murid berdasarkan jumlah bahan bacaan yang direkodkan.</p>
           <div id="home-nilam-list"></div>
@@ -221,7 +217,7 @@
     </footer>
     <script src="/assets/vendor/supabase-2.57.4.js?v=20260828-1"></script>
     <script src="/assets/cms.js?v=20260827-1"></script>
-    <script src="/assets/pss.js"></script>
+    <script src="/assets/pss.js?v=20260905-network1"></script>
     <script src="/assets/pss-home.js?v=20260905-1"></script>
   </body>
 </html>

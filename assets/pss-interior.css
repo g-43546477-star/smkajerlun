@@ -1,0 +1,62 @@
+/* Shared public PSS interiors. Form contracts and print receipts stay intact. */
+.pss-interior { background: #faf7ee; color: #244c40; }
+.pss-interior .pss-nav { background: #faf7eef5; border-color: #dadbcb; }
+.pss-section-heading { display: grid; grid-template-columns: minmax(0,1fr) minmax(180px,28%); align-items: center; gap: 2rem; margin-bottom: 2rem; padding: 1.6rem 2rem; border-radius: 12px 12px 60px 12px; background: #e5ead9; }
+.pss-section-heading > div { min-width: 0; }
+.pss-section-art { display: block; width: 100%; height: 185px; object-fit: contain; border-radius: 10px; }
+.pss-interior .pss-section-heading h1 { font: 400 clamp(2rem,4vw,3.4rem)/1.1 'DM Serif Display',Georgia,serif; color: #244c40; text-wrap: balance; letter-spacing: -.025em; }
+.pss-interior .pss-section-heading p { color: #445a4d; }
+.pss-interior .pss-section-heading .eyebrow { color: #71522e; }
+.pss-interior .pss-section-heading .page-intro { margin-bottom: 0; }
+.pss-interior .loan-intro { max-width: none; }
+.pss-interior .loan-intro .pss-section-heading { background: #f4dfca; }
+.pss-interior .nilam-page .pss-section-heading { background: #f2d9ca; }
+.pss-interior .virtual-shelf-page .pss-section-heading { background: #f7e2ad; }
+.pss-interior .pss-calendar-page .pss-section-heading { background: #dce7e6; }
+.pss-interior :is(.pss-calendar-panel,.pss-calendar-agenda,.nilam-leaderboard-panel,.loan-form,.loan-note,.pss-chart-panel,.submenu-card,.catalog-workspace) { border-color: #d5dacb; background: #fffdf7; box-shadow: none; border-radius: 12px; }
+.pss-interior :is(.pss-calendar-panel,.pss-calendar-agenda) { padding: 1.4rem; }
+.pss-interior .pss-calendar-day { background: #f6f5eb; border-color: #e3e3d6; }
+.pss-interior .pss-calendar-day.has-event { background: #e5ead9; border-color: #a3b493; }
+.pss-interior .pss-calendar-day.is-today { border-color: #ad502f; box-shadow: inset 0 0 0 1px #ad502f; }
+.pss-interior .pss-calendar-event { grid-template-columns: 6.5rem minmax(0,1fr); }
+.pss-interior .pss-calendar-event time { overflow-wrap: anywhere; }
+.pss-interior .nilam-podium-card { box-shadow: none; border-radius: 12px 12px 4px 4px; }
+.pss-interior .nilam-podium-card[data-rank="1"] { background: #f7e2ad; }
+.pss-interior .nilam-links a { border-radius: 12px; background: #e5ead9; color: #244c40; }
+.pss-interior .nilam-links a :is(h2,p,b) { color: #244c40; }
+.pss-interior .catalog-hero { background: #f7e2ad; color: #244c40; box-shadow: none; border-radius: 12px 12px 50px 12px; }
+.pss-interior .catalog-hero-copy { display: grid; grid-template-columns: minmax(0,1fr) 150px; column-gap: 1rem; }
+.pss-interior .catalog-hero-copy .pss-section-art { grid-column: 2; grid-row: 1 / span 3; align-self: center; height: 160px; }
+.pss-interior .catalog-hero-copy > :not(img) { grid-column: 1; }
+.pss-interior .catalog-hero :is(h1,p,strong,span) { color: #244c40; }
+.pss-interior .catalog-hero h1 { font-family: 'DM Serif Display',Georgia,serif; font-weight: 400; }
+.pss-interior .catalog-metrics { border-color: #c4b887; }
+.pss-interior .catalog-book-card { background: #fffdf7; border-color: #d5dacb; box-shadow: none; }
+.pss-interior .catalog-filter { background: #f3f2e8; }
+.pss-interior .catalog-book-card:nth-child(3n+2) .catalog-cover { background: #9b5035; }
+.pss-interior .catalog-book-card:nth-child(3n) .catalog-cover { background: #536b69; }
+.pss-interior .pss-home-hero { background: #e5ead9; height: auto; min-height: 370px; padding: 3rem max(1.5rem,calc((100vw - 1180px)/2)); grid-template-columns: 1fr 1fr; gap: 2rem; }
+.pss-interior .pss-home-hero .pss-section-art { position: static; width: 100%; height: 280px; object-fit: contain; grid-column: 2; grid-row: 1; }
+.pss-interior .pss-home-inner { width: 100%; grid-column: 1; grid-row: 1; color: #244c40; }
+.pss-interior .pss-home-inner :is(p,.eyebrow,.library-name) { color: #445a4d; }
+.pss-interior .pss-home-inner h1 { font: 400 clamp(2.4rem,4vw,3.6rem)/1.1 'DM Serif Display',Georgia,serif; }
+.pss-interior .hero-actions .ghost { color: #244c40; border-color: #244c40; }
+.pss-interior :is(a,button,input,select,textarea):focus-visible { outline: 3px solid #ae4c2d; outline-offset: 4px; }
+@media (hover:hover) { .pss-interior .catalog-book-card:hover { border-color: #789078; transform: translateY(-3px); } }
+@media (prefers-reduced-motion:no-preference) { .pss-section-art { animation: pss-page-art-in 500ms ease both; } }
+@keyframes pss-page-art-in { from { opacity: 0; transform: translateY(10px) rotate(-3deg); } to { opacity: 1; transform: none; } }
+@media(max-width:700px) { .pss-section-heading { padding: 1.25rem; grid-template-columns: minmax(0,1fr) 115px; gap: .7rem; border-bottom-right-radius: 35px; } .pss-section-art { height: 135px; } .pss-interior .catalog-hero-copy { grid-template-columns: minmax(0,1fr) 105px; } .pss-interior .catalog-hero-copy .pss-section-art { height: 125px; } .pss-interior .pss-home-hero { grid-template-columns: 1fr; } .pss-interior .pss-home-hero .pss-section-art { grid-column: 1; grid-row: 2; height: 200px; } }
+@media(max-width:440px) { .pss-section-heading { grid-template-columns: 1fr; } .pss-section-art { width: 170px; height: 125px; justify-self: end; } .pss-interior .catalog-hero-copy { grid-template-columns: 1fr; } .pss-interior .catalog-hero-copy .pss-section-art { grid-row: 4; grid-column: 1; } }
+@media(prefers-reduced-motion:reduce) { .pss-interior *, .pss-interior *::after { animation: none !important; transition: none !important; } }
+@media print { .pss-section-art { display: none; } }
+.pss-interior .pss-brief article { grid-template-columns: minmax(6.5rem,max-content) minmax(0,1fr); gap: 1rem; }
+.pss-interior .pss-brief time small { display: inline-block; white-space: nowrap; font-size: .62rem; letter-spacing: .02em; }
+@media(max-width:600px) { .pss-interior .pss-brief article { grid-template-columns: 1fr; } }
+.pss-interior .catalog-hero { grid-template-columns: 1fr; gap: 1.5rem; }
+.pss-interior .catalog-hero-copy { grid-template-columns: minmax(0,1fr) 220px; }
+.pss-interior .catalog-hero h1 { max-width: 18ch; }
+.pss-interior .catalog-hero-copy .pss-section-art { width: 100%; height: 180px; }
+.pss-interior .catalog-metrics { border-left: 0; border-top: 1px solid #c4b887; padding: 1rem 0 0; gap: 1rem; }
+.pss-interior .catalog-metrics > div { min-width: 0; }
+.pss-interior .catalog-metrics strong { font-size: 2rem; }
+@media(max-width:620px) { .pss-interior .catalog-hero-copy { grid-template-columns: 1fr; } .pss-interior .catalog-hero-copy .pss-section-art { grid-column: 1; grid-row: 4; width: 170px; height: 125px; } }

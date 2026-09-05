@@ -155,6 +155,44 @@ async function visit(page, route) {
   if (route === '/pss/' && !(await page.locator('#home-nilam-list .pss-nilam-rank').count())) {
     failures.push(`${route}: NILAM leaderboard widget is missing student rows`);
   }
+  if (route === '/pss/' && (await page.locator('#pss-notis-tajuk').textContent())?.trim() === 'Memuatkan pengumuman PSS…') {
+    failures.push(`${route}: announcement preview is stuck in its loading state`);
+  }
+  if (route === '/pss/') {
+    const heroArt = page.locator('.reading-scene img');
+    const heroArtLoaded = await heroArt.evaluate((image) => Boolean(image.complete && image.naturalWidth > 0)).catch(() => false);
+    if (!(await heroArt.count()) || !heroArtLoaded) {
+      failures.push(`${route}: custom PSS hero graphic is missing or failed to load`);
+    } else {
+      const heroArtLayout = await heroArt.evaluate((image) => ({
+        display: getComputedStyle(image).display,
+        width: image.getBoundingClientRect().width,
+        left: image.getBoundingClientRect().left
+      }));
+      if (heroArtLayout.display === 'none' || heroArtLayout.width <= 0 || heroArtLayout.left < 0 || heroArtLayout.left + heroArtLayout.width > page.viewportSize().width) {
+        failures.push(`${route}: reading room illustration is hidden or extends outside the viewport`);
+      }
+    }
+  }
+  if (route === '/pss/') {
+    const illustratedCards = await page.locator('.pss-home-card .pss-card-illustration').evaluateAll((images) => images.map((image) => ({
+      src: image.getAttribute('src'),
+      loaded: image.complete && image.naturalWidth > 0
+    })));
+    if (illustratedCards.length !== 4 || illustratedCards.some((image) => !image.src?.endsWith('.svg') || !image.loaded)) {
+      failures.push(`${route}: PSS card illustration set is missing or failed to load`);
+    }
+    const illustrationBackgrounds = await page.evaluate(() => [
+      ['.pss-weekly-book', 'rak-maya-pss.svg'],
+      ['.pss-weekly-activity', 'aktiviti-pss.svg'],
+      ['.pss-weekly-nilam', 'nilam-pss.svg'],
+      ['.pss-home-widgets .pss-widget:first-child', 'cadangan-buku-pss.svg'],
+      ['.pss-service-strip > .pss-shell', 'komuniti-pss.svg']
+    ].map(([selector, asset]) => ({ asset, loaded: getComputedStyle(document.querySelector(selector), '::after').backgroundImage.includes(asset) })));
+    if (illustrationBackgrounds.some((illustration) => !illustration.loaded)) {
+      failures.push(`${route}: decorative SVG illustration references are incomplete`);
+    }
+  }
   if (route === '/pss/' && page.viewportSize().width <= 760) {
     const widgetColumns = await page.locator('.pss-home-widgets').evaluate((widget) => getComputedStyle(widget).gridTemplateColumns.trim().split(/\s+/).length);
     if (widgetColumns !== 1) failures.push(`${route}: homepage widgets do not stack on a narrow viewport`);

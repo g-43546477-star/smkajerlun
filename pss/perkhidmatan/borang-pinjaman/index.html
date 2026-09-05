@@ -17,8 +17,10 @@
     <link rel="stylesheet" href="/assets/pss.css?v=20260820-3" />
     <link rel="stylesheet" href="/assets/pss-loan.css?v=20260820-3" />
     <link rel="icon" type="image/png" href="/logo.png" />
+      <link rel="stylesheet" href="/assets/pss-interior.css?v=20260905-art2" />
+      <link rel="stylesheet" href="/assets/pss-details.css?v=20260905-art2" />
   </head>
-  <body>
+  <body class="pss-interior">
     <header class="pss-nav">
       <a class="pss-brand" href="/pss/"
         ><img src="/assets/logo-sekolah.png" alt="Logo SMK Agama Jerlun" /><span
@@ -71,12 +73,12 @@
 
     <main class="loan-page">
       <div class="loan-intro">
-        <p class="eyebrow">PERKHIDMATAN PSS</p>
+        <header class="pss-section-heading"><div><p class="eyebrow">PERKHIDMATAN PSS</p>
         <h1>Pinjam bahan,<br />rekod dengan mudah.</h1>
         <p>
           Untuk murid dan pengawas PSS. Hantar borang, kemudian cetak atau
           simpan rekod sebagai PDF untuk rujukan.
-        </p>
+        </p></div><img class="pss-section-art" src="/assets/pss-art/loan-hero.svg" alt="" width="900" height="675" decoding="async" /></header><ol class="pss-journey" aria-label="Panduan ringkas"><li><span aria-hidden="true">01</span><div><b>Isi maklumat</b><p>Nyatakan peminjam, bahan dan tarikh pinjaman.</p></div></li><li><span aria-hidden="true">02</span><div><b>Semak &amp; hantar</b><p>Pastikan maklumat betul sebelum dihantar.</p></div></li><li><span aria-hidden="true">03</span><div><b>Simpan rekod</b><p>Cetak atau simpan rekod pinjaman sebagai PDF.</p></div></li></ol>
       </div>
 
       <section class="loan-layout" aria-label="Borang pinjaman PSS">
@@ -147,7 +149,7 @@
           </button>
         </form>
 
-        <aside class="loan-note">
+        <aside class="loan-note"><img class="pss-detail-art" src="/assets/pss-art/receipt.svg" alt="" width="900" height="675" />
           <span>01</span>
           <h2>Rekod terus</h2>
           <p>
@@ -215,7 +217,7 @@
     </footer>
     <script src="/assets/vendor/supabase-2.57.4.js?v=20260828-1"></script>
     <script src="/assets/cms.js?v=20260827-1"></script>
-    <script src="/assets/pss.js"></script>
+    <script src="/assets/pss.js?v=20260905-network1"></script>
     <script src="/assets/pss-loan.js"></script>
   </body>
 </html>

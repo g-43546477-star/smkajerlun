@@ -93,9 +93,20 @@
       var parts = String(iso || '').split('-');
       if (parts.length === 3) el.innerHTML = parseInt(parts[2], 10) + '<br /><small>' + (BULAN[parseInt(parts[1], 10) - 1] || '-') + '</small>';
     }
+    function setNotisFallback(hasError) {
+      var fallbackTajuk = document.getElementById('pss-notis-tajuk');
+      var fallbackInfo = document.getElementById('pss-notis-maklumat');
+      if (fallbackTajuk) fallbackTajuk.textContent = hasError ? 'Pengumuman PSS tidak dapat dimuatkan' : 'Belum ada pengumuman PSS';
+      if (fallbackInfo) fallbackInfo.textContent = hasError ? 'Cuba lagi kemudian atau rujuk halaman pengumuman PSS.' : 'Pengumuman rasmi PSS akan dipaparkan di sini apabila tersedia.';
+    }
     var today = new Date().toISOString().split('T')[0];
-    var aktivitiResponse = await window.cms.from('takwim').select('tajuk,tarikh_mula,tarikh_tamat,kategori')
-      .eq('portal', 'pss').eq('kategori', 'aktiviti').or('tarikh_mula.gte.' + today + ',tarikh_tamat.gte.' + today).order('tarikh_mula').limit(1);
+    var aktivitiResponse;
+    try {
+      aktivitiResponse = await window.cms.from('takwim').select('tajuk,tarikh_mula,tarikh_tamat,kategori')
+        .eq('portal', 'pss').eq('kategori', 'aktiviti').or('tarikh_mula.gte.' + today + ',tarikh_tamat.gte.' + today).order('tarikh_mula').limit(1);
+    } catch (error) {
+      aktivitiResponse = { data: [], error: error };
+    }
     var aktiviti = aktivitiResponse.data && aktivitiResponse.data[0];
     if (aktiviti) {
       setTarikh(document.getElementById('pss-aktiviti-tarikh'), aktiviti.tarikh_mula);
@@ -109,7 +120,12 @@
       if (fallbackTajuk) fallbackTajuk.textContent = 'Cadangan bahan bacaan sentiasa dibuka';
       if (fallbackInfo) fallbackInfo.textContent = 'Hantar judul buku atau bahan digital yang ingin dicadangkan kepada PSS.';
     }
-    var notisResponse = await window.cms.from('pengumuman').select('tajuk,tarikh,kandungan').eq('portal', 'pss').order('tarikh', { ascending: false }).limit(1);
+    var notisResponse;
+    try {
+      notisResponse = await window.cms.from('pengumuman').select('tajuk,tarikh,kandungan').eq('portal', 'pss').order('tarikh', { ascending: false }).limit(1);
+    } catch (error) {
+      notisResponse = { data: [], error: error };
+    }
     var notis = notisResponse.data && notisResponse.data[0];
     if (notis) {
       setTarikh(document.getElementById('pss-notis-tarikh'), notis.tarikh || notis.tarikh_mula);
@@ -119,6 +135,7 @@
       if (nMaklumat) nMaklumat.textContent = notis.kandungan || 'Rujuk laman sekolah untuk butiran penuh.';
     } else {
       setTarikh(document.getElementById('pss-notis-tarikh'), today);
+      setNotisFallback(Boolean(notisResponse.error));
     }
   }
 

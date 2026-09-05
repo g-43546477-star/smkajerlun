@@ -29,6 +29,9 @@
   function activeGroup() {
     if (routePath.indexOf('/pss/tentang-pss/') === 0 || routePath.indexOf('/pss/maklumat/') === 0 || routePath.indexOf('/pss/organisasi/') === 0) return 'tentang';
     if (routePath.indexOf('/pss/program/') === 0) return 'program';
+    if (routePath.indexOf('/pss/jaringan-perpustakaan/') === 0) return 'jaringan';
+    if (routePath.indexOf('/pss/rak-buku-maya/') === 0) return 'digital';
+    if (routePath === '/pss/submenu/') return 'perkhidmatan';
     if (routePath.indexOf('/pss/digital/') === 0 || routePath.indexOf('/pss/katalog/') === 0 || routePath.indexOf('/pss/nilam/') === 0) return 'digital';
     if (routePath.indexOf('/pss/perkhidmatan/') === 0 || routePath.indexOf('/pss/pinjaman/') === 0) return 'perkhidmatan';
     return 'utama';
@@ -59,14 +62,14 @@
         { href: '/pss/rak-buku-maya/', title: 'Rak Buku Maya', copy: 'Teroka buku mengikut kategori' },
         { href: '/pss/digital/nilam/', title: 'NILAM', copy: 'Akses perekodan bacaan' }
       ]),
-      dropdown('jaringan', 'Jaringan Perpustakaan', '', 'Pautan perpustakaan dan sumber bacaan rasmi untuk warga sekolah.', [
+      dropdown('jaringan', 'Jaringan Perpustakaan', '/pss/jaringan-perpustakaan/', 'Pautan perpustakaan dan sumber bacaan rasmi untuk warga sekolah.', [
         { href: 'https://ains.moe.gov.my', title: 'AINS NILAM', copy: 'Sistem rekod bacaan rasmi KPM', external: true },
         { href: 'https://www.u-pustaka.gov.my', title: 'u-Pustaka', copy: 'E-buku, e-majalah dan e-akhbar percuma', external: true },
         { href: 'https://opac.kedahlib.gov.my', title: 'Perpustakaan Digital Kedah', copy: 'Katalog dan keahlian perpustakaan Kedah', external: true },
         { href: 'https://d2.delima.edu.my', title: 'DELIMa', copy: 'Buku teks digital dan bahan bacaan', external: true },
         { href: 'https://delima.bookcapital.com.my', title: 'Baucar Buku MADANI', copy: 'Akses e-baucar buku untuk pelajar yang layak', external: true }
       ]),
-      dropdown('perkhidmatan', 'Perkhidmatan', '/pss/perkhidmatan/borang-pinjaman/', 'Urusan pinjaman dan sokongan pengguna PSS.', [
+      dropdown('perkhidmatan', 'Perkhidmatan', '/pss/submenu/', 'Urusan pinjaman dan sokongan pengguna PSS.', [
         { href: '/pss/perkhidmatan/borang-pinjaman/', title: 'Borang Pinjaman', copy: 'Pinjaman bahan dan peralatan' },
         { href: '/pss/perkhidmatan/tempahan-ruang/', title: 'Tempahan Ruang', copy: 'Semak slot dan tempah ruang' },
         { href: '/pss/perkhidmatan/cadangan-buku/', title: 'Cadangan Buku', copy: 'Bantu tambah koleksi PSS' }
@@ -120,7 +123,7 @@
   var main = document.querySelector('main');
   var pageTitle = main && main.querySelector('h1');
   if (main && pageTitle && !document.querySelector('.pss-home-hero') && !main.querySelector('.pss-breadcrumb')) {
-    var groupLabels = { tentang: 'Tentang PSS', program: 'Program', digital: 'Digital', perkhidmatan: 'Perkhidmatan' };
+    var groupLabels = { jaringan: 'Jaringan Perpustakaan', tentang: 'Tentang PSS', program: 'Program', digital: 'Digital', perkhidmatan: 'Perkhidmatan' };
     var breadcrumb = document.createElement('nav');
     breadcrumb.className = 'pss-breadcrumb';
     breadcrumb.setAttribute('aria-label', 'Jejak navigasi');
@@ -140,12 +143,27 @@
   var routeAnchors = { '/pss/program/kalendar/': 'kalendar', '/pss/program/pengumuman/': 'pengumuman' };
   var selectedTab = routeTabs[routePath] || new URLSearchParams(location.search).get('tab');
   document.querySelectorAll('[data-pss-tab]').forEach(function (tab) {
+    tab.id = 'pss-tab-' + tab.dataset.pssTab;
+    tab.setAttribute('aria-controls', tab.dataset.pssTab);
+    tab.tabIndex = tab.getAttribute('aria-selected') === 'true' ? 0 : -1;
     function showTab() {
       var selected = tab.dataset.pssTab;
-      document.querySelectorAll('[data-pss-tab]').forEach(function (item) { var active = item === tab; item.classList.toggle('active', active); item.setAttribute('aria-selected', String(active)); });
-      document.querySelectorAll('[data-pss-panel]').forEach(function (panel) { panel.hidden = panel.dataset.pssPanel !== selected; });
+      document.querySelectorAll('[data-pss-tab]').forEach(function (item) { var active = item === tab; item.classList.toggle('active', active); item.setAttribute('aria-selected', String(active)); item.tabIndex = active ? 0 : -1; });
+      document.querySelectorAll('[data-pss-panel]').forEach(function (panel) { panel.hidden = panel.dataset.pssPanel !== selected; panel.setAttribute('role', 'tabpanel'); panel.setAttribute('aria-labelledby', 'pss-tab-' + panel.dataset.pssPanel); });
     }
     tab.addEventListener('click', showTab);
+    tab.addEventListener('keydown', function (event) {
+      var tabs = Array.from(document.querySelectorAll('[data-pss-tab]'));
+      var index = tabs.indexOf(tab);
+      if (event.key === 'ArrowRight') index = (index + 1) % tabs.length;
+      else if (event.key === 'ArrowLeft') index = (index + tabs.length - 1) % tabs.length;
+      else if (event.key === 'Home') index = 0;
+      else if (event.key === 'End') index = tabs.length - 1;
+      else return;
+      event.preventDefault();
+      tabs[index].click();
+      tabs[index].focus();
+    });
     if (selectedTab === tab.dataset.pssTab) showTab();
   });
   if (routeAnchors[routePath]) {

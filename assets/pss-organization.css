@@ -1,0 +1,64 @@
+/* Public organization charts: retain the source's roles and grouping. */
+.pss-organization .pss-section-heading { background: #e5ead9; }
+.pss-organization .pss-tabbar { width: fit-content; max-width: 100%; display: flex; gap: .4rem; background: #e8e6da; padding: .4rem; border-radius: 12px; }
+.pss-organization .pss-tab { min-height: 48px; padding: .7rem 1.2rem; font-size: .85rem; border-radius: 8px; }
+.pss-organization .pss-tab.active { background: #244c40; border-radius: 8px; }
+.pss-organization .pss-chart-panel { padding: 2rem; background: #fffdf7; border: 1px solid #d5dacb; }
+.pss-organization .pss-chart-panel > h2 { font: 400 clamp(1.8rem,3vw,2.6rem)/1.15 'DM Serif Display',Georgia,serif; color: #244c40; }
+.pss-organization .pss-chart-panel > p { font-size: .9rem; }
+.org-section-label { display: flex; align-items: center; gap: .85rem; margin: 2.4rem 0 1rem; }
+.org-section-label > span { display: grid; place-items: center; width: 42px; height: 42px; flex-shrink: 0; border: 1px solid #9caa91; border-radius: 50%; color: #244c40; font: 500 .8rem var(--font-mono); }
+.org-section-label h3 { margin: 0; font-size: 1.05rem; color: #244c40; }
+.org-section-label p { margin: .2rem 0 0; color: #536657; font-size: .78rem; }
+.pss-organization .org-chart { margin: 0; padding: 2rem; border: 0; border-radius: 16px; background: radial-gradient(circle,#a3b49340 1px,transparent 1px) 0 0 / 16px 16px, #f3f4e9; }
+.pss-organization .org-level { gap: 1.2rem; padding: 0 0 1.5rem; }
+.pss-organization .org-level + .org-level { padding-top: 1.5rem; }
+.pss-organization .org-level:not(:last-child)::after { width: 2px; height: 3rem; bottom: -1.5rem; background: #94a78b; }
+.pss-organization .org-level:last-child { padding-bottom: 0; }
+.pss-organization .org-node { position: relative; z-index: 1; width: min(100%,450px); padding: 1.35rem 1.5rem; border: 1px solid #abb9a1; border-top: 0; border-radius: 12px; background: #fffdf7; box-shadow: 0 4px 0 #d6ddca; text-align: center; }
+.pss-organization .org-node > span { color: #6e542f; font-size: .68rem; letter-spacing: .07em; margin-bottom: .6rem; }
+.pss-organization .org-node > strong { font-size: .98rem; line-height: 1.5; color: #244c40; overflow-wrap: anywhere; }
+.pss-organization .org-node > small { text-transform: none; letter-spacing: 0; font-size: .8rem; font-weight: 500; color: #526657; margin-top: .45rem; }
+.pss-organization .org-node.lead { background: #244c40; padding-top: 1.65rem; border-color: #244c40; }
+.pss-organization .org-node.lead > strong { color: #fffdf7; font-size: 1.15rem; }
+.pss-organization .org-node.lead > span { color: #f7d68a; }
+.pss-organization .org-node.lead > small { color: #dce6d3; }
+.pss-organization .org-node.primary { background: #f5e3b5; color: #244c40; }
+.pss-organization .teacher-chart .org-node.primary { width: min(100%,720px); }
+.pss-organization .org-node ul { display: grid; grid-template-columns: 1fr 1fr; gap: .6rem; padding: 0; margin-top: 1rem; list-style: none; }
+.pss-organization .org-node li { padding: .8rem; border-radius: 6px; background: #fffdf79c; font-size: .83rem; }
+.pss-organization .org-node li small { display: block; margin: .3rem 0 0; color: #546451; font-size: .7rem; }
+.pss-organization .org-pair .org-node { width: min(48%,360px); }
+.pss-organization .org-trio .org-node { width: min(32%,300px); }
+.pss-organization :is(.committee-grid,.unit-grid) { gap: 1rem; }
+.pss-organization .unit-grid { grid-template-columns: repeat(3,minmax(0,1fr)); }
+.pss-organization :is(.committee-grid,.unit-grid) article { position: relative; padding: 1.3rem; padding-top: 4.2rem; border: 1px solid #d3dac8; border-radius: 12px; background: #edf0e3; }
+.pss-organization :is(.committee-grid,.unit-grid) article:nth-child(3n+2) { background: #f7e9c8; }
+.pss-organization :is(.committee-grid,.unit-grid) article:nth-child(3n) { background: #e2ece9; }
+.pss-organization :is(.committee-grid,.unit-grid,.support-grid) b { font-size: .94rem; color: #244c40; }
+.pss-organization :is(.committee-grid,.unit-grid,.support-grid) p { font-size: .82rem; margin-top: .6rem; color: #435b4e; overflow-wrap: anywhere; }
+.pss-organization .support-grid article { border: 0; border-left: 3px solid #bc764b; border-radius: 0; background: #f8f4e8; padding: 1.3rem; }
+.pss-organization .pss-roster { margin-top: 1.5rem; border: 1px solid #d3dac8; box-shadow: none; }
+@media(prefers-reduced-motion:no-preference) { .pss-organization .pss-chart-panel:not([hidden]) .org-level { animation: org-appear 480ms ease both; } .pss-organization .org-level:nth-child(2) { animation-delay: 80ms; } .pss-organization .org-level:nth-child(3) { animation-delay: 160ms; } .pss-organization .org-level:nth-child(4) { animation-delay: 240ms; } }
+@keyframes org-appear { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: none; } }
+@media(max-width:820px) { .pss-organization .pss-chart-panel { padding: 1.2rem; } .pss-organization .org-chart { padding: 1.2rem; } .pss-organization :is(.committee-grid,.unit-grid) { grid-template-columns: repeat(2,minmax(0,1fr)); } }
+@media(max-width:560px) { .pss-organization .pss-tab { padding: .6rem .7rem; font-size: .76rem; flex: 1; } .pss-organization .pss-tabbar { width: 100%; } .pss-organization .org-chart { padding: 1rem 1rem 1rem 1.4rem; background: #f3f4e9; } .pss-organization .org-level, .pss-organization .org-level + .org-level { padding: 0 0 1rem 1rem; border-left: 2px solid #9aaf8e; gap: .8rem; } .pss-organization .org-level:last-child { padding-bottom: 0; } .pss-organization .org-node, .pss-organization .org-pair .org-node, .pss-organization .org-trio .org-node { width: 100%; padding: 1.05rem; text-align: left; } .pss-organization .org-node::before { content: ''; position: absolute; width: 1rem; height: 2px; left: -1rem; top: 1.5rem; background: #9aaf8e; } .pss-organization .org-node ul { grid-template-columns: 1fr; } .pss-organization :is(.committee-grid,.unit-grid,.support-grid) { grid-template-columns: 1fr; } .pss-organization .org-node > strong { font-size: .9rem; } .pss-organization .org-node.lead > strong { font-size: 1rem; } }
+@media print { .pss-organization .org-node { break-inside: avoid; box-shadow: none; } }
+.pss-organization :is(.committee-grid,.unit-grid,.support-grid) article { position: relative; padding-top: 7.2rem; }
+.pss-organization :is(.committee-grid,.unit-grid,.support-grid) article::before { content: ""; position: absolute; top: .8rem; left: 1.2rem; width: 110px; height: 82px; background-position: center; background-size: contain; background-repeat: no-repeat; }
+.pss-organization article.pss-art-academic::before { background-image: url("/assets/pss-art/academic.svg"); }
+.pss-organization article.pss-art-library-team::before { background-image: url("/assets/pss-art/library-team.svg"); }
+.pss-organization article.pss-art-screening::before { background-image: url("/assets/pss-art/screening.svg"); }
+.pss-organization article.pss-art-tv-pss::before { background-image: url("/assets/pss-art/tv-pss.svg"); }
+.pss-organization article.pss-art-tiktok::before { background-image: url("/assets/pss-art/tiktok.svg"); }
+.pss-organization article.pss-art-youtube::before { background-image: url("/assets/pss-art/youtube.svg"); }
+.pss-organization article.pss-art-nilam-record::before { background-image: url("/assets/pss-art/nilam-unit.svg"); }
+.pss-organization article.pss-art-ains::before { background-image: url("/assets/pss-art/ains-unit.svg"); }
+.pss-organization article.pss-art-nilam-team::before { background-image: url("/assets/pss-art/nilam-team.svg"); }
+.pss-organization article.pss-art-decor::before { background-image: url("/assets/pss-art/decor.svg"); }
+.pss-organization article.pss-art-stock::before { background-image: url("/assets/pss-art/stock.svg"); }
+.pss-organization article.pss-art-promotion::before { background-image: url("/assets/pss-art/promotion.svg"); }
+.pss-organization article.pss-art-equipment::before { background-image: url("/assets/pss-art/equipment.svg"); }
+.pss-organization article.pss-art-daily-duty::before { background-image: url("/assets/pss-art/daily-duty.svg"); }
+.pss-organization article.pss-art-broadcast-team::before { background-image: url("/assets/pss-art/broadcast-team.svg"); }
+.pss-organization article.pss-art-roster::before { background-image: url("/assets/pss-art/roster.svg"); }

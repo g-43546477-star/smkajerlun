@@ -1,0 +1,20 @@
+.network-intro { display:flex;justify-content:space-between;align-items:end;gap:1rem;margin:2rem 0 1.2rem; }
+.network-intro h2,.network-note h2 { font:400 1.8rem 'DM Serif Display',Georgia,serif;margin:0; }
+.network-intro p { font-size:.82rem;color:#526657; }
+.network-grid { display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1.2rem; }
+.network-resource { display:grid;grid-template-columns:120px minmax(0,1fr);gap:1.3rem;padding:1.7rem;border:1px solid #ced8c4;border-radius:14px;background:#e5ead9;transition:transform 180ms ease; }
+.network-resource img { width:100%;height:auto;align-self:start; }
+.network-resource > div { display:flex;flex-direction:column;align-items:start; }
+.network-upustaka { background:#f5e6c4; }.network-kedah { background:#e0ebe6; }.network-delima { background:#f1e0d4; }.network-madani { grid-column:1/-1;background:#fffdf7; }
+.network-kicker { font:600 .62rem var(--font-mono);letter-spacing:.05em;color:#53634d; }
+.network-resource h2 { font:400 1.65rem/1.15 'DM Serif Display',Georgia,serif;margin:.7rem 0; }
+.network-resource p { font-size:.86rem;color:#445c4e;margin:0 0 1rem;max-width:60ch; }
+.network-resource small { font-size:.7rem;border:1px solid #a4b294;padding:.2rem .5rem;border-radius:4px; }
+.network-resource b { font-size:.82rem;margin-top:auto;padding-top:1.3rem; }
+.network-note { padding:1.8rem;margin-top:1.5rem;border-left:3px solid #ae704e;background:#f4efdf; }
+.network-note p { max-width:75ch;font-size:.9rem;color:#445c4e; }.network-note a { display:inline-block;margin:.5rem 1.5rem 0 0;text-decoration:underline;text-underline-offset:4px;font-size:.82rem; }
+@media(hover:hover){.network-resource:hover{transform:translateY(-4px);border-color:#789274;}}
+@media(prefers-reduced-motion:no-preference){.network-resource{animation:network-in 400ms ease both}.network-resource:nth-child(2){animation-delay:60ms}.network-resource:nth-child(3){animation-delay:120ms}}
+@keyframes network-in{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+@media(max-width:800px){.network-grid{grid-template-columns:1fr}.network-intro{display:block}.network-resource{grid-template-columns:100px minmax(0,1fr)}}
+@media(max-width:420px){.network-resource{grid-template-columns:1fr;padding:1.3rem}.network-resource img{width:130px}.network-resource h2{font-size:1.8rem}}
