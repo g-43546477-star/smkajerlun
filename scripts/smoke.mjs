@@ -10,7 +10,7 @@ const launchOptions = {
   headless: process.env.E2E_HEADLESS !== '0',
   ...(fs.existsSync(chromePath) ? { executablePath: chromePath } : {})
 };
-const routes = ['/', '/program/', '/program/?slug=smka-jerlun-anjur-karnival-maulidur-rasul-generasi-madani-1448h', '/berita/?slug=smka-jerlun-anjur-karnival-maulidur-rasul-generasi-madani-1448h', '/kokurikulum/pencapaian/drone-edu-challenge-ir4/', '/kokurikulum/pencapaian/pidato-generasi-madani-2026/', '/pss/', '/pss/tentang-pss/pengawas-pss/', '/pss/program/kalendar/', '/pss/program/pengumuman/', '/pss/digital/katalog/', '/pss/digital/nilam/', '/pss/nilam/', '/pss/digital/iq-nilam/', '/pss/pinjaman/', '/pss/organisasi/', '/perkhidmatan/portal-pss/', '/pss/admin/', '/tempahan/', '/tempahan/senarai/', '/tempahan/admin/', '/perkhidmatan/tempahan-bilik/', '/perkhidmatan/klinik/', '/kokurikulum/', '/info/?tab=profil', '/info-sekolah/profil-sekolah/', '/info-sekolah/lagu-sekolah/', '/info-sekolah/pengurusan/', '/info-sekolah/warga-sekolah/', '/info-sekolah/takwim/', '/profil/', '/carian/'];
+const routes = ['/', '/program/', '/program/?slug=smka-jerlun-anjur-karnival-maulidur-rasul-generasi-madani-1448h', '/program/?slug=pasukan-smk-agama-jerlun-mara-ke-grand-final-cabaran-sains-kebangsaan-2026', '/berita/?slug=smka-jerlun-anjur-karnival-maulidur-rasul-generasi-madani-1448h', '/kokurikulum/pencapaian/drone-edu-challenge-ir4/', '/kokurikulum/pencapaian/pidato-generasi-madani-2026/', '/pss/', '/pss/tentang-pss/pengawas-pss/', '/pss/program/kalendar/', '/pss/program/pengumuman/', '/pss/digital/katalog/', '/pss/digital/nilam/', '/pss/nilam/', '/pss/digital/iq-nilam/', '/pss/pinjaman/', '/pss/organisasi/', '/perkhidmatan/portal-pss/', '/pss/admin/', '/tempahan/', '/tempahan/senarai/', '/tempahan/admin/', '/perkhidmatan/tempahan-bilik/', '/perkhidmatan/klinik/', '/kokurikulum/', '/info/?tab=profil', '/info-sekolah/profil-sekolah/', '/info-sekolah/lagu-sekolah/', '/info-sekolah/pengurusan/', '/info-sekolah/warga-sekolah/', '/info-sekolah/takwim/', '/profil/', '/carian/'];
 const legacyRedirects = new Map([
   ['/perkhidmatan/portal-pss/', '/pss/'],
   ['/perkhidmatan/tempahan-bilik/', '/tempahan/'],
@@ -107,6 +107,13 @@ async function visit(page, route) {
   if (route === '/program/?slug=smka-jerlun-anjur-karnival-maulidur-rasul-generasi-madani-1448h') await page.locator('#achievement-article:not([hidden])').waitFor({ state: 'visible', timeout: 6000 }).catch(() => {});
   if (route === '/program/?slug=smka-jerlun-anjur-karnival-maulidur-rasul-generasi-madani-1448h' && (!await page.locator('#achievement-title').count() || !(await page.locator('#achievement-title').textContent()).includes('Karnival Maulidur Rasul') || (await page.locator('#achievement-gallery-grid img').count()) !== 6)) {
     failures.push(`${route}: program article or gallery is incomplete`);
+  }
+  if (route === '/program/?slug=pasukan-smk-agama-jerlun-mara-ke-grand-final-cabaran-sains-kebangsaan-2026') {
+    await page.locator('#achievement-article:not([hidden])').waitFor({ state: 'visible', timeout: 6000 }).catch(() => {});
+    const articleImageSrc = await page.locator('#achievement-image').getAttribute('src');
+    if (!await page.locator('#achievement-title').count() || !(await page.locator('#achievement-title').textContent()).includes('Grand Final Cabaran Sains Kebangsaan') || !(await page.locator('#achievement-prose ul li').count()) || !articleImageSrc?.includes('pasukan-grand-final-cabaran-sains-kebangsaan-2026.png')) {
+      failures.push(`${route}: Cabaran Sains article, list or image is incomplete`);
+    }
   }
   if (route.startsWith('/berita/') || route.startsWith('/kokurikulum/pencapaian/')) {
     if (!page.url().includes('/program/?slug=')) failures.push(`${route}: legacy article route did not redirect to Program Sekolah`);

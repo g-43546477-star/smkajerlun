@@ -43,6 +43,19 @@
     String(text || '').split(/\n\s*\n/).forEach(function (paragraph) {
       var value = paragraph.trim();
       if (!value) return;
+      var lines = value.split(/\r?\n/).map(function (line) { return line.trim(); }).filter(Boolean);
+      var unordered = lines.length > 0 && lines.every(function (line) { return /^[-*]\s+/.test(line); });
+      var ordered = lines.length > 0 && lines.every(function (line) { return /^\d+[.)]\s+/.test(line); });
+      if (unordered || ordered) {
+        var list = document.createElement(unordered ? 'ul' : 'ol');
+        lines.forEach(function (line) {
+          var item = document.createElement('li');
+          item.textContent = line.replace(unordered ? /^[-*]\s+/ : /^\d+[.)]\s+/, '').trim();
+          list.appendChild(item);
+        });
+        mount.appendChild(list);
+        return;
+      }
       var node = document.createElement('p');
       node.textContent = value;
       mount.appendChild(node);
