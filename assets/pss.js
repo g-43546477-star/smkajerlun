@@ -64,8 +64,8 @@
       ]),
       dropdown('jaringan', 'Jaringan Perpustakaan', '/pss/jaringan-perpustakaan/', 'Pautan perpustakaan dan sumber bacaan rasmi untuk warga sekolah.', [
         { href: 'https://ains.moe.gov.my', title: 'AINS NILAM', copy: 'Sistem rekod bacaan rasmi KPM', external: true },
-        { href: 'https://www.u-pustaka.gov.my', title: 'u-Pustaka', copy: 'E-buku, e-majalah dan e-akhbar percuma', external: true },
-        { href: 'https://opac.kedahlib.gov.my', title: 'Perpustakaan Digital Kedah', copy: 'Katalog dan keahlian perpustakaan Kedah', external: true },
+        { href: 'https://www.u-library.gov.my/portal/ms/web/guest', title: 'u-Pustaka', copy: 'E-buku, e-majalah dan e-akhbar percuma', external: true },
+        { href: 'https://opac.kedahlib.gov.my/cgi-bin/koha/opac-main.pl', title: 'Perpustakaan Digital Kedah', copy: 'Katalog dan keahlian perpustakaan Kedah', external: true },
         { href: 'https://d2.delima.edu.my', title: 'DELIMa', copy: 'Buku teks digital dan bahan bacaan', external: true },
         { href: 'https://delima.bookcapital.com.my', title: 'Baucar Buku MADANI', copy: 'Akses e-baucar buku untuk pelajar yang layak', external: true }
       ]),

@@ -1128,7 +1128,7 @@ html { scroll-padding-top: calc(var(--pss-nav-height) + var(--ds-space-3)); }
   pointer-events: none;
 }
 .pss-weekly-book::after { background-image: url('/assets/pss-art/reading-pick.svg'); }
-.pss-weekly-activity::after { background-image: url('/assets/pss-art/events.svg'); }
+.pss-weekly-activity::after { background-image: url('/assets/pss-art/creative-workshop.svg'); }
 .pss-weekly-nilam::after { background-image: url('/assets/pss-art/podium.svg'); }
 .pss-home-widgets .pss-widget:first-child::after {
   right: -1.4rem;

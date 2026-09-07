@@ -4,7 +4,7 @@
       eyebrow: 'DIGITAL PSS', number: '01', title: 'Portal AINS', cardTitle: 'Perekodan NILAM melalui AINS',
       intro: 'Gunakan halaman PSS ini sebagai pintu masuk ke sistem perekodan bacaan AINS.',
       copy: 'AINS ialah portal rasmi KPM bagi urusan rekod bacaan NILAM, pengesahan buku dan sijil.',
-      action: 'Buka Portal AINS', href: 'https://ains.moe.gov.my/login?returnUrl=/'
+      action: 'Buka Portal AINS', href: 'https://ains.moe.gov.my/'
     },
     '/pss/perkhidmatan/tempahan-ruang/': {
       eyebrow: 'PERKHIDMATAN PSS', number: '01', title: 'Tempahan Ruang', cardTitle: 'Tempahan Ruang Khas Sekolah',

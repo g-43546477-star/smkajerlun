@@ -74,8 +74,8 @@
 .pss-reading-room .pss-weekly-card > span { background: #e5ead9; color: #244c40; }
 .pss-reading-room .pss-service-strip > .pss-shell { background: transparent; padding-block: 1rem; }
 .pss-reading-room .pss-service-strip > .pss-shell::after { display: none; }
-.pss-reading-room .pss-service-strip a { padding: 85px 1rem 1rem; border: 0; border-radius: 10px; background: #fffdf7 url('/assets/pss-art/school-calendar.svg') no-repeat right 10px top 8px / 100px 75px; }
+.pss-reading-room .pss-service-strip a { padding: 85px 1rem 1rem; border: 0; border-radius: 10px; background: #fffdf7 url('/assets/pss-art/school-dates.svg') no-repeat right 10px top 8px / 100px 75px; }
 .pss-reading-room .pss-service-strip a:last-child { background-image: url('/assets/pss-art/prefect-badge.svg'); }
 @media(max-width:600px) { .pss-reading-room .pss-brief article { grid-template-columns: 1fr; gap: .8rem; } .pss-reading-room .pss-brief time { display: flex; align-items: center; gap: .55rem; width: max-content; padding: .5rem .75rem; font-size: 1.5rem; } .pss-reading-room .pss-brief time br { display: none; } }
 
-.pss-reading-room .pss-service-strip a:nth-child(2) { background-image: url("/assets/pss-art/event-timeline.svg"); }
+.pss-reading-room .pss-service-strip a:nth-child(2) { background-image: url("/assets/pss-art/library-program.svg"); }

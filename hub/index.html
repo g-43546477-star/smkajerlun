@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Portal Warga | SMK Agama Jerlun</title>
+<title>Perkhidmatan Sekolah | SMK Agama Jerlun</title>
 <meta name="description" content="Portal warga SMK Agama Jerlun: takwim, pengumuman, carian, dokumen dan akses perkhidmatan sekolah.">
 <link rel="canonical" href="https://www.smkajerlun.my/hub/">
 
@@ -19,6 +19,8 @@
 <link rel="stylesheet" href="/assets/ajer-makeover.css?v=20260905-1">
 <link rel="stylesheet" href="/assets/ajer-refinement.css?v=20260905-2">
 <link rel="stylesheet" href="/assets/ajer-school.css?v=20260906-1">
+<link rel="stylesheet" href="/assets/school-public.css?v=20260907-uiux">
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
 </head>
 <body class="ios-home ajer-hub" data-portal-view="home"><header class="sitehead">
   <svg class="pattern" width="100%" height="100%" aria-hidden="true">
@@ -52,40 +54,28 @@
       <a href="/tempahan/log-masuk/" id="nav-login">Log Masuk</a>
     </nav>
   </div>
-</header><section class="ajer-destination-head"><div><span class="ajer-eyebrow">PORTAL WARGA</span><h1>Keperluan harian,<br>di satu tempat.</h1><p>Takwim, makluman dan perkhidmatan sekolah.</p><nav aria-label="Bahagian portal"><a href="#ajer-calendar">Takwim</a><a href="#notis-title">Pengumuman</a><a href="#cari-title">Carian</a></nav></div><img src="/assets/ajer-art/portal.svg" alt="" width="480" height="360"></section><main id="main-content" class="ios-home-main"><section class="ajer-audience" aria-labelledby="audience-title"><div><span class="ajer-eyebrow">RUANG UNTUK SEMUA</span><h2 id="audience-title">Saya seorang...</h2></div><div class="ajer-audience-buttons" role="group" aria-label="Pilih kumpulan pengguna"><button type="button" data-audience="murid" aria-pressed="true">Murid</button><button type="button" data-audience="ibu" aria-pressed="false">Ibu bapa</button><button type="button" data-audience="guru" aria-pressed="false">Guru</button><button type="button" data-audience="pelawat" aria-pressed="false">Pelawat</button></div><div id="audience-links" class="ajer-quicklinks" aria-live="polite"></div></section><div class="ios-primary-grid">
-    <section class="ios-panel ios-activities" aria-labelledby="aktiviti-title">
-      <div class="ios-section-heading"><div><span class="ios-overline">KALENDAR SEKOLAH</span><h2 id="aktiviti-title">Aktiviti Terdekat</h2></div><a href="/info/?tab=takwim">Lihat semua <span aria-hidden="true">&rarr;</span></a></div>
-      <div id="aktiviti-terdekat-list"></div>
-    </section>
-    <section class="ios-panel ios-announcements" aria-labelledby="notis-title">
-      <div class="ios-section-heading"><div><span class="ios-overline">MAKLUMAN RASMI</span><h2 id="notis-title">Pengumuman</h2></div><span class="ios-section-meta">Terkini</span></div>
-      <div class="notis" id="notis-list"></div>
-    </section>
-  </div><section class="ios-service-dock" aria-labelledby="sistem-title">
-    <div class="ios-section-heading">
-      <div><span class="ios-overline">SISTEM SEKOLAH</span><h2 id="sistem-title">Akses utama</h2></div>
-      <span class="ios-section-meta">PILIH PERKHIDMATAN</span>
+</header><section class="ajer-destination-head service-intro">
+  <div><span class="ajer-eyebrow">PORTAL WARGA</span><h1>Perkhidmatan sekolah</h1><p>Akses sistem, borang dan maklumat untuk warga SMK Agama Jerlun.</p></div>
+  <img src="/assets/ajer-art/portal.svg" alt="" width="480" height="360">
+</section>
+<main id="main-content" class="ios-home-main service-main">
+  <section class="service-directory" aria-labelledby="sistem-title">
+    <div class="ios-section-heading"><h2 id="sistem-title">Pilih perkhidmatan</h2></div>
+    <div class="service-directory-grid">
+      <a href="/tempahan/"><img src="/assets/ajer-icons/clock.svg" alt="" width="56" height="56"><span><b>Tempahan Bilik</b><small>Semak ketersediaan ruang dan buat tempahan.</small></span><i aria-hidden="true">↗</i></a>
+      <a href="/pss/"><img src="/assets/ajer-icons/book.svg" alt="" width="56" height="56"><span><b>Portal PSS</b><small>Katalog buku, bacaan digital dan NILAM.</small></span><i aria-hidden="true">↗</i></a>
+      <a href="/perkhidmatan/klinik/"><img src="/assets/ajer-icons/care.svg" alt="" width="56" height="56"><span><b>Rekod Klinik</b><small>Akses sistem rekod kesihatan murid.</small></span><i aria-hidden="true">↗</i></a>
+      <a href="/perkhidmatan/muat-turun/"><img src="/assets/ajer-icons/document.svg" alt="" width="56" height="56"><span><b>Borang &amp; Dokumen</b><small>Muat turun bahan rasmi sekolah.</small></span><i aria-hidden="true">↗</i></a>
+      <a href="/info/?tab=takwim" id="ajer-calendar"><img src="/assets/ajer-icons/calendar.svg" alt="" width="56" height="56"><span><b>Takwim Sekolah</b><small>Tarikh aktiviti dan perancangan sekolah.</small></span><i aria-hidden="true">↗</i></a>
+      <a href="/perkhidmatan/direktori/"><img src="/assets/ajer-icons/phone.svg" alt="" width="56" height="56"><span><b>Direktori Sekolah</b><small>Maklumat hubungan dan rujukan warga.</small></span><i aria-hidden="true">↗</i></a>
     </div>
-    <div class="ios-service-grid">
-      <a class="ios-service-item pss" href="/pss/"><span class="ios-service-icon" aria-hidden="true">PSS</span><span><b>Portal PSS</b><small>Katalog, NILAM dan pinjaman</small></span><i aria-hidden="true">&rarr;</i></a>
-      <a class="ios-service-item booking" href="/tempahan/"><span class="ios-service-icon" aria-hidden="true">BK</span><span><b>Tempahan Bilik</b><small>Semak slot dan tempah ruang</small></span><i aria-hidden="true">&rarr;</i></a>
-      <a class="ios-service-item calendar" href="/info/?tab=takwim"><span class="ios-service-icon" aria-hidden="true">TK</span><span><b>Takwim Sekolah</b><small>Aktiviti dan acara semasa</small></span><i aria-hidden="true">&rarr;</i></a>
-      <a class="ios-service-item dorm" href="/asrama/"><span class="ios-service-icon" aria-hidden="true">AS</span><span><b>Hal Ehwal Asrama</b><small>Jadual harian dan peraturan</small></span><i aria-hidden="true">&rarr;</i></a>
-    </div>
-  </section><section class="ajer-calendar-section" id="ajer-calendar" aria-labelledby="calendar-title"><div class="ajer-section-title"><div><span class="ajer-eyebrow">CATAT DALAM PERANCANGAN</span><h2 id="calendar-title">Takwim sekolah</h2></div><a href="/info/?tab=takwim">Takwim penuh ↗</a></div><div class="ajer-calendar-toolbar"><div class="ajer-month-controls"><button type="button" id="ajer-prev" aria-label="Bulan sebelumnya">←</button><h3 id="ajer-month" aria-live="polite">Takwim bulanan</h3><button type="button" id="ajer-next" aria-label="Bulan berikutnya">→</button><button type="button" id="ajer-this-month">Hari ini</button></div><label>Kategori <select id="ajer-category"><option value="">Semua</option><option value="aktiviti">Aktiviti</option><option value="akademik">Akademik</option><option value="cuti">Cuti</option></select></label></div><div class="ajer-calendar-layout"><div id="ajer-calendar-grid"></div><div id="ajer-calendar-events" aria-live="polite"><p>Memuatkan takwim...</p></div></div></section><section class="ajer-utilities" aria-label="Kemudahan harian"><div class="ajer-prayer"><span class="ajer-eyebrow">WAKTU SOLAT · KDH01</span><h2>Sejenak mengingati-Nya.</h2><div id="ajer-prayers">Memuatkan waktu solat...</div><small id="ajer-prayer-source">Kubang Pasu · waktu Malaysia</small></div><div class="ajer-favourites"><span class="ajer-eyebrow">PILIHAN ANDA</span><h2>Pautan kegemaran</h2><p>Simpan akses yang kerap digunakan pada peranti ini.</p><div id="ajer-favourites" aria-live="polite"></div><button type="button" id="ajer-edit-favourites">Ubah pilihan</button><div id="ajer-favourite-options" hidden></div><p id="ajer-storage-status" role="status"></p></div></section><section class="ios-search-compact" aria-labelledby="cari-title">
-    <h2 id="cari-title">Cari maklumat sekolah</h2>
-    <div class="portal-filter"><input aria-label="Cari maklumat sekolah" id="site-search" type="search" placeholder="Cari pengumuman, takwim atau dokumen..."></div>
-    <div id="search-results" class="portal-list search-results"></div>
-  </section><section class="ios-secondary-grid" aria-label="Maklumat dan perkhidmatan sekolah">
-    <section class="ios-secondary-col" id="pusat-muat-turun">
-      <div class="ios-secondary-head"><span class="ios-overline">PUSAT MUAT TURUN</span><h3>Borang &amp; Dokumen</h3></div>
-      <div id="resource-list" class="portal-list"></div>
-    </section>
-    <section class="ios-secondary-col" id="direktori-sekolah">
-      <div class="ios-secondary-head"><span class="ios-overline">DIREKTORI SEKOLAH</span><h3>Profil &amp; Hubungan</h3></div>
-      <div class="ajer-contact-actions"><a href="tel:+6049250925">04&#8209;9250925</a><a href="mailto:kra4002@moe.edu.my">E-mel sekolah</a><a href="https://www.google.com/maps/search/?api=1&amp;query=SMK+Agama+Jerlun" target="_blank" rel="noopener">Lokasi sekolah ↗</a></div><div id="directory-list" class="portal-list"></div>
-    </section>
-  </section></main><footer>
+  </section>
+  <section class="service-notices" aria-labelledby="notis-title">
+    <div class="ios-section-heading"><div><span class="ios-overline">MAKLUMAN RASMI</span><h2 id="notis-title">Pengumuman</h2></div></div>
+    <div class="notis" id="notis-list"></div>
+  </section>
+  <section class="service-search" aria-labelledby="cari-title"><h2 id="cari-title">Perlu maklumat lain?</h2><a href="/carian/">Cari maklumat sekolah <span aria-hidden="true">→</span></a></section>
+</main><footer>
   <div class="foot-inner">
     <div>
       <div class="b">SMK Agama Jerlun <span class="brass">&middot;</span> Kedah</div>
@@ -96,5 +86,6 @@
       <div>Dibangunkan oleh AJER-Syahir &middot; <span id="thn"></span></div>
     </div>
   </div>
-</footer><script src="/assets/vendor/supabase-2.57.4.js?v=20260828-1"></script><script src="/assets/cms.js?v=20260905-2"></script><script src="/assets/pages/index.js?v=20260905-2"></script><script src="/assets/portal.js?v=20260905-2"></script><script src="/assets/ajer-makeover.js?v=20260905-2"></script><script src="/assets/ajer-school.js?v=20260906-1"></script>
+</footer><script src="/assets/vendor/supabase-2.57.4.js?v=20260828-1"></script><script src="/assets/cms.js?v=20260905-2"></script><script src="/assets/pages/index.js?v=20260905-2"></script><script src="/assets/portal.js?v=20260905-2"></script><script src="/assets/ajer-makeover.js?v=20260905-2"></script><script src="/assets/ajer-school.js?v=20260906-2"></script>
+<script src="/assets/school-motion.js?v=20260907-uiux"></script>
 </body></html>

@@ -9,6 +9,11 @@
     image.className = 'ajer-icon'; return image;
   };
   const route = location.pathname.replace(/\/?$/, '/');
+  document.querySelectorAll('.school-mobile-dock a').forEach(link => {
+    const url = new URL(link.href, location.origin);
+    if (url.pathname === route && url.search === location.search) link.setAttribute('aria-current', 'page');
+    else link.removeAttribute('aria-current');
+  });
   const routeGroups = { '/akademik/': 'akademik', '/hem/': 'hem', '/kokurikulum/': 'kokurikulum', '/asrama/': 'asrama', '/info/': 'info', '/hub/': 'perkhidmatan' };
   const groupKey = routeGroups[route];
   if (groupKey) document.body.classList.add('ajer-content-' + groupKey);
@@ -17,12 +22,15 @@
     if (/jadual|masa/.test(value)) return 'clock';
     if (/takwim|tarikh|kalendar/.test(value)) return 'calendar';
     if (/dokumen|borang|peraturan|panduan/.test(value)) return 'document';
-    if (/warga|guru|kaunseling|kebajikan/.test(value)) return 'people';
+    if (/kebajikan/.test(value)) return 'care';
+    if (/kaunseling/.test(value)) return 'career';
+    if (/warga|guru/.test(value)) return 'people';
     if (/pengurusan|kepimpinan|organisasi/.test(value)) return 'org';
     if (/sukan|permainan/.test(value)) return 'football';
     if (/kelab|persatuan/.test(value)) return 'language';
     if (/uniform/.test(value)) return 'scout';
-    if (/keselamatan|sahsiah/.test(value)) return 'cadet';
+    if (/keselamatan/.test(value)) return 'safety';
+    if (/sahsiah/.test(value)) return 'cadet';
     if (/asrama/.test(value)) return 'bed';
     if (/lagu/.test(value)) return 'music';
     if (/hubungi/.test(value)) return 'phone';
@@ -30,7 +38,7 @@
     return 'book';
   };
   // The main menu now opens the content itself. These are the same destinations as its submenu.
-  if (groupKey && !['info', 'asrama'].includes(groupKey)) {
+  if (groupKey && !['info', 'asrama', 'perkhidmatan'].includes(groupKey)) {
     const group = (window.schoolMenuGroups || {})[groupKey];
     const main = document.querySelector('main');
     if (group && main) {
@@ -118,7 +126,6 @@
     button.addEventListener('click', () => { const list = chart.classList.toggle('ajer-org-list'); button.setAttribute('aria-pressed', String(list)); button.textContent = list ? 'Paparan carta' : 'Paparan senarai'; });
     tools.append(button); chart.before(tools);
   });
-  document.querySelectorAll('.org-node').forEach(person => person.prepend(icon('people')));
   // Auto-advancing program strip: pauses for interaction, hidden tabs and reduced motion.
   const strip = $('home-program-list');
   if (strip && $('program-toggle')) {
