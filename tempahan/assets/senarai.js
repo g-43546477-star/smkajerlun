@@ -1,8 +1,9 @@
-const DATEINFO = tarikhInfo();
+let DATEINFO = tarikhInfo();
 let currentUser = null;
 let currentAdmin = false;
 let allEntries = [];
-let showMineOnly = false;
+let showMineOnly = new URLSearchParams(location.search).get('mine') === '1';
+document.getElementById('f-mine').checked = showMineOnly;
 
 function actionCell(entry) {
   const td = document.createElement('td');
@@ -54,9 +55,27 @@ function renderRows() {
 
   const tbody = document.getElementById('tbody');
   tbody.innerHTML = '';
+  let records = document.querySelector('.booking-records');
+  if (!records) {
+    records = document.createElement('div'); records.className = 'booking-records';
+    tbody.closest('table').classList.add('records-table');
+    tbody.closest('.tablewrap').prepend(records);
+  }
+  records.replaceChildren();
   document.getElementById('empty').style.display = filtered.length === 0 ? 'block' : 'none';
 
   filtered.forEach(entry => {
+    const card = document.createElement('article'); card.className = 'booking-record' + (entry.status === 'dibatalkan' ? ' cancelled' : '');
+    const title = document.createElement('h3'); title.textContent = entry.bilik;
+    const date = document.createElement('p'); date.textContent = formatMalayDate(entry.tarikh);
+    const time = document.createElement('p'); time.className = 'record-time'; time.textContent = entry.masa_mula + ' – ' + entry.masa_tamat;
+    const purpose = document.createElement('p'); purpose.textContent = entry.kelas + ' · ' + (entry.tujuan || 'Tiada tujuan dinyatakan');
+    const status = document.createElement('p'); status.textContent = entry.status === 'dibatalkan' ? 'Dibatalkan' : 'Tempahan aktif';
+    const actions = actionCell(entry);
+    card.append(title, date, time, purpose, status);
+    if (currentAdmin) { const owner = document.createElement('p'); owner.textContent = entry.nama_pemohon; card.append(owner); }
+    if (actions.firstChild) card.append(actions.firstChild);
+    records.append(card);
     const tr = document.createElement('tr');
     const tdT = document.createElement('td'); tdT.className = 'tarikh'; tdT.textContent = formatMalayDate(entry.tarikh); tr.appendChild(tdT);
     const tdN = document.createElement('td'); tdN.className = 'nama'; tdN.textContent = entry.nama_pemohon; tr.appendChild(tdN);
@@ -80,8 +99,9 @@ async function loadAll() {
     return;
   }
 
-  const { data, error } = await sb.from('tempahan').select('*')
-    .order('tarikh', { ascending: false }).order('masa_mula').limit(200);
+  let query = sb.from('tempahan').select('*');
+  if (showMineOnly) query = query.eq('user_id', currentUser.id);
+  const { data, error } = await query.order('tarikh', { ascending: false }).order('masa_mula').limit(200);
   if (error) {
     allEntries = [];
     empty.textContent = 'Senarai tempahan tidak dapat dimuatkan. Sila cuba semula.';
@@ -108,7 +128,7 @@ async function onCancel(entry) {
 }
 
 document.getElementById('f-search').addEventListener('input', renderRows);
-document.getElementById('f-mine').addEventListener('change', (e) => { showMineOnly = e.target.checked; renderRows(); });
+document.getElementById('f-mine').addEventListener('change', (e) => { showMineOnly = e.target.checked; loadAll(); });
 
 // ---------- Edit modal ----------
 let editEntry = null;
@@ -135,11 +155,12 @@ function populateEditSelects() {
 }
 
 function renderEditDateButtons() {
+  DATEINFO = tarikhInfo();
   const btnHariIni = document.getElementById('edit-hari-ini');
   const btnEsok = document.getElementById('edit-esok');
   btnHariIni.classList.toggle('active', editTarikh === DATEINFO.hariIni);
   btnEsok.classList.toggle('active', editTarikh === DATEINFO.esok);
-  btnEsok.disabled = !DATEINFO.bukaEsok && editTarikh !== DATEINFO.esok;
+  btnEsok.disabled = !currentAdmin && !DATEINFO.bukaEsok;
 }
 
 function refreshEditLcd() {
@@ -217,10 +238,10 @@ editOverlay.addEventListener('keydown', (event) => {
   }
 });
 document.getElementById('edit-bilik').addEventListener('change', () => { refreshEditSlots(); refreshEditLcd(); });
-document.getElementById('edit-hari-ini').addEventListener('click', () => { editTarikh = DATEINFO.hariIni; renderEditDateButtons(); refreshEditSlots(); });
+document.getElementById('edit-hari-ini').addEventListener('click', () => { editTarikh = tarikhInfo().hariIni; renderEditDateButtons(); refreshEditSlots(); });
 document.getElementById('edit-esok').addEventListener('click', () => {
   if (document.getElementById('edit-esok').disabled) return;
-  editTarikh = DATEINFO.esok; renderEditDateButtons(); refreshEditSlots();
+  editTarikh = tarikhInfo().esok; renderEditDateButtons(); refreshEditSlots();
 });
 
 document.getElementById('edit-save').addEventListener('click', async () => {
@@ -235,6 +256,12 @@ document.getElementById('edit-save').addEventListener('click', async () => {
   const slotDef = SLOTS.find(s => s.masa_mula === masaMula);
   if (!slotDef) { msg.textContent = 'Sila pilih slot masa yang sah.'; return; }
 
+  const changedSlot = bilik !== editEntry.bilik || editTarikh !== editEntry.tarikh || masaMula !== editEntry.masa_mula;
+  if (changedSlot && !bookingDateAllowed(editTarikh, currentAdmin)) {
+    msg.textContent = 'Tempahan setiap tarikh hanya dibuka pukul 3:00 petang sehari sebelumnya (waktu Malaysia).';
+    renderEditDateButtons();
+    return;
+  }
   const saveBtn = document.getElementById('edit-save');
   saveBtn.disabled = true; saveBtn.textContent = 'Menyimpan...';
 
@@ -248,6 +275,8 @@ document.getElementById('edit-save').addEventListener('click', async () => {
     if (error.code === '23505') {
       msg.textContent = 'Slot ini baru sahaja ditempah oleh orang lain. Sila pilih slot lain.';
       await refreshEditSlots();
+    } else if (error.code === '23514') {
+      msg.textContent = 'Tempahan tarikh ini belum dibuka atau tarikhnya telah berlalu.';
     } else {
       msg.textContent = 'Gagal menyimpan perubahan. Sila cuba lagi.';
     }
@@ -263,3 +292,5 @@ document.getElementById('edit-save').addEventListener('click', async () => {
   document.getElementById('filter-mine-wrap').style.display = user ? 'flex' : 'none';
   await loadAll();
 })();
+
+setInterval(() => { if (editEntry) renderEditDateButtons(); }, 1000);

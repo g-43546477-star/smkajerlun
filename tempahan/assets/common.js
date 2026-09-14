@@ -67,9 +67,9 @@ const SLOTS = genSlots();
 const MORNING = SLOTS.filter(s => !s.block);
 const BLOCKS = SLOTS.filter(s => s.block);
 
-function tarikhInfo() {
+function tarikhInfo(now = new Date()) {
   const fmt = new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Kuala_Lumpur', year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', hour12: false });
-  const parts = fmt.formatToParts(new Date());
+  const parts = fmt.formatToParts(now);
   const get = t => parts.find(p => p.type === t).value;
   const hariIni = `${get('year')}-${get('month')}-${get('day')}`;
   const jam = Number(get('hour')) % 24;
@@ -77,6 +77,11 @@ function tarikhInfo() {
   const dt = new Date(Date.UTC(y, mo-1, d)); dt.setUTCDate(dt.getUTCDate()+1);
   const esok = dt.toISOString().split('T')[0];
   return { hariIni, esok, bukaEsok: jam >= 15 };
+}
+function bookingDateAllowed(date, admin = false) {
+  if (admin) return true;
+  const info = tarikhInfo();
+  return date === info.hariIni || (date === info.esok && info.bukaEsok);
 }
 function formatMalayDate(str) {
   if (!str) return '-';
@@ -142,7 +147,7 @@ async function refreshAuthBox() {
     if (box) {
       box.innerHTML = '';
       const span = document.createElement('span');
-      span.textContent = 'Log masuk sebagai ' + (teacher ? teacher.nama : displayName(user));
+      span.textContent = (admin ? 'Pentadbir · ' : 'Guru · ') + (teacher ? teacher.nama : displayName(user));
       const btn = document.createElement('button');
       btn.textContent = 'Log Keluar';
       btn.onclick = async () => { await sb.auth.signOut(); location.reload(); };
@@ -153,5 +158,7 @@ async function refreshAuthBox() {
     if (box) box.innerHTML = `<a href="${BASE}/log-masuk/">Log Masuk</a>`;
     if (navAdmin) navAdmin.style.display = 'none';
   }
+  window.bookingAuth = { signedIn: !!user, admin, approved: !!teacher };
+  window.dispatchEvent(new CustomEvent('booking-auth-ready', { detail: window.bookingAuth }));
   return { user, admin, teacher };
 }

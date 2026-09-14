@@ -15,7 +15,7 @@
       href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;family=Source+Sans+3:wght@400;500;600;700&amp;display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="/assets/pss.css?v=20260906-art3" />
+    <link rel="stylesheet" href="/assets/pss.css?v=20260914-1" />
     <link rel="stylesheet" href="/assets/portal.css?v=20260827-1" />
     <link rel="stylesheet" href="/assets/pss-reading-room.css?v=20260906-art3" />
     
@@ -23,6 +23,8 @@
   <link rel="stylesheet" href="/assets/ajer-makeover.css?v=20260905-1">
 <link rel="stylesheet" href="/assets/ajer-refinement.css?v=20260905-2">
 <link rel="stylesheet" href="/assets/ajer-school.css?v=20260906-1">
+<link rel="stylesheet" href="/assets/pss-mobile.css?v=20260910-1">
+<link rel="stylesheet" href="/assets/pss-visitors.css?v=20260910-1">
 </head>
   <body class="pss-reading-room">
     <header class="pss-nav">
@@ -204,6 +206,22 @@
           </div>
         </article>
       </section>
+      <section class="pss-shell pss-visitors" id="pss-visitors" aria-labelledby="visitor-title">
+        <div class="pss-visitor-heading">
+          <img src="/assets/pss-art/visitor-globe.svg" alt="" width="76" height="76">
+          <div><p class="eyebrow">JEJAK PEMBACA</p><h2 id="visitor-title">Dari sini, ke seluruh dunia.</h2></div>
+        </div>
+        <div class="pss-visitor-metrics">
+          <div><strong id="visitor-today">—</strong><span>Anggaran pelawat hari ini</span></div>
+          <div><strong id="visitor-total">—</strong><span>Jumlah pelawat harian terkumpul</span></div>
+        </div>
+        <p id="visitor-status" role="status">Memuatkan statistik pelawat…</p>
+        <div class="pss-visitor-grid">
+          <div><h3>Lawatan tujuh hari terakhir</h3><svg id="visitor-chart" viewBox="0 0 550 195" role="img" aria-label="Graf anggaran pelawat harian"><title>Statistik belum tersedia</title></svg></div>
+          <div><h3>Negara pelawat · tujuh hari</h3><ul id="visitor-countries"><li>Menunggu data negara pelawat.</li></ul></div>
+        </div>
+        <p class="pss-visitor-note">Anggaran satu pelawat bagi setiap alamat rangkaian sehari. Rangkaian yang dikongsi mungkin dikira sekali. Negara berdasarkan lokasi rangkaian, bukan kewarganegaraan; VPN boleh mempengaruhi lokasi. Alamat IP mentah tidak disimpan. Jumlah terkumpul bermula apabila tracker diaktifkan.</p>
+      </section>
     </main>
     <footer class="pss-footer">
       <div class="pss-shell">
@@ -224,5 +242,6 @@
     <script src="/assets/pss-home.js?v=20260905-1"></script>
   <script src="/assets/ajer-makeover.js?v=20260905-1"></script>
 <script src="/assets/ajer-school.js?v=20260906-2"></script>
+<script src="/assets/pss-visitors.js?v=20260910-1"></script>
 </body>
 </html>

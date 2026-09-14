@@ -1,4 +1,4 @@
-const state = { user:null, teacher:null, tarikh:null, bilik:null, selected:[], booked:new Map(), dayBooked:[] };
+const state = { user:null, teacher:null, tarikh:null, bilik:null, selected:[], booked:new Map(), dayBooked:[], ready:false };
 
 function populateStatic() {
   const kelasSel = document.getElementById('f-kelas');
@@ -58,6 +58,7 @@ function updateRoomAvailability() {
 }
 
 function setTarikh(t) {
+  if (!bookingDateAllowed(t, state.admin)) return;
   state.tarikh = t; state.selected = [];
   const adminDate = document.getElementById('f-tarikh-admin');
   if (adminDate && adminDate.value !== t) adminDate.value = t;
@@ -69,21 +70,7 @@ function setTarikh(t) {
 
 function slotKey(s) { return s.masa_mula; }
 
-async function loadBookings() {
-  state.booked = new Map();
-  if (!state.bilik || !state.tarikh) return;
-  const { data, error } = await sbPublic.from('tempahan_awam').select('bilik,tarikh,masa_mula,status')
-    .eq('bilik', state.bilik).eq('tarikh', state.tarikh).neq('status','dibatalkan');
-  if (!error && data) data.forEach(r => state.booked.set(r.masa_mula, r));
-}
-
-async function loadDayBookings() {
-  state.dayBooked = [];
-  if (!state.tarikh) return;
-  const { data, error } = await sbPublic.from('tempahan_awam').select('bilik,status')
-    .eq('tarikh', state.tarikh).neq('status', 'dibatalkan');
-  if (!error && data) state.dayBooked = data;
-}
+let availabilityRequest = 0;
 
 function renderSlots() {
   const pagi = document.getElementById('grid-pagi');
@@ -94,6 +81,7 @@ function renderSlots() {
     btn.type = 'button';
     const booked = state.booked.get(s.masa_mula);
     const chosen = state.selected.includes(s.masa_mula);
+    btn.setAttribute('aria-pressed', String(chosen));
     btn.className = 'slotbtn ' + (booked ? 'ditempah' : chosen ? 'dipilih' : 'kosong');
     const t = document.createElement('div'); t.className='t';
     const lbl = document.createElement('span'); lbl.textContent = s.block ? s.kumpulan : s.label;
@@ -124,36 +112,90 @@ function updateFooter() {
     const labels = SLOTS.filter(s => state.selected.includes(s.masa_mula)).map(s => s.block ? s.kumpulan : s.label);
     summ.textContent = labels.join(', ');
   }
-  document.getElementById('btn-hantar').disabled = !(state.teacher && n > 0 && state.bilik);
+  document.getElementById('btn-hantar').disabled = !!state.sending || !(state.teacher && state.ready && navigator.onLine && bookingDateAllowed(state.tarikh, state.admin) && n > 0 && state.bilik);
 }
 
 async function refreshRoomView() {
-  await loadDayBookings();
-  updateRoomAvailability();
-  if (!state.bilik) {
-    document.getElementById('no-room').style.display = 'block';
-    document.getElementById('room-slots').style.display = 'none';
-    document.getElementById('notice-bilik').textContent = '';
-    document.getElementById('lcd-wrap').style.display = 'none';
-    document.getElementById('f-lcd').checked = false;
-    updateFooter();
-    return;
+  const request = ++availabilityRequest;
+  const bilik = state.bilik;
+  const tarikh = state.tarikh;
+  state.ready = false;
+  updateFooter();
+  const empty = document.getElementById('no-room');
+  const slots = document.getElementById('room-slots');
+  slots.style.display = 'none';
+  empty.style.display = 'block';
+  empty.textContent = 'Sedang menyemak kekosongan...';
+  document.querySelectorAll('.room-choice small').forEach(note => { note.textContent = 'Sedang menyemak...'; });
+  document.getElementById('lcd-wrap').style.display = 'none';
+  try {
+    if (!navigator.onLine) throw new Error('offline');
+    const day = await sbPublic.from('tempahan_awam').select('bilik,status')
+      .eq('tarikh', tarikh).neq('status', 'dibatalkan');
+    if (request !== availabilityRequest) return;
+    if (day.error || !day.data) throw new Error('unavailable');
+    state.dayBooked = day.data;
+    updateRoomAvailability();
+    if (!bilik) {
+      empty.textContent = 'Sila pilih bilik atau ruang dahulu.';
+      return;
+    }
+    const bookings = await sbPublic.from('tempahan_awam').select('bilik,tarikh,masa_mula,status')
+      .eq('bilik', bilik).eq('tarikh', tarikh).neq('status', 'dibatalkan');
+    if (request !== availabilityRequest) return;
+    if (bookings.error || !bookings.data) throw new Error('unavailable');
+    state.booked = new Map(bookings.data.map(row => [row.masa_mula, row]));
+    state.selected = state.selected.filter(slot => !state.booked.has(slot));
+    if (state.pendingSlot) {
+      if (SLOTS.some(slot => slot.masa_mula === state.pendingSlot) && !state.booked.has(state.pendingSlot)) state.selected = [state.pendingSlot];
+      state.pendingSlot = null;
+    }
+    const room = findBookable(bilik);
+    document.getElementById('room-name').textContent = (room.parent ? room.parent + ' — ' : '') + room.id;
+    document.getElementById('room-desc').textContent = room.desc;
+    const isPSS = room.parent === 'Perpustakaan Darul Hikmah';
+    document.getElementById('lcd-wrap').style.display = isPSS ? 'flex' : 'none';
+    if (!isPSS) document.getElementById('f-lcd').checked = false;
+    document.getElementById('notice-bilik').textContent = 'Tempahan bagi ' + formatMalayDate(tarikh);
+    state.ready = true;
+    empty.style.display = 'none';
+    slots.style.display = 'block';
+    renderSlots();
+  } catch {
+    if (request !== availabilityRequest) return;
+    state.selected = [];
+    empty.textContent = 'Kekosongan tidak dapat disemak. Semak sambungan internet, kemudian pilih semula bilik atau tarikh.';
+    document.querySelectorAll('.room-choice').forEach(choice => {
+      choice.classList.remove('full');
+      choice.querySelector('small').textContent = 'Belum dapat disemak';
+    });
   }
-  document.getElementById('no-room').style.display = 'none';
-  document.getElementById('room-slots').style.display = 'block';
-  const room = findBookable(state.bilik);
-  document.getElementById('room-name').textContent = (room.parent ? room.parent + ' — ' : '') + room.id;
-  document.getElementById('room-desc').textContent = room.desc;
-  const isPSS = room.parent === 'Perpustakaan Darul Hikmah';
-  document.getElementById('lcd-wrap').style.display = isPSS ? 'flex' : 'none';
-  if (!isPSS) document.getElementById('f-lcd').checked = false;
-  document.getElementById('notice-bilik').textContent = 'Tempahan bagi ' + formatMalayDate(state.tarikh);
-  await loadBookings();
-  renderSlots();
   updateFooter();
 }
 
+window.addEventListener('offline', () => {
+  availabilityRequest++;
+  state.ready = false;
+  state.selected = [];
+  document.getElementById('room-slots').style.display = 'none';
+  const empty = document.getElementById('no-room');
+  empty.style.display = 'block';
+  empty.textContent = 'Tiada sambungan internet. Sambung semula untuk menyemak kekosongan.';
+  document.querySelectorAll('.room-choice small').forEach(note => { note.textContent = 'Belum dapat disemak'; });
+  updateFooter();
+});
+window.addEventListener('online', () => { if (state.tarikh) refreshRoomView(); });
+document.addEventListener('visibilitychange', () => {
+  if (!document.hidden && state.tarikh) refreshRoomView();
+});
+
 async function hantar() {
+  if (state.sending || !state.ready || !navigator.onLine) return;
+  if (!bookingDateAllowed(state.tarikh, state.admin)) {
+    showToast('Tempahan belum dibuka', 'Setiap tarikh dibuka pukul 3:00 petang sehari sebelumnya (waktu Malaysia).', 'warning');
+    syncBookingDates();
+    return;
+  }
   const kelas = document.getElementById('f-kelas').value;
   const tujuan = document.getElementById('f-tujuan').value.trim();
   if (!tujuan) { showToast('Tidak lengkap', 'Sila isi tujuan/aktiviti.', 'warning'); return; }
@@ -173,7 +215,11 @@ async function hantar() {
     kumpulan: s.kumpulan, nama_pemohon: nama, kelas, tujuan,
     guna_lcd: document.getElementById('f-lcd').checked, status: 'aktif'
   }));
-  const { error } = await sb.from('tempahan').insert(rows);
+  state.sending = true;
+  let error;
+  try { ({ error } = await sb.from('tempahan').insert(rows)); }
+  catch { error = { message: 'Sambungan terputus. Semak Tempahan saya sebelum mencuba semula.' }; }
+  finally { state.sending = false; }
   btn.textContent = 'Hantar Tempahan';
   if (error) {
     if (error.code === '23505') {
@@ -187,8 +233,9 @@ async function hantar() {
   showToast('Berjaya', `Tempahan ${rows.length} slot bagi ${state.bilik} telah disahkan.`, 'success');
   state.selected = [];
   document.getElementById('f-tujuan').value = '';
+  window.dispatchEvent(new Event('booking-saved'));
   await refreshRoomView();
-  btn.disabled = false;
+  updateFooter();
 }
 
 function wireRealtime() {
@@ -208,8 +255,8 @@ function wireRealtime() {
   document.getElementById('lbl-esok').textContent = formatMalayDateShort(info.esok);
   const btnEsok = document.getElementById('btn-esok');
   if (!info.bukaEsok) { btnEsok.disabled = true; document.getElementById('hint-esok').style.display = 'block'; }
-  document.getElementById('btn-hari-ini').addEventListener('click', () => setTarikh(info.hariIni));
-  btnEsok.addEventListener('click', () => setTarikh(info.esok));
+  document.getElementById('btn-hari-ini').addEventListener('click', () => setTarikh(tarikhInfo().hariIni));
+  btnEsok.addEventListener('click', () => setTarikh(tarikhInfo().esok));
 
   const bilikSel = document.getElementById('f-bilik');
   const subWrap = document.getElementById('sub-wrap');
@@ -255,5 +302,20 @@ function wireRealtime() {
   }
 
   setTarikh(info.hariIni);
+  window.dispatchEvent(new Event('booking-ready'));
   wireRealtime();
 })();
+
+function syncBookingDates() {
+  const info = tarikhInfo();
+  document.getElementById('lbl-hari-ini').textContent = formatMalayDateShort(info.hariIni);
+  document.getElementById('lbl-esok').textContent = formatMalayDateShort(info.esok);
+  document.getElementById('btn-esok').disabled = !state.admin && !info.bukaEsok;
+  document.getElementById('btn-hari-ini').classList.toggle('active', state.tarikh === info.hariIni);
+  document.getElementById('btn-esok').classList.toggle('active', state.tarikh === info.esok);
+  document.getElementById('hint-esok').style.display = state.admin ? 'none' : 'block';
+  if (state.tarikh && !bookingDateAllowed(state.tarikh, state.admin)) setTarikh(info.hariIni);
+  updateFooter();
+}
+setInterval(syncBookingDates, 1000);
+document.addEventListener('visibilitychange', () => { if (!document.hidden) syncBookingDates(); });

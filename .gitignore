@@ -19,3 +19,8 @@ pss-submenu-*.png
 school-submenu-*.png
 tempahan-redesign-desktop.png
 .env*
+
+# Local working material and Supabase CLI state. These may contain student
+# records or environment-specific connection metadata and must never ship.
+docs/drafts/
+supabase/.temp/

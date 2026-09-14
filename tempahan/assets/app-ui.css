@@ -1,0 +1,56 @@
+/* A focused booking app, independent of the school website's page styling. */
+:root{--app-ink:#173e38;--app-muted:#586b64;--app-green:#17634f;--app-line:#dae5de;--app-bg:#eff4f0;--app-gold:#92691d}
+body{background:var(--app-bg);color:var(--app-ink);font-family:'Source Sans 3',sans-serif;padding-bottom:100px}
+body main{max-width:760px;padding:24px 24px 40px}
+body header.topnav{background:#fff;border-bottom:1px solid var(--app-line);position:sticky;top:0;z-index:30}
+body header.topnav .bar{max-width:760px;min-height:72px;margin:auto;padding:12px 24px;display:flex;align-items:center;gap:8px 12px}
+body .brand{flex:1;min-width:0}body .brand .logo{width:38px;height:38px;flex-basis:38px;padding:2px;background:transparent}
+body .brand h1{font:800 16px/1.2 'Manrope',sans-serif;letter-spacing:-.5px;white-space:normal}body .brand p{font-size:11px;color:var(--app-muted)}
+body nav.links{width:auto;flex:0 0 auto;padding:0}body nav.links a{display:none}body nav.links #nav-admin{font-size:12px;padding:8px;color:var(--app-green)}
+body .authbox{order:4;flex-basis:100%;display:flex;justify-content:space-between;white-space:normal;gap:8px;color:var(--app-muted);font-size:12px}
+body .authbox a,body .authbox button{font-size:12px;min-height:30px;padding:4px 0;color:var(--app-green)}
+body .app-install{padding:0;margin:0;border:0;flex-shrink:0}body .app-install>div{display:none}body .app-install button{min-height:40px;background:#edf5ef;border:0;color:var(--app-green);border-radius:12px;font-size:12px;padding:8px 12px}
+body .app-rule{border:0;border-left:3px solid #7ea892;background:#e3eee5;border-radius:0 10px 10px 0;padding:10px 14px;margin:0 0 24px;display:flex;flex-direction:column;gap:3px}
+body .app-rule strong{font-size:13px}body .app-rule span{font-size:12px;color:#4f645b}body .app-rule[data-mode=admin]{background:#fff1d5;border-color:#b98a34}
+body .app-version{font-size:11px;color:var(--app-muted);text-align:center;margin:32px 0 0}
+body .banner{background:none;padding:0;margin:0 0 24px;border:0;box-shadow:none;color:var(--app-ink)}
+body .banner h2,body h2.page-title{font:800 28px/1.2 'Manrope',sans-serif;letter-spacing:-1px;color:var(--app-ink);text-wrap:balance}
+body .banner p,body p.page-sub{font-size:14px;line-height:1.45;color:var(--app-muted);margin-top:8px}
+body .card{border:0;box-shadow:none;border-radius:20px;padding:24px;background:#fff;margin-bottom:20px}body .card:hover{box-shadow:none}
+body .section-title{font:800 17px/1.3 'Manrope',sans-serif;text-transform:none;letter-spacing:-.3px;color:var(--app-ink)}
+body .step-badge{background:#dfede3;color:#17634f;border-radius:8px;width:28px;height:28px}
+body .field-label{font-size:14px;font-weight:600;color:var(--app-ink);margin-bottom:8px}
+body :is(input[type=text],input[type=password],input[type=date],select,textarea){background:#f6f8f6;border:1px solid var(--app-line);border-radius:12px;min-height:50px;font-size:16px;padding:12px;color:var(--app-ink)}
+body input[readonly]{background:#eff3ef;color:var(--app-muted)}
+body .btn-primary{background:var(--app-green);border-radius:14px;min-height:50px;font-size:15px}body .btn-primary:disabled{background:#e2e8e3;color:#637369}
+body .btn-secondary{border-radius:12px;min-height:44px;font-size:14px;color:var(--app-ink)}
+body .datepick{gap:10px}body .datepick button{border-radius:12px;min-height:64px;font-size:15px;background:#f3f6f3}body .datepick button.active{background:#17634f;border-color:#17634f;color:#fff}body .datepick button:disabled{background:#f0f2ef;color:#6e786e}
+body .hint-esok{color:#76531c;font-size:12px;line-height:1.5}
+body .authgate{border:0;border-radius:14px;background:#e5ede6;color:#294f3c;font-size:14px;padding:16px}body .authgate a{color:#17634f}
+body .room-catalogue{margin-bottom:20px;border-bottom:1px solid var(--app-line)}body .room-catalogue summary{padding:14px 0;cursor:pointer;font-size:14px;font-weight:700}body .room-catalogue .availability-panel{border:0;box-shadow:none;padding:0;background:none}
+body .room-choice{background:#fff;border:1px solid var(--app-line);border-radius:14px;padding:14px;min-height:94px}body .room-choice b{font-size:13px}body .room-choice small{font-size:12px}
+body .availability-head{display:none}
+.booking-steps{display:flex;gap:8px;margin:0 0 20px}.booking-steps button{flex:1;text-align:left;border:0;border-radius:12px;padding:13px;background:#e0e9e1;color:#536b5b;font:700 14px 'Source Sans 3',sans-serif;cursor:pointer;min-height:46px}.booking-steps button[aria-current=step]{background:#173e38;color:#fff}
+.booking-next{margin-top:20px;width:100%}.booking-inline-error{font-size:14px;color:#943d2d;margin:12px 0 0}.booking-summary{background:#edf4ee;border-radius:12px;padding:14px;font-size:14px;line-height:1.6;margin-bottom:18px}
+[hidden]{display:none!important}
+body .roombox{background:none;border:0;padding:0;box-shadow:none}body .slotgroup-title{font-size:12px;letter-spacing:.025em;color:var(--app-muted)}
+body .slotgrid{grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}body .slotbtn{background:#f4f8f4;border:1px solid #d6e6d9;border-radius:12px;min-height:66px;padding:10px;color:#204e3b}
+body .slotbtn .t{font-size:13px}body .slotbtn.dipilih{background:#17634f;border-color:#17634f;color:white}body .slotbtn.ditempah{background:#f1f2ef;border-color:#e0e3db;color:#6b736a}
+body .pill{padding:4px 10px;border-radius:6px}body .pill.dipilih{background:#17634f;color:white}body .pill.ditempah{background:#eceee9;color:#636c60}
+body .footerbar{position:static;background:transparent;border:0;border-top:1px solid var(--app-line);border-radius:0;box-shadow:none;backdrop-filter:none;padding:18px 0 0;margin-top:20px}body .footerbar .btn-primary{width:100%}
+body .app-nav{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));position:fixed;bottom:0;left:50%;transform:translateX(-50%);right:auto;width:min(100%,760px);z-index:40;background:#fff;border:1px solid var(--app-line);border-bottom:0;border-radius:22px 22px 0 0;padding:8px 16px calc(8px + env(safe-area-inset-bottom));box-shadow:0 -8px 30px #24452d08}
+body .app-nav a{display:flex;flex-direction:column;align-items:center;gap:4px;justify-content:center;min-height:58px;border-radius:14px;font-size:12px;font-weight:600;text-decoration:none;color:#627269}body .app-nav a[aria-current=page]{background:#e4f0e7;color:#17634f}body .app-nav svg{width:24px;height:24px;display:block}
+body .app-help{border:0;border-radius:24px;padding:26px;font-size:15px}body .app-help h2{font-family:'Manrope',sans-serif}body .app-help h3{color:#17634f}
+.schedule-tools{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}.schedule-tools button{border:1px solid var(--app-line);border-radius:10px;min-height:44px;padding:9px 15px;background:white;color:var(--app-green);font-weight:700;cursor:pointer}
+.schedule-summary{font-size:14px;color:var(--app-muted);margin:16px 0}
+body .room-filter{max-width:none}body .room-filter .page-sub{display:none}body .datefilter{width:100%;justify-content:space-between}body .datefilter input{flex:1;max-width:230px}
+body .tablewrap{border:0;border-radius:0}body .jadual-table th{background:#e4ede5;color:#244d37;border:0;padding:14px;font-size:13px}body .jadual-table th:first-child{background:#e4ede5;width:42%;border-radius:12px 0 0 12px}body .jadual-table th:last-child{border-radius:0 12px 12px 0}
+body .jadual-table td{border-right:0;padding:10px 6px;height:56px}body .jadual-table td:first-child{font-variant-numeric:tabular-nums;font-size:14px;box-shadow:none}body .jadual-table .groupsep td{font-size:11px;background:#f5f7f3;padding:12px;height:auto;border:0}
+body .slotcell-empty{background:#e8f4eb;color:#256344;border:0;padding:8px 12px;border-radius:9px;font-size:12px}body a.slotcell-empty{text-decoration:none;display:inline-flex;align-items:center;min-height:40px;font-weight:700}
+body .slotcell-booked{background:#f0f1ed;border:0;color:#69725f;border-radius:9px;padding:8px}.slotcell-booked .k{color:#69725f}
+.booking-records{display:grid;gap:14px}.booking-record{padding:20px;background:#f3f7f2;border-radius:16px;border-left:3px solid #659a79}.booking-record h3{font:800 17px 'Manrope',sans-serif;margin:0 0 8px}.booking-record p{font-size:14px;margin:5px 0;color:#52654f}.booking-record .record-time{font-size:20px;font-weight:700;color:#173e38;font-variant-numeric:tabular-nums}.booking-record .action-group{justify-content:flex-start;margin-top:15px}.booking-record .action-group button{min-height:44px;font-size:13px;border-radius:10px;padding:10px 16px;background:#fff}.booking-record.cancelled{opacity:.7;border-left-color:#adb6a6}
+.records-table{display:none}body .empty{border:0;background:#f2f6f0;border-radius:16px;padding:30px 20px;color:#52664c;line-height:1.6;font-size:15px}body .head-controls{width:100%;gap:12px}body input#f-search{width:100%;font-size:16px}
+.app-retry{margin:12px 0}.password-toggle{margin:8px 0 0;border:0;background:none;color:#17634f;font:600 14px 'Source Sans 3',sans-serif;padding:8px 0;min-height:40px;cursor:pointer}
+body .authcard{margin:28px auto}body .authcard h3{font:800 25px 'Manrope',sans-serif!important;margin-bottom:12px!important}body .authcard p.sub{font-size:15px;line-height:1.6}body .authcard .field-label{margin-top:20px}
+body :is(button,a,input,select):focus-visible{outline:3px solid #98742b;outline-offset:3px}body button:not(:disabled):active{transform:scale(.98)}
+@media(max-width:600px){body main{padding:20px 16px 30px}body header.topnav .bar{padding:10px 16px}body .card{padding:20px 16px;border-radius:18px}body .banner h2,body h2.page-title{font-size:25px}.booking-steps button{font-size:13px}body .slotgrid{grid-template-columns:repeat(2,minmax(0,1fr))}body .grid{grid-template-columns:minmax(0,1fr)!important}body .app-rule{margin-bottom:20px}body .modal{border-radius:20px}.app-help{max-height:85dvh}}

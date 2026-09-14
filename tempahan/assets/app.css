@@ -1,0 +1,39 @@
+/* Shared phone shell. Booking data and authorisation remain in the existing runtime. */
+.app-install{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:16px 0 20px;border-bottom:1px solid #d6dfda;margin-bottom:20px;color:#153d38}
+.app-install p{margin:4px 0 0;font-size:13px;color:#52635d}.app-install button{flex-shrink:0;min-height:44px;border:1px solid #bacfc5}
+.app-install[hidden],.app-network[hidden]{display:none!important}
+.app-help{width:min(480px,calc(100% - 32px));max-height:85dvh;overflow:auto;border:1px solid #bacfc5;border-radius:16px;padding:24px;color:#20352e;background:#fff;font:16px/1.6 var(--ds-font-body)}
+.app-help::backdrop{background:rgba(15,35,28,.6)}.app-help h2{font-size:22px;margin:0}.app-help h3{font-size:16px;margin:20px 0 8px}.app-help ol{padding-left:22px}.app-help li{margin:8px 0}.app-help>button{width:100%;min-height:48px}
+.app-network{padding:14px;border:1px solid #c5a55a;background:#fff6dc;color:#624511;border-radius:8px;font-size:14px}
+.app-nav{display:none}body :is(a,button,input,select,textarea):focus-visible{outline:3px solid #916b22;outline-offset:3px}
+@media(max-width:700px){
+  html{scroll-padding-bottom:110px;scroll-padding-top:150px}
+  body{padding-bottom:calc(84px + env(safe-area-inset-bottom));overflow-wrap:break-word}
+  body header.topnav .bar{padding:12px 16px;display:flex;gap:8px;align-items:center}
+  body header.topnav{padding-top:env(safe-area-inset-top)}
+  body .brand{flex:1;min-width:0}body .brand h1{font-size:16px;white-space:normal}body .brand .logo{width:40px;height:40px;flex-basis:40px}
+  body nav.links{width:auto;flex:0 0 auto;margin:0;padding:0}
+  body nav.links a{display:none}body nav.links #nav-admin{min-height:44px;align-content:center}
+  body .authbox{width:100%;flex-wrap:wrap;white-space:normal;font-size:12px;gap:8px}
+  body .authbox a,body .authbox button{min-height:44px;display:inline-flex;align-items:center;font-size:13px}
+  body main{padding:16px 16px 28px;max-width:100%;min-width:0}
+  body .banner{padding:20px;margin-bottom:16px}body .banner h2{font-size:23px;line-height:1.25}
+  body .card{padding:16px;margin-bottom:16px}body .grid{grid-template-columns:minmax(0,1fr)!important}
+  body :is(input[type=text],input[type=email],input[type=password],input[type=date],input[type=number],select,textarea){font-size:16px;min-height:48px}
+  body .field-label{font-size:14px}body .datepick button{font-size:14px;min-height:58px}
+  body .room-choice b{font-size:13px}body .room-choice small{font-size:12px}body .room-choice span{font-size:10px}
+  body .roombox{padding:12px}body .slotbtn{min-height:64px;padding:10px}body .slotbtn .t{font-size:13px;flex-wrap:wrap;gap:4px}
+  body .footerbar{position:static;padding:12px;margin-top:16px}body .footerbar .btn-primary{width:100%;min-height:48px}
+  body .toasts{bottom:calc(96px + env(safe-area-inset-bottom));z-index:90}
+  .app-nav{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));position:fixed;bottom:0;left:0;right:0;z-index:40;background:#fff;border-top:1px solid #ccd9d1;padding:6px 10px calc(6px + env(safe-area-inset-bottom));box-shadow:0 -3px 20px #153d3808}
+  .app-nav a{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;text-decoration:none;color:#52635d;font-size:11px;font-weight:700;min-height:58px;border-radius:8px;text-align:center}
+  .app-nav a span{font-size:25px;line-height:1.1;font-weight:500}.app-nav a[aria-current=page]{background:#e6eee7;color:#153d38}
+  .app-install{align-items:flex-start;gap:12px}.app-install strong{font-size:14px}.app-install p{font-size:12px}.app-install button{padding:10px;font-size:12px}
+  body .head-controls,body input#f-search{width:100%}body .datefilter{flex-wrap:wrap}
+  body .modal-overlay{padding:12px;z-index:60}body .modal{padding:20px;max-height:85dvh}
+  body .btn-edit,body .btn-danger{min-height:44px;min-width:44px}
+}
+@media(prefers-reduced-motion:reduce){body *,body *::before,body *::after{scroll-behavior:auto!important;transition:none!important;animation:none!important}}
+@media print{.app-nav,.app-install,.app-network{display:none!important}}
+
+.room-filter{max-width:420px;margin:0 0 16px}.room-filter .page-sub{margin-top:8px}
