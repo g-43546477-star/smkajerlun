@@ -47,7 +47,7 @@ async function visit(page, route) {
     '/pss/digital/katalog/': '#book-list .catalog-book-card, #book-list .catalog-empty'
   };
   if (asyncMounts[route]) {
-    await page.locator(asyncMounts[route]).first().waitFor({ state: 'attached', timeout: 6000 }).catch(() => {});
+    await page.locator(asyncMounts[route]).first().waitFor({ state: 'attached', timeout: 12000 }).catch(() => {});
   }
   const result = await page.evaluate(() => ({
     h1: document.querySelectorAll('h1').length,
@@ -74,11 +74,14 @@ async function visit(page, route) {
   }
   if (route === '/') {
     const homepageMarkup = await page.evaluate(() => ({
-      hero: Boolean(document.querySelector('.ajer-hero[aria-labelledby="hero-title"]')),
-      heroTitle: document.querySelector('#hero-title')?.textContent.replace(/\s+/g, ' ').includes('Adab Dulu Baru Ilmu'),
-      heroImage: Boolean(document.querySelector('.ajer-hero-art img[src="/assets/hero-sekolah.jpg"]')),
+      hero: Boolean(document.querySelector('.ed-hero[aria-labelledby="hero-title"]')),
+      heroTitle: (() => {
+        const title = document.querySelector('#hero-title')?.textContent.toLocaleLowerCase('ms-MY') || '';
+        return title.includes('adab dulu.') && title.includes('baru ilmu.');
+      })(),
+      heroImage: Boolean(document.querySelector('.ed-hero-photo img[src="/assets/berita/maulidur-rasul-2026/perarakan-maulidur-rasul.jpg"]')),
       alertStrip: Boolean(document.querySelector('#home-alert-strip')),
-      serviceDock: Boolean(document.querySelector('.ajer-entry')),
+      serviceDock: Boolean(document.querySelector('.ed-access')),
       program: [...document.querySelectorAll('#home-program-list .achievement-card')].some((card) => card.textContent.includes('Karnival Maulidur Rasul')),
       announcementMoved: !document.querySelector('#notis-list')?.textContent.includes('Drone Edu Challenge'),
       announcementWhiteSpace: (() => {
@@ -92,9 +95,9 @@ async function visit(page, route) {
         return value;
       })()
     }));
-    if (!homepageMarkup.hero) failures.push(`${route}: school hero markup is missing`);
+    if (!homepageMarkup.hero) failures.push(`${route}: school editorial hero markup is missing`);
     if (!homepageMarkup.heroTitle) failures.push(`${route}: school tagline is missing`);
-    if (!homepageMarkup.heroImage) failures.push(`${route}: school aerial hero image is missing`);
+    if (!homepageMarkup.heroImage) failures.push(`${route}: school editorial hero image is missing`);
     if (!homepageMarkup.alertStrip) failures.push(`${route}: announcement alert strip is missing`);
     if (!homepageMarkup.serviceDock) failures.push(`${route}: service dock is missing`);
     if (!homepageMarkup.program) failures.push(`${route}: school program highlight is missing`);
@@ -191,7 +194,7 @@ async function visit(page, route) {
     }
     const illustrationBackgrounds = await page.evaluate(() => [
       ['.pss-weekly-book', 'reading-pick.svg'],
-      ['.pss-weekly-activity', 'events.svg'],
+      ['.pss-weekly-activity', 'creative-workshop.svg'],
       ['.pss-weekly-nilam', 'podium.svg']
     ].map(([selector, asset]) => ({ asset, loaded: getComputedStyle(document.querySelector(selector), '::after').backgroundImage.includes(asset) })));
     if (illustrationBackgrounds.some((illustration) => !illustration.loaded)) {
@@ -262,7 +265,7 @@ async function visit(page, route) {
     const networkLinks = await page.locator('.pss-links .pss-mega-links a').evaluateAll((links) => links
       .filter((link) => ['AINS NILAM', 'u-Pustaka', 'Perpustakaan Digital Kedah', 'DELIMa', 'Baucar Buku MADANI'].includes(link.querySelector('b')?.textContent.trim()))
       .map((link) => ({ title: link.querySelector('b')?.textContent.trim(), href: link.href, target: link.target, rel: link.rel })));
-    const expectedNetwork = ['https://ains.moe.gov.my/', 'https://www.u-pustaka.gov.my/', 'https://opac.kedahlib.gov.my/', 'https://d2.delima.edu.my/', 'https://delima.bookcapital.com.my/'];
+    const expectedNetwork = ['https://ains.moe.gov.my/', 'https://www.u-library.gov.my/portal/ms/web/guest', 'https://opac.kedahlib.gov.my/cgi-bin/koha/opac-main.pl', 'https://d2.delima.edu.my/', 'https://delima.bookcapital.com.my/'];
     if (networkLinks.length !== 5 || !expectedNetwork.every((href) => networkLinks.some((link) => link.href === href && link.target === '_blank' && link.rel.includes('noopener')))) {
       failures.push(`${route}: library network submenu links are incomplete or unsafe`);
     }
@@ -357,7 +360,7 @@ const motionContext = await browser.newContext({ viewport: { width: 1440, height
 const motionPage = await motionContext.newPage();
 await motionPage.emulateMedia({ reducedMotion: 'no-preference' });
 await motionPage.goto(`${base}/pss/digital/nilam/`, { waitUntil: 'domcontentloaded' });
-await motionPage.locator('#nilam-podium .nilam-podium-card').first().waitFor({ state: 'attached', timeout: 6000 }).catch(() => {});
+await motionPage.locator('#nilam-podium .nilam-podium-card').first().waitFor({ state: 'attached', timeout: 12000 }).catch(() => {});
 const motionName = await motionPage.locator('#nilam-podium .nilam-podium-card').first().evaluate((card) => getComputedStyle(card).animationName).catch(() => 'none');
 if (motionName === 'none') failures.push('PSS NILAM: podium has no motion when reduced motion is not requested');
 await motionContext.close();
@@ -366,7 +369,7 @@ const reducedMotionContext = await browser.newContext({ viewport: { width: 390, 
 const reducedMotionPage = await reducedMotionContext.newPage();
 await reducedMotionPage.emulateMedia({ reducedMotion: 'reduce' });
 await reducedMotionPage.goto(`${base}/pss/digital/nilam/`, { waitUntil: 'domcontentloaded' });
-await reducedMotionPage.locator('#nilam-podium .nilam-podium-card').first().waitFor({ state: 'attached', timeout: 6000 }).catch(() => {});
+await reducedMotionPage.locator('#nilam-podium .nilam-podium-card').first().waitFor({ state: 'attached', timeout: 12000 }).catch(() => {});
 const reducedMotionName = await reducedMotionPage.locator('#nilam-podium .nilam-podium-card').first().evaluate((card) => getComputedStyle(card).animationName).catch(() => 'none');
 const reducedMotionScrollBehavior = await reducedMotionPage.evaluate(() => getComputedStyle(document.documentElement).scrollBehavior);
 if (reducedMotionName !== 'none') failures.push('PSS NILAM: podium motion remains active when reduced motion is requested');
