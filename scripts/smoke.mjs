@@ -40,7 +40,6 @@ async function visit(page, route) {
   const response = await page.goto(`${base}${route}`, { waitUntil: 'domcontentloaded', timeout: 30000 });
   await page.waitForTimeout(700);
   const asyncMounts = {
-    '/': '#home-program-list .achievement-card, #home-program-list .achievement-empty',
     '/program/': '#program-list .achievement-card, #program-list .achievement-empty',
     '/pss/': '#home-nilam-list .pss-nilam-rank, #home-nilam-list .pss-widget-empty',
     '/pss/digital/nilam/': '#nilam-leaderboard-body tr, #nilam-leaderboard-status',
@@ -74,35 +73,17 @@ async function visit(page, route) {
   }
   if (route === '/') {
     const homepageMarkup = await page.evaluate(() => ({
-      hero: Boolean(document.querySelector('.ed-hero[aria-labelledby="hero-title"]')),
-      heroTitle: (() => {
-        const title = document.querySelector('#hero-title')?.textContent.toLocaleLowerCase('ms-MY') || '';
-        return title.includes('adab dulu.') && title.includes('baru ilmu.');
-      })(),
-      heroImage: Boolean(document.querySelector('.ed-hero-photo img[src="/assets/berita/maulidur-rasul-2026/perarakan-maulidur-rasul.jpg"]')),
-      alertStrip: Boolean(document.querySelector('#home-alert-strip')),
-      serviceDock: Boolean(document.querySelector('.ed-access')),
-      program: [...document.querySelectorAll('#home-program-list .achievement-card')].some((card) => card.textContent.includes('Karnival Maulidur Rasul')),
-      announcementMoved: !document.querySelector('#notis-list')?.textContent.includes('Drone Edu Challenge'),
-      announcementWhiteSpace: (() => {
-        const item = document.createElement('div');
-        item.className = 'notis-item';
-        const paragraph = document.createElement('p');
-        item.appendChild(paragraph);
-        document.body.appendChild(item);
-        const value = getComputedStyle(paragraph).whiteSpace;
-        item.remove();
-        return value;
-      })()
+      hero: Boolean(document.querySelector('.school-hero[aria-labelledby="hero-title"]')),
+      title: document.querySelector('#hero-title')?.textContent === 'SMKA Jerlun',
+      motto: document.querySelector('.school-motto')?.textContent === 'Adab Dulu Baru Ilmu',
+      image: Boolean(document.querySelector('.school-aerial[src="/assets/hero-sekolah.jpg"]')),
+      links: document.querySelectorAll('.school-shortcuts a').length,
+      icons: document.querySelectorAll('.school-shortcuts a img[src$=".svg"]').length,
+      compact: !document.querySelector('#home-program-list,#notis-list,#home-alert-strip')
     }));
-    if (!homepageMarkup.hero) failures.push(`${route}: school editorial hero markup is missing`);
-    if (!homepageMarkup.heroTitle) failures.push(`${route}: school tagline is missing`);
-    if (!homepageMarkup.heroImage) failures.push(`${route}: school editorial hero image is missing`);
-    if (!homepageMarkup.alertStrip) failures.push(`${route}: announcement alert strip is missing`);
-    if (!homepageMarkup.serviceDock) failures.push(`${route}: service dock is missing`);
-    if (!homepageMarkup.program) failures.push(`${route}: school program highlight is missing`);
-    if (!homepageMarkup.announcementMoved) failures.push(`${route}: achievement still appears as a general announcement`);
-    if (homepageMarkup.announcementWhiteSpace !== 'pre-line') failures.push(`${route}: announcement line breaks are not preserved`);
+    if (!homepageMarkup.hero || !homepageMarkup.title || !homepageMarkup.motto || !homepageMarkup.image) failures.push(`${route}: school gateway hero is incomplete`);
+    if (homepageMarkup.links !== 12 || homepageMarkup.icons !== 12) failures.push(`${route}: expected 12 SVG shortcuts`);
+    if (!homepageMarkup.compact) failures.push(`${route}: retired homepage information sections remain`);
   }
   if (route === '/kokurikulum/' && (await page.locator('#koku-pencapaian, #koku-achievement-list').count() || await page.locator('nav.tabs details').filter({ hasText: 'Pencapaian' }).count())) {
     failures.push(`${route}: retired Pencapaian section or submenu is still present`);
@@ -185,6 +166,7 @@ async function visit(page, route) {
     }
   }
   if (route === '/pss/') {
+    if (await page.locator('.pss-weekly-grid #pss-visitors').count() !== 1 || await page.locator('#weekly-nilam-feature,footer #pss-visitors').count()) failures.push(`${route}: visitor widget must replace the weekly NILAM card`);
     const illustratedCards = await page.locator('.pss-home-card .pss-card-illustration').evaluateAll((images) => images.map((image) => ({
       src: image.getAttribute('src'),
       loaded: image.complete && image.naturalWidth > 0
@@ -194,8 +176,7 @@ async function visit(page, route) {
     }
     const illustrationBackgrounds = await page.evaluate(() => [
       ['.pss-weekly-book', 'reading-pick.svg'],
-      ['.pss-weekly-activity', 'creative-workshop.svg'],
-      ['.pss-weekly-nilam', 'podium.svg']
+      ['.pss-weekly-activity', 'creative-workshop.svg']
     ].map(([selector, asset]) => ({ asset, loaded: getComputedStyle(document.querySelector(selector), '::after').backgroundImage.includes(asset) })));
     if (illustrationBackgrounds.some((illustration) => !illustration.loaded)) {
       failures.push(`${route}: decorative SVG illustration references are incomplete`);
@@ -295,7 +276,7 @@ for (const viewport of [{ name: 'desktop', width: 1440, height: 1000 }, { name: 
   for (const route of routes) {
     const page = await context.newPage();
     await visit(page, route);
-    if (route === '/' && viewport.name === 'desktop') {
+    if (route === '/program/' && viewport.name === 'desktop') {
       const dropdown = page.locator('nav.tabs details').first();
       await dropdown.locator('summary').click();
       await page.waitForTimeout(220);
@@ -303,7 +284,7 @@ for (const viewport of [{ name: 'desktop', width: 1440, height: 1000 }, { name: 
       await page.mouse.click(30, 30);
       await page.waitForTimeout(120);
       if (await dropdown.evaluate((node) => node.hasAttribute('open'))) failures.push('website desktop: outside click did not close menu');
-      const programLink = page.locator('#home-program-list a.achievement-card').filter({ hasText: 'Karnival Maulidur Rasul' }).first();
+      const programLink = page.locator('#program-list a.achievement-card').filter({ hasText: 'Karnival Maulidur Rasul' }).first();
       if (await programLink.count()) {
         const href = await programLink.getAttribute('href');
         if (!href?.includes('/program/?slug=smka-jerlun-anjur-karnival-maulidur-rasul-generasi-madani-1448h')) failures.push('website desktop: program card does not link to the Program Sekolah article');

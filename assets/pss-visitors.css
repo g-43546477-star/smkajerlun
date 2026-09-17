@@ -1,7 +1,18 @@
-.pss-visitors{margin-block:48px;padding-block:32px;border-top:2px solid #176c60;color:#173f38}
-.pss-visitor-heading{display:flex;align-items:center;gap:18px}.pss-visitor-heading img{width:76px;height:76px}.pss-visitor-heading h2{margin:4px 0;font-size:clamp(1.6rem,4vw,2.3rem)}
-.pss-visitor-metrics{display:flex;gap:48px;margin:28px 0}.pss-visitor-metrics div{display:grid;gap:4px}.pss-visitor-metrics strong{font-size:2.4rem;line-height:1.2}.pss-visitor-metrics span{font-size:.9rem}
-.pss-visitor-grid{display:grid;grid-template-columns:1.5fr 1fr;gap:36px}.pss-visitor-grid h3{font-size:1rem}.pss-visitor-grid svg{width:100%;height:auto;display:block;font:13px sans-serif;fill:#173f38}
-#visitor-countries{padding:0;list-style:none;max-height:260px;overflow:auto}#visitor-countries li{display:flex;justify-content:space-between;gap:16px;padding:9px 0;border-bottom:1px solid #d8e5df}
-.pss-visitor-note,#visitor-status{font-size:.85rem;line-height:1.6;max-width:85ch}
-@media(max-width:640px){.pss-visitor-grid{grid-template-columns:1fr;gap:12px}.pss-visitor-metrics{gap:28px}.pss-visitor-heading img{width:60px;height:60px}}
+.pss-visitors{padding:20px;border:1px solid #d8e5df;border-radius:16px;background:#f3f8f4;color:#173f38;margin:0;min-width:0}
+.pss-visitor-heading{display:flex;align-items:center;gap:10px}
+.pss-visitor-heading img{width:38px;height:38px}
+.pss-reading-room .pss-visitor-heading h2{margin:0;font-size:1.05rem;letter-spacing:0}
+.pss-visitor-metrics{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:20px 0 12px}
+.pss-visitor-metrics div{display:grid;gap:4px;min-width:0}
+.pss-visitor-metrics strong{font-size:1.7rem;line-height:1.2;overflow-wrap:anywhere}
+.pss-visitor-metrics span{font-size:.78rem}
+.pss-visitor-details{border-top:1px solid #d8e5df}
+.pss-visitor-details summary{min-height:44px;display:list-item;align-content:center;cursor:pointer;font-size:.85rem;font-weight:700}
+.pss-visitor-details summary:focus-visible{outline:3px solid #176c60;outline-offset:3px}
+.pss-visitor-grid{display:grid;gap:12px}
+.pss-visitor-grid h3{font-size:.85rem;line-height:1.5}
+.pss-visitor-grid svg{width:100%;height:auto;display:block;font:18px sans-serif;fill:#173f38}
+#visitor-countries{padding:0;list-style:none;max-height:220px;overflow:auto}
+#visitor-countries li{display:flex;justify-content:space-between;gap:12px;padding:7px 0;border-bottom:1px solid #d8e5df;font-size:.8rem}
+.pss-visitor-note,#visitor-status{font-size:.75rem;line-height:1.6;margin:10px 0;color:#48655b}
+@media(max-width:820px){.pss-visitor-grid svg{font-size:15px}}

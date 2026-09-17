@@ -1,5 +1,5 @@
 .network-intro { display:flex;justify-content:space-between;align-items:end;gap:1rem;margin:2rem 0 1.2rem; }
-.network-intro h2,.network-note h2 { font:400 1.8rem 'DM Serif Display',Georgia,serif;margin:0; }
+.network-intro h2,.network-note h2 { font:400 1.8rem Georgia,serif;margin:0; }
 .network-intro p { font-size:.82rem;color:#526657; }
 .network-grid { display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1.2rem; }
 .network-resource { display:grid;grid-template-columns:120px minmax(0,1fr);gap:1.3rem;padding:1.7rem;border:1px solid #ced8c4;border-radius:14px;background:#e5ead9;transition:transform 180ms ease; }
@@ -7,7 +7,7 @@
 .network-resource > div { display:flex;flex-direction:column;align-items:start; }
 .network-upustaka { background:#f5e6c4; }.network-kedah { background:#e0ebe6; }.network-delima { background:#f1e0d4; }.network-madani { grid-column:1/-1;background:#fffdf7; }
 .network-kicker { font:600 .62rem var(--font-mono);letter-spacing:.05em;color:#53634d; }
-.network-resource h2 { font:400 1.65rem/1.15 'DM Serif Display',Georgia,serif;margin:.7rem 0; }
+.network-resource h2 { font:400 1.65rem/1.15 Georgia,serif;margin:.7rem 0; }
 .network-resource p { font-size:.86rem;color:#445c4e;margin:0 0 1rem;max-width:60ch; }
 .network-resource small { font-size:.7rem;border:1px solid #a4b294;padding:.2rem .5rem;border-radius:4px; }
 .network-resource b { font-size:.82rem;margin-top:auto;padding-top:1.3rem; }

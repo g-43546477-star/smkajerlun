@@ -96,7 +96,7 @@
      (cth kad Lagu Sekolah), bukan untuk tajuk seksyen. */
   --ds-font-display: "Manrope", system-ui, sans-serif;
   --ds-font-body: "Source Sans 3", system-ui, sans-serif;
-  --ds-font-quote: "DM Serif Display", Georgia, serif;
+  --ds-font-quote: Georgia, serif;
   --ds-font-mono: "IBM Plex Mono", ui-monospace, monospace;
 
   /* ---------- Component ---------- */

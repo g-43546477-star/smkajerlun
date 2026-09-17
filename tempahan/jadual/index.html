@@ -16,8 +16,9 @@
 <link rel="apple-touch-icon" href="/tempahan/assets/icons/app-180.png">
 <link rel="stylesheet" href="/tempahan/assets/app.css?v=20260908-3">
 <link rel="stylesheet" href="/tempahan/assets/app-ui.css?v=20260908-3">
+<link rel="stylesheet" href="/assets/responsive.css?v=20260916-1">
 </head>
-<body>
+<body data-device-layout="booking">
 
 <header class="topnav">
   <div class="wrap bar">
@@ -51,21 +52,21 @@
 
     <div class="room-filter"><label class="field-label" for="f-room">Bilik / Ruang</label><select id="f-room"><option value="">Semua bilik</option></select><p class="page-sub">Pilih satu bilik untuk paparan ringkas. Pilih semua bilik untuk perbandingan.</p></div>
     <p id="jadual-status" role="status"></p>
-    <div class="tablewrap">
+    <section class="tablewrap" tabindex="0" aria-label="Jadual slot tempahan, tatal untuk melihat semua lajur">
       <table class="jadual-table" style="min-width:1400px">
         <thead>
           <tr id="thead-row"><th>Masa / Slot</th></tr>
         </thead>
         <tbody id="tbody"></tbody>
       </table>
-    </div>
+    </section>
   </div>
 </main>
 
 <script src="/assets/vendor/supabase-2.57.4.js?v=20260828-1"></script>
 <script src="/tempahan/assets/common.js?v=20260908-3"></script>
 <script src="/tempahan/assets/jadual.js?v=20260908-3"></script>
-<script src="/tempahan/assets/app.js?v=20260908-3"></script>
+<script src="/tempahan/assets/app.js?v=20260916-1"></script>
 <script src="/tempahan/assets/app-ux.js?v=20260908-3"></script>
 </body>
 </html>

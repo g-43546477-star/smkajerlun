@@ -16,8 +16,9 @@
 <link rel="stylesheet" href="/assets/ajer-refinement.css?v=20260905-2">
 <link rel="stylesheet" href="/assets/ajer-school.css?v=20260906-1">
 <link rel="stylesheet" href="/assets/pss-mobile.css?v=20260910-1">
+<link rel="stylesheet" href="/assets/responsive.css?v=20260916-1">
 </head>
-<body class="pss-admin-design">
+<body class="pss-admin-design" data-device-layout="admin">
 <header class="topnav">
   <div class="wrap bar">
     <a href="/pss/" class="brand">
@@ -79,7 +80,7 @@
           <div class="span-2"><label class="field-label" for="pss-notice-content">Kandungan</label><textarea id="pss-notice-content" rows="4" maxlength="1500"></textarea></div>
           <div class="admin-form-actions"><button type="button" class="btn-secondary" id="pss-notice-cancel">Kosongkan</button><button type="submit" class="btn-primary" id="pss-notice-save">Simpan Pengumuman</button></div>
         </form>
-        <div class="tablewrap"><table><thead><tr><th>Tarikh</th><th>Tajuk</th><th style="text-align:right">Tindakan</th></tr></thead><tbody id="pss-notice-tbody"></tbody></table></div>
+        <section class="tablewrap" tabindex="0" aria-label="Jadual pengumuman PSS, tatal untuk melihat semua lajur"><table><thead><tr><th>Tarikh</th><th>Tajuk</th><th style="text-align:right">Tindakan</th></tr></thead><tbody id="pss-notice-tbody"></tbody></table></section>
         <div class="empty" id="pss-notice-empty" style="display:none">Belum ada pengumuman PSS.</div>
         <p class="admin-statusline" id="pss-notice-message" aria-live="polite"></p>
       </div>
@@ -95,7 +96,7 @@
           <div><label class="field-label" for="pss-calendar-order">Susunan</label><input type="number" id="pss-calendar-order" min="0" value="10"></div>
           <div class="admin-form-actions"><button type="button" class="btn-secondary" id="pss-calendar-cancel">Kosongkan</button><button type="submit" class="btn-primary" id="pss-calendar-save">Simpan Aktiviti</button></div>
         </form>
-        <div class="tablewrap"><table><thead><tr><th>Tarikh</th><th>Tajuk</th><th style="text-align:right">Tindakan</th></tr></thead><tbody id="pss-calendar-tbody"></tbody></table></div>
+        <section class="tablewrap" tabindex="0" aria-label="Jadual kalendar PSS, tatal untuk melihat semua lajur"><table><thead><tr><th>Tarikh</th><th>Tajuk</th><th style="text-align:right">Tindakan</th></tr></thead><tbody id="pss-calendar-tbody"></tbody></table></section>
         <div class="empty" id="pss-calendar-empty" style="display:none">Belum ada aktiviti PSS.</div>
         <p class="admin-statusline" id="pss-calendar-message" aria-live="polite"></p>
       </div>
@@ -117,7 +118,7 @@
         <button type="button" class="btn-secondary" id="loan-refresh">Muat Semula</button>
         <button type="button" class="btn-primary" id="loan-export">Eksport CSV</button>
       </div>
-      <div class="tablewrap"><table><thead><tr><th>Rujukan</th><th>Peminjam</th><th>Bahan</th><th>Pinjam</th><th>Pulang</th><th>Status</th><th>Catatan</th></tr></thead><tbody id="loan-tbody"></tbody></table></div>
+      <section class="tablewrap" tabindex="0" aria-label="Jadual pinjaman PSS, tatal untuk melihat semua lajur"><table><thead><tr><th>Rujukan</th><th>Peminjam</th><th>Bahan</th><th>Pinjam</th><th>Pulang</th><th>Status</th><th>Catatan</th></tr></thead><tbody id="loan-tbody"></tbody></table></section>
       <div class="empty" id="loan-empty" style="display:none">Tiada rekod pinjaman ditemui.</div>
       <p class="admin-statusline" id="loan-message" aria-live="polite"></p>
     </div>
@@ -144,7 +145,7 @@
         <button type="button" class="btn-secondary" id="book-refresh">Muat Semula</button>
       </div>
       <div class="book-status-summary" id="book-status-summary"></div>
-      <div class="tablewrap"><table><thead><tr><th>Tajuk</th><th>Pengarang</th><th>Kategori</th><th>Rak</th><th>Status</th><th style="text-align:right">Tindakan</th></tr></thead><tbody id="book-tbody"></tbody></table></div>
+      <section class="tablewrap" tabindex="0" aria-label="Jadual katalog buku, tatal untuk melihat semua lajur"><table><thead><tr><th>Tajuk</th><th>Pengarang</th><th>Kategori</th><th>Rak</th><th>Status</th><th style="text-align:right">Tindakan</th></tr></thead><tbody id="book-tbody"></tbody></table></section>
       <div class="head-row" id="book-pagination"><button type="button" class="btn-secondary" id="book-previous">Sebelumnya</button><span class="page-sub" id="book-page" aria-live="polite">Halaman 1</span><button type="button" class="btn-secondary" id="book-next">Seterusnya</button></div>
       <div class="empty" id="book-empty" style="display:none">Belum ada rekod katalog buku.</div>
       <p class="admin-statusline" id="book-message" aria-live="polite"></p>
@@ -157,7 +158,7 @@
         <div><h2 class="page-title">Cadangan Buku Murid</h2><p class="page-sub">Semak cadangan yang dihantar pelajar dan kemas kini status semakan.</p></div>
         <div class="admin-filters"><input type="search" id="suggestion-search" placeholder="Cari judul atau nama" aria-label="Cari cadangan buku"><button type="button" class="btn-secondary" id="suggestion-refresh">Muat Semula</button></div>
       </div>
-      <div class="tablewrap"><table><thead><tr><th>Judul</th><th>Pencadang</th><th>Kategori</th><th>Sebab</th><th>Status</th></tr></thead><tbody id="suggestion-tbody"></tbody></table></div>
+      <section class="tablewrap" tabindex="0" aria-label="Jadual cadangan buku, tatal untuk melihat semua lajur"><table><thead><tr><th>Judul</th><th>Pencadang</th><th>Kategori</th><th>Sebab</th><th>Status</th></tr></thead><tbody id="suggestion-tbody"></tbody></table></section>
       <div class="empty" id="suggestion-empty" style="display:none">Belum ada cadangan daripada murid.</div>
       <p class="admin-statusline" id="suggestion-message" aria-live="polite"></p>
     </div>
@@ -174,7 +175,7 @@
         <div><label class="field-label" for="nilam-jumlah">Jumlah Bahan <span class="field-required">*</span></label><input type="number" id="nilam-jumlah" min="0" step="1" required></div>
         <div class="admin-form-actions"><button type="submit" class="btn-primary" id="nilam-save">Simpan Kedudukan</button></div>
       </form>
-      <div class="tablewrap"><table><thead><tr><th>Kedudukan</th><th>Murid</th><th>Tahun / Tingkatan</th><th>Kelas</th><th>Jumlah Bahan</th><th>Dikemas Kini</th></tr></thead><tbody id="nilam-tbody"></tbody></table></div>
+      <section class="tablewrap" tabindex="0" aria-label="Jadual NILAM, tatal untuk melihat semua lajur"><table><thead><tr><th>Kedudukan</th><th>Murid</th><th>Tahun / Tingkatan</th><th>Kelas</th><th>Jumlah Bahan</th><th>Dikemas Kini</th></tr></thead><tbody id="nilam-tbody"></tbody></table></section>
       <div class="empty" id="nilam-empty" style="display:none">Belum ada carta NILAM direkodkan.</div>
       <p class="admin-statusline" id="nilam-message" aria-live="polite"></p>
     </div>
@@ -183,7 +184,7 @@
   <section class="admin-tabpane" id="pane-audit" hidden>
     <div class="card">
       <div class="head-row"><div><h2 class="page-title">Log Perubahan PSS</h2><p class="page-sub">Ringkasan perubahan kandungan PSS, katalog, pinjaman, cadangan dan NILAM.</p></div><button type="button" class="btn-secondary" id="audit-refresh">Muat Semula</button></div>
-      <div class="tablewrap"><table><thead><tr><th>Masa</th><th>Tindakan</th><th>Modul</th><th>Rekod</th><th>Ringkasan</th></tr></thead><tbody id="audit-tbody"></tbody></table></div>
+      <section class="tablewrap" tabindex="0" aria-label="Jadual log perubahan, tatal untuk melihat semua lajur"><table><thead><tr><th>Masa</th><th>Tindakan</th><th>Modul</th><th>Rekod</th><th>Ringkasan</th></tr></thead><tbody id="audit-tbody"></tbody></table></section>
       <div class="empty" id="audit-empty" style="display:none">Belum ada perubahan PSS direkodkan.</div>
       <p class="admin-statusline" id="audit-message" aria-live="polite"></p>
     </div>

@@ -24,9 +24,10 @@
 <link rel="stylesheet" href="/assets/ajer-refinement.css?v=20260905-2">
 <link rel="stylesheet" href="/assets/ajer-school.css?v=20260906-1">
 <link rel="stylesheet" href="/assets/pss-mobile.css?v=20260910-1">
-<link rel="stylesheet" href="/assets/pss-visitors.css?v=20260910-1">
+<link rel="stylesheet" href="/assets/pss-visitors.css?v=20260916-3">
+<link rel="stylesheet" href="/assets/responsive.css?v=20260916-1">
 </head>
-  <body class="pss-reading-room">
+  <body class="pss-reading-room" data-device-layout="pss">
     <header class="pss-nav">
       <a class="pss-brand" href="/pss/"
         ><img src="/assets/logo-sekolah.png" alt="Logo SMK Agama Jerlun" /><span
@@ -146,7 +147,24 @@
         <div class="pss-weekly-grid">
           <a class="pss-weekly-card pss-weekly-book" id="weekly-book-feature" href="/pss/rak-buku-maya/" aria-live="polite"><span>BUKU PILIHAN</span><strong>Memuatkan buku minggu ini&hellip;</strong><small>Rak Buku Maya &rarr;</small></a>
           <a class="pss-weekly-card pss-weekly-activity" id="weekly-activity-feature" href="/pss/program/kalendar/" aria-live="polite"><span>AKTIVITI</span><strong>Memuatkan aktiviti PSS&hellip;</strong><small>Program PSS &rarr;</small></a>
-          <a class="pss-weekly-card pss-weekly-nilam" id="weekly-nilam-feature" href="/pss/digital/nilam/" aria-live="polite"><span>NILAM</span><strong>Memuatkan pencapaian kelas&hellip;</strong><small>Portal NILAM &rarr;</small></a>
+      <aside class="pss-visitors" id="pss-visitors" aria-labelledby="visitor-title">
+        <div class="pss-visitor-heading">
+          <img src="/assets/pss-art/visitor-globe.svg" alt="" width="76" height="76">
+          <div><h2 id="visitor-title">Pelawat PSS</h2></div>
+        </div>
+        <div class="pss-visitor-metrics">
+          <div><strong id="visitor-today">—</strong><span>Hari ini</span></div>
+          <div><strong id="visitor-total">—</strong><span>Jumlah terkumpul</span></div>
+        </div>
+        <p id="visitor-status" role="status">Memuatkan statistik pelawat…</p>
+        <details class="pss-visitor-details"><summary>Lihat statistik</summary>
+        <div class="pss-visitor-grid">
+          <div><h3>Lawatan tujuh hari terakhir</h3><svg id="visitor-chart" viewBox="0 0 550 195" role="img" aria-label="Graf anggaran pelawat harian"><title>Statistik belum tersedia</title></svg></div>
+          <div><h3>Negara pelawat · tujuh hari</h3><ul id="visitor-countries"><li>Menunggu data negara pelawat.</li></ul></div>
+        </div>
+        <p class="pss-visitor-note">Anggaran satu pelawat bagi setiap alamat rangkaian sehari. Rangkaian yang dikongsi mungkin dikira sekali. Negara berdasarkan lokasi rangkaian, bukan kewarganegaraan; VPN boleh mempengaruhi lokasi. Alamat IP mentah tidak disimpan. Jumlah terkumpul bermula apabila tracker diaktifkan.</p>
+        </details>
+      </aside>
         </div>
       </section>
       <section class="pss-shell pss-home-widgets" aria-label="Cadangan dan statistik PSS">
@@ -206,22 +224,7 @@
           </div>
         </article>
       </section>
-      <section class="pss-shell pss-visitors" id="pss-visitors" aria-labelledby="visitor-title">
-        <div class="pss-visitor-heading">
-          <img src="/assets/pss-art/visitor-globe.svg" alt="" width="76" height="76">
-          <div><p class="eyebrow">JEJAK PEMBACA</p><h2 id="visitor-title">Dari sini, ke seluruh dunia.</h2></div>
-        </div>
-        <div class="pss-visitor-metrics">
-          <div><strong id="visitor-today">—</strong><span>Anggaran pelawat hari ini</span></div>
-          <div><strong id="visitor-total">—</strong><span>Jumlah pelawat harian terkumpul</span></div>
-        </div>
-        <p id="visitor-status" role="status">Memuatkan statistik pelawat…</p>
-        <div class="pss-visitor-grid">
-          <div><h3>Lawatan tujuh hari terakhir</h3><svg id="visitor-chart" viewBox="0 0 550 195" role="img" aria-label="Graf anggaran pelawat harian"><title>Statistik belum tersedia</title></svg></div>
-          <div><h3>Negara pelawat · tujuh hari</h3><ul id="visitor-countries"><li>Menunggu data negara pelawat.</li></ul></div>
-        </div>
-        <p class="pss-visitor-note">Anggaran satu pelawat bagi setiap alamat rangkaian sehari. Rangkaian yang dikongsi mungkin dikira sekali. Negara berdasarkan lokasi rangkaian, bukan kewarganegaraan; VPN boleh mempengaruhi lokasi. Alamat IP mentah tidak disimpan. Jumlah terkumpul bermula apabila tracker diaktifkan.</p>
-      </section>
+
     </main>
     <footer class="pss-footer">
       <div class="pss-shell">

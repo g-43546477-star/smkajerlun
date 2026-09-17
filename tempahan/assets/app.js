@@ -95,8 +95,8 @@
   window.addEventListener('offline', syncNetwork);
   document.querySelectorAll('.tablewrap').forEach(table => {
     table.tabIndex = 0;
-    table.setAttribute('role', 'region');
-    table.setAttribute('aria-label', 'Jadual tempahan. Leret ke sisi untuk melihat semua lajur.');
+    if (table.tagName !== 'SECTION') table.setAttribute('role', 'region');
+    if (!table.hasAttribute('aria-label')) table.setAttribute('aria-label', 'Jadual tempahan. Leret ke sisi untuk melihat semua lajur.');
   });
   if ('serviceWorker' in navigator && window.isSecureContext) {
     navigator.serviceWorker.register('/tempahan/sw.js', { scope: '/tempahan/', updateViaCache: 'none' }).catch(() => {

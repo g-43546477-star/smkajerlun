@@ -4,7 +4,7 @@
 .pss-organization .pss-tab { min-height: 48px; padding: .7rem 1.2rem; font-size: .85rem; border-radius: 8px; }
 .pss-organization .pss-tab.active { background: #244c40; border-radius: 8px; }
 .pss-organization .pss-chart-panel { padding: 2rem; background: #fffdf7; border: 1px solid #d5dacb; }
-.pss-organization .pss-chart-panel > h2 { font: 400 clamp(1.8rem,3vw,2.6rem)/1.15 'DM Serif Display',Georgia,serif; color: #244c40; }
+.pss-organization .pss-chart-panel > h2 { font: 400 clamp(1.8rem,3vw,2.6rem)/1.15 Georgia,serif; color: #244c40; }
 .pss-organization .pss-chart-panel > p { font-size: .9rem; }
 .org-section-label { display: flex; align-items: center; gap: .85rem; margin: 2.4rem 0 1rem; }
 .org-section-label > span { display: grid; place-items: center; width: 42px; height: 42px; flex-shrink: 0; border: 1px solid #9caa91; border-radius: 50%; color: #244c40; font: 500 .8rem var(--font-mono); }

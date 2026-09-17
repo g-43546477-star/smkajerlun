@@ -26,6 +26,8 @@ try {
     await page.setViewportSize({ width, height: 1000 });
     await page.goto('http://pss.test/pss/');
     await page.locator('#visitor-today').filter({ hasText: '12' }).waitFor();
+    assert.equal(await page.locator('.pss-visitor-details').getAttribute('open'), null);
+    await page.locator('.pss-visitor-details summary').click();
     assert.equal(await page.locator('#visitor-chart rect').count(), 7);
     assert.match(await page.locator('#visitor-countries').innerText(), /Malaysia/);
     assert.equal(await page.evaluate(() => document.documentElement.scrollWidth > innerWidth), false);
@@ -33,6 +35,7 @@ try {
   }
   data.today = 0; data.total = 0; data.countries = []; data.daily.forEach(d => d.visitors = 0);
   await page.reload();
+  await page.locator('.pss-visitor-details summary').click();
   await page.getByText('Belum ada lawatan direkodkan.').waitFor();
   assert.equal(await page.locator('#visitor-chart rect[height="0"]').count(), 7);
   const before = postCount;

@@ -18,8 +18,9 @@
 <link rel="apple-touch-icon" href="/tempahan/assets/icons/app-180.png">
 <link rel="stylesheet" href="/tempahan/assets/app.css?v=20260908-3">
 <link rel="stylesheet" href="/tempahan/assets/app-ui.css?v=20260908-3">
+<link rel="stylesheet" href="/assets/responsive.css?v=20260916-1">
 </head>
-<body>
+<body data-device-layout="admin">
 
 <header class="topnav">
   <div class="wrap bar">
@@ -106,10 +107,10 @@
   <div class="card">
     <h3>Tempahan Akan Datang</h3>
     <p class="sub">Semua tempahan aktif untuk hari ini &amp; esok, mengikut masa.</p>
-    <div class="tablewrap"><table>
+    <section class="tablewrap" tabindex="0" aria-label="Jadual tempahan akan datang, tatal untuk melihat semua lajur"><table>
       <thead><tr><th>Tarikh</th><th>Masa</th><th>Bilik</th><th>Nama Guru</th><th>Kelas</th></tr></thead>
       <tbody id="upcoming-tbody"></tbody>
-    </table></div>
+    </table></section>
     <div id="upcoming-empty" class="empty" style="display:none">Tiada tempahan akan datang.</div>
   </div>
 
@@ -138,14 +139,14 @@
         <button type="button" id="af-clear" class="btn-clear">Kosongkan Penapis</button>
       </div>
     </div>
-    <div class="scrolltable">
+    <section class="scrolltable" tabindex="0" aria-label="Jadual semua tempahan, tatal untuk melihat semua lajur">
       <table>
         <thead>
           <tr><th>Tarikh</th><th>Nama Guru</th><th>Kelas</th><th>Bilik</th><th>Slot Masa</th><th>LCD</th><th>Status</th><th style="text-align:right">Tindakan</th></tr>
         </thead>
         <tbody id="admin-senarai-tbody"></tbody>
       </table>
-    </div>
+    </section>
     <div id="admin-senarai-empty" class="empty" style="display:none">Tiada rekod ditemui.</div>
     <p class="admin-statusline" id="booking-admin-status" aria-live="polite"></p>
   </div>
@@ -175,7 +176,7 @@
 <script src="/tempahan/assets/common.js?v=20260908-3"></script>
 <script src="/assets/admin-ui.js?v=20260827-1"></script>
 <script src="/tempahan/assets/admin.js?v=20260827-1"></script>
-<script src="/tempahan/assets/app.js?v=20260908-3"></script>
+<script src="/tempahan/assets/app.js?v=20260916-1"></script>
 <script src="/tempahan/assets/app-ux.js?v=20260908-3"></script>
 </body>
 </html>

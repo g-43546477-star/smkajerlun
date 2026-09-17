@@ -1,6 +1,6 @@
 /* Reading-room details for the complete public portal. */
 .pss-interior { --pss-paper: #fffdf7; --pss-ink: #244c40; }
-.pss-interior :is(.pss-info-grid h2,.submenu-card h2,.nilam-note h2,.loan-form h2,.loan-note h2,.virtual-shelf-note b) { font-family: 'DM Serif Display',Georgia,serif; font-weight: 400; color: var(--pss-ink); }
+.pss-interior :is(.pss-info-grid h2,.submenu-card h2,.nilam-note h2,.loan-form h2,.loan-note h2,.virtual-shelf-note b) { font-family: Georgia,serif; font-weight: 400; color: var(--pss-ink); }
 .pss-interior .pss-section-heading .page-intro { max-width: 60ch; }
 .pss-journey { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 1rem; list-style: none; padding: 0; margin: 1.4rem 0 2.2rem; counter-reset: step; }
 .pss-journey li { display: flex; align-items: start; gap: .8rem; padding: 1rem; border-top: 2px solid #97aa89; }
@@ -31,7 +31,7 @@
 .pss-service-directory a:nth-child(3) { background: #f2d9ca; }
 .pss-service-directory a:nth-child(4) { background: #dce7e6; }
 .pss-service-directory span { font: 600 .68rem var(--font-mono); letter-spacing: .08em; }
-.pss-service-directory h2 { font: 400 2rem 'DM Serif Display',Georgia,serif; margin: .8rem 0; }
+.pss-service-directory h2 { font: 400 2rem Georgia,serif; margin: .8rem 0; }
 .pss-service-directory p { color: #445c4e; font-size: .9rem; }
 .pss-service-directory b { display: block; margin-top: 1.5rem; font-size: .85rem; }
 .pss-interior .loan-layout { gap: 1.5rem; margin-top: 1.2rem; }
@@ -58,7 +58,7 @@
 .pss-interior .virtual-shelf-filter.active { background: #244c40; color: #fffdf7; }
 .pss-interior .virtual-shelf { grid-template-columns: repeat(4,minmax(0,1fr)); gap: 1.7rem; padding: 1.7rem; background: #ede7d5; border-color: #d3c8ac; box-shadow: none; }
 .pss-interior .virtual-book { min-height: 255px; padding: 1.4rem 1.15rem; border-radius: 3px 12px 12px 3px; box-shadow: inset 7px 0 #ffffff25, 4px 5px 0 #244c4025; }
-.pss-interior .virtual-book b { font: 400 1.35rem/1.2 'DM Serif Display',Georgia,serif; margin: auto 0 .6rem; }
+.pss-interior .virtual-book b { font: 400 1.35rem/1.2 Georgia,serif; margin: auto 0 .6rem; }
 .pss-interior .virtual-book small { font-size: .64rem; border-bottom: 1px solid #ffffff55; padding-bottom: .8rem; }
 .pss-interior .virtual-book span { font-size: .78rem; }
 .pss-interior .virtual-shelf-note { background: #fffdf7; padding: 1.5rem; border-color: #d5dacb; gap: 1.5rem; }

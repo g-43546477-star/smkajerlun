@@ -8,7 +8,7 @@ try {
     const page = await browser.newPage({ viewport: { width, height: 900 } });
     const errors = []; page.on('pageerror', error => errors.push(error.message));
     for (const [key, label] of [['akademik', 'Akademik'], ['hem', 'HEM'], ['kokurikulum', 'Kokurikulum'], ['asrama', 'Asrama'], ['info', 'Info Sekolah'], ['perkhidmatan', 'Perkhidmatan']]) {
-      await page.goto(local.url);
+      await page.goto(local.url + '/akademik/');
       if (width <= 1100) await page.locator('.school-menu-toggle').click();
       const toggle = page.getByLabel('Buka submenu ' + label, { exact: true });
       await toggle.hover();
@@ -25,7 +25,7 @@ try {
       const href = await target.getAttribute('href');
       await target.click();
       await page.waitForURL(new URL(href, local.url).href);
-      await page.goto(local.url);
+      await page.goto(local.url + '/akademik/');
       if (width <= 1100) await page.locator('.school-menu-toggle').click();
       await page.locator('.school-nav-label').filter({ hasText: new RegExp('^' + label + '$') }).click();
       const destination = {info:'/info/?tab=profil',perkhidmatan:'/hub/'}[key] || '/' + key + '/';

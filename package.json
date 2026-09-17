@@ -10,9 +10,11 @@
     "check:migrations": "node scripts/check-migrations.mjs",
     "check:security": "node scripts/check-security.mjs",
     "health:check": "node scripts/health-check.mjs",
-    "test:e2e": "node scripts/smoke.mjs",
+    "test:e2e": "node scripts/smoke.mjs && node scripts/navigation-smoke.mjs && node scripts/school-destinations-smoke.mjs && node scripts/school-refinement-smoke.mjs && node scripts/gateway-smoke.mjs",
     "test:admin": "node scripts/admin-smoke.mjs",
-    "verify": "npm run build && npm run test:e2e && npm run test:admin"
+    "verify": "npm run build && npm run test:e2e && npm run test:admin",
+    "check:release": "node scripts/check-release.mjs",
+    "release:verify": "npm run check:release && npm run verify"
   },
   "devDependencies": {
     "@playwright/test": "^1.62.1",
