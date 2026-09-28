@@ -635,6 +635,8 @@
           item.classList.toggle('active', active); item.setAttribute('aria-selected', String(active));
           if (panel) panel.hidden = !active;
         });
+        const currentPage = document.getElementById('info-current-page');
+        if (currentPage) currentPage.textContent = tab.textContent.trim();
       });
     });
   };
@@ -650,7 +652,7 @@
     const route = location.pathname.endsWith('/') ? location.pathname : location.pathname + '/';
     const requestedTab = new URLSearchParams(location.search).get('tab');
     const key = routeTabs[route] || requestedTab;
-    const tab = key && document.querySelector('.subtab[data-panel="panel-' + key + '"]');
+    const tab = key && Array.from(document.querySelectorAll('.subtab')).find(function (item) { return item.dataset.panel === 'panel-' + key; });
     if (tab) tab.click();
   };
 
@@ -669,7 +671,7 @@
     const adminEl = document.getElementById('nav-panel-admin');
     const { data: { user } } = await cmsClient.auth.getUser();
     if (!user) {
-      if (loginEl) { loginEl.textContent = 'Log Masuk'; loginEl.href = '/tempahan/log-masuk/'; loginEl.onclick = null; }
+      if (loginEl) { loginEl.textContent = 'Log Masuk'; loginEl.href = '/log-masuk/?next=' + encodeURIComponent(location.pathname + location.search + location.hash); loginEl.onclick = null; }
       if (adminEl) adminEl.style.display = 'none';
       return;
     }
@@ -756,7 +758,7 @@
           { href: '/perkhidmatan/muat-turun/', title: 'Muat Turun', copy: 'Borang dan dokumen sekolah' }
         ]),
         '<a href="/admin/" id="nav-panel-admin" style="display:none">Panel Admin</a>',
-        '<a href="/tempahan/log-masuk/" id="nav-login">Log Masuk</a>'
+        '<a href="/log-masuk/?next=' + encodeURIComponent(location.pathname + location.search + location.hash) + '" id="nav-login">Log Masuk</a>'
       ].join('');
       if (!document.querySelector('.school-menu-toggle')) {
         var menuToggle = document.createElement('button');

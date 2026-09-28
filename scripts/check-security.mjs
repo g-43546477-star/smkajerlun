@@ -57,10 +57,10 @@ if (migrationFiles.length !== 1) {
   }
 }
 
-const loginHtml = await fs.readFile('tempahan/log-masuk/index.html', 'utf8');
+const loginHtml = await fs.readFile('log-masuk/index.html', 'utf8');
 for (const inputId of ['in-nama', 'in-pass']) {
   if (!new RegExp(`<label[^>]+for=["']${inputId}["']`).test(loginHtml)) {
-    failures.push(`tempahan/log-masuk/index.html: ${inputId} is missing an associated label`);
+    failures.push(`log-masuk/index.html: ${inputId} is missing an associated label`);
   }
 }
 

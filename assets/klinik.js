@@ -41,12 +41,37 @@
       });
     }
     const printRows = $('#print-rekod'); printRows.replaceChildren();
-    state.rekod.forEach((entry, index) => {
+    [...state.rekod].sort((a, b) => `${b.tarikh} ${b.masa || ""}`.localeCompare(`${a.tarikh} ${a.masa || ""}`)).forEach((entry, index) => {
       const row = document.createElement('tr');
       [index + 1, malayDate(entry.tarikh), entry.masa || '-', entry.sebab].forEach((value) => { const cell = document.createElement('td'); cell.textContent = value; row.appendChild(cell); });
       printRows.appendChild(row);
     });
   }
+
+  // Fit the newest complete records; never truncate a reason or change stored history.
+  function fitPrintedRecords() {
+    const sheet = $('.print-record-sheet');
+    const content = $('.print-record-content');
+    const summary = $('#print-record-summary');
+    const rows = [...document.querySelectorAll('#print-rekod tr')];
+    rows.forEach((row) => { row.hidden = false; });
+    let shown = rows.length;
+    function updateSummary() {
+      summary.textContent = rows.length
+        ? `Memaparkan ${shown} daripada ${rows.length} rekod lawatan terkini. ${rows.length - shown} rekod selebihnya boleh dirujuk dalam sistem.`
+        : 'Tiada rekod lawatan ke klinik.';
+    }
+    updateSummary();
+    const available = sheet.clientHeight - parseFloat(getComputedStyle(sheet).paddingBottom);
+    while (shown > 0 && content.getBoundingClientRect().height > available) {
+      rows[--shown].hidden = true;
+      updateSummary();
+    }
+  }
+  window.addEventListener('beforeprint', fitPrintedRecords);
+  window.addEventListener('afterprint', () => {
+    document.querySelectorAll('#print-rekod tr').forEach((row) => { row.hidden = false; });
+  });
 
   function fillPrint(selector, value) {
     document.querySelectorAll(selector).forEach((element) => {

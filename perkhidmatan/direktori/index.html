@@ -15,10 +15,10 @@
 <link rel="stylesheet" href="/assets/ajer-refinement.css?v=20260905-2">
 <link rel="stylesheet" href="/assets/ajer-school.css?v=20260906-1">
 <link rel="stylesheet" href="/assets/school-public.css?v=20260907-uiux">
-<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/assets/responsive.css?v=20260916-1">
+<link rel="stylesheet" href="/assets/interface.css?v=20260926-1">
 </head>
-<body class="ios-home" data-portal-view="home" data-device-layout="school">
+<body data-interface="school" class="service-page" data-portal-view="home" data-device-layout="school">
 
 <div class="topbar">
   <span class="tag">SMKAJERLUN.MY</span>
@@ -57,98 +57,16 @@
       <details class="nav-dropdown"><summary><a href="/info/">Info Sekolah</a></summary><div class="subnav"><a href="/info/?tab=profil">Profil Sekolah</a><a href="/info/?tab=lagu">Lagu Sekolah</a><a href="/info/?tab=pengurusan">Pengurusan</a><a href="/info/?tab=warga">Warga Sekolah</a><a href="/info/?tab=takwim">Takwim</a><a href="/info/?tab=hubungi">Hubungi</a></div></details>
       <details class="nav-dropdown"><summary>Perkhidmatan</summary><div class="subnav"><a href="/tempahan/">Tempahan Bilik</a><a href="/pss/">Portal PSS</a><a href="/perkhidmatan/klinik/">Rekod Klinik</a><a href="/perkhidmatan/muat-turun/">Muat Turun</a><a href="/perkhidmatan/direktori/">Direktori</a></div></details>
       <a href="/admin/" id="nav-panel-admin" style="display:none">Panel Admin</a>
-      <a href="/tempahan/log-masuk/" id="nav-login">Log Masuk</a>
+      <a href="/log-masuk/?next=%2Fperkhidmatan%2Fdirektori%2F" id="nav-login">Log Masuk</a>
     </nav>
   </div>
 </header>
-
-<section class="ios-welcome" aria-labelledby="welcome-title">
-  <div class="ios-welcome-inner">
-    <div>
-      <span class="ios-overline">LAMAN RASMI SEKOLAH</span>
-      <h2 id="welcome-title">Segala urusan sekolah,<br>lebih dekat.</h2>
-      <p>Maklumat semasa, jadual dan perkhidmatan SMK Agama Jerlun dalam satu paparan yang mudah dicapai.</p>
-      <div class="ios-hero-actions" role="group" aria-label="Pautan pantas">
-        <a href="/info/?tab=takwim">Takwim</a>
-        <a href="/info/">Info sekolah</a>
-      </div>
-    </div>
-    <div class="ios-greeting">
-      <span>WARGA SMKAJ</span>
-      <strong id="greet">Selamat datang</strong>
-      <small>&#1575;&#1604;&#1587;&#1604;&#1575;&#1605; &#1593;&#1604;&#1610;&#1603;&#1605; &#1608;&#1585;&#1581;&#1605;&#1577; &#1575;&#1604;&#1604;&#1607;</small>
-    </div>
-  </div>
-</section>
-
-<main class="ios-home-main">
-  <section class="ios-summary" aria-label="Ringkasan hari ini">
-    <article class="ios-summary-card ios-date-card">
-      <span class="ios-card-label">HARI INI</span>
-      <strong id="widget-hari">&mdash;</strong>
-      <span id="widget-tarikh">&mdash;</span>
-    </article>
-    <article class="ios-summary-card ios-event-card">
-      <span class="ios-card-label">AKTIVITI SETERUSNYA</span>
-      <strong id="widget-aktiviti">Memuatkan aktiviti&hellip;</strong>
-      <a href="/info/?tab=takwim">Buka takwim <span aria-hidden="true">&rarr;</span></a>
-    </article>
-    <article class="ios-summary-card ios-link-card">
-      <span class="ios-card-label">AKSES PANTAS</span>
-      <div class="ios-shortcuts"><a href="/info/">Info Sekolah</a><a href="/perkhidmatan/muat-turun/">Dokumen</a><a href="/perkhidmatan/direktori/">Direktori</a></div>
-    </article>
-  </section>
-
-  <section class="ios-prayer" aria-labelledby="solat-title">
-    <div class="ios-prayer-main">
-      <div class="ios-section-heading"><div><span class="ios-overline">JERLUN, KDH01</span><h2 id="solat-title">Waktu Solat</h2></div><span class="ios-section-meta">Hari ini</span></div>
-      <div class="solat-card" id="solat-card">
-        <span class="solat-label">Waktu solat</span>
-        <div class="solat-times" id="solat-times"></div>
-        <span class="solat-note" id="solat-note">Memuatkan waktu solat&hellip;</span>
-      </div>
-    </div>
-    <aside class="ios-hadith" aria-labelledby="hadis-title">
-      <span class="ios-card-label">PERKONGSIAN HADIS</span>
-      <h2 id="hadis-title">Pesanan Hari Ini</h2>
-      <blockquote>"Sesiapa yang beriman kepada Allah dan hari akhirat, hendaklah dia berkata yang baik atau berdiam diri."</blockquote>
-      <cite>Riwayat al-Bukhari dan Muslim</cite>
-    </aside>
-  </section>
-
-  <section class="ios-service-dock" aria-labelledby="sistem-title">
-    <div class="ios-section-heading">
-      <div><span class="ios-overline">SISTEM SEKOLAH</span><h2 id="sistem-title">Akses utama</h2></div>
-      <span class="ios-section-meta">SATU KLIK</span>
-    </div>
-    <div class="ios-service-grid">
-      <a class="ios-service-item pss" href="/pss/"><span class="ios-service-icon" aria-hidden="true">PSS</span><span><b>Portal PSS</b><small>Katalog, NILAM &amp; pinjaman</small></span><i aria-hidden="true">&rarr;</i></a>
-      <a class="ios-service-item booking" href="/tempahan/"><span class="ios-service-icon" aria-hidden="true">BK</span><span><b>Tempahan Bilik</b><small>Semak slot dan tempah ruang</small></span><i aria-hidden="true">&rarr;</i></a>
-      <a class="ios-service-item calendar" href="/info/?tab=takwim"><span class="ios-service-icon" aria-hidden="true">TK</span><span><b>Takwim Sekolah</b><small>Aktiviti dan acara semasa</small></span><i aria-hidden="true">&rarr;</i></a>
-      <a class="ios-service-item dorm" href="/asrama/"><span class="ios-service-icon" aria-hidden="true">AS</span><span><b>Hal Ehwal Asrama</b><small>Jadual harian dan peraturan</small></span><i aria-hidden="true">&rarr;</i></a>
-    </div>
-  </section>
-
-  <div class="ios-primary-grid">
-    <section class="ios-panel ios-activities" aria-labelledby="aktiviti-title">
-      <div class="ios-section-heading"><div><span class="ios-overline">KALENDAR SEKOLAH</span><h2 id="aktiviti-title">Aktiviti Terdekat</h2></div><a href="/info/?tab=takwim">Lihat semua <span aria-hidden="true">&rarr;</span></a></div>
-      <div id="aktiviti-terdekat-list"></div>
-    </section>
-    <section class="ios-panel ios-announcements" aria-labelledby="notis-title">
-      <div class="ios-section-heading"><div><span class="ios-overline">MAKLUMAN RASMI</span><h2 id="notis-title">Pengumuman</h2></div><span class="ios-section-meta">Terkini</span></div>
-      <div class="notis" id="notis-list"></div>
-    </section>
-  </div>
-
-  <section class="ios-search-panel" aria-labelledby="cari-title">
-    <div><span class="ios-overline">CARIAN LAMAN</span><h2 id="cari-title">Cari maklumat sekolah</h2></div>
-    <div class="portal-filter"><input id="site-search" type="search" placeholder="Cari pengumuman, takwim atau dokumen..."></div>
-    <div id="search-results" class="portal-list search-results"></div>
-  </section>
-
-  <section class="ios-utility-grid" aria-label="Maklumat dan perkhidmatan sekolah">
-    <section class="ios-panel" id="direktori-sekolah"><div class="ios-section-heading"><div><span class="ios-overline">DIREKTORI SEKOLAH</span><h2>Profil &amp; Hubungan</h2></div></div><div id="directory-list" class="portal-list"></div></section>
-  </section>
+<div class="pagehead"><div class="pagehead-inner">
+  <a class="service-back" href="/hub/">&larr; Portal Warga</a>
+  <h2>Direktori Sekolah</h2><p>Maklumat hubungan dan pegawai rujukan untuk urusan sekolah.</p>
+</div></div>
+<main class="service-document" id="main-content">
+  <section class="portal-section" aria-label="Direktori Sekolah"><div id="directory-list" class="portal-list" aria-live="polite"><p class="portal-empty">Memuatkan maklumat...</p></div></section>
 </main>
 
 <footer>
@@ -165,9 +83,9 @@
 </footer>
 
 <script src="/assets/vendor/supabase-2.57.4.js?v=20260828-1"></script>
-<script src="/assets/cms.js?v=20260827-1"></script>
-<script src="/assets/pages/perkhidmatan-direktori-index.js?v=20260816-4"></script>
-<script src="/assets/portal.js?v=20260827-1"></script>
+<script src="/assets/cms.js?v=20260924-1"></script>
+<script src="/assets/pages/perkhidmatan-direktori-index.js?v=20260926-1"></script>
+<script src="/assets/portal.js?v=20260926-1"></script>
 
 <script src="/assets/ajer-makeover.js?v=20260905-1"></script>
 <script src="/assets/ajer-school.js?v=20260906-2"></script>

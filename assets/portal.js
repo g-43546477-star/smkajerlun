@@ -210,15 +210,18 @@
     list('nilam_stat', 'nilam-list', function (r) { return '<article><b>' + esc(r.nama || 'Nama murid belum dinyatakan') + '</b><span>' + esc(r.jumlah_bacaan) + '</span><small>' + esc([r.tingkatan, r.kelas].filter(Boolean).join(' · ') || 'Maklumat kelas belum dinyatakan') + '</small></article>'; }, 'kedudukan');
   }
   if (view === 'search' || view === 'home') {
-    var input = $('site-search'), results = $('search-results'), searchTimer;
+    var input = $('site-search'), results = $('search-results'), count = $('search-count'), searchTimer;
     if (input) input.addEventListener('input', function () {
       clearTimeout(searchTimer);
       searchTimer = setTimeout(async function () {
         var q = input.value.trim();
+        if (count) count.textContent = '';
         if (q.length < 2) return empty(results, 'Masukkan sekurang-kurangnya dua huruf untuk mencari.');
+        if (count) count.textContent = 'Mencari...';
         results.innerHTML = '<div class="portal-empty">Mencari maklumat sekolah...</div>';
+        var incomplete = false;
         var sources = [
-          ['pengumuman', 'tajuk', 'Pengumuman', '/#notis-title'],
+          ['pengumuman', 'tajuk', 'Pengumuman', '/hub/#notis-title'],
           ['takwim', 'tajuk', 'Takwim', '/info/?tab=takwim'],
           ['resource_file', 'tajuk', 'Muat turun', '/perkhidmatan/muat-turun/'],
           ['achievement', 'tajuk', 'Program sekolah', '/program/'],
@@ -230,8 +233,9 @@
           var request = cms.from(s[0]).select('*').ilike(s[1], '%' + q + '%');
           if (s[0] === 'achievement') request = request.eq('kategori', 'sekolah');
           return request.limit(8).then(function (r) {
+            if (r.error) incomplete = true;
             return (r.data || []).map(function (x) { return { label:s[2], title:x.tajuk || x.nama, detail:x.keterangan || x.penerangan || x.pengarang || x.kandungan || x.jawatan || '', href:(s[0] === 'achievement' && x.slug) ? '/program/?slug=' + encodeURIComponent(x.slug) : ((s[0] === 'achievement' && x.pautan) ? x.pautan : s[3]) }; });
-          });
+          }).catch(function () { incomplete = true; return []; });
         }));
         if (input.value.trim() !== q) return;
         var pages = [
@@ -243,7 +247,8 @@
         ].filter(function (item) { return item[0].toLocaleLowerCase('ms-MY').includes(q.toLocaleLowerCase('ms-MY')); })
           .map(function (item) { return { label: 'Halaman sekolah', title: item[0], detail: 'Maklumat dan perkhidmatan SMK Agama Jerlun.', href: item[1] }; });
         var items = pages.concat(all.flat());
-        results.innerHTML = items.length ? items.map(function (x) { return '<article class="portal-row"><div><small>' + esc(x.label) + '</small><b>' + esc(x.title) + '</b><p>' + esc(String(x.detail).slice(0, 180)) + '</p></div><a href="' + esc(safeUrl(x.href, '/')) + '">Buka</a></article>'; }).join('') : '<div class="portal-empty">Tiada padanan ditemui.</div>';
+        if (count) count.textContent = items.length + ' hasil dipaparkan.' + (incomplete ? ' Sebahagian maklumat belum dapat dimuatkan. Cuba carian semula.' : '');
+        results.innerHTML = items.length ? items.map(function (x) { return '<article class="portal-row"><div><small>' + esc(x.label) + '</small><b>' + esc(x.title) + '</b><p>' + esc(String(x.detail).slice(0, 180)) + '</p></div><a href="' + esc(safeUrl(x.href, '/')) + '" aria-label="Buka ' + esc(x.title) + '">Buka</a></article>'; }).join('') : '<div class="portal-empty">' + (incomplete ? 'Carian belum lengkap. Semak sambungan dan cuba lagi.' : 'Tiada padanan ditemui. Cuba kata yang lebih ringkas atau gunakan pautan rujukan di atas.') + '</div>';
       }, 220);
     });
   }

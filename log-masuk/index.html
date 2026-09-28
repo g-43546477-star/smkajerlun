@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Log Masuk — SMK Agama Jerlun</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;family=Source+Sans+3:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/tempahan/assets/style.css?v=20260827-1">
+<link rel="icon" type="image/png" href="/logo.png">
+<meta name="theme-color" content="#153d38">
+<link rel="stylesheet" href="/tempahan/assets/app.css?v=20260908-3">
+<link rel="stylesheet" href="/tempahan/assets/app-ui.css?v=20260908-3">
+<link rel="stylesheet" href="/assets/responsive.css?v=20260916-1">
+<link rel="stylesheet" href="/assets/interface.css?v=20260926-1">
+</head>
+<body data-interface="login" data-device-layout="booking">
+
+<header class="topnav">
+  <div class="wrap bar">
+    <a href="/" class="brand">
+      <img class="logo" src="/assets/logo-sekolah.png" alt="Logo SMKAJ">
+      <div><h1>Log Masuk SMKA Jerlun</h1><p>SMK Agama Jerlun</p></div>
+    </a>
+    <nav class="links" aria-label="Portal sekolah">
+      <a href="/">Utama</a>
+      <a href="/pss/">Portal PSS</a>
+      <a href="/tempahan/">Sistem Tempahan</a>
+      <a href="/perkhidmatan/klinik/">Rekod Klinik</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <div class="card authcard">
+    <h2>Satu akaun untuk portal sekolah</h2>
+    <p class="sub" id="login-help">Gunakan akaun yang dikeluarkan oleh pentadbir sekolah untuk Portal PSS, Sistem Tempahan dan Rekod Klinik. Akses setiap sistem mengikut peranan akaun anda. Hubungi pentadbir jika anda belum mempunyai akaun.</p>
+
+    <p class="sub" id="login-destination"></p>
+    <form id="pane-masuk">
+      <label class="field-label" for="in-nama">Nama Guru</label>
+      <input type="text" id="in-nama" autocomplete="username" placeholder="Cth: Ustaz Syahir" aria-describedby="login-help">
+      <label class="field-label" for="in-pass" style="margin-top:12px">Kata Laluan</label>
+      <input type="password" id="in-pass" autocomplete="current-password">
+      <p class="msg" id="masuk-msg" style="margin-top:10px" role="status" aria-live="polite"></p>
+      <button type="submit" class="btn-primary" id="btn-masuk" style="width:100%;margin-top:14px">Log Masuk</button>
+    </form>
+  </div>
+</main>
+
+<script src="/assets/vendor/supabase-2.57.4.js?v=20260828-1"></script>
+<script src="/tempahan/assets/common.js?v=20260924-1"></script>
+<script src="/assets/login.js?v=20260924-1"></script>
+<script src="/tempahan/assets/app-ux.js?v=20260926-1"></script>
+</body>
+</html>

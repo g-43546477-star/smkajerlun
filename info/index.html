@@ -21,10 +21,10 @@
 <link rel="stylesheet" href="/assets/ajer-refinement.css?v=20260905-2">
 <link rel="stylesheet" href="/assets/ajer-school.css?v=20260906-1">
 <link rel="stylesheet" href="/assets/school-public.css?v=20260907-uiux">
-<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/assets/responsive.css?v=20260916-1">
+<link rel="stylesheet" href="/assets/interface.css?v=20260927-1">
 </head>
-  <body data-device-layout="school">
+  <body data-interface="school" data-device-layout="school">
     <div class="topbar">
       <span class="tag">SMKAJERLUN.MY</span>
       <div class="dates">
@@ -63,7 +63,7 @@
             <p>Berilmu &middot; Beriman &middot; Beramal</p>
           </div>
         </div>
-        <nav class="tabs">
+        <nav class="tabs" aria-label="Navigasi utama sekolah">
           <a href="/">Utama</a><a href="/akademik/">Akademik</a
           ><a href="/kokurikulum/">Kokurikulum</a><a href="/asrama/">Asrama</a>
           <details class="nav-dropdown">
@@ -88,7 +88,7 @@
           </details>
           <a href="/admin/" id="nav-panel-admin" style="display: none"
             >Panel Admin</a
-          ><a href="/tempahan/log-masuk/" id="nav-login">Log Masuk</a>
+          ><a href="/log-masuk/?next=%2Finfo%2F" id="nav-login">Log Masuk</a>
         </nav>
       </div>
     </header>
@@ -112,6 +112,7 @@
         <rect width="100%" height="100%" fill="url(#star8i)" />
       </svg>
       <div class="pagehead-inner">
+        <nav class="school-breadcrumb" aria-label="Jejak halaman"><a href="/">Utama</a><a href="/info/">Info Sekolah</a><span id="info-current-page" aria-current="page">Profil</span></nav>
         <h2><em>Info</em> Sekolah</h2>
         <p>Profil, identiti, pengurusan dan warga SMK Agama Jerlun.</p>
       </div>
@@ -342,7 +343,7 @@
       </div>
     </footer>
     <script src="/assets/vendor/supabase-2.57.4.js?v=20260828-1"></script>
-    <script src="/assets/cms.js?v=20260827-1"></script>
+    <script src="/assets/cms.js?v=20260927-1"></script>
     <script src="/assets/pages/info-index.js?v=20260827-1"></script>
     
   <script src="/assets/ajer-makeover.js?v=20260905-1"></script>

@@ -17,6 +17,8 @@ async function walk(directory, extension, root = directory, result = []) {
 
 export async function projectFiles(extension) {
   try {
+    const repositoryRoot = execFileSync('git', ['rev-parse', '--show-toplevel'], { encoding: 'utf8', stdio: ['ignore', 'pipe', 'ignore'] }).trim();
+    if (path.resolve(repositoryRoot) !== process.cwd()) return walk(process.cwd(), extension);
     return execFileSync('git', ['ls-files', `*${extension}`], { encoding: 'utf8' })
       .split('\n').filter(Boolean).filter((file) => !ignored.has(file.split('/')[0]));
   } catch {

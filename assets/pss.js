@@ -74,8 +74,10 @@
         { href: '/pss/perkhidmatan/tempahan-ruang/', title: 'Tempahan Ruang', copy: 'Semak slot dan tempah ruang' },
         { href: '/pss/perkhidmatan/cadangan-buku/', title: 'Cadangan Buku', copy: 'Bantu tambah koleksi PSS' }
       ]),
+      '<a id="nav-login" href="/log-masuk/?next=' + encodeURIComponent(location.pathname + location.search + location.hash) + '">Log Masuk</a>',
       '<a class="back-link" href="/">Laman sekolah</a>'
     ].join('');
+    if (typeof window.cmsLoadAuthNav === 'function') window.cmsLoadAuthNav();
   }
 
   if (toggle && nav) toggle.addEventListener('click', function () { setMenuOpen(!nav.classList.contains('open'), toggle); });

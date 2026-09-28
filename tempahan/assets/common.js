@@ -155,7 +155,7 @@ async function refreshAuthBox() {
     }
     if (navAdmin) navAdmin.style.display = admin ? 'inline-block' : 'none';
   } else {
-    if (box) box.innerHTML = `<a href="${BASE}/log-masuk/">Log Masuk</a>`;
+    if (box) box.innerHTML = `<a href="/log-masuk/?next=${encodeURIComponent(location.pathname + location.search + location.hash)}">Log Masuk</a>`;
     if (navAdmin) navAdmin.style.display = 'none';
   }
   window.bookingAuth = { signedIn: !!user, admin, approved: !!teacher };

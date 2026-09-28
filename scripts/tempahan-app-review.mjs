@@ -12,7 +12,7 @@ try {
  for(const width of [320,390,768,1280]) {
   await page.setViewportSize({width,height:844});
   for(const path of ['/tempahan/','/tempahan/jadual/','/tempahan/senarai/?mine=1','/tempahan/log-masuk/']) {
-   await page.goto(base+path); await page.locator('.app-nav').waitFor();
+   await page.goto(base+path); await page.locator(path.includes('log-masuk') ? '#pane-masuk' : '.app-nav').waitFor();
    assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth+1),false,`${width} ${path}`);
    results.push(`${width}px ${path}: no overflow`);
   }
@@ -31,6 +31,8 @@ try {
   await page.locator('#f-tujuan').fill('PdPc Bahasa Arab');
   await page.getByRole('button',{name:'Teruskan pilih masa'}).click();
   await page.locator('#room-slots').waitFor();
+  assert.match(await page.locator('.footerbar .booking-summary').innerText(), /PdPc Bahasa Arab/);
+  assert.equal(await page.locator('.footerbar').getAttribute('aria-label'), 'Semak tempahan sebelum hantar');
   await page.screenshot({path:'outputs/tempahan-app-review/slot.png',fullPage:true});
   await page.getByRole('button',{name:'Ubah bilik atau aktiviti'}).click();
   assert.equal(await page.locator('#f-tujuan').inputValue(),'PdPc Bahasa Arab');

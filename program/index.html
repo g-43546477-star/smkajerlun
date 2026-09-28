@@ -15,10 +15,10 @@
 <link rel="stylesheet" href="/assets/ajer-refinement.css?v=20260905-2">
 <link rel="stylesheet" href="/assets/ajer-school.css?v=20260906-1">
 <link rel="stylesheet" href="/assets/school-public.css?v=20260907-uiux">
-<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/assets/responsive.css?v=20260916-1">
+<link rel="stylesheet" href="/assets/interface.css?v=20260927-1">
 </head>
-<body class="program-page" data-device-layout="school">
+<body data-interface="school" class="program-page" data-device-layout="school">
 
 <div class="topbar">
   <span class="tag">SMKAJERLUN.MY</span>
@@ -35,27 +35,26 @@
       <a href="/akademik/">Akademik</a><a href="/hem/">HEM</a><a href="/kokurikulum/">Kokurikulum</a><a href="/asrama/">Asrama</a>
       <details class="nav-dropdown"><summary><a href="/info/">Info Sekolah</a></summary><div class="subnav"><a href="/info/?tab=profil">Profil Sekolah</a><a href="/info/?tab=lagu">Lagu Sekolah</a><a href="/info/?tab=pengurusan">Pengurusan</a><a href="/info/?tab=warga">Warga Sekolah</a><a href="/info/?tab=takwim">Takwim</a><a href="/info/?tab=hubungi">Hubungi</a></div></details>
       <details class="nav-dropdown"><summary>Perkhidmatan</summary><div class="subnav"><a href="/tempahan/">Tempahan Bilik</a><a href="/pss/">Portal PSS</a><a href="/perkhidmatan/klinik/">Rekod Klinik</a><a href="/perkhidmatan/muat-turun/">Muat Turun</a><a href="/perkhidmatan/direktori/">Direktori</a></div></details>
-      <a href="/admin/" id="nav-panel-admin" style="display:none">Panel Admin</a><a href="/tempahan/log-masuk/" id="nav-login">Log Masuk</a>
+      <a href="/admin/" id="nav-panel-admin" style="display:none">Panel Admin</a><a href="/log-masuk/?next=%2Fprogram%2F" id="nav-login">Log Masuk</a>
     </nav>
   </div>
 </header>
 
-<div class="pagehead">
+<div class="pagehead" id="program-heading">
   <svg class="pattern" width="100%" height="100%" aria-hidden="true"><defs><pattern id="star9" width="96" height="96" patternUnits="userSpaceOnUse"><g fill="none" stroke="#FFFFFF" stroke-width="1"><path d="M48 8 L58 38 L88 48 L58 58 L48 88 L38 58 L8 48 L38 38 Z"/><circle cx="48" cy="48" r="10"/></g></pattern></defs><rect width="100%" height="100%" fill="url(#star9)"/></svg>
-  <div class="pagehead-inner"><h2><em>Program Sekolah</em> SMKAJ</h2><p>Artikel dan sorotan aktiviti rasmi SMK Agama Jerlun.</p></div>
+  <div class="pagehead-inner"><h2 id="program-listing-title">Program Sekolah</h2><p>Sorotan aktiviti dan kejayaan warga SMKA Jerlun.</p></div>
 </div>
 
 <main class="program-main">
+  <nav class="school-breadcrumb" aria-label="Jejak halaman"><a href="/">Utama</a><a id="program-breadcrumb-overview" href="/program/" hidden>Program Sekolah</a><span id="program-current-page" aria-current="page">Program Sekolah</span></nav>
   <section id="program-listing" aria-labelledby="program-listing-title">
-    <div class="program-intro"><span class="school-kicker">INFO PROGRAM SEKOLAH</span><h2 id="program-listing-title">Program dan aktiviti terkini</h2><p>Ikuti sorotan program, aktiviti dan kejayaan warga SMKA Jerlun dalam satu paparan.</p></div>
     <div id="program-list" class="achievement-list program-card-grid"></div>
   </section>
 
   <p id="article-loading" class="achievement-empty" aria-live="polite" hidden>Memuatkan artikel...</p>
   <article class="achievement-article" id="achievement-article" aria-labelledby="achievement-title" hidden>
-    <nav class="achievement-back" aria-label="Navigasi artikel"><a href="/program/">&larr; Kembali ke Program Sekolah</a></nav>
     <header class="achievement-article-header"><span class="achievement-article-kicker" id="achievement-kicker">PROGRAM SEKOLAH</span><h1 id="achievement-title">Program Sekolah</h1><p class="achievement-article-dek" id="achievement-dek"></p><time class="achievement-article-date" id="achievement-date"></time></header>
-    <figure class="achievement-article-figure" id="achievement-figure" hidden><img id="achievement-image" src="/assets/logo-sekolah.png" alt=""><figcaption id="achievement-caption"></figcaption></figure>
+    <figure class="achievement-article-figure" id="achievement-figure" hidden><a id="achievement-image-link"><img id="achievement-image" src="/assets/logo-sekolah.png" alt=""><span class="achievement-image-link">Lihat gambar utama penuh &rarr;</span></a><figcaption id="achievement-caption"></figcaption></figure>
     <div class="achievement-article-prose" id="achievement-prose"></div>
     <section class="achievement-gallery" id="achievement-gallery" aria-labelledby="achievement-gallery-title" hidden><h2 id="achievement-gallery-title">Gambar program</h2><div id="achievement-gallery-grid" class="achievement-gallery-grid"></div></section>
   </article>
@@ -64,9 +63,9 @@
 <footer><div class="foot-inner"><div><div class="b">SMK Agama Jerlun <span class="brass">&middot;</span> Kedah</div><div>Laman rasmi &amp; sistem dalaman sekolah</div></div><div style="text-align:right"><div class="brass" style="font-family:var(--font-mono);font-size:.72rem;letter-spacing:.08em">SMKAJERLUN.MY</div><div>Dibangunkan oleh AJER-Syahir &middot; <span id="thn"></span></div></div></div></footer>
 
 <script src="/assets/vendor/supabase-2.57.4.js?v=20260828-1"></script>
-<script src="/assets/cms.js?v=20260826-2"></script>
-<script src="/assets/pages/program-index.js?v=20260826-1"></script>
-<script src="/assets/pages/achievement-article.js?v=20260826-2"></script>
+<script src="/assets/cms.js?v=20260924-1"></script>
+<script src="/assets/pages/program-index.js?v=20260927-1"></script>
+<script src="/assets/pages/achievement-article.js?v=20260927-1"></script>
 <script src="/assets/ajer-makeover.js?v=20260905-1"></script>
 <script src="/assets/ajer-school.js?v=20260906-2"></script>
 <script src="/assets/school-motion.js?v=20260907-uiux"></script>

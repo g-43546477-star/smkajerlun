@@ -12,7 +12,7 @@
     const steps = document.createElement('nav');
     steps.className = 'booking-steps';
     steps.setAttribute('aria-label', 'Langkah tempahan');
-    steps.innerHTML = '<button type="button" aria-current="step">1 · Bilik &amp; aktiviti</button><button type="button">2 · Masa &amp; hantar</button>';
+    steps.innerHTML = '<button type="button" aria-current="step">1 · Bilik &amp; aktiviti</button><button type="button">2 · Masa &amp; semak</button>';
     first.before(steps);
     first.prepend(catalogue);
     // Keep existing fields and event handlers; put date and room first.
@@ -23,7 +23,10 @@
     next.type = 'button'; next.className = 'btn-primary booking-next'; next.textContent = 'Teruskan pilih masa →';
     const error = document.createElement('p'); error.className = 'booking-inline-error'; error.setAttribute('role', 'status');
     first.append(error, next);
-    const selection = document.createElement('p'); selection.className = 'booking-summary'; second.prepend(selection);
+    const selection = document.createElement('p'); selection.className = 'booking-summary';
+    const review = second.querySelector('.footerbar');
+    review.setAttribute('role', 'region'); review.setAttribute('aria-label', 'Semak tempahan sebelum hantar');
+    review.prepend(selection);
     const previous = document.createElement('button'); previous.type = 'button'; previous.className = 'btn-secondary'; previous.textContent = '← Ubah bilik atau aktiviti';
     second.append(previous);
     const controls = steps.querySelectorAll('button');

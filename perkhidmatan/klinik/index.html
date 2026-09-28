@@ -11,17 +11,17 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;family=Source+Sans+3:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/assets/site.css?v=20260827-1">
-  <link rel="stylesheet" href="/assets/klinik.css?v=20260820-3">
+  <link rel="stylesheet" href="/assets/klinik.css?v=20260924-1">
   
 <link rel="icon" type="image/png" href="/logo.png">
 <link rel="stylesheet" href="/assets/ajer-makeover.css?v=20260905-1">
 <link rel="stylesheet" href="/assets/ajer-refinement.css?v=20260905-2">
 <link rel="stylesheet" href="/assets/ajer-school.css?v=20260906-1">
 <link rel="stylesheet" href="/assets/school-public.css?v=20260907-uiux">
-<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/assets/responsive.css?v=20260916-1">
+<link rel="stylesheet" href="/assets/interface.css?v=20260926-1">
 </head>
-<body data-device-layout="school">
+<body data-interface="school" data-device-layout="school">
   <header class="sitehead">
     <div class="sitehead-inner">
       <div class="brandrow"><img class="logo" src="/assets/logo-sekolah.png" alt="Logo SMK Agama Jerlun"><div class="nm"><h1>SMK <em>Agama Jerlun</em></h1><p>Rekod Klinik Murid</p></div></div>
@@ -38,7 +38,7 @@
 
     <section id="clinic-access" class="clinic-access" hidden aria-live="polite">
       <div><span id="clinic-access-eyebrow" class="eyebrow">AKSES TERKAWAL</span><h3 id="clinic-access-title">Kiosk klinik perlu diaktifkan</h3><p id="clinic-access-description">Log masuk menggunakan akaun pentadbir pada komputer kiosk sebelum murid menggunakan carian rekod.</p></div>
-      <a id="clinic-access-action" href="/tempahan/log-masuk/">Log Masuk Kiosk</a>
+      <a id="clinic-access-action" href="/log-masuk/?next=%2Fperkhidmatan%2Fklinik%2F">Log Masuk Kiosk</a>
     </section>
 
     <section class="clinic-card">
@@ -57,15 +57,46 @@
   </main>
 
   <section class="clinic-print" aria-hidden="true">
-    <article class="print-sheet"><header class="print-heading"><img src="/assets/logo-sekolah.png" alt=""><div><h1>SMK Agama Jerlun</h1><p>Jalan Kodiang, 06100 Kodiang, Kedah Darul Aman</p></div></header><h2 class="print-title">Borang Ke Klinik</h2><div class="print-fields"><div><b>Nama Murid</b><span class="print-nama"></span></div><div><b>Nombor IC</b><span class="print-ic"></span></div><div><b>Kelas</b><span class="print-kelas"></span></div><div><b>Tarikh</b><span class="print-tarikh"></span></div></div><div class="print-lines"><div><b>Waktu keluar ke klinik</b></div><div><b>Catatan / pengesahan klinik</b></div><div><b>Tandatangan guru / penyelia</b></div></div></article>
-    <article class="print-sheet"><header class="print-heading"><img src="/assets/logo-sekolah.png" alt=""><div><h1>SMK Agama Jerlun</h1><p>Rekod Lawatan Klinik Murid</p></div></header><h2 class="print-title">Rekod Lawatan</h2><div class="print-fields"><div><b>Nama Murid</b><span class="print-nama"></span></div><div><b>Nombor IC</b><span class="print-ic"></span></div><div><b>Kelas</b><span class="print-kelas"></span></div><div><b>Tarikh Cetakan</b><span class="print-tarikh"></span></div></div><table class="print-table"><thead><tr><th>Bil.</th><th>Tarikh</th><th>Masa</th><th>Sebab Ke Klinik</th></tr></thead><tbody id="print-rekod"></tbody></table><p class="print-note">Dokumen ini ialah rekod lawatan ringkas untuk simpanan sekolah.</p></article>
+    <article class="print-sheet">
+      <header class="print-heading"><img src="/assets/logo-sekolah.png" alt=""><div><h1>SMK Agama Jerlun</h1><p>Jalan Kodiang, 06100 Kodiang, Kedah Darul Aman</p></div></header>
+      <h2 class="print-title">Borang Permohonan Rawatan Murid di Klinik</h2>
+      <p>Tuan/Puan,</p>
+      <p>Dengan hormatnya, pihak sekolah memohon jasa baik pihak tuan/puan untuk menjalankan pemeriksaan dan memberikan rawatan yang bersesuaian kepada murid yang dinyatakan di bawah.</p>
+      <div class="print-fields"><div><b>Nama Murid</b><span class="print-nama"></span></div><div><b>No. Kad Pengenalan</b><span class="print-ic"></span></div><div><b>Kelas</b><span class="print-kelas"></span></div><div><b>Tarikh Cetakan</b><span class="print-tarikh"></span></div></div>
+      <div class="print-lines print-school-lines"><div><b>Masa Keluar ke Klinik</b></div><div><b>Pengesahan Guru / Penyelia (Nama dan Tandatangan)</b></div></div>
+      <section class="print-medical">
+        <h3>Pengesahan Pemeriksaan dan Cuti Sakit (MC)</h3>
+        <p class="print-note">Untuk dilengkapkan oleh doktor yang memeriksa murid.</p>
+        <p>No. Siri Sijil / Rujukan Klinik: <span class="write-line wide"></span></p>
+        <p>Tarikh Pemeriksaan: <span class="write-line"></span> Masa: <span class="write-line"></span></p>
+        <p>Saya mengesahkan bahawa murid yang dinamakan di atas telah diperiksa oleh saya dan:</p>
+        <p>☐ Tidak memerlukan cuti sakit. &nbsp; ☐ Memerlukan cuti sakit seperti berikut:</p>
+        <p>Tidak sihat untuk hadir ke sekolah selama <span class="write-line short"></span> hari (<span class="write-line"></span> dalam perkataan),<br>mulai <span class="write-line"></span> hingga <span class="write-line"></span> (termasuk kedua-dua tarikh).</p>
+        <div class="print-lines"><div><b>Catatan Doktor (Jika Perlu)</b></div></div>
+        <p>Nama Doktor: <span class="write-line wide"></span></p>
+        <p>No. Pendaftaran MMC: <span class="write-line"></span> Tarikh Sijil: <span class="write-line"></span></p>
+        <div class="print-doctor-sign"><div>Tandatangan Doktor<div class="signature-space"></div></div><div>Cop Klinik / Hospital<div class="stamp-space"></div><small>Nama, alamat dan nombor telefon klinik / hospital</small></div></div>
+        <p class="print-note">Pengesahan cuti sakit hendaklah dilengkapkan dan ditandatangani oleh doktor. Untuk pengeluaran MC, pihak klinik hendaklah merekodkan nombor siri dan menyimpan salinan sijil.</p>
+      </section>
+      <p class="print-note">Kerjasama dan perhatian pihak tuan/puan amat dihargai. Terima kasih.</p>
+      <p class="print-page">Borang Rawatan dan Pengesahan Doktor · 1 / 2</p>
+    </article>
+    <article class="print-sheet print-record-sheet">
+      <div class="print-record-content">
+        <header class="print-heading"><img src="/assets/logo-sekolah.png" alt=""><div><h1>SMK Agama Jerlun</h1><p>Jalan Kodiang, 06100 Kodiang, Kedah Darul Aman</p></div></header><h2 class="print-title">Rekod Lawatan ke Klinik</h2><div class="print-fields"><div><b>Nama Murid</b><span class="print-nama"></span></div><div><b>No. Kad Pengenalan</b><span class="print-ic"></span></div><div><b>Kelas</b><span class="print-kelas"></span></div><div><b>Tarikh Cetakan</b><span class="print-tarikh"></span></div></div>
+        <table class="print-table"><thead><tr><th>Bil.</th><th>Tarikh</th><th>Masa</th><th>Sebab Lawatan ke Klinik</th></tr></thead><tbody id="print-rekod"></tbody></table>
+        <p id="print-record-summary" class="print-note"></p>
+        <p class="print-note">Dokumen ini ialah rekod lawatan untuk simpanan sekolah. Sejarah penuh lawatan boleh dirujuk dalam sistem Rekod Klinik.</p>
+      </div>
+      <p class="print-page">Rekod Lawatan ke Klinik · 2 / 2</p>
+    </article>
   </section>
 
   <footer><div class="foot-inner"><div><div class="b">SMK Agama Jerlun</div><div>Rekod Klinik Murid</div></div><a href="/">Laman Utama</a></div></footer>
   <script src="/assets/vendor/supabase-2.57.4.js?v=20260828-1"></script>
-  <script src="/tempahan/assets/common.js?v=20260824-1"></script>
-  <script src="/assets/cms.js?v=20260827-1"></script>
-  <script src="/assets/klinik.js"></script>
+  <script src="/tempahan/assets/common.js?v=20260924-1"></script>
+  <script src="/assets/cms.js?v=20260924-1"></script>
+  <script src="/assets/klinik.js?v=20260924-1"></script>
 <script src="/assets/ajer-makeover.js?v=20260905-1"></script>
 <script src="/assets/ajer-school.js?v=20260906-2"></script>
 <script src="/assets/school-motion.js?v=20260907-uiux"></script>

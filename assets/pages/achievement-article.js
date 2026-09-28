@@ -18,6 +18,7 @@
   }
 
   function safeUrl(value) {
+    if (!String(value || '').trim()) return null;
     try {
       var parsed = new URL(String(value || '').trim(), window.location.origin);
       return ['http:', 'https:'].includes(parsed.protocol) ? parsed.href : null;
@@ -74,14 +75,22 @@
     var section = document.getElementById('achievement-gallery');
     var grid = document.getElementById('achievement-gallery-grid');
     grid.replaceChildren();
+    section.hidden = !items.length;
     if (!items.length) return;
-    items.forEach(function (item) {
+    items.forEach(function (item, index) {
       var figure = document.createElement('figure');
+      var link = document.createElement('a');
+      link.href = item.url;
+      link.setAttribute('aria-label', 'Lihat gambar penuh ' + (index + 1) + ': ' + (item.alt || title));
       var image = document.createElement('img');
       image.src = item.url;
       image.alt = item.alt || title;
       image.loading = 'lazy';
-      figure.appendChild(image);
+      var label = document.createElement('span');
+      label.className = 'achievement-image-link';
+      label.textContent = 'Lihat gambar penuh →';
+      link.append(image, label);
+      figure.appendChild(link);
       if (item.caption) {
         var caption = document.createElement('figcaption');
         caption.textContent = item.caption;
@@ -122,6 +131,7 @@
       return;
     }
     var title = String(row.tajuk || 'Program Sekolah SMKA Jerlun');
+    document.getElementById('program-current-page').textContent = title;
     document.getElementById('achievement-kicker').textContent = labelFor(row.kategori);
     document.getElementById('achievement-title').textContent = title;
     document.getElementById('achievement-dek').textContent = row.penerangan || '';
@@ -133,6 +143,7 @@
       var figure = document.getElementById('achievement-figure');
       document.getElementById('achievement-image').src = imageUrl;
       document.getElementById('achievement-image').alt = title;
+      document.getElementById('achievement-image-link').href = imageUrl;
       document.getElementById('achievement-caption').textContent = row.penerangan || title;
       figure.hidden = false;
     }
