@@ -3,7 +3,8 @@
   "trailingSlash": true,
   "outputDirectory": ".",
   "routes": [
-    { "src": "^/(?:scripts|supabase)(?:/|$)", "status": 404 }
+    { "src": "^/scripts(/.*)?$", "status": 404 },
+    { "src": "^/supabase(/.*)?$", "status": 404 }
   ],
   "headers": [
     {
