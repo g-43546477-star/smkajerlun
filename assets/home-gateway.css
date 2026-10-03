@@ -15,12 +15,12 @@ a:focus-visible,summary:focus-visible{outline:3px solid var(--green);outline-off
 .school-header-actions a:hover{background:#dbe7e0;text-decoration:underline;text-underline-offset:4px}
 .school-header img{object-fit:contain;width:40px;height:50px}
 .school-hero{position:relative;isolation:isolate;min-height:440px;display:flex;align-items:center;overflow:hidden;background:#143d35}
-.school-aerial{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center;z-index:-2}
-.school-hero::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(4,35,30,.78),rgba(4,35,30,.2) 60%,transparent);z-index:-1}
-.school-hero-copy{width:min(1280px,100% - 64px);margin:auto;color:white}
-.school-hero-copy>p:first-child{max-width:34ch;font-size:12px;font-weight:700;letter-spacing:.15em;line-height:1.8}
-.school-hero h1{font-family:Manrope,sans-serif;font-size:clamp(42px,5.8vw,82px);font-weight:800;letter-spacing:-.055em;line-height:1.1;margin:20px 0}
-.school-hero .school-motto{font-size:clamp(19px,2vw,27px);margin:0;color:#fff1ce}
+.school-aerial{position:absolute;inset:0 0 0 auto;width:auto;height:100%;max-width:none;object-fit:contain;object-position:right center;mask-image:linear-gradient(90deg,transparent,#000 28%);z-index:-2}
+.school-hero::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,#143d35 0%,rgba(20,61,53,.97) 28%,rgba(20,61,53,.68) 44%,rgba(20,61,53,.12) 68%,transparent 82%);z-index:-1}
+.school-hero-copy{width:min(1232px,100% - 48px);margin:auto;padding-block:48px;color:white}
+.school-hero-copy>p:first-child{max-width:40ch;margin:0;font-size:12px;font-weight:600;letter-spacing:.16em;line-height:1.8;color:#e1eae5}
+.school-hero h1{font-family:Manrope,sans-serif;font-size:clamp(44px,6.2vw,88px);font-weight:800;letter-spacing:-.055em;line-height:1.08;margin:18px 0 26px;color:#fff}
+.school-hero .school-motto{max-width:28ch;padding-left:18px;border-left:2px solid var(--gold);font-family:Georgia,serif;font-size:clamp(22px,2.2vw,30px);font-style:italic;line-height:1.4;margin:0;color:#fff1ce}
 .school-shortcuts{max-width:1280px;margin:0 auto;padding:24px 24px 32px}
 .school-shortcut-group h2{font-size:17px;line-height:1.5;margin:0 0 12px;font-weight:700}
 .school-shortcut-group+.school-shortcut-group{margin-top:24px;padding-top:20px;border-top:1px solid var(--line)}
@@ -40,11 +40,12 @@ a:focus-visible,summary:focus-visible{outline:3px solid var(--green);outline-off
 .school-header-actions{gap:4px}
 .school-header-actions a{font-size:14px;padding:8px}
 .school-hero{min-height:320px;align-items:end}
-.school-aerial{object-position:62% center}
-.school-hero::after{background:linear-gradient(0deg,rgba(4,35,30,.9),rgba(4,35,30,.08) 90%)}
-.school-hero-copy{margin:100px 20px 28px}
-.school-hero h1{font-size:44px;margin:12px 0}
-.school-hero-copy>p:first-child{font-size:10px}
+.school-aerial{inset:0 0 auto;width:100%;height:auto;object-position:center top;mask-image:none}
+.school-hero::after{background:linear-gradient(0deg,#143d35 0%,rgba(20,61,53,.98) 30%,rgba(20,61,53,.72) 47%,rgba(20,61,53,.08) 76%,transparent)}
+.school-hero-copy{margin:128px 20px 26px;padding:0}
+.school-hero h1{font-size:clamp(40px,11.8vw,58px);margin:12px 0 18px}
+.school-hero-copy>p:first-child{max-width:38ch;font-size:10px;letter-spacing:.12em}
+.school-hero .school-motto{padding-left:12px;font-size:22px}
 .school-shortcuts{padding:20px 16px 28px}
 .school-shortcut-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
 .school-shortcuts a{min-height:112px;font-size:15px}

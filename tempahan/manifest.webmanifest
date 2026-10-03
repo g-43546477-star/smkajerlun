@@ -5,7 +5,7 @@
   "lang": "ms",
   "description": "Jadual bilik dan tempahan guru SMK Agama Jerlun.",
   "start_url": "/tempahan/jadual/",
-  "scope": "/tempahan/",
+  "scope": "/",
   "display": "standalone",
   "background_color": "#f8f5f0",
   "theme_color": "#153d38",

@@ -78,7 +78,7 @@ async function visit(page, route) {
       motto: document.querySelector('.school-motto')?.textContent === 'Adab Dulu Baru Ilmu',
       image: Boolean(document.querySelector('.school-aerial[src="/assets/hero-sekolah.jpg"]')),
       links: document.querySelectorAll('.school-shortcuts a').length,
-      icons: document.querySelectorAll('.school-shortcuts a img[src$=".svg"]').length,
+      icons: [...document.querySelectorAll('.school-shortcuts a img')].filter(image => new URL(image.src).pathname.endsWith('.svg')).length,
       compact: !document.querySelector('#home-program-list,#notis-list,#home-alert-strip')
     }));
     if (!homepageMarkup.hero || !homepageMarkup.title || !homepageMarkup.motto || !homepageMarkup.image) failures.push(`${route}: school gateway hero is incomplete`);
@@ -168,7 +168,7 @@ async function visit(page, route) {
   if (route === '/pss/') {
     if (await page.locator('.pss-weekly-grid #pss-visitors').count() !== 1 || await page.locator('#weekly-nilam-feature,footer #pss-visitors').count()) failures.push(`${route}: visitor widget must replace the weekly NILAM card`);
     const illustratedCards = await page.locator('.pss-home-card .pss-card-illustration').evaluateAll((images) => images.map((image) => ({
-      src: image.getAttribute('src'),
+      src: new URL(image.src).pathname,
       loaded: image.complete && image.naturalWidth > 0
     })));
     if (illustratedCards.length !== 4 || illustratedCards.some((image) => !image.src?.endsWith('.svg') || !image.loaded)) {

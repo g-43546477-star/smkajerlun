@@ -46,19 +46,19 @@
 @media print { .pss-organization .org-node { break-inside: avoid; box-shadow: none; } }
 .pss-organization :is(.committee-grid,.unit-grid,.support-grid) article { position: relative; padding-top: 7.2rem; }
 .pss-organization :is(.committee-grid,.unit-grid,.support-grid) article::before { content: ""; position: absolute; top: .8rem; left: 1.2rem; width: 110px; height: 82px; background-position: center; background-size: contain; background-repeat: no-repeat; }
-.pss-organization article.pss-art-academic::before { background-image: url("/assets/pss-art/academic.svg"); }
-.pss-organization article.pss-art-library-team::before { background-image: url("/assets/pss-art/library-team.svg"); }
-.pss-organization article.pss-art-screening::before { background-image: url("/assets/pss-art/screening.svg"); }
-.pss-organization article.pss-art-tv-pss::before { background-image: url("/assets/pss-art/tv-pss.svg"); }
-.pss-organization article.pss-art-tiktok::before { background-image: url("/assets/pss-art/tiktok.svg"); }
-.pss-organization article.pss-art-youtube::before { background-image: url("/assets/pss-art/youtube.svg"); }
-.pss-organization article.pss-art-nilam-record::before { background-image: url("/assets/pss-art/nilam-unit.svg"); }
-.pss-organization article.pss-art-ains::before { background-image: url("/assets/pss-art/ains-unit.svg"); }
-.pss-organization article.pss-art-nilam-team::before { background-image: url("/assets/pss-art/nilam-team.svg"); }
-.pss-organization article.pss-art-decor::before { background-image: url("/assets/pss-art/decor.svg"); }
-.pss-organization article.pss-art-stock::before { background-image: url("/assets/pss-art/stock.svg"); }
-.pss-organization article.pss-art-promotion::before { background-image: url("/assets/pss-art/promotion.svg"); }
-.pss-organization article.pss-art-equipment::before { background-image: url("/assets/pss-art/equipment.svg"); }
-.pss-organization article.pss-art-daily-duty::before { background-image: url("/assets/pss-art/daily-duty.svg"); }
-.pss-organization article.pss-art-broadcast-team::before { background-image: url("/assets/pss-art/broadcast-team.svg"); }
-.pss-organization article.pss-art-roster::before { background-image: url("/assets/pss-art/roster.svg"); }
+.pss-organization article.pss-art-academic::before { background-image: url("/assets/pss-art/academic.svg?v=20261003-graphics-1"); }
+.pss-organization article.pss-art-library-team::before { background-image: url("/assets/pss-art/library-team.svg?v=20261003-graphics-1"); }
+.pss-organization article.pss-art-screening::before { background-image: url("/assets/pss-art/screening.svg?v=20261003-graphics-1"); }
+.pss-organization article.pss-art-tv-pss::before { background-image: url("/assets/pss-art/tv-pss.svg?v=20261003-graphics-1"); }
+.pss-organization article.pss-art-tiktok::before { background-image: url("/assets/pss-art/tiktok.svg?v=20261003-graphics-1"); }
+.pss-organization article.pss-art-youtube::before { background-image: url("/assets/pss-art/youtube.svg?v=20261003-graphics-1"); }
+.pss-organization article.pss-art-nilam-record::before { background-image: url("/assets/pss-art/nilam-unit.svg?v=20261003-graphics-1"); }
+.pss-organization article.pss-art-ains::before { background-image: url("/assets/pss-art/ains-unit.svg?v=20261003-graphics-1"); }
+.pss-organization article.pss-art-nilam-team::before { background-image: url("/assets/pss-art/nilam-team.svg?v=20261003-graphics-1"); }
+.pss-organization article.pss-art-decor::before { background-image: url("/assets/pss-art/decor.svg?v=20261003-graphics-1"); }
+.pss-organization article.pss-art-stock::before { background-image: url("/assets/pss-art/stock.svg?v=20261003-graphics-1"); }
+.pss-organization article.pss-art-promotion::before { background-image: url("/assets/pss-art/promotion.svg?v=20261003-graphics-1"); }
+.pss-organization article.pss-art-equipment::before { background-image: url("/assets/pss-art/equipment.svg?v=20261003-graphics-1"); }
+.pss-organization article.pss-art-daily-duty::before { background-image: url("/assets/pss-art/daily-duty.svg?v=20261003-graphics-1"); }
+.pss-organization article.pss-art-broadcast-team::before { background-image: url("/assets/pss-art/broadcast-team.svg?v=20261003-graphics-1"); }
+.pss-organization article.pss-art-roster::before { background-image: url("/assets/pss-art/roster.svg?v=20261003-graphics-1"); }

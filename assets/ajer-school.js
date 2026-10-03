@@ -4,7 +4,7 @@
   const $ = id => document.getElementById(id);
   const icon = name => {
     const image = document.createElement('img');
-    image.src = '/assets/ajer-icons/' + name + '.svg';
+    image.src = '/assets/ajer-icons/' + name + '.svg?v=20261003-graphics-1';
     image.alt = ''; image.width = 64; image.height = 64;
     image.className = 'ajer-icon'; return image;
   };

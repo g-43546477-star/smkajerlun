@@ -46,7 +46,7 @@
 .pss-interior .loan-status:not(:empty) { border-left: 3px solid currentColor; padding: .9rem; background: #faf7ee; border-radius: 5px; }
 .pss-interior .pss-announcement-list { border: 0; display: grid; gap: 1rem; }
 .pss-interior .pss-announcement-list .notis-item { padding: 1.5rem; background: #fffdf7; border: 1px solid #d5dacb; border-radius: 12px; grid-template-columns: 7.5rem minmax(0,1fr); }
-.pss-interior .pss-announcement-list .notis-item:not(:has(.notis-date)) { grid-template-columns: 1fr; padding: 2rem 2rem 2rem 120px; min-height: 130px; background: #f0f1e5 url('/assets/pss-art/empty-notice.svg') no-repeat 18px center / 82px 75px; }
+.pss-interior .pss-announcement-list .notis-item:not(:has(.notis-date)) { grid-template-columns: 1fr; padding: 2rem 2rem 2rem 120px; min-height: 130px; background: #f0f1e5 url('/assets/pss-art/empty-notice.svg?v=20261003-graphics-1') no-repeat 18px center / 82px 75px; }
 .pss-interior .pss-announcement-list .notis-date { white-space: normal; max-width: 100%; border-radius: 6px; padding: .6rem; line-height: 1.6; background: #f7e2ad; }
 .pss-interior .pss-announcement-list h4 { font-size: 1rem; }
 .pss-interior .pss-announcement-list p { font-size: .87rem; }
@@ -64,7 +64,7 @@
 .pss-interior .virtual-shelf-note { background: #fffdf7; padding: 1.5rem; border-color: #d5dacb; gap: 1.5rem; }
 .pss-interior .virtual-shelf-note b { font-size: 1.4rem; margin-bottom: .5rem; }
 .pss-interior .nilam-links { grid-template-columns: 1fr; }
-.pss-interior .nilam-links a { padding: 1.8rem 190px 1.8rem 1.8rem; background: #e5ead9 url('/assets/pss-art/ains-link.svg') no-repeat right 18px center / 150px 120px; box-shadow: none; }
+.pss-interior .nilam-links a { padding: 1.8rem 190px 1.8rem 1.8rem; background: #e5ead9 url('/assets/pss-art/ains-link.svg?v=20261003-graphics-1') no-repeat right 18px center / 150px 120px; box-shadow: none; }
 .pss-interior .nilam-note { background: #f6e8c8; border: 1px solid #ddcfaf; padding: 1.8rem; box-shadow: none; }
 .pss-interior .nilam-note h2 { font-size: 1.8rem; }
 .pss-interior .nilam-note p { max-width: 65ch; font-size: .9rem; }

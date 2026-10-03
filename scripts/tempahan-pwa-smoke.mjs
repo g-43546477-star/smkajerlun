@@ -16,11 +16,11 @@ try {
     await page.setViewportSize({width,height:844});
     for(const route of ['/tempahan/','/tempahan/jadual/','/tempahan/senarai/?mine=1','/tempahan/log-masuk/','/tempahan/admin/']) {
       await page.goto(base+route);
-      await page.locator('.app-install').waitFor({state:'attached'});
+      await page.locator('.app-install,.pwa-install').waitFor({state:'attached'});
       const overflow=await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth+1);
       assert.equal(overflow,false,`overflow ${width} ${route}`);
       assert.equal(await page.locator('link[rel=manifest]').count(),1);
-      if(width<700) assert.equal(await page.locator('.app-nav a').count(),3);
+      if(width<700 && new URL(page.url()).pathname.startsWith('/tempahan/')) assert.equal(await page.locator('.app-nav a').count(),3);
       results.push(`${width}px ${route}: pass`);
     }
   }
@@ -40,22 +40,22 @@ try {
   await page.getByRole('button',{name:'Teruskan pilih masa'}).click();
   await page.locator('.slotbtn').first().waitFor();
   const cacheUrls=await page.evaluate(async()=>{
-    const cache=await caches.open('smkaj-tempahan-offline-v1');return (await cache.keys()).map(r=>new URL(r.url).pathname);
+    const cache=await caches.open('smkaj-school-pwa-v1');return (await cache.keys()).map(r=>new URL(r.url).pathname);
   });
-  assert.deepEqual(cacheUrls,['/tempahan/offline/']);
+  assert.deepEqual(cacheUrls.sort(),['/assets/pwa-offline.js','/offline/']);
   const cdp=await context.newCDPSession(page);
   const manifest=await cdp.send('Page.getAppManifest');
   assert.equal(manifest.errors.length,0,JSON.stringify(manifest.errors));
-  results.push('Manifest parsed by Chrome; only generic offline page cached: pass');
+  results.push('Manifest parsed by Chrome; only generic offline help cached: pass');
   await context.setOffline(true);
   await page.locator('.app-network:not([hidden])').waitFor();
   assert.equal(await page.locator('#btn-hantar').isDisabled(),true);
   assert.equal(await page.locator('#room-slots').isVisible(),false);
   await page.goto(base+'/tempahan/jadual/');
-  await page.getByRole('heading',{name:'Sambung semula untuk melihat jadual terkini.'}).waitFor();
+  await page.getByRole('heading',{name:'Sambung semula untuk meneruskan.'}).waitFor();
   await page.screenshot({path:'outputs/tempahan-pwa/phone-offline.png',fullPage:true});
   await context.setOffline(false);
-  await page.getByRole('link',{name:'Cuba Semula'}).click();
+  await page.getByRole('button',{name:'Cuba Semula'}).click();
   await page.locator('.app-nav').waitFor();
   await page.screenshot({path:'outputs/tempahan-pwa/phone-jadual.png',fullPage:true});
   results.push('Offline hides availability and blocks submit; offline launch and recovery: pass');

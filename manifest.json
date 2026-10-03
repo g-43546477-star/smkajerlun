@@ -1,22 +1,44 @@
 {
+  "id": "/",
   "name": "SMK Agama Jerlun",
   "short_name": "SMKAJ",
-  "description": "Laman rasmi dan sistem dalaman SMK Agama Jerlun.",
+  "lang": "ms",
+  "description": "Laman sekolah, Portal PSS dan perkhidmatan digital SMK Agama Jerlun dalam satu aplikasi.",
   "start_url": "/",
   "scope": "/",
   "display": "standalone",
-  "background_color": "#F8F5F0",
-  "theme_color": "#5A1856",
+  "background_color": "#f8f5f0",
+  "theme_color": "#153d38",
   "icons": [
     {
-      "src": "/logo.png",
-      "sizes": "180x180",
-      "type": "image/png"
+      "src": "/assets/pwa-icons/app-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
     },
     {
-      "src": "/apple-touch-icon.png",
-      "sizes": "180x180",
-      "type": "image/png"
+      "src": "/assets/pwa-icons/app-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Portal PSS",
+      "url": "/pss/"
+    },
+    {
+      "name": "Tempahan Bilik",
+      "url": "/tempahan/"
+    },
+    {
+      "name": "Portal Warga",
+      "url": "/hub/"
+    },
+    {
+      "name": "Log Masuk",
+      "url": "/log-masuk/"
     }
   ]
 }

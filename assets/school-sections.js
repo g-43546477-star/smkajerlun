@@ -60,7 +60,7 @@
   const current = document.createElement('span'); current.textContent = view.title; current.setAttribute('aria-current', 'page');
   breadcrumb.append(home, overview, current);
   document.querySelector('.pagehead-inner').prepend(breadcrumb);
-  const art = document.createElement('img'); art.src = '/assets/ajer-icons/' + view.art + '.svg'; art.alt = ''; art.width = 96; art.height = 96; art.className = 'school-section-symbol';
+  const art = document.createElement('img'); art.src = '/assets/ajer-icons/' + view.art + '.svg?v=20261003-graphics-1'; art.alt = ''; art.width = 96; art.height = 96; art.className = 'school-section-symbol';
   document.querySelector('.pagehead-inner').append(art);
   document.querySelectorAll('a[href]').forEach(link => {
     const url = new URL(link.href, location.origin);

@@ -1127,13 +1127,13 @@ html { scroll-padding-top: calc(var(--pss-nav-height) + var(--ds-space-3)); }
   opacity: 0.22;
   pointer-events: none;
 }
-.pss-weekly-book::after { background-image: url('/assets/pss-art/reading-pick.svg'); }
-.pss-weekly-activity::after { background-image: url('/assets/pss-art/creative-workshop.svg'); }
-.pss-weekly-nilam::after { background-image: url('/assets/pss-art/podium.svg'); }
+.pss-weekly-book::after { background-image: url('/assets/pss-art/reading-pick.svg?v=20261003-graphics-1'); }
+.pss-weekly-activity::after { background-image: url('/assets/pss-art/creative-workshop.svg?v=20261003-graphics-1'); }
+.pss-weekly-nilam::after { background-image: url('/assets/pss-art/podium.svg?v=20261003-graphics-1'); }
 .pss-home-widgets .pss-widget:first-child::after {
   right: -1.4rem;
   bottom: -2.1rem;
-  background-image: url('/assets/pss-art/suggest.svg');
+  background-image: url('/assets/pss-art/suggest.svg?v=20261003-graphics-1');
   opacity: 0.18;
 }
 .pss-service-strip > .pss-shell::after {
@@ -1141,7 +1141,7 @@ html { scroll-padding-top: calc(var(--pss-nav-height) + var(--ds-space-3)); }
   bottom: -3.8rem;
   width: 15rem;
   height: 15rem;
-  background-image: url('/assets/pss-art/students.svg');
+  background-image: url('/assets/pss-art/students.svg?v=20261003-graphics-1');
   opacity: 0.16;
 }
 @media (max-width: 560px) {

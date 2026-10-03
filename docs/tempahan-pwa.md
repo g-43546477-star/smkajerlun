@@ -1,5 +1,7 @@
 # App Tempahan Bilik Khas SMKAJ
 
+> Kemas kini live 3 Oktober 2026: pemasangan kini disatukan sebagai PWA seluruh laman SMKAJ. Rujuk [PWA seluruh laman](school-pwa.md) untuk skop, cache, migrasi worker dan bukti terkini. Catatan keluaran di bawah ialah sejarah sebelum penyatuan ini.
+
 ## Semakan dan reka bentuk app, versi 2026.3
 
 Diterbitkan ke domain sekolah: deployment `dpl_8KTm1BTQrAHmHyLRt2UE38n5hfbq`, Vercel READY. Build production lulus (56 HTML, 52 JavaScript, 145 laluan/aset, 22 entri migration). Ujian reka bentuk dan aturan jam diulang pada domain live dan lulus. Lima fail live dipadankan dengan source. Tiada git push dibuat. Gunakan skop eksplisit `g-43546477-8060s-projects` untuk CLI; cubaan tanpa skop menerima Not authorized walaupun whoami sah.

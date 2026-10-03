@@ -2,54 +2,13 @@
   'use strict';
   const main = document.querySelector('main');
   if (!main) return;
-  const standalone = () => window.matchMedia('(display-mode: standalone)').matches || navigator.standalone === true;
-  const panel = document.createElement('section');
-  panel.className = 'app-install';
-  panel.setAttribute('aria-label', 'Pasang aplikasi');
-  panel.innerHTML = `<div><strong>Tempahan dalam telefon anda</strong><p>Pasang untuk akses pantas ke jadual dan tempahan bilik.</p></div><button type="button" class="btn-secondary" id="app-install-button">Pasang App</button>`;
-  document.querySelector('.topnav .bar').append(panel);
-  const install = panel.querySelector('button');
-  const dialog = document.createElement('dialog');
-  dialog.className = 'app-help';
-  dialog.setAttribute('aria-labelledby', 'app-help-title');
-  dialog.innerHTML = `<h2 id="app-help-title">Pasang App Tempahan</h2>
-    <p>Gunakan pautan sistem tempahan sekolah dalam browser telefon.</p>
-    <h3>iPhone · Safari</h3><ol><li>Tekan menu Kongsi (Share).</li><li>Pilih <b>Add to Home Screen</b> / Tambah ke Skrin Utama. Jika perlu, tekan Edit Actions untuk mencari pilihan ini.</li><li>Aktifkan <b>Open as Web App</b> jika dipaparkan, kemudian tekan <b>Add</b>.</li></ol>
-    <h3>Android · Chrome</h3><ol><li>Tekan menu tiga titik di penjuru browser.</li><li>Pilih <b>Install app</b> / Pasang apl atau <b>Add to Home screen</b>.</li><li>Ikut arahan pemasangan yang dipaparkan.</li></ol>
-    <p>Jika pautan dibuka dalam WhatsApp, buka dahulu dalam Safari atau Chrome. Sambungan internet diperlukan untuk melihat jadual terkini dan menghantar tempahan.</p>
-    <p id="app-install-status" role="status"></p><button type="button" class="btn-primary">Faham</button>`;
-  document.body.append(dialog);
-  dialog.querySelector('button').addEventListener('click', () => dialog.close());
-  dialog.addEventListener('close', () => { if (!panel.hidden) install.focus(); });
-  let promptEvent = null;
-  window.addEventListener('beforeinstallprompt', event => {
-    event.preventDefault();
-    promptEvent = event;
-  });
-  install.addEventListener('click', async () => {
-    if (!promptEvent) { dialog.showModal(); return; }
-    const pending = promptEvent;
-    promptEvent = null;
-    try {
-      await pending.prompt();
-      const choice = await pending.userChoice;
-      if (choice.outcome === 'accepted') panel.hidden = true;
-    } catch {
-      dialog.showModal();
-    }
-  });
-  const syncInstalled = () => { panel.hidden = standalone(); };
-  syncInstalled();
-  window.matchMedia('(display-mode: standalone)').addEventListener('change', syncInstalled);
-  window.addEventListener('appinstalled', () => { panel.hidden = true; promptEvent = null; });
-
   const nav = document.createElement('nav');
   nav.className = 'app-nav';
   nav.setAttribute('aria-label', 'Menu aplikasi tempahan');
   const links = [
-    ['/tempahan/jadual/', 'Jadual', '<rect x="4" y="5" width="16" height="16" rx="3"/><path d="M8 3v4m8-4v4M4 11h16m-11 4h2m2 0h2"/>'],
-    ['/tempahan/', 'Tempah bilik', '<rect x="4" y="4" width="16" height="16" rx="5"/><path d="M12 8v8m-4-4h8"/>'],
-    ['/tempahan/senarai/?mine=1', 'Tempahan saya', '<rect x="5" y="3" width="14" height="18" rx="3"/><path d="M9 8h6m-6 4h6m-6 4h4"/>']
+    ['/tempahan/jadual/', 'Jadual', '<path d="M4 8h16v3H4Z" fill="currentColor" opacity=".12" stroke="none"/><rect x="4" y="5" width="16" height="16" rx="3"/><path d="M8 3v4m8-4v4M4 11h16m-11 4h2m2 0h2"/>'],
+    ['/tempahan/', 'Tempah bilik', '<rect x="6" y="6" width="16" height="16" rx="5" fill="currentColor" opacity=".12" stroke="none"/><rect x="4" y="4" width="16" height="16" rx="5"/><path d="M12 8v8m-4-4h8"/>'],
+    ['/tempahan/senarai/?mine=1', 'Tempahan saya', '<path d="M8 6h14v17H8Z" fill="currentColor" opacity=".12" stroke="none"/><rect x="5" y="3" width="14" height="18" rx="3"/><path d="M9 8h6m-6 4h6m-6 4h4"/>']
   ];
   links.forEach(([href, label, icon]) => {
     const a = document.createElement('a');
@@ -98,9 +57,4 @@
     if (table.tagName !== 'SECTION') table.setAttribute('role', 'region');
     if (!table.hasAttribute('aria-label')) table.setAttribute('aria-label', 'Jadual tempahan. Leret ke sisi untuk melihat semua lajur.');
   });
-  if ('serviceWorker' in navigator && window.isSecureContext) {
-    navigator.serviceWorker.register('/tempahan/sw.js', { scope: '/tempahan/', updateViaCache: 'none' }).catch(() => {
-      document.getElementById('app-install-status').textContent = 'Persediaan app belum selesai. Muat semula apabila sambungan internet stabil.';
-    });
-  }
 })();

@@ -8,3 +8,6 @@ docs/
 node_modules/
 home-redesign-desktop.png
 home-redesign-mobile.png
+
+# Supabase CLI state is local development metadata.
+supabase/.temp/

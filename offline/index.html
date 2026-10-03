@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#153d38">
+<link rel="manifest" href="/manifest.json">
+<link rel="apple-touch-icon" href="/assets/pwa-icons/app-180.png">
+<meta name="robots" content="noindex">
+<title>Tiada sambungan — SMKAJ</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#f8f5f0;color:#153d38;font:16px/1.65 system-ui,sans-serif;min-height:100dvh;display:grid;place-items:center}main{width:min(100%,520px);padding:40px 24px}p{margin:16px 0}h1{font-size:clamp(28px,7vw,38px);line-height:1.2;letter-spacing:-.03em}.eyebrow{font-size:12px;font-weight:700;letter-spacing:.13em}button,a{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:12px 20px;border-radius:10px;font:inherit;font-weight:650}button{border:0;background:#153d38;color:white;cursor:pointer}a{color:#153d38}button:focus-visible,a:focus-visible{outline:3px solid #916b22;outline-offset:4px}.actions{display:flex;flex-wrap:wrap;gap:8px}#pwa-offline-status{font-size:14px;color:#52635d}
+</style>
+<script src="/assets/pwa-offline.js" defer></script>
+</head>
+<body>
+<main>
+<p class="eyebrow">SMK AGAMA JERLUN</p>
+<h1>Sambung semula untuk meneruskan.</h1>
+<p>Halaman ini belum dapat dimuatkan. Sambungan internet diperlukan untuk maklumat terkini, log masuk dan urusan sekolah.</p>
+<p>Tiada borang atau tempahan dihantar melalui halaman ini.</p>
+<div class="actions"><button id="pwa-retry" type="button">Cuba Semula</button><a href="/">Laman Utama</a></div>
+<p id="pwa-offline-status" role="status"></p>
+</main>
+</body>
+</html>

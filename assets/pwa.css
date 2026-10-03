@@ -1,0 +1,14 @@
+.pwa-install,.pwa-toolbar,.pwa-update,.pwa-network,.pwa-help{box-sizing:border-box;font:14px/1.6 system-ui,sans-serif;color:#153d38}
+.pwa-install{display:flex;align-items:center;justify-content:space-between;gap:16px;width:min(100% - 32px,1040px);margin:16px auto 28px;padding:16px 20px;background:#f2f5ef;border:1px solid #d5ded3;border-radius:14px}
+.pwa-install strong{font-size:15px}.pwa-install p{margin:2px 0 0;color:#52635d;font-size:13px}
+.pwa-install button,.pwa-help button,.pwa-toolbar button,.pwa-toolbar a,.pwa-update button{font:inherit;min-height:44px;padding:10px 16px;border:1px solid #b9cbbd;border-radius:9px;cursor:pointer;background:#153d38;color:#fff;text-decoration:none;flex-shrink:0}
+.pwa-toolbar{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:8px max(16px,env(safe-area-inset-right)) 8px max(16px,env(safe-area-inset-left));padding-top:max(8px,env(safe-area-inset-top));background:#f8f5f0;border-bottom:1px solid #d5ded3}
+.pwa-toolbar button,.pwa-toolbar a{background:transparent;color:#153d38;border-color:transparent}
+.pwa-network,.pwa-update{margin:0;padding:12px 20px;background:#fff4d9;color:#624800;text-align:center}.pwa-update button{margin:6px 10px}
+.pwa-help{width:min(480px,calc(100% - 32px));max-height:calc(100dvh - 48px);padding:24px;border:1px solid #b9cbbd;border-radius:18px;background:#fff;overflow:auto}
+.pwa-help::backdrop{background:rgb(15 35 28 / 65%)}.pwa-help h2{font:700 23px/1.25 system-ui,sans-serif;margin:0 0 16px}.pwa-help h3{font-size:16px;margin:20px 0 8px}.pwa-help p{margin:10px 0}.pwa-help ol{padding-left:22px}.pwa-help li{margin:8px 0}.pwa-help>button{width:100%;margin-top:12px}
+:is(.pwa-install,.pwa-toolbar,.pwa-update,.pwa-help) :is(button,a):focus-visible{outline:3px solid #916b22;outline-offset:3px}
+:is(.pwa-install,.pwa-toolbar,.pwa-update,.pwa-network)[hidden]{display:none!important}
+@media(max-width:480px){.pwa-install{align-items:flex-start;flex-direction:column;padding:16px}.pwa-install button{width:100%}}
+@media(display-mode:standalone){body{padding-bottom:env(safe-area-inset-bottom)}}
+@media print{.pwa-install,.pwa-toolbar,.pwa-update,.pwa-network,.pwa-help{display:none!important}}
