@@ -1,0 +1,71 @@
+/* Bentuk lembut untuk seluruh laman, dengan warna dan keadaan asal setiap modul. */
+@media screen {
+  :root {
+    --clay-shadow: 0 8px 18px rgb(18 62 53 / 12%), inset 0 2px 3px rgb(255 255 255 / 75%);
+    --clay-shadow-compact: 0 4px 10px rgb(18 62 53 / 10%), inset 0 2px 3px rgb(255 255 255 / 70%);
+  }
+
+  body[data-interface=gateway] { background: #f1f6f1; }
+  body[data-interface=gateway] .school-hero {
+    border-radius: 24px;
+    box-shadow: 0 10px 24px rgb(18 62 53 / 17%);
+  }
+  body[data-interface=gateway] .school-shortcuts a {
+    border: 1px solid #d7e5db;
+    border-radius: 20px;
+    background: #fff;
+    box-shadow: var(--clay-shadow);
+    transition: transform .18s ease, box-shadow .18s ease, background-color .18s ease;
+  }
+  body[data-interface=gateway] .school-shortcuts a:hover { transform: translateY(-2px); }
+  body[data-interface=gateway] .school-shortcuts a:active { transform: translateY(1px); box-shadow: var(--clay-shadow-compact); }
+  body[data-interface=gateway] .school-header-actions a { border-radius: 14px; }
+
+  body[data-interface=school] :is(.content-card,.clinic-card,.clinic-hero,.academic-access-card,.academic-live-card,.portal-section),
+  body[data-interface=pss] :is(.pss-home-card,.pss-weekly-card,.pss-widget,.pss-visitors,.catalog-book-card,.pss-chart-panel,.pss-roster),
+  body[data-interface=app] :is(.card,.booking-record,.room-choice,.availability-panel),
+  body[data-interface=login] .authcard,
+  body[data-interface=admin] :is(.card,.admin-command-center),
+  body.attendance .att-card {
+    border-radius: 20px;
+    box-shadow: var(--clay-shadow);
+  }
+  body[data-interface=school] :is(.academic-live-card,.portal-section) {
+    background: #fff;
+    border: 1px solid #d7e5db;
+    padding: 22px;
+  }
+  body[data-interface=school] .service-directory-grid { gap: 12px; }
+  body[data-interface=school] .service-directory-grid a {
+    padding: 18px;
+    border: 1px solid #d7e5db;
+    border-radius: 18px;
+    background: #fff;
+    box-shadow: var(--clay-shadow-compact);
+  }
+  body[data-interface=pss] .pss-home-card { overflow: hidden; }
+  body[data-interface=pss] .pss-hero-search { border-radius: 16px; box-shadow: var(--clay-shadow-compact); }
+  body[data-interface=app] :is(.card,.booking-record,.room-choice),
+  body[data-interface=admin] .card { box-shadow: var(--clay-shadow-compact); }
+  body[data-interface=app] .footerbar { border-radius: 18px; box-shadow: var(--clay-shadow-compact); }
+
+  body[data-interface] :is(.btn-primary,.btn-secondary,.btn-clear,.catalog-reset,.school-menu-toggle),
+  body.attendance :is(.att-button,.att-link-button) {
+    border-radius: 14px;
+    box-shadow: 0 4px 9px rgb(18 62 53 / 13%), inset 0 2px 2px rgb(255 255 255 / 18%);
+  }
+  body[data-interface] :is(input:not([type=checkbox]):not([type=radio]):not([type=hidden]),select,textarea),
+  body.attendance :is(input:not([type=checkbox]):not([type=radio]):not([type=hidden]),select,textarea) {
+    border-radius: 12px;
+  }
+  body[data-interface] :is(a,button,input,select,textarea,summary):focus-visible,
+  body.attendance :is(a,button,input,select,textarea,summary):focus-visible {
+    outline: 3px solid #8a6410;
+    outline-offset: 3px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  body[data-interface=gateway] .school-shortcuts a { transition: none; }
+  body[data-interface=gateway] .school-shortcuts a:hover,
+  body[data-interface=gateway] .school-shortcuts a:active { transform: none; }
+}
