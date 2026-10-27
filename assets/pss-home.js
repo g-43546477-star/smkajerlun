@@ -73,7 +73,7 @@
 
   async function loadWeeklyActivity() {
     if (!activityFeature) return;
-    var today = new Date().toISOString().split('T')[0];
+    var today = window.cmsTodayIso();
     var response = await window.cms.from('takwim').select('tajuk,tarikh_mula,tarikh_tamat')
       .eq('portal', 'pss').eq('kategori', 'aktiviti').or('tarikh_mula.gte.' + today + ',tarikh_tamat.gte.' + today).order('tarikh_mula').limit(1);
     var activity = response.data && response.data[0];
@@ -99,7 +99,7 @@
       if (fallbackTajuk) fallbackTajuk.textContent = hasError ? 'Pengumuman PSS tidak dapat dimuatkan' : 'Belum ada pengumuman PSS';
       if (fallbackInfo) fallbackInfo.textContent = hasError ? 'Cuba lagi kemudian atau rujuk halaman pengumuman PSS.' : 'Pengumuman rasmi PSS akan dipaparkan di sini apabila tersedia.';
     }
-    var today = new Date().toISOString().split('T')[0];
+    var today = window.cmsTodayIso();
     var aktivitiResponse;
     try {
       aktivitiResponse = await window.cms.from('takwim').select('tajuk,tarikh_mula,tarikh_tamat,kategori')

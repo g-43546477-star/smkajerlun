@@ -70,7 +70,10 @@ function renderRows() {
     const date = document.createElement('p'); date.textContent = formatMalayDate(entry.tarikh);
     const time = document.createElement('p'); time.className = 'record-time'; time.textContent = entry.masa_mula + ' – ' + entry.masa_tamat;
     const purpose = document.createElement('p'); purpose.textContent = entry.kelas + ' · ' + (entry.tujuan || 'Tiada tujuan dinyatakan');
-    const status = document.createElement('p'); status.textContent = entry.status === 'dibatalkan' ? 'Dibatalkan' : 'Tempahan aktif';
+    const charge = bookingCreditUsage([entry], entry.tarikh).day;
+    const creditLabel = charge ? `${charge} kredit${entry.status === 'dibatalkan' ? ' kekal dikira' : ''}`
+      : entry.status === 'dibatalkan' ? 'Tiada caj kredit' : 'Bebas kredit';
+    const status = document.createElement('p'); status.textContent = (entry.status === 'dibatalkan' ? 'Dibatalkan' : 'Tempahan aktif') + ' · ' + creditLabel;
     const actions = actionCell(entry);
     card.append(title, date, time, purpose, status);
     if (currentAdmin) { const owner = document.createElement('p'); owner.textContent = entry.nama_pemohon; card.append(owner); }
@@ -84,7 +87,7 @@ function renderRows() {
     const tdM = document.createElement('td'); tdM.className = 'masa'; tdM.textContent = entry.masa_mula + ' - ' + entry.masa_tamat; tr.appendChild(tdM);
     const tdL = document.createElement('td'); tdL.className = entry.guna_lcd ? 'lcd-yes' : 'lcd-no'; tdL.textContent = entry.guna_lcd ? 'Ya' : '-'; tr.appendChild(tdL);
     const tdJ = document.createElement('td'); tdJ.style.color = '#64748b'; tdJ.textContent = entry.tujuan || '-'; tr.appendChild(tdJ);
-    const tdS = document.createElement('td'); tdS.textContent = entry.status === 'dibatalkan' ? '' : 'Aktif'; tr.appendChild(tdS);
+    const tdS = document.createElement('td'); tdS.textContent = status.textContent; tr.appendChild(tdS);
     tr.appendChild(actionCell(entry));
     tbody.appendChild(tr);
   });
@@ -121,7 +124,7 @@ async function onDelete(id) {
 }
 
 async function onCancel(entry) {
-  if (!confirm('Adakah anda pasti mahu membatalkan tempahan ini?')) return;
+  if (!confirm('Batalkan tempahan ini? Kredit dipulangkan jika slot belum bermula. Selepas mula, kredit kekal dikira.')) return;
   const { error } = await sb.from('tempahan').update({ status: 'dibatalkan' }).eq('id', entry.id);
   if (error) { showToast('Ralat', 'Gagal membatalkan tempahan. Sila cuba lagi.', 'error'); return; }
   await loadAll();
@@ -174,19 +177,49 @@ async function refreshEditSlots() {
   const bilik = document.getElementById('edit-bilik').value;
   const slotSel = document.getElementById('edit-slot');
   slotSel.innerHTML = '';
-  const { data } = await sb.from('tempahan').select('*').eq('bilik', bilik).eq('tarikh', editTarikh).limit(100);
-  const busy = (data || []).filter(e => e.id !== editEntry.id && e.status !== 'dibatalkan').map(e => e.masa_mula);
+  const entry = editEntry;
+  const date = editTarikh;
+  const request = ++editSlotRequest;
+  const save = document.getElementById('edit-save');
+  save.disabled = true;
+  const note = document.getElementById('edit-credit-status');
+  note.textContent = 'Sedang menyemak slot dan kredit...';
+  let rows;
+  let busy;
+  try {
+    const response = await sbPublic.from('tempahan_awam').select('id,masa_mula').eq('bilik', bilik).eq('tarikh', date);
+    if (response.error || !response.data) throw new Error('Kekosongan tidak dapat disemak.');
+    busy = response.data.filter(row => row.id !== entry.id).map(row => row.masa_mula);
+    rows = await loadBookingCredits(date, currentUser.id);
+  } catch {
+    if (request === editSlotRequest) note.textContent = 'Slot atau kredit tidak dapat disemak. Pilih semula bilik atau tarikh untuk mencuba lagi.';
+    return;
+  }
+  if (request !== editSlotRequest || !editEntry || entry.id !== editEntry.id) return;
+  const used = bookingCreditUsage(rows, date, entry.id);
+  note.textContent = `Baki sebelum pilihan baharu: ${Math.max(0, 16 - used.week)}/16 kredit minggu ini, ${Math.max(0, 4 - used.day)}/4 untuk sesi pagi hari dipilih. Petang, malam, Jumaat dan Sabtu bebas kredit.`;
   SLOTS.forEach(s => {
     const o = document.createElement('option');
     o.value = s.masa_mula;
     const label = s.block ? `${s.kumpulan} (${s.label})` : s.label;
-    o.textContent = label + (busy.includes(s.masa_mula) ? ' (Ditempah)' : '');
-    o.disabled = busy.includes(s.masa_mula);
+    const unchanged = entry.bilik === bilik && entry.tarikh === date && entry.masa_mula === s.masa_mula;
+    const charge = bookingSlotCredits(date, s);
+    const ownBusy = rows.some(row => row.id !== entry.id && row.status === 'aktif' && row.tarikh === date
+      && row.masa_mula < s.masa_tamat && row.masa_tamat > s.masa_mula);
+    const overCredit = charge > 0 && (used.day + charge > 4 || used.week + charge > 16);
+    o.textContent = label + (busy.includes(s.masa_mula) || ownBusy ? ' (Ditempah)' : overCredit && !unchanged ? ' (Kredit tidak mencukupi)' : '');
+    o.disabled = busy.includes(s.masa_mula) || ownBusy || (overCredit && !unchanged);
     slotSel.appendChild(o);
   });
   const currentStillValid = editEntry.bilik === bilik && editEntry.tarikh === editTarikh;
   if (currentStillValid) slotSel.value = editEntry.masa_mula;
+  else slotSel.value = Array.from(slotSel.options).find(option => !option.disabled)?.value || '';
+  save.disabled = !slotSel.value || !!slotSel.selectedOptions[0]?.disabled;
 }
+let editSlotRequest = 0;
+document.getElementById('edit-slot').addEventListener('change', () => {
+  document.getElementById('edit-save').disabled = !document.getElementById('edit-slot').value;
+});
 
 function openEdit(entry, trigger) {
   editEntry = entry;
@@ -206,6 +239,7 @@ function openEdit(entry, trigger) {
   editModal.focus();
 }
 function closeEdit() {
+  editSlotRequest++;
   editOverlay.style.display = 'none';
   editOverlay.setAttribute('aria-hidden', 'true');
   editEntry = null;
@@ -276,7 +310,7 @@ document.getElementById('edit-save').addEventListener('click', async () => {
       msg.textContent = 'Slot ini baru sahaja ditempah oleh orang lain. Sila pilih slot lain.';
       await refreshEditSlots();
     } else if (error.code === '23514') {
-      msg.textContent = 'Tempahan tarikh ini belum dibuka atau tarikhnya telah berlalu.';
+      msg.textContent = error.message;
     } else {
       msg.textContent = 'Gagal menyimpan perubahan. Sila cuba lagi.';
     }

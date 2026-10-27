@@ -318,6 +318,10 @@ nav.tabs a#nav-login{opacity:.82}
 .achievement-card-link{margin-top:auto;padding-top:.85rem;color:var(--plum);font-size:var(--ds-text-xs);font-weight:800}
 .achievement-card:hover .achievement-card-link{color:var(--teal)}
 .achievement-empty{margin:0;color:var(--muted);font-size:var(--ds-text-xs)}
+.achievement-load-error{grid-column:1/-1;padding:1.25rem;border:1px solid var(--line);border-radius:8px;background:var(--ds-color-surface);color:var(--ink)}
+.achievement-load-error p{margin:0 0 1rem}
+.achievement-retry{min-height:44px;padding:.65rem 1rem;border:1px solid currentColor;border-radius:6px;background:var(--plum-deep);color:white;font:inherit;cursor:pointer}
+.achievement-retry:focus-visible{outline:3px solid var(--brass-bright);outline-offset:3px}
 .achievement-list-featured{grid-template-columns:1fr}
 .achievement-list-featured .achievement-card{grid-template-columns:minmax(240px,.9fr) minmax(0,1.1fr);grid-template-rows:1fr}
 .achievement-list-featured .achievement-card-media{aspect-ratio:auto;min-height:228px}

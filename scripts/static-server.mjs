@@ -20,23 +20,25 @@ const mime = {
   '.xml': 'application/xml; charset=utf-8'
 };
 
-function safeFile(urlPath) {
+function safeFile(urlPath, directory) {
   const pathname = decodeURIComponent(urlPath.split('?')[0].split('#')[0]);
   const clean = pathname === '/' ? '/index.html' : pathname;
   const candidates = [clean];
   if (!path.extname(clean)) candidates.push(`${clean.replace(/\/$/, '')}/index.html`);
   if (clean.endsWith('/')) candidates.unshift(`${clean}index.html`);
   for (const candidate of candidates) {
-    const absolute = path.resolve(root, `.${candidate}`);
-    if (absolute.startsWith(root) && absolute !== root) return absolute;
+    const absolute = path.resolve(directory, `.${candidate}`);
+    const relative = path.relative(directory, absolute);
+    if (relative && !relative.startsWith('..') && !path.isAbsolute(relative)) return absolute;
   }
   return null;
 }
 
-export async function startStaticServer(port = 0) {
+export async function startStaticServer(port = 0, directory = root) {
+  directory = path.resolve(directory);
   const server = http.createServer(async (request, response) => {
     try {
-      const file = safeFile(request.url || '/');
+      const file = safeFile(request.url || '/', directory);
       if (!file) {
         response.writeHead(400);
         response.end('Bad request');

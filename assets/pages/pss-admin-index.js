@@ -433,9 +433,7 @@ async function loadLoans() {
 }
 
 function csvValue(value) {
-  let text = String(value == null ? '' : value);
-  if (/^[=+\-@]/.test(text)) text = "'" + text;
-  return /[",\n]/.test(text) ? '"' + text.replace(/"/g, '""') + '"' : text;
+  return ui.csvValue(value);
 }
 
 function exportLoans() {

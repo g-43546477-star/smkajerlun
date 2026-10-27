@@ -56,6 +56,12 @@
     return button;
   }
 
+  function csvValue(value) {
+    let text = String(value == null ? '' : value);
+    if (/^[\s\u0000-\u001f\u007f-\u009f]*[=+@-]/.test(text) || /^[\t\r\n]/.test(text)) text = "'" + text;
+    return '"' + text.replace(/"/g, '""') + '"';
+  }
+
   function formatDate(value, includeYear) {
     if (!value) return '-';
     const parts = String(value).slice(0, 10).split('-').map(Number);
@@ -220,6 +226,7 @@
     closeModal: closeModal,
     createButton: createButton,
     createCell: createCell,
+    csvValue: csvValue,
     formatDate: formatDate,
     formatDateTime: formatDateTime,
     markModalSaved: markModalSaved,

@@ -3,7 +3,9 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "build": "npm run lint:js && npm run validate:html && npm run check:routes && npm run check:migrations && npm run check:security && npm run health:check",
+    "build": "npm run lint:js && npm run validate:html && npm run check:routes && npm run check:migrations && npm run check:security && npm run health:check && npm run build:public",
+    "build:public": "node scripts/build-public.mjs",
+    "test:audit-fixes": "node scripts/audit-fixes-test.mjs",
     "lint:js": "node scripts/lint-js.mjs",
     "validate:html": "node scripts/validate-html.mjs",
     "check:routes": "node scripts/check-routes.mjs",
@@ -12,11 +14,12 @@
     "health:check": "node scripts/health-check.mjs",
     "test:e2e": "node scripts/smoke.mjs && node scripts/navigation-smoke.mjs && node scripts/school-destinations-smoke.mjs && node scripts/school-refinement-smoke.mjs && node scripts/gateway-smoke.mjs",
     "test:admin": "node scripts/admin-smoke.mjs",
-    "verify": "npm run build && npm run test:e2e && npm run test:admin && npm run test:login && npm run test:interface",
+    "verify": "npm run build && npm run test:e2e && npm run test:admin && npm run test:login && npm run test:interface && npm run test:portal",
     "check:release": "node scripts/check-release.mjs",
     "release:verify": "npm run check:release && npm run verify",
     "test:login": "node scripts/login-smoke.mjs",
-    "test:interface": "node scripts/interface-smoke.mjs"
+    "test:interface": "node scripts/interface-smoke.mjs",
+    "test:portal": "node scripts/portal-states-smoke.mjs"
   },
   "devDependencies": {
     "@playwright/test": "^1.62.1",

@@ -15,7 +15,9 @@ try {
     assert.equal(await page.locator('.school-motto').innerText(), 'Adab Dulu Baru Ilmu');
     assert.equal(await page.locator('.school-shortcut-group').count(), 2);
     for (const group of await page.locator('.school-shortcut-group').all()) assert.equal(await group.locator('a').count(), 6);
-    assert.equal(await page.locator('.school-hero').evaluate(el => Math.round(el.getBoundingClientRect().height)), width <= 520 ? 320 : 440);
+    const heroHeight = await page.locator('.school-hero').evaluate(el => el.getBoundingClientRect().height);
+    assert.ok(heroHeight <= (width <= 700 ? 280 : 380), `Hero must leave room for the shortcuts at ${width}px`);
+    assert.equal(await page.locator('.school-shortcut-group').first().getAttribute('aria-labelledby'), 'service-links-title');
     assert.equal(await page.evaluate(() => document.documentElement.scrollWidth > innerWidth + 1), false, `Overflow at ${width}`);
     assert.equal(await page.locator('.school-header-actions a').count(), 2);
     for (const link of await page.locator('.school-header-actions a').all()) {

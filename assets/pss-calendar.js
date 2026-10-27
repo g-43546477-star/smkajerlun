@@ -10,7 +10,7 @@
 
   const monthNames = ['Januari', 'Februari', 'Mac', 'April', 'Mei', 'Jun', 'Julai', 'Ogos', 'September', 'Oktober', 'November', 'Disember'];
   const dayNames = ['Isnin', 'Selasa', 'Rabu', 'Khamis', 'Jumaat', 'Sabtu', 'Ahad'];
-  const today = new Date();
+  const today = parseDate(window.cmsTodayIso());
   let current = new Date(today.getFullYear(), today.getMonth(), 1);
   let activities = [];
 
@@ -84,27 +84,49 @@
 
     monthLabel.textContent = monthNames[month] + ' ' + year;
     mount.replaceChildren();
+    const headingGroup = document.createElement('thead');
+    const bodyGroup = document.createElement('tbody');
+    const header = document.createElement('tr');
+    header.className = 'pss-calendar-row';
+    header.setAttribute('role', 'row');
+    headingGroup.appendChild(header);
+    mount.append(headingGroup, bodyGroup);
     dayNames.forEach(function (day) {
-      const label = document.createElement('div');
+      const label = document.createElement('th');
+      label.scope = 'col';
       label.className = 'pss-calendar-weekday';
       label.setAttribute('role', 'columnheader');
       label.textContent = day;
-      mount.appendChild(label);
+      header.appendChild(label);
     });
-    for (let blank = 0; blank < mondayIndex; blank += 1) {
-      const cell = document.createElement('div');
-      cell.className = 'pss-calendar-day is-empty';
-      cell.setAttribute('aria-hidden', 'true');
-      mount.appendChild(cell);
-    }
-    for (let day = 1; day <= daysInMonth; day += 1) {
+    let week;
+    const cellCount = Math.ceil((mondayIndex + daysInMonth) / 7) * 7;
+    for (let index = 0; index < cellCount; index += 1) {
+      if (index % 7 === 0) {
+        week = document.createElement('tr');
+        week.className = 'pss-calendar-row';
+        week.setAttribute('role', 'row');
+        bodyGroup.appendChild(week);
+      }
+      const day = index - mondayIndex + 1;
+      if (day < 1 || day > daysInMonth) {
+        const blank = document.createElement('td');
+        blank.className = 'pss-calendar-day is-empty';
+        blank.setAttribute('role', 'cell');
+        blank.setAttribute('aria-label', 'Tiada tarikh');
+        week.appendChild(blank);
+        continue;
+      }
       const date = isoDate(year, month, day);
       const dayEvents = activities.filter(function (activity) { return occursOn(activity, date); });
-      const cell = document.createElement('div');
+      const cell = document.createElement('td');
       cell.className = 'pss-calendar-day';
-      cell.setAttribute('role', 'gridcell');
+      cell.setAttribute('role', 'cell');
       cell.setAttribute('aria-label', day + ' ' + monthNames[month] + (dayEvents.length ? ', ' + dayEvents.length + ' aktiviti' : ''));
-      if (date === isoDate(today.getFullYear(), today.getMonth(), today.getDate())) cell.classList.add('is-today');
+      if (date === isoDate(today.getFullYear(), today.getMonth(), today.getDate())) {
+        cell.classList.add('is-today');
+        cell.setAttribute('aria-current', 'date');
+      }
       if (dayEvents.length) cell.classList.add('has-event');
       const number = document.createElement('span');
       number.className = 'pss-calendar-number';
@@ -122,7 +144,7 @@
         summary.textContent = dayEvents.length + ' aktiviti';
         cell.append(markers, summary);
       }
-      mount.appendChild(cell);
+      week.appendChild(cell);
     }
     renderAgenda(monthActivities);
     if (count) count.textContent = monthActivities.length + ' aktiviti bulan ini';

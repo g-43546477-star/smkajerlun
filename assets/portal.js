@@ -13,14 +13,33 @@
     return fallback || '#';
   }
   function empty(mount, text) { mount.innerHTML = '<div class="portal-empty">' + esc(text) + '</div>'; }
+  function loadError(mount, retry, title) {
+    mount.innerHTML = '<div class="portal-empty portal-load-error" role="status"><b>' + esc(title || 'Maklumat tidak dapat dimuatkan.') + '</b><p>Semak sambungan internet dan cuba semula.</p><button class="portal-retry" type="button">Cuba semula</button></div>';
+    mount.querySelector('button').addEventListener('click', async function () {
+      this.disabled = true;
+      await retry();
+      // Restore keyboard focus only if replacing the button left it on the body.
+      if (document.activeElement === document.body) {
+        var target = mount.querySelector('.portal-retry') || mount;
+        if (target === mount) target.setAttribute('tabindex', '-1');
+        target.focus();
+      }
+    });
+  }
   function list(table, mountId, render, order, filter) {
     var mount = $(mountId); if (!mount) return Promise.resolve();
+    mount.setAttribute('aria-busy', 'true');
+    empty(mount, 'Memuatkan maklumat...');
+    function failed() {
+      loadError(mount, function () { return list(table, mountId, render, order, filter); });
+    }
     var request = cms.from(table).select('*');
     if (filter) request = filter(request);
     return request.order(order || 'susunan').then(function (res) {
-      if (res.error || !res.data || !res.data.length) return empty(mount, 'Belum ada maklumat untuk dipaparkan.');
+      if (res.error) return failed();
+      if (!res.data || !res.data.length) return empty(mount, 'Belum ada maklumat untuk dipaparkan.');
       mount.innerHTML = res.data.map(render).join('');
-    });
+    }).catch(failed).finally(function () { mount.setAttribute('aria-busy', 'false'); });
   }
   function renderSchoolDirectory(mountId) {
     var mount = $(mountId); if (!mount) return;
@@ -73,6 +92,7 @@
     var bookNext = $('book-next');
     var bookPageLabel = $('book-page');
     var allBooks = [];
+    var bookState = 'loading';
     var bookPage = 1;
     var BOOK_PAGE_SIZE = 10;
     var BOOK_STATUSES = ['Tersedia', 'Dipinjam', 'Rujukan', 'Hilang', 'Rosak', 'Dipulangkan'];
@@ -141,7 +161,7 @@
       if (bookNext) bookNext.disabled = bookPage >= pageCount;
     }
     function renderBooks() {
-      if (!bookMount) return;
+      if (!bookMount || bookState !== 'ready') return;
       var categories = uniqueCount(allBooks.map(function (book) { return book.kategori; }));
       var racks = uniqueCount(allBooks.map(function (book) { return book.rak; }));
       if (bookTotal) bookTotal.textContent = allBooks.length;
@@ -170,13 +190,15 @@
         return '<article class="catalog-book-card"><div class="catalog-cover cover-' + (index % 5) + '" aria-hidden="true"><span>PSS</span><strong>' + esc(coverMark(r.tajuk)) + '</strong></div><div class="catalog-book-body"><p class="catalog-book-kicker">' + esc(r.kategori || 'Umum') + '</p><h3>' + esc(r.tajuk || 'Tanpa tajuk') + '</h3><p class="catalog-book-author">' + esc(r.pengarang || 'Pengarang belum dinyatakan') + '</p><div class="catalog-book-meta"><span>Rak ' + esc(r.rak || '-') + '</span><span>' + esc(r.kod || 'Koleksi PSS') + '</span></div></div><span class="catalog-book-status ' + statusClass(status) + '">' + esc(status) + '</span></article>';
       }).join('');
     }
-    if (bookMount) {
+    async function loadBooks() {
+      bookState = 'loading';
+      bookMount.setAttribute('aria-busy', 'true');
+      if (bookPagination) bookPagination.hidden = true;
+      if (bookCount) bookCount.textContent = 'Memuatkan katalog...';
       bookMount.innerHTML = '<div class="portal-empty">Memuatkan katalog PSS...</div>';
-      cms.from('pss_book').select('*').order('tajuk').then(function (res) {
-        if (res.error) {
-          if (bookCount) bookCount.textContent = 'Katalog tidak dapat dimuatkan';
-          return catalogEmpty('Katalog tidak tersedia', 'Cuba muat semula halaman atau hubungi pengurusan PSS.');
-        }
+      try {
+        var res = await cms.from('pss_book').select('*').order('tajuk');
+        if (res.error) throw res.error;
         allBooks = (res.data || []).map(function (book) {
           return Object.assign({}, book, {
             tajuk: labelValue(book.tajuk),
@@ -188,9 +210,17 @@
         });
         fillBookFilter(bookCategory, allBooks.map(function (book) { return book.kategori; }), 'Semua kategori');
         fillBookFilter(bookStatus, BOOK_STATUSES, 'Semua status');
+        bookState = 'ready';
         renderBooks();
-      });
+      } catch (error) {
+        bookState = 'error';
+        if (bookCount) bookCount.textContent = 'Katalog tidak dapat dimuatkan';
+        loadError(bookMount, loadBooks, 'Katalog tidak tersedia');
+      } finally {
+        bookMount.setAttribute('aria-busy', 'false');
+      }
     }
+    if (bookMount) loadBooks();
     if (bookSearch) {
       bookSearch.value = new URLSearchParams(location.search).get('cari') || '';
       bookSearch.addEventListener('input', function () { bookPage = 1; renderBooks(); });
@@ -234,17 +264,29 @@
           if (s[0] === 'achievement') request = request.eq('kategori', 'sekolah');
           return request.limit(8).then(function (r) {
             if (r.error) incomplete = true;
-            return (r.data || []).map(function (x) { return { label:s[2], title:x.tajuk || x.nama, detail:x.keterangan || x.penerangan || x.pengarang || x.kandungan || x.jawatan || '', href:(s[0] === 'achievement' && x.slug) ? '/program/?slug=' + encodeURIComponent(x.slug) : ((s[0] === 'achievement' && x.pautan) ? x.pautan : s[3]) }; });
+            return (r.data || []).map(function (x) {
+              var href = s[3], label = s[2];
+              if (s[0] === 'achievement') href = x.slug ? '/program/?slug=' + encodeURIComponent(x.slug) : (x.pautan || href);
+              if (x.portal === 'pss' && s[0] === 'takwim') { href = '/pss/program/kalendar/'; label = 'Kalendar PSS'; }
+              if (x.portal === 'pss' && s[0] === 'pengumuman') { href = '/pss/program/pengumuman/'; label = 'Pengumuman PSS'; }
+              return { label:label, title:x.tajuk || x.nama, detail:x.keterangan || x.penerangan || x.pengarang || x.kandungan || x.jawatan || '', href:href };
+            });
           }).catch(function () { incomplete = true; return []; });
         }));
         if (input.value.trim() !== q) return;
         var pages = [
           ['Profil sekolah', '/info/?tab=profil'], ['Warga sekolah', '/info/?tab=warga'],
           ['Hubungi sekolah', '/info/?tab=hubungi'], ['Akademik', '/akademik/'],
-          ['Kokurikulum', '/kokurikulum/'], ['Asrama', '/asrama/'], ['Portal PSS', '/pss/'],
+          ['Hal Ehwal Murid', '/hem/', 'HEM'], ['Kokurikulum', '/kokurikulum/'], ['Asrama', '/asrama/'],
+          ['Program sekolah', '/program/'], ['Portal Warga', '/hub/'],
+          ['Portal PSS', '/pss/', 'pusat sumber perpustakaan'], ['Katalog buku PSS', '/pss/digital/katalog/'],
+          ['NILAM', '/pss/digital/nilam/'], ['Kalendar PSS', '/pss/program/kalendar/'],
+          ['Pengumuman PSS', '/pss/program/pengumuman/'],
           ['Tempahan bilik', '/tempahan/'], ['Takwim sekolah', '/info/?tab=takwim'],
-          ['Borang dan dokumen', '/perkhidmatan/muat-turun/']
-        ].filter(function (item) { return item[0].toLocaleLowerCase('ms-MY').includes(q.toLocaleLowerCase('ms-MY')); })
+          ['Borang dan dokumen', '/perkhidmatan/muat-turun/', 'muat turun'],
+          ['Direktori sekolah', '/perkhidmatan/direktori/'], ['Rekod klinik', '/perkhidmatan/klinik/'],
+          ['Log masuk', '/log-masuk/']
+        ].filter(function (item) { return (item[0] + ' ' + (item[2] || '')).toLocaleLowerCase('ms-MY').includes(q.toLocaleLowerCase('ms-MY')); })
           .map(function (item) { return { label: 'Halaman sekolah', title: item[0], detail: 'Maklumat dan perkhidmatan SMK Agama Jerlun.', href: item[1] }; });
         var items = pages.concat(all.flat());
         if (count) count.textContent = items.length + ' hasil dipaparkan.' + (incomplete ? ' Sebahagian maklumat belum dapat dimuatkan. Cuba carian semula.' : '');

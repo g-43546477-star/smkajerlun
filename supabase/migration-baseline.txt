@@ -21,3 +21,4 @@
 20260908015618_enforce_booking_daily_window
 20260908043855_repair_booking_daily_window_trigger
 20260910101700_pss_visitor_tracker
+20261022132741_teacher_booking_credits

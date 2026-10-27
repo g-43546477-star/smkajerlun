@@ -16,6 +16,14 @@
   }
   window.cmsEsc = esc;
 
+  window.cmsTodayIso = function (date) {
+    const parts = new Intl.DateTimeFormat('en-CA', {
+      timeZone: 'Asia/Kuala_Lumpur', year: 'numeric', month: '2-digit', day: '2-digit'
+    }).formatToParts(date || new Date());
+    function part(type) { return parts.find(function (value) { return value.type === type; }).value; }
+    return part('year') + '-' + part('month') + '-' + part('day');
+  };
+
   function parsePanitiaGroups(text) {
     const groups = [];
     (text || '').split(/\n\s*\n/).forEach(function (blok) {
@@ -215,30 +223,65 @@
     if (!mount) return;
     options = options || {};
     const limit = options.limit || 6;
+    const restoreFocus = mount.contains(document.activeElement);
+    function focusResult() {
+      if (!restoreFocus) return;
+      const target = mount.querySelector('button, a[href]') || mount;
+      if (target === mount) target.setAttribute('tabindex', '-1');
+      target.focus();
+    }
+    mount.setAttribute('aria-busy', 'true');
+    const loading = document.createElement('p');
+    loading.className = 'achievement-empty';
+    loading.setAttribute('role', 'status');
+    loading.textContent = 'Memuatkan program sekolah...';
+    mount.replaceChildren(loading);
     let rows = [];
-    if (options.all) {
-      // Page through the full published school-program collection.
-      let from = 0;
-      while (true) {
+    try {
+      if (options.all) {
+        // Page through the full published school-program collection.
+        let from = 0;
+        while (true) {
+          const result = await cmsClient.from('achievement').select('*').eq('kategori', 'sekolah')
+            .order('tarikh', { ascending: false }).order('susunan').order('id').range(from, from + 99);
+          if (result.error) throw result.error;
+          const batch = result.data || [];
+          rows = rows.concat(batch);
+          if (batch.length < 100) break;
+          from += 100;
+        }
+      } else {
         const result = await cmsClient.from('achievement').select('*').eq('kategori', 'sekolah')
-          .order('tarikh', { ascending: false }).order('susunan').order('id').range(from, from + 99);
-        if (result.error) { rows = []; break; }
-        const batch = result.data || [];
-        rows = rows.concat(batch);
-        if (batch.length < 100) break;
-        from += 100;
+          .order('tarikh', { ascending: false }).order('susunan').limit(limit);
+        if (result.error) throw result.error;
+        rows = result.data || [];
       }
-    } else {
-      const result = await cmsClient.from('achievement').select('*').eq('kategori', 'sekolah')
-        .order('tarikh', { ascending: false }).order('susunan').limit(limit);
-      rows = result.error ? [] : (result.data || []);
+    } catch (error) {
+      const failure = document.createElement('div');
+      failure.className = 'achievement-load-error';
+      const message = document.createElement('p');
+      message.setAttribute('role', 'status');
+      message.textContent = 'Program sekolah tidak dapat dimuatkan buat masa ini.';
+      const retry = document.createElement('button');
+      retry.type = 'button';
+      retry.className = 'achievement-retry';
+      retry.textContent = 'Cuba semula';
+      retry.addEventListener('click', function () { window.cmsLoadProgramArticles(mountId, options); });
+      failure.append(message, retry);
+      mount.replaceChildren(failure);
+      focusResult();
+      return;
+    } finally {
+      mount.removeAttribute('aria-busy');
     }
     mount.replaceChildren();
     if (!rows.length) {
       const empty = document.createElement('p');
       empty.className = 'achievement-empty';
+      empty.setAttribute('role', 'status');
       empty.textContent = options.emptyText || 'Belum ada program sekolah untuk dipaparkan.';
       mount.appendChild(empty);
+      focusResult();
       return;
     }
     const monthNames = ['Januari', 'Februari', 'Mac', 'April', 'Mei', 'Jun', 'Julai', 'Ogos', 'September', 'Oktober', 'November', 'Disember'];
@@ -295,6 +338,7 @@
       card.append(media, body);
       mount.appendChild(card);
     });
+    focusResult();
   };
 
   // Alias dalaman untuk halaman lama yang mungkin masih memanggil nama fungsi terdahulu.

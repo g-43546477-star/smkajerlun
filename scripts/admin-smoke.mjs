@@ -1,4 +1,5 @@
 import fs from 'node:fs';
+import assert from 'node:assert/strict';
 import { chromium } from 'playwright';
 import { startStaticServer } from './static-server.mjs';
 
@@ -6,6 +7,7 @@ const serverInfo = await startStaticServer();
 const chromePath = process.env.CHROME_PATH || '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome';
 const launchOptions = {
   headless: process.env.ADMIN_HEADLESS !== '0',
+  ...(process.env.ADMIN_DOWNLOADS_DIR ? { downloadsPath: process.env.ADMIN_DOWNLOADS_DIR } : {}),
   ...(fs.existsSync(chromePath) ? { executablePath: chromePath } : {})
 };
 const browser = await chromium.launch(launchOptions);
@@ -317,6 +319,97 @@ async function bookingAdminCheck() {
   await context.close();
 }
 
+function parseCsv(text) {
+  const rows = [];
+  let row = [], cell = '', quoted = false;
+  text = text.replace(/^\ufeff/, '');
+  for (let index = 0; index < text.length; index += 1) {
+    const character = text[index];
+    if (character === '"') {
+      if (quoted && text[index + 1] === '"') { cell += '"'; index += 1; }
+      else quoted = !quoted;
+    } else if (!quoted && character === ',') { row.push(cell); cell = ''; }
+    else if (!quoted && (character === '\r' || character === '\n')) {
+      row.push(cell); rows.push(row); row = []; cell = '';
+      if (character === '\r' && text[index + 1] === '\n') index += 1;
+    } else cell += character;
+  }
+  assert.equal(quoted, false, 'CSV must end outside quoted text.');
+  row.push(cell); rows.push(row);
+  return rows;
+}
+
+async function downloadCsv(page, action, filename) {
+  const pending = page.waitForEvent('download');
+  await action();
+  const download = await pending;
+  assert.match(download.suggestedFilename(), filename);
+  const text = fs.readFileSync(await download.path(), 'utf8');
+  assert.equal(text.charCodeAt(0), 0xfeff, 'CSV keeps its UTF-8 BOM.');
+  assert.ok(text.includes('\r\n'), 'CSV keeps CRLF record separators.');
+  return parseCsv(text);
+}
+
+async function csvDownloadChecks() {
+  const context = await browser.newContext({ viewport: { width: 1440, height: 1000 } });
+  const page = await context.newPage();
+  await configurePage(page);
+  await page.goto(serverInfo.url + '/pss/admin/?tab=pinjaman');
+  await page.locator('#pss-admin-main').waitFor({ state: 'visible' });
+  await page.evaluate(() => {
+    const base = window.__db.pss_pinjaman[0];
+    loanRows = [
+      { ...base, nama: '\t=1+1', catatan: 'Nama\r=1+1' },
+      { ...base, id: 2, nama: 'Nur, "Aisyah"', catatan: 'Baris 1\nBaris 2' },
+      { ...base, id: 3, kelas: '4 Itqan', nama: 'Rekod ditapis' }
+    ];
+    document.getElementById('loan-class').value = '3 Itqan';
+  });
+  const loans = await downloadCsv(page, () => page.locator('#loan-export').click(), /^laporan-pinjaman-pss-\d{4}-\d{2}-\d{2}\.csv$/);
+  assert.equal(loans.length, 6);
+  assert.deepEqual(loans[1], ['Jumlah rekod', '2']);
+  assert.ok(loans.slice(4).every(row => row.length === 9));
+  assert.equal(loans[4][1], "'\t=1+1");
+  assert.equal(loans[4][8], 'Nama\r=1+1');
+  assert.equal(loans[5][1], 'Nur, "Aisyah"');
+  assert.equal(loans[5][8], 'Baris 1\nBaris 2');
+
+  await page.goto(serverInfo.url + '/tempahan/admin/');
+  await page.locator('#admin-main').waitFor({ state: 'visible' });
+  await page.evaluate(() => {
+    const base = window.__db.tempahan[0];
+    adminAllEntries = [
+      { ...base, nama_pemohon: '\t=1+1', tujuan: 'Nama\r=1+1' },
+      { ...base, id: 't2', masa_mula: '09:00', nama_pemohon: 'Nur, "Aisyah"', tujuan: 'Baris 1\nBaris 2' },
+      { ...base, id: 't3', status: 'dibatalkan', nama_pemohon: ' \r@SUM(A1)' },
+      { ...base, id: 't4', bilik: 'Makmal Bahasa', nama_pemohon: 'Bilik ditapis' }
+    ];
+    document.getElementById('af-bilik').value = 'Bilik PAK 21';
+    document.getElementById('af-tempoh').value = 'semua';
+    document.getElementById('af-status').value = 'semua';
+    document.getElementById('report-bilik').value = 'Bilik PAK 21';
+    document.getElementById('report-period').value = 'tahunan';
+    document.getElementById('report-year').value = '2026';
+  });
+  const bookings = await downloadCsv(page, () => page.evaluate(() => exportFilteredBookings()), /^senarai-tempahan-semua-2026-08-24\.csv$/);
+  assert.equal(bookings.length, 10);
+  assert.deepEqual(bookings[4], ['Jumlah rekod', '3']);
+  assert.ok(bookings.slice(7).every(row => row.length === 9));
+  assert.equal(bookings[7][4], "'\t=1+1");
+  assert.equal(bookings[7][6], 'Nama\r=1+1');
+  assert.ok(bookings.slice(7).some(row => row[4] === 'Nur, "Aisyah"'));
+  assert.ok(bookings.slice(7).some(row => row[4] === "' \r@SUM(A1)"));
+  const room = await downloadCsv(page, () => page.evaluate(() => downloadRoomReport()), /^laporan-bilik-pak-21-2026-01-01-2026-12-31\.csv$/);
+  assert.equal(room.length, 8);
+  assert.deepEqual(room[3], ['Jumlah slot aktif', '2']);
+  assert.ok(room.slice(6).every(row => row.length === 8));
+  assert.equal(room[6][4], "'\t=1+1");
+  assert.equal(room[6][6], 'Nama\r=1+1');
+  assert.equal(room[7][4], 'Nur, "Aisyah"');
+  await context.close();
+}
+
+await csvDownloadChecks();
 await schoolAdminCheck({ width: 1440, height: 1000 });
 await schoolAdminCheck({ width: 390, height: 844 });
 await pssAdminCheck({ width: 1440, height: 1000 });
@@ -330,4 +423,4 @@ if (failures.length) {
   console.error(failures.join('\n'));
   process.exit(1);
 }
-console.log('Authenticated admin smoke passed: school, PSS and booking desktop/mobile, keyboard, scope, XSS and PDF');
+console.log('Authenticated admin smoke passed: school, PSS and booking desktop/mobile, keyboard, scope, XSS, PDF and all three CSV downloads');

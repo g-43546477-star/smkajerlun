@@ -10,8 +10,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;family=Source+Sans+3:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/assets/home-gateway.css?v=20261003-hero-1">
-<link rel="preload" as="image" href="/assets/hero-sekolah.jpg" fetchpriority="high">
+<link rel="preload" as="image" type="image/webp" href="/assets/hero-sekolah-1672.webp" imagesrcset="/assets/hero-sekolah-640.webp 640w, /assets/hero-sekolah-960.webp 960w, /assets/hero-sekolah-1672.webp 1672w" imagesizes="(max-width: 500px) 464px, (max-width: 700px) calc(100vw - 32px), (max-width: 1280px) calc(76vw - 36.5px), 937px" fetchpriority="high">
 <link rel="icon" type="image/png" href="/logo.png">
 <link rel="stylesheet" href="/assets/responsive.css?v=20260916-1">
 <link rel="stylesheet" href="/assets/interface.css?v=20260926-1">
@@ -24,33 +23,26 @@
 <link rel="stylesheet" href="/assets/pwa.css?v=20261003-1">
 <script src="/assets/pwa.js?v=20261003-1" defer></script>
 <link rel="stylesheet" href="/assets/graphics.css?v=20261003-graphics-1">
+<link rel="stylesheet" href="/assets/home-gateway.css?v=20261015-preview-2">
 <link rel="stylesheet" href="/assets/clay.css?v=20261027-1">
 </head>
 <body data-interface="gateway" data-device-layout="school">
 <a class="skip-link" href="#main-content">Langkau ke kandungan</a>
 <header class="school-header">
-  <a class="school-brand" href="/" aria-label="SMK Agama Jerlun, laman utama"><img src="/assets/logo-sekolah.png" alt="" width="44" height="52"><span>SMK Agama Jerlun</span></a>
-  <nav class="school-header-actions" aria-label="Carian dan akaun"><a href="/carian/">Cari</a><a href="/log-masuk/?next=%2F">Log Masuk</a></nav>
+  <a class="school-brand" href="/" aria-label="SMK Agama Jerlun, laman utama"><img src="/assets/logo-sekolah.png" alt="" width="44" height="52"><span><strong>SMK Agama Jerlun</strong><small>Laman rasmi sekolah</small></span></a>
+  <nav class="school-header-actions" aria-label="Carian dan akaun"><a class="school-search-link" href="/carian/">Cari</a><a class="school-login-link" href="/log-masuk/?next=%2F">Log Masuk</a></nav>
 </header>
 <main id="main-content">
   <section class="school-hero" aria-labelledby="hero-title">
-    <img class="school-aerial" src="/assets/hero-sekolah.jpg" width="1672" height="941" alt="Ilustrasi pandangan atas kawasan sekolah" fetchpriority="high">
+    <picture>
+      <source type="image/webp" srcset="/assets/hero-sekolah-640.webp 640w, /assets/hero-sekolah-960.webp 960w, /assets/hero-sekolah-1672.webp 1672w" sizes="(max-width: 500px) 464px, (max-width: 700px) calc(100vw - 32px), (max-width: 1280px) calc(76vw - 36.5px), 937px">
+      <img class="school-aerial" src="/assets/hero-sekolah.jpg" width="1672" height="941" alt="Ilustrasi pandangan atas kawasan sekolah" fetchpriority="high">
+    </picture>
     <div class="school-hero-copy"><p>SEKOLAH MENENGAH KEBANGSAAN AGAMA JERLUN</p><h1 id="hero-title">SMKA Jerlun</h1><p class="school-motto">Adab Dulu Baru Ilmu</p></div>
   </section>
   <nav class="school-shortcuts" aria-label="Pautan pantas sekolah">
-    <section class="school-shortcut-group" aria-labelledby="school-links-title">
-      <h2 id="school-links-title">Sekolah</h2>
-      <div class="school-shortcut-grid">
-      <a href="/info/"><img src="/assets/ajer-icons/building.svg?v=20261003-graphics-1" alt="" width="56" height="56"><span>Info Sekolah</span></a>
-      <a href="/akademik/"><img src="/assets/ajer-icons/academic.svg?v=20261003-graphics-1" alt="" width="56" height="56"><span>Akademik</span></a>
-      <a href="/hem/"><img src="/assets/ajer-icons/people.svg?v=20261003-graphics-1" alt="" width="56" height="56"><span>Hal Ehwal Murid</span></a>
-      <a href="/kokurikulum/"><img src="/assets/ajer-icons/football.svg?v=20261003-graphics-1" alt="" width="56" height="56"><span>Kokurikulum</span></a>
-      <a href="/asrama/"><img src="/assets/ajer-icons/bed.svg?v=20261003-graphics-1" alt="" width="56" height="56"><span>Asrama</span></a>
-      <a href="/program/"><img src="/assets/ajer-icons/camera.svg?v=20261003-graphics-1" alt="" width="56" height="56"><span>Program Sekolah</span></a>
-      </div>
-    </section>
     <section class="school-shortcut-group" aria-labelledby="service-links-title">
-      <h2 id="service-links-title">Perkhidmatan &amp; Akses</h2>
+      <div class="school-group-heading"><h2 id="service-links-title">Perkhidmatan &amp; Akses</h2><p>Urusan digital warga sekolah.</p></div>
       <div class="school-shortcut-grid">
       <a href="/pss/"><img src="/assets/ajer-icons/library.svg?v=20261003-graphics-1" alt="" width="56" height="56"><span>Portal PSS</span></a>
       <a href="/info/?tab=takwim"><img src="/assets/ajer-icons/calendar.svg?v=20261003-graphics-1" alt="" width="56" height="56"><span>Takwim</span></a>
@@ -60,8 +52,25 @@
       <a href="/log-masuk/?next=%2F"><img src="/assets/ajer-icons/login.svg?v=20261003-graphics-1" alt="" width="56" height="56"><span>Log Masuk</span></a>
       </div>
     </section>
+    <section class="school-shortcut-group" aria-labelledby="school-links-title">
+      <div class="school-group-heading"><h2 id="school-links-title">Sekolah</h2><p>Kenali sekolah dan kehidupan warganya.</p></div>
+      <div class="school-shortcut-grid">
+      <a href="/info/"><img src="/assets/ajer-icons/building.svg?v=20261003-graphics-1" alt="" width="56" height="56"><span>Info Sekolah</span></a>
+      <a href="/akademik/"><img src="/assets/ajer-icons/academic.svg?v=20261003-graphics-1" alt="" width="56" height="56"><span>Akademik</span></a>
+      <a href="/hem/"><img src="/assets/ajer-icons/people.svg?v=20261003-graphics-1" alt="" width="56" height="56"><span>Hal Ehwal Murid</span></a>
+      <a href="/kokurikulum/"><img src="/assets/ajer-icons/football.svg?v=20261003-graphics-1" alt="" width="56" height="56"><span>Kokurikulum</span></a>
+      <a href="/asrama/"><img src="/assets/ajer-icons/bed.svg?v=20261003-graphics-1" alt="" width="56" height="56"><span>Asrama</span></a>
+      <a href="/program/"><img src="/assets/ajer-icons/camera.svg?v=20261003-graphics-1" alt="" width="56" height="56"><span>Program Sekolah</span></a>
+      </div>
+    </section>
   </nav>
 </main>
-<footer class="school-footer">&copy; 2026 SMK Agama Jerlun</footer>
+<footer class="school-footer">
+  <div class="school-footer-details">
+    <div><strong>SMK Agama Jerlun</strong><p>Kod sekolah: KRA4002</p><address>Jalan Kodiang, 06100 Kodiang,<br>Kedah Darul Aman, Malaysia</address></div>
+    <div class="school-footer-contact"><a href="tel:+6049250925">04&#8209;9250925</a><a href="mailto:kra4002@moe.edu.my">kra4002@moe.edu.my</a><a href="/info/?tab=hubungi">Maklumat hubungan sekolah</a></div>
+  </div>
+  <p class="school-copyright">&copy; 2026 SMK Agama Jerlun</p>
+</footer>
 </body>
 </html>

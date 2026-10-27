@@ -1,4 +1,51 @@
-const state = { user:null, teacher:null, tarikh:null, bilik:null, selected:[], booked:new Map(), dayBooked:[], ready:false };
+const state = { user:null, teacher:null, tarikh:null, bilik:null, selected:[], booked:new Map(), dayBooked:[], ready:false, creditRows:[], creditReady:false, checking:false };
+
+function selectedCredits() {
+  return SLOTS.filter(slot => state.selected.includes(slot.masa_mula))
+    .reduce((total, slot) => total + bookingSlotCredits(state.tarikh, slot), 0);
+}
+function creditSelectionAllowed() {
+  const charge = selectedCredits();
+  const used = bookingCreditUsage(state.creditRows, state.tarikh);
+  return !charge || (state.creditReady && used.day + charge <= 4 && used.week + charge <= 16);
+}
+function renderCredits() {
+  const mount = document.getElementById('booking-credit-status');
+  const known = state.tarikh && state.teacher && state.creditReady && navigator.onLine;
+  const retry = document.getElementById('booking-retry');
+  document.getElementById('credit-balances').hidden = !known;
+  retry.hidden = !state.tarikh || state.checking || !navigator.onLine
+    || !((state.bilik && !state.ready) || (state.teacher && !state.creditReady));
+  retry.disabled = !!state.sending;
+  let message;
+  let warning = false;
+  if (state.tarikh) {
+    const week = bookingWeek(state.tarikh);
+    const last = new Date(week.end + 'T00:00:00Z'); last.setUTCDate(last.getUTCDate() - 1);
+    document.getElementById('credit-period').textContent = `${formatMalayDateShort(week.start)} – ${formatMalayDateShort(last.toISOString().slice(0, 10))}`;
+  }
+  if (!navigator.onLine) message = 'Tiada sambungan internet. Sambung semula sebelum membuat tempahan.';
+  else if (state.checking) message = 'Sedang menyemak baki kredit dan kekosongan…';
+  else if (!state.teacher) message = 'Log masuk dengan akaun guru aktif untuk melihat baki kredit anda.';
+  else if (!state.creditReady) { message = 'Baki kredit belum dapat disemak. Petang, malam, Jumaat dan Sabtu tetap bebas kredit.'; warning = true; }
+  else {
+    const used = bookingCreditUsage(state.creditRows, state.tarikh);
+    const selected = selectedCredits();
+    const freeDay = new Date(state.tarikh + 'T00:00:00Z').getUTCDay() > 4;
+    const weekLeft = Math.max(0, 16 - used.week), dayLeft = Math.max(0, 4 - used.day);
+    document.getElementById('credit-week').textContent = weekLeft;
+    document.getElementById('credit-day').textContent = freeDay ? 'Bebas' : dayLeft;
+    document.getElementById('credit-day-limit').hidden = freeDay;
+    if (state.selected.length) {
+      message = selected ? `Pilihan ini: ${selected} kredit. Selepas disimpan: baki minggu ${Math.max(0, weekLeft - selected)}, baki hari ${Math.max(0, dayLeft - selected)} kredit.`
+        : 'Pilihan ini bebas kredit. Baki kredit anda kekal.';
+    } else if (freeDay) message = 'Semua sesi pada tarikh ini bebas kredit.';
+    else if (!weekLeft || !dayLeft) { message = `Kredit ${!weekLeft ? 'mingguan' : 'harian'} habis. Anda masih boleh memilih sesi petang atau malam.`; warning = true; }
+    else message = '1 kredit = 30 minit. Petang dan malam bebas kredit.';
+  }
+  mount.closest('.booking-credit').dataset.tone = warning ? 'warning' : 'normal';
+  if (mount.textContent !== message) mount.textContent = message;
+}
 
 function populateStatic() {
   const kelasSel = document.getElementById('f-kelas');
@@ -76,6 +123,8 @@ function renderSlots() {
   const pagi = document.getElementById('grid-pagi');
   const blok = document.getElementById('grid-blok');
   pagi.innerHTML = ''; blok.innerHTML = '';
+  const used = bookingCreditUsage(state.creditRows, state.tarikh);
+  const selected = selectedCredits();
   SLOTS.forEach(s => {
     const btn = document.createElement('button');
     btn.type = 'button';
@@ -93,6 +142,22 @@ function renderSlots() {
       occ.textContent = 'Ditempah';
       btn.appendChild(occ);
       btn.disabled = true;
+    }
+    const charge = bookingSlotCredits(state.tarikh, s);
+    const ownBusy = state.creditRows.some(row => row.status === 'aktif' && row.tarikh === state.tarikh
+      && row.masa_mula < s.masa_tamat && row.masa_tamat > s.masa_mula);
+    const creditBlocked = charge > 0 && (!state.creditReady || used.day + selected + charge > 4 || used.week + selected + charge > 16);
+    if (!booked && !chosen && (ownBusy || creditBlocked)) {
+      btn.disabled = true;
+      const reason = ownBusy ? 'Anda sudah menempah' : !state.creditReady ? 'Kredit belum disemak'
+        : used.week >= 16 ? 'Kredit mingguan habis' : used.day >= 4 ? 'Kredit harian habis' : 'Had pilihan dicapai';
+      btn.classList.add('unavailable');
+      btn.title = reason;
+      const note = document.createElement('div'); note.className = 'occ'; note.textContent = reason;
+      btn.appendChild(note);
+    }
+    if (!booked && !ownBusy && !creditBlocked && !charge) {
+      const note = document.createElement('div'); note.className = 'occ'; note.textContent = 'Bebas kredit'; btn.appendChild(note);
     }
     if (!booked) btn.addEventListener('click', () => {
       const i = state.selected.indexOf(s.masa_mula);
@@ -112,7 +177,8 @@ function updateFooter() {
     const labels = SLOTS.filter(s => state.selected.includes(s.masa_mula)).map(s => s.block ? s.kumpulan : s.label);
     summ.textContent = labels.join(', ');
   }
-  document.getElementById('btn-hantar').disabled = !!state.sending || !(state.teacher && state.ready && navigator.onLine && bookingDateAllowed(state.tarikh, state.admin) && n > 0 && state.bilik);
+  renderCredits();
+  document.getElementById('btn-hantar').disabled = !!state.sending || !(state.teacher && state.ready && navigator.onLine && bookingDateAllowed(state.tarikh, state.admin) && n > 0 && state.bilik && creditSelectionAllowed());
 }
 
 async function refreshRoomView() {
@@ -120,6 +186,8 @@ async function refreshRoomView() {
   const bilik = state.bilik;
   const tarikh = state.tarikh;
   state.ready = false;
+  state.creditReady = false;
+  state.checking = true;
   updateFooter();
   const empty = document.getElementById('no-room');
   const slots = document.getElementById('room-slots');
@@ -136,6 +204,17 @@ async function refreshRoomView() {
     if (day.error || !day.data) throw new Error('unavailable');
     state.dayBooked = day.data;
     updateRoomAvailability();
+    state.creditRows = [];
+    if (state.teacher) {
+      try {
+        const rows = await loadBookingCredits(tarikh, state.user.id);
+        if (request !== availabilityRequest) return;
+        state.creditRows = rows; state.creditReady = true;
+      }
+      catch { if (request !== availabilityRequest) return; state.creditReady = false; }
+      if (request !== availabilityRequest) return;
+    }
+    renderCredits();
     if (!bilik) {
       empty.textContent = 'Sila pilih bilik atau ruang dahulu.';
       return;
@@ -150,6 +229,7 @@ async function refreshRoomView() {
       if (SLOTS.some(slot => slot.masa_mula === state.pendingSlot) && !state.booked.has(state.pendingSlot)) state.selected = [state.pendingSlot];
       state.pendingSlot = null;
     }
+    if (!creditSelectionAllowed()) state.selected = [];
     const room = findBookable(bilik);
     document.getElementById('room-name').textContent = (room.parent ? room.parent + ' — ' : '') + room.id;
     document.getElementById('room-desc').textContent = room.desc;
@@ -164,18 +244,21 @@ async function refreshRoomView() {
   } catch {
     if (request !== availabilityRequest) return;
     state.selected = [];
-    empty.textContent = 'Kekosongan tidak dapat disemak. Semak sambungan internet, kemudian pilih semula bilik atau tarikh.';
+    empty.textContent = 'Kekosongan tidak dapat disemak. Semak sambungan internet dan tekan Cuba semula.';
     document.querySelectorAll('.room-choice').forEach(choice => {
       choice.classList.remove('full');
       choice.querySelector('small').textContent = 'Belum dapat disemak';
     });
+  } finally {
+    if (request === availabilityRequest) { state.checking = false; updateFooter(); }
   }
-  updateFooter();
 }
 
 window.addEventListener('offline', () => {
   availabilityRequest++;
   state.ready = false;
+  state.creditReady = false;
+  state.checking = false;
   state.selected = [];
   document.getElementById('room-slots').style.display = 'none';
   const empty = document.getElementById('no-room');
@@ -200,6 +283,10 @@ async function hantar() {
   const tujuan = document.getElementById('f-tujuan').value.trim();
   if (!tujuan) { showToast('Tidak lengkap', 'Sila isi tujuan/aktiviti.', 'warning'); return; }
   if (!state.selected.length) return;
+  if (!creditSelectionAllowed()) {
+    showToast('Kredit tidak mencukupi', 'Maksimum 4 kredit sehari dan 16 kredit seminggu untuk sesi pagi Ahad–Khamis.', 'warning');
+    return;
+  }
   const btn = document.getElementById('btn-hantar');
   btn.disabled = true; btn.textContent = 'Menghantar...';
   if (!state.teacher) {
@@ -242,7 +329,8 @@ function wireRealtime() {
   sbPublic.channel('tempahan-live')
     .on('postgres_changes', { event: '*', schema: 'public', table: 'tempahan' }, payload => {
       const row = payload.new && payload.new.bilik ? payload.new : payload.old;
-      if (row && row.bilik === state.bilik && row.tarikh === state.tarikh) refreshRoomView();
+      const week = state.tarikh && bookingWeek(state.tarikh);
+      if (row && week && row.tarikh >= week.start && row.tarikh < week.end) refreshRoomView();
     })
     .subscribe();
 }
@@ -278,6 +366,7 @@ function wireRealtime() {
   subSel.addEventListener('change', () => { state.bilik = subSel.value; state.selected = []; refreshRoomView(); });
 
   document.getElementById('btn-hantar').addEventListener('click', hantar);
+  document.getElementById('booking-retry').addEventListener('click', refreshRoomView);
 
   const { user, admin, teacher } = await refreshAuthBox();
   state.user = user;

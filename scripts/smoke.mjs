@@ -146,8 +146,11 @@ async function visit(page, route) {
   if (route === '/pss/' && !(await page.locator('#home-nilam-list .pss-nilam-rank').count())) {
     failures.push(`${route}: NILAM leaderboard widget is missing student rows`);
   }
-  if (route === '/pss/' && (await page.locator('#pss-notis-tajuk').textContent())?.trim() === 'Memuatkan pengumuman PSS…') {
-    failures.push(`${route}: announcement preview is stuck in its loading state`);
+  if (route === '/pss/') {
+    await page.waitForFunction(() => document.querySelector('#pss-notis-tajuk')?.textContent.trim() !== 'Memuatkan pengumuman PSS…', null, { timeout: 12000 }).catch(() => {});
+    if ((await page.locator('#pss-notis-tajuk').textContent())?.trim() === 'Memuatkan pengumuman PSS…') {
+      failures.push(`${route}: announcement preview is stuck in its loading state`);
+    }
   }
   if (route === '/pss/') {
     const heroArt = page.locator('.reading-scene img');

@@ -277,9 +277,7 @@ function updateReportControls() {
 }
 
 function csvValue(value) {
-  let text = String(value ?? '');
-  if (/^[=+\-@]/.test(text)) text = "'" + text;
-  return /[",\n]/.test(text) ? `"${text.replace(/"/g, '""')}"` : text;
+  return adminUI.csvValue(value);
 }
 
 function exportFilteredBookings() {

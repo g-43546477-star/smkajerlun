@@ -67,6 +67,39 @@ const SLOTS = genSlots();
 const MORNING = SLOTS.filter(s => !s.block);
 const BLOCKS = SLOTS.filter(s => s.block);
 
+function bookingWeek(date) {
+  const start = new Date(date + 'T00:00:00Z');
+  start.setUTCDate(start.getUTCDate() - start.getUTCDay());
+  const end = new Date(start); end.setUTCDate(end.getUTCDate() + 7);
+  return { start: start.toISOString().slice(0, 10), end: end.toISOString().slice(0, 10) };
+}
+function bookingSlotCredits(date, slot) {
+  if (new Date(date + 'T00:00:00Z').getUTCDay() > 4) return 0;
+  const minutes = value => Number(value.slice(0, 2)) * 60 + Number(value.slice(3, 5));
+  return Math.ceil(Math.max(0, Math.min(minutes(slot.masa_tamat), 880) - Math.max(minutes(slot.masa_mula), 460)) / 30);
+}
+function bookingCreditUsage(rows, date, excludeId) {
+  const week = bookingWeek(date);
+  return rows.reduce((usage, row) => {
+    if (row.id === excludeId || row.tarikh < week.start || row.tarikh >= week.end) return usage;
+    const charge = row.kredit ?? (row.status === 'aktif' ? bookingSlotCredits(row.tarikh, row) : 0);
+    usage.week += charge;
+    if (row.tarikh === date) usage.day += charge;
+    return usage;
+  }, { day: 0, week: 0 });
+}
+async function loadBookingCredits(date, userId) {
+  const week = bookingWeek(date);
+  const rows = [];
+  for (let from = 0; ; from += 100) {
+    const response = await sb.from('tempahan').select('id,tarikh,masa_mula,masa_tamat,status,kredit')
+      .eq('user_id', userId).gte('tarikh', week.start).lt('tarikh', week.end).order('id').range(from, from + 99);
+    if (response.error || !response.data) throw response.error || new Error('Kredit tidak dapat disemak.');
+    rows.push(...response.data);
+    if (response.data.length < 100) return rows;
+  }
+}
+
 function tarikhInfo(now = new Date()) {
   const fmt = new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Kuala_Lumpur', year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', hour12: false });
   const parts = fmt.formatToParts(now);
@@ -153,7 +186,7 @@ async function refreshAuthBox() {
       btn.onclick = async () => { await sb.auth.signOut(); location.reload(); };
       box.appendChild(span); box.appendChild(btn);
     }
-    if (navAdmin) navAdmin.style.display = admin ? 'inline-block' : 'none';
+    if (navAdmin) navAdmin.style.display = admin ? 'inline-flex' : 'none';
   } else {
     if (box) box.innerHTML = `<a href="/log-masuk/?next=${encodeURIComponent(location.pathname + location.search + location.hash)}">Log Masuk</a>`;
     if (navAdmin) navAdmin.style.display = 'none';

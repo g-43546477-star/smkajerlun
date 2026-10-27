@@ -1,7 +1,8 @@
 {
   "cleanUrls": true,
   "trailingSlash": true,
-  "outputDirectory": ".",
+  "buildCommand": "npm run build",
+  "outputDirectory": "site",
   "routes": [
     { "src": "^/scripts(/.*)?$", "status": 404 },
     { "src": "^/supabase(/.*)?$", "status": 404 }

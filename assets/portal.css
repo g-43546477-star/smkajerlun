@@ -47,3 +47,15 @@
 @media(max-width:1100px){.catalog-results{grid-template-columns:repeat(4,minmax(0,1fr))}}
 @media(max-width:900px){.catalog-hero{grid-template-columns:1fr}.catalog-metrics{border-left:0;border-top:1px solid rgba(255,255,255,.22);padding:1rem 0 0}.catalog-filter{grid-template-columns:1fr 1fr}.catalog-field-search{grid-column:1/-1}.catalog-reset{justify-self:start}.catalog-results{grid-template-columns:repeat(3,minmax(0,1fr))}.catalog-nilam{grid-template-columns:1fr}}
 @media(max-width:620px){.catalog-main{width:calc(100% - 2rem);padding:1.35rem 0 4rem}.catalog-hero{padding:1.45rem 1.2rem;gap:1.25rem}.catalog-hero h1{font-size:2.2rem}.catalog-metrics{grid-template-columns:repeat(2,minmax(0,1fr));gap:.5rem}.catalog-workspace{padding:.95rem}.catalog-section-head{display:block}.catalog-section-head .catalog-count{margin-top:.35rem}.catalog-filter{grid-template-columns:1fr;padding:.8rem}.catalog-field-search{grid-column:auto}.catalog-results{grid-template-columns:1fr}.catalog-book-card{grid-template-columns:58px minmax(0,1fr);gap:.7rem;min-height:140px}.catalog-cover{min-height:88px}.catalog-book-status{grid-column:2;justify-self:start;margin-top:-.4rem}.catalog-book-meta{margin-top:.6rem}.catalog-nilam{grid-template-columns:1fr}.catalog-nilam .nilam-score{grid-template-columns:1fr}}
+.portal-load-error{grid-column:1/-1;font-size:.9rem;line-height:1.6}
+.portal-load-error b{color:var(--ink,#153d38)}
+.portal-load-error p{margin:.35rem 0 .8rem}
+.portal-retry{min-height:44px;padding:.6rem 1rem;border:1px solid var(--forest,#153d38);border-radius:8px;background:var(--forest,#153d38);color:#fff;font-family:inherit;font-size:.85rem;font-weight:700;line-height:1.4;cursor:pointer}
+.portal-retry:hover{filter:brightness(1.15)}
+.portal-retry:focus-visible{outline:3px solid #916b22;outline-offset:3px}
+.portal-retry:disabled{cursor:wait;opacity:.65}
+body[data-interface=school] .portal-row>a{background:var(--ds-color-surface,#fff);font-size:.9rem}
+body[data-interface=school] .portal-row>a:hover{background:var(--ds-color-brand-soft,#e8efeb)}
+.search-results .portal-row>div{min-width:0}
+.search-results .portal-row small{display:block;margin:0 0 .3rem;font-size:.82rem}
+.search-results .portal-row b{display:block}

@@ -12,7 +12,7 @@
 <link rel="stylesheet" href="/tempahan/assets/style.css?v=20260827-1">
 <link rel="icon" type="image/png" href="/logo.png">
 <link rel="stylesheet" href="/tempahan/assets/app.css?v=20260908-3">
-<link rel="stylesheet" href="/tempahan/assets/app-ui.css?v=20260908-3">
+<link rel="stylesheet" href="/tempahan/assets/app-ui.css?v=20261027-header-1">
 <link rel="stylesheet" href="/assets/responsive.css?v=20260916-1">
 <link rel="stylesheet" href="/assets/interface.css?v=20260926-1">
 <link rel="manifest" href="/manifest.json">
@@ -64,7 +64,7 @@
     <div id="room-availability" class="room-availability" aria-live="polite"></div>
   </section>
 
-  <div class="card">
+  <div class="card" id="booking-details">
     <p class="section-title"><span class="step-badge">1</span> Maklumat &amp; Pilihan Tempahan</p>
     <div class="grid" style="grid-template-columns:1fr 1fr;gap:14px">
       <div>
@@ -109,8 +109,23 @@
     </div>
   </div>
 
-  <div class="card">
+  <div class="card" id="booking-time-slots">
     <p class="section-title"><span class="step-badge">2</span> Pilih Slot Masa</p>
+    <section class="booking-credit" aria-labelledby="credit-title">
+      <div class="credit-heading"><h3 id="credit-title">Kredit anda</h3><span id="credit-period"></span></div>
+      <dl class="credit-balances" id="credit-balances" hidden>
+        <div><dt>Baki minggu</dt><dd><strong id="credit-week">—</strong><span> / 16 kredit</span></dd></div>
+        <div><dt>Baki hari dipilih</dt><dd><strong id="credit-day">—</strong><span id="credit-day-limit"> / 4 kredit</span></dd></div>
+      </dl>
+      <p id="booking-credit-status" role="status" aria-live="polite">Log masuk untuk melihat baki kredit anda.</p>
+      <button type="button" class="btn-secondary app-retry" id="booking-retry" hidden>Cuba semula</button>
+      <details class="credit-rules">
+        <summary>Bagaimana kredit dikira?</summary>
+        <p>1 kredit = 30 minit. Maksimum 4 kredit sehari (2 jam) dan 16 seminggu (8 jam), merentas semua bilik.</p>
+        <p>Kredit hanya untuk sesi 7:40 pagi–2:40 petang pada Ahad–Khamis. Petang, malam, Jumaat dan Sabtu bebas kredit.</p>
+        <p>Baki diperbaharui setiap Ahad, waktu Malaysia, tanpa dibawa ke minggu berikutnya. Pembatalan sebelum slot bermula memulangkan kredit; selepas mula, kredit kekal dikira.</p>
+      </details>
+    </section>
     <div class="legend" style="margin-bottom:14px">
       <span class="pill kosong">Kosong</span>
       <span class="pill dipilih">Dipilih</span>
@@ -135,8 +150,8 @@
 </main>
 
 <script src="/assets/vendor/supabase-2.57.4.js?v=20260828-1"></script>
-<script src="/tempahan/assets/common.js?v=20260924-1"></script>
-<script src="/tempahan/assets/booking-form.js?v=20260908-3"></script>
+<script src="/tempahan/assets/common.js?v=20261027-header-1"></script>
+<script src="/tempahan/assets/booking-form.js?v=20261022-credit-2"></script>
 <script src="/tempahan/assets/app.js?v=20261003-graphics-1"></script>
 <script src="/tempahan/assets/app-ux.js?v=20260926-1"></script>
 </body>
