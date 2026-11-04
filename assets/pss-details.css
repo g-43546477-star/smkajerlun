@@ -57,6 +57,8 @@
 .pss-interior .virtual-shelf-filter { min-height: 44px; padding: .7rem .9rem; border-radius: 7px; background: #f5f4e9; font-size: .76rem; }
 .pss-interior .virtual-shelf-filter.active { background: #244c40; color: #fffdf7; }
 .pss-interior .virtual-shelf { grid-template-columns: repeat(4,minmax(0,1fr)); gap: 1.7rem; padding: 1.7rem; background: #ede7d5; border-color: #d3c8ac; box-shadow: none; }
+.pss-interior .virtual-book[data-category="Novel Remaja"] { background: #3e517a; }
+.pss-interior .virtual-book[data-category="Ilmu Umum"] { background: #235548; }
 .pss-interior .virtual-book { min-height: 255px; padding: 1.4rem 1.15rem; border-radius: 3px 12px 12px 3px; box-shadow: inset 7px 0 #ffffff25, 4px 5px 0 #244c4025; }
 .pss-interior .virtual-book b { font: 400 1.35rem/1.2 Georgia,serif; margin: auto 0 .6rem; }
 .pss-interior .virtual-book small { font-size: .64rem; border-bottom: 1px solid #ffffff55; padding-bottom: .8rem; }
