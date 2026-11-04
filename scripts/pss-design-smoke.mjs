@@ -54,6 +54,14 @@ try {
   await page.locator('#virtual-book-search').fill('zz-no-matching-title');
   if (!await page.locator('.pss-shelf-empty').isVisible()) failures.push('Shelf empty state missing');
   await page.locator('#virtual-book-search').fill('');
+  await page.locator('.virtual-shelf-filter[data-category="Bahasa Melayu"]').click();
+  if (!await page.locator('.virtual-book').filter({ hasText: 'Pasrah' }).count()) failures.push('Malay filter omitted the existing Malay novel');
+  if (!await page.locator('.virtual-book').filter({ hasText: 'Remaja dan Kesihatan Mental' }).count()) failures.push('Malay filter omitted the new Malay booklet');
+  while (await page.locator('#virtual-shelf-more').isVisible()) await page.locator('#virtual-shelf-more').click();
+  if (await page.locator('.virtual-book').filter({ hasText: 'A Practical Malay Grammar' }).count()) failures.push('Malay filter includes an English book');
+  await page.locator('#virtual-book-search').fill('Gurindam Dua Belas');
+  if (await page.locator('.virtual-book').count() !== 1) failures.push('Malay shelf search failed');
+  await page.locator('#virtual-book-search').fill('');
   await page.locator('.virtual-shelf-filter[data-category="Sejarah"]').click();
   if (!await page.locator('.virtual-book').count()) failures.push('History shelf filter returned no books');
   if (await page.locator('.virtual-book:not([data-category="Sejarah"])').count()) failures.push('Shelf filter includes another category');
